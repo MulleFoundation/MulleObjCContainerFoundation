@@ -1,0 +1,12 @@
+.bootstrap.auto/
+.bootstrap.local/
+dependencies/
+.repos/
+mulle-configuration/
+.repos/
+build/
+old/
+xcuserdata/
+project.xcworkspace/
+*~.*
+.DS_Store
