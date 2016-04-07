@@ -1,0 +1,12 @@
+digraph xxx {
+      Foundation -> MulleObjCDarwinFoundation;
+
+      MulleObjCDarwinFoundation -> MulleObjCPOSIXFoundation;
+      MulleObjCPOSIXFoundation -> MulleObjCFoundation;
+      MulleObjCFoundation -> MulleObjCValue -> MulleObjC;
+      MulleObjCFoundation -> MulleObjCString -> MulleObjC;
+      MulleObjCFoundation -> MulleObjCNotification -> MulleObjC;
+      MulleObjCFoundation -> MulleObjCException -> MulleObjC;
+      MulleObjCFoundation -> MulleObjCContainer -> MulleObjC;
+      MulleObjCFoundation -> MulleObjCBase -> MulleObjC;
+}
