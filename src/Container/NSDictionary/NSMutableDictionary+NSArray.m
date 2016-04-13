@@ -13,7 +13,13 @@
  */
 #import "NSMutableDictionary+NSArray.h"
 
+// other files in this library
 #import "NSArray.h"
+#import "NSEnumerator.h"
+
+// other libraries of MulleObjCFoundation
+
+// std-c and dependencies
 
 
 @implementation NSMutableDictionary( NSArray)

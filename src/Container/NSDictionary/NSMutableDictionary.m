@@ -58,7 +58,7 @@
 
 - (id) initWithCapacity:(NSUInteger) capacity
 {
-   mulle_map_init( &self->_table, capacity, NSDictionaryCallback, MulleObjCAllocator());
+   mulle_map_init( &self->_table, capacity, NSDictionaryCallback, MulleObjCObjectGetAllocator( self));
    return( self);
 }
 
@@ -96,7 +96,7 @@
    rover = [other keyEnumerator];
    while( key = [rover nextObject])
    {
-      value = [other valueForKey:key];
+      value = [other objectForKey:key];
       [self setObject:value
       forKey:key];
    }
@@ -118,7 +118,7 @@
 
 - (id) copy
 {
-   return( [[NSDictionary alloc] initWithDictionary:self]);
+   return( (id) [[NSDictionary alloc] initWithDictionary:self]);
 }
 
 @end
