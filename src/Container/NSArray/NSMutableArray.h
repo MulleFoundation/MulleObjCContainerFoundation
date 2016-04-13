@@ -28,30 +28,30 @@
 
 - (void) addObjectsFromArray:(NSArray *) otherArray;
 
-- (void) addObject:(id) arg1;
-- (void) insertObject:(id) arg1 
-              atIndex:(NSUInteger) arg2;
-- (void) replaceObjectAtIndex:(NSUInteger) arg1 
-                   withObject:(id) arg2;
+- (void) addObject:(id) obj;
+- (void) insertObject:(id) obj
+              atIndex:(NSUInteger) index;
+- (void) replaceObjectAtIndex:(NSUInteger) index
+                   withObject:(id) obj;
 - (void) removeLastObject;
-- (void) removeObjectAtIndex:(NSUInteger) arg1;
-- (void) removeObjectsInRange:(NSRange) arg1;
-- (void) removeObjectIdenticalTo:(id) arg1;
-- (void) removeObjectIdenticalTo:(id) anObject 
+- (void) removeObjectAtIndex:(NSUInteger) index;
+- (void) removeObjectsInRange:(NSRange) range;
+- (void) removeObjectIdenticalTo:(id) obj;
+- (void) removeObjectIdenticalTo:(id) obj
                          inRange:(NSRange) aRange;
-- (void) removeObjectsInArray:(NSArray *)otherArray;
+- (void) removeObjectsInArray:(NSArray *) other;
 
 - (void) removeAllObjects;
-- (void) exchangeObjectAtIndex:(NSUInteger) arg1 
-             withObjectAtIndex:(NSUInteger) arg2;
-- (void) replaceObjectsInRange:(NSRange) arg1 
-                   withObjects:(id *) arg2 
-                         count:(NSUInteger) arg3;
+- (void) exchangeObjectAtIndex:(NSUInteger) index1
+             withObjectAtIndex:(NSUInteger) index2;
+- (void) replaceObjectsInRange:(NSRange) range
+                   withObjects:(id *) objects
+                         count:(NSUInteger) count;
 
 - (void) replaceObjectsInRange:(NSRange) aRange 
-          withObjectsFromArray:(NSArray *) otherArray;
+          withObjectsFromArray:(NSArray *) other;
           
-- (void) setArray:(NSArray *)otherArray;
+- (void) setArray:(NSArray *) other;
 
 - (void) sortUsingSelector:(SEL)comparator;
 - (void) sortUsingFunction:(NSInteger (*)(id, id, void *)) compare 

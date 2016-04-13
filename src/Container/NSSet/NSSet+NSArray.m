@@ -13,7 +13,12 @@
  */
 #import "NSSet+NSArray.h"
 
-#import "_MulleObjCFoundation.h"
+// other files in this library
+#import "NSArray.h"
+
+// other libraries of MulleObjCFoundation
+
+// std-c and dependencies
 
 
 @implementation NSSet( NSArray)

@@ -21,31 +21,24 @@
 #include "ns_foundationconfiguration.h"
 
 
-@interface MulleObjCEmptySet : NSSet
+@interface _MulleObjCEmptySet : NSSet < MulleObjCSingleton>
 @end
 
 
-@implementation MulleObjCEmptySet
+@implementation _MulleObjCEmptySet
 
-- (NSUInteger) retainCount             { return( MULLE_OBJC_NEVER_RELEASE); }
-- (NSEnumerator *) objectEnumerator    { return( nil);  }
-
-@end
-
-
-static NSSet   *MulleObjCCreateEmptySet( void)
+- (NSEnumerator *) objectEnumerator
 {
-   struct _ns_foundationconfiguration   *config;
-   
-   config = _ns_get_foundationconfiguration();
-   if( ! config->empty.emptySet)
-   {
-      config->empty.emptySet = [MulleObjCEmptySet new];
-      _ns_add_root( config->empty.emptySet);
-   }
-   return( config->empty.emptySet);
+   return( nil);
 }
 
+
+- (NSUInteger) count
+{
+   return( 0);
+}
+
+@end
 
 
 #define MulleObjCSetAllocPlaceholderHash         0x331bd8f6291d398e  // MulleObjCSetAllocPlaceholder
@@ -64,15 +57,14 @@ static NSSet   *MulleObjCCreateEmptySet( void)
 {
    _MulleObjCConcreteSet   *set;
    
-   [self release];  // placeholder (just release it, since it's a global)
+   [self autorelease];  // placeholder (just release it, since it's a global)
    
    if( ! count)
-      return( (id) MulleObjCCreateEmptySet());
+      return( (id) [[_MulleObjCEmptySet sharedInstance] retain]);
    
-   set = NSAllocateObject( [_MulleObjCConcreteSet class], 0, NULL);
-   return( (id) [set initWithObjects:objects
-                               count:count
-                           copyItems:copyItems]);
+   return( (id) [[_MulleObjCConcreteSet alloc] initWithObjects:objects
+                                                    count:count
+                                                copyItems:copyItems]);
 }
 
 @end
@@ -92,12 +84,11 @@ static NSSet   *MulleObjCCreateEmptySet( void)
    
    [self release];  // placeholder (just release it, since it's a global)
    if( ! count)
-      return( (id) MulleObjCCreateEmptySet());
+      return( (id) [[_MulleObjCEmptySet sharedInstance] retain]);
    
-   set = NSAllocateObject( [_MulleObjCConcreteSet class], 0, NULL);
-   return( (id) [[set initWithObjects:objects
-                              count:count
-                          copyItems:copyItems] autorelease]);
+   return( (id) [[_MulleObjCConcreteSet alloc] initWithObjects:objects
+                                                    count:count
+                                                copyItems:copyItems]);
 }
 
 @end

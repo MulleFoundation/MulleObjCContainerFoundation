@@ -64,7 +64,7 @@
 {
    struct mulle_allocator   *allocator;
    
-   allocator = MulleObjCAllocator();
+   allocator = MulleObjCObjectGetAllocator( self);
    mulle_set_init( &_set,
                    count,
                    copyItems ? MulleObjCContainerObjectKeyCopyCallback : MulleObjCContainerObjectKeyRetainCallback,

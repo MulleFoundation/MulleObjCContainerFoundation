@@ -65,7 +65,7 @@ static void   _addEntriesFromDictionary( NSDictionary *other,
 
 - (id) initWithCapacity:(NSUInteger) count
 {
-   self->_allocator = MulleObjCAllocator();
+   self->_allocator = MulleObjCObjectGetAllocator( self);
    _mulle_indexedkeyvaluebucket_init( &self->_table,
                                       count + (count >> 2), // leave 25% spare room
                                       NSDictionaryCallback,

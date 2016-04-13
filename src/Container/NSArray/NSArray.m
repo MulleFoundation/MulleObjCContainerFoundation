@@ -487,11 +487,11 @@ static void   perform( NSArray *self, NSRange range, SEL sel, id obj)
 }
 
 
-- (BOOL) containsObject:(id) arg1
-                inRange:(NSRange) arg2
+- (BOOL) containsObject:(id) other
+                inRange:(NSRange) range
 {
-   return( [self indexOfObject:arg1
-                       inRange:arg2] != NSNotFound);
+   return( [self indexOfObject:other
+                       inRange:range] != NSNotFound);
 }
 
 
