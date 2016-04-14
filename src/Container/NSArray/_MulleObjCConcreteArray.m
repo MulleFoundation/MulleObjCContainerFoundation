@@ -32,7 +32,11 @@ static inline id   *get_objects( _MulleObjCConcreteArray *self)
 
 static inline _MulleObjCConcreteArray  *_MulleObjCConcreteArrayWithCapacity( Class self, NSUInteger count)
 {
-   return( NSAllocateObject( self, count * sizeof( id), NULL));
+   _MulleObjCConcreteArray  *array;
+   
+   array = NSAllocateObject( self, count * sizeof( id), NULL);
+   array->_count = count;
+   return( array);
 }
 
 
@@ -115,7 +119,6 @@ static inline _MulleObjCConcreteArray  *_MulleObjCConcreteArrayWithCapacity( Cla
            arguments:(mulle_vararg_list) args
 {
    _MulleObjCConcreteArray   *array;
-   mulle_vararg_list    count_args;
    id                        value;
    NSUInteger                count;
    id                        *objects;
