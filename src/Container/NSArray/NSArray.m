@@ -75,8 +75,6 @@
 - (instancetype) initWithObject:(id) firstObject
                       arguments:(mulle_vararg_list) args
 {
-   NSArray   *array;
-
    [self release];
 
    //

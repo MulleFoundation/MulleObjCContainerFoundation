@@ -55,8 +55,6 @@
                  count:(NSUInteger) count
              copyItems:(BOOL) copyItems
 {
-   _MulleObjCConcreteSet   *set;
-   
    [self autorelease];  // placeholder (just release it, since it's a global)
    
    if( ! count)
@@ -80,9 +78,7 @@
                  count:(NSUInteger) count
             copyItems:(BOOL) copyItems
 {
-   _MulleObjCConcreteSet   *set;
-   
-   [self release];  // placeholder (just release it, since it's a global)
+   [self autorelease];  // placeholder (just release it, since it's a global)
    if( ! count)
       return( (id) [[_MulleObjCEmptySet sharedInstance] retain]);
    
@@ -234,10 +230,8 @@ static BOOL   run_member_on_set_until( NSSet *self, NSSet *other, BOOL expect)
 
 - (BOOL) isSubsetOfSet:(NSSet *) other
 {
-   NSEnumerator   *rover;
    NSUInteger     n;
    NSUInteger     m;
-
    
    n = [self count];
    if( ! n)
@@ -292,7 +286,6 @@ static BOOL   run_member_on_set_until( NSSet *self, NSSet *other, BOOL expect)
 {
    NSSet        *set;
    NSUInteger   count;
-   NSUInteger   newCount;
    id           *buf;
    id           *toFree;
 
@@ -392,8 +385,6 @@ static BOOL   run_member_on_set_until( NSSet *self, NSSet *other, BOOL expect)
    NSUInteger   otherCount;
    id           *buf;
    id           *toFree;
-   id           *q;
-   id           p;
 
    buf        = toFree = NULL;
    otherCount = [other count];
@@ -433,8 +424,6 @@ static BOOL   run_member_on_set_until( NSSet *self, NSSet *other, BOOL expect)
    NSUInteger   otherCount;
    id           *buf;
    id           *toFree;
-   id           *q;
-   id           p;
 
    buf        = toFree = NULL;
    otherCount = [other count];

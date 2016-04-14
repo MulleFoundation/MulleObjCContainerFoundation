@@ -129,17 +129,15 @@ static void   _addEntriesFromDictionary( NSDictionary *other,
 - (id) initWithObject:(id) object
             arguments:(mulle_vararg_list) args;
 {
-   size_t                   count;
-   id                       *buf;
-   id                       *sentinel;
-   id                       *values;
-   id                       *keys;
-   id                       *tofree;
-   id                       p;
-   mulle_vararg_list   copy;
-   va_list                  count_args;
-   id                       obj;
-   size_t                   size;
+   id       *buf;
+   id       *keys;
+   id       *sentinel;
+   id       *tofree;
+   id       *values;
+   id       obj;
+   id       p;
+   size_t   count;
+   size_t   size;
    
    count = mulle_vararg_count( args, object);
 

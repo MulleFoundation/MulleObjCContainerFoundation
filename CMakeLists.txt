@@ -117,8 +117,10 @@ src/Value/NSDate.m
 src/Value/NSLock+Date.m
 src/Value/NSNull.m
 src/Value/NSNumber.m
+src/Value/NSNumber+NSString.m
 src/Value/NSValue.m
 src/Value/_MulleObjCConcreteNumber.m
+src/Value/_MulleObjCConcreteNumber+NSString.m
 src/Value/_MulleObjCConcreteValue.m
 )
 
