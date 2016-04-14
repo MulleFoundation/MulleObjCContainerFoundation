@@ -12,4 +12,4 @@ project.xcworkspace/
 .DS_Store
 *.dSYM/
 *.exe
-tmp/
+tmp/.repos/gitolite.mulle-kybernetik/mulle-configuration/
