@@ -28,15 +28,6 @@
                        count:(NSUInteger) count;
 + (id) dictionaryWithObjectsAndKeys:(id) firstObject , ...;
 
-
-
-- (BOOL) isEqualToDictionary:(NSDictionary *) other;
-
-@end
-
-
-@interface NSDictionary( _PlaceholderInitialization)
-                    
 - (id) initWithDictionary:(NSDictionary *) otherDictionary;
 - (id) initWithDictionary:(NSDictionary *) otherDictionary 
                 copyItems:(BOOL) flag;
@@ -44,11 +35,17 @@
                forKeys:(id *) keys 
                  count:(NSUInteger) count;
 - (id) initWithObjectsAndKeys:(id)firstObject , ...;
+- (id) initWithObject:(id) object
+            arguments:(mulle_vararg_list) args;
+
+
+- (BOOL) isEqualToDictionary:(NSDictionary *) other;
 
 @end
 
 
-@interface NSDictionary( _Accessors)
+
+@interface NSDictionary( Subclasses)
 
 - (NSUInteger) count;
 - (void) getObjects:(id *) objects 

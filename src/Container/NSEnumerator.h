@@ -15,8 +15,21 @@
 
 
 @interface NSEnumerator : NSObject
+@end
+
+
+@interface NSEnumerator( Subclasses)
 
 - (id) nextObject;
 
 @end
 
+
+
+@interface NSEnumerator( Perform)
+
+- (void) makeObjectsPerformSelector:(SEL) sel;
+- (void) makeObjectsPerformSelector:(SEL) sel
+                         withObject:(id) obj;
+
+@end

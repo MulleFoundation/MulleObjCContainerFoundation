@@ -426,6 +426,9 @@ static NSUInteger  indexOfObject( NSMutableArray *self, id obj, NSRange range, i
 }
 
 
+#pragma mark -
+#pragma mark objects access
+
 - (void) getObjects:(id *) aBuffer
 {
    memcpy( aBuffer, self->_storage, self->_count * sizeof( id)); 
@@ -444,21 +447,20 @@ static NSUInteger  indexOfObject( NSMutableArray *self, id obj, NSRange range, i
 //
 // coded by example from http://cocoawithlove.com/2008/05/implementing-countbyenumeratingwithstat.html
 // 
-#if 0
-- (NSUInteger) countByEnumeratingWithState:(NSFastEnumerationState *) state 
+- (NSUInteger) countByEnumeratingWithState:(NSFastEnumerationState *) state
                                    objects:(id *) stackbuf 
                                      count:(NSUInteger) len
 {
-   if( state->state >= self->_count)
+   if( state->state)
       return( 0);
    
-   state->state        = self->_count;
-   state->itemsPtr     = self->_start;
+   state->state        = 1;
+   state->itemsPtr     = self->_storage;
    state->mutationsPtr = &_mutationCount;
    
    return( self->_count);
 }
-#endif
+
 
 
 - (void) addObjectsFromArray:(NSArray *) array
@@ -636,7 +638,7 @@ static int   bouncyBounce( bouncy *ctxt, id *a, id *b)
 
 - (id) copy
 {
-   return( [[NSArray alloc] initWithArray:self]);
+   return( (id) [[NSArray alloc] initWithArray:self]);
 }
 
 @end

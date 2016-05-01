@@ -9,7 +9,7 @@
 #import "_MulleObjCConcreteDictionary.h"
 
 // other files in this library
-#import "_MulleObjCContainerCallback.h"
+#import "MulleObjCContainerCallback.h"
 #import "NSEnumerator.h"
 
 // other libraries of MulleObjCFoundation
@@ -23,12 +23,12 @@
 
 @interface _MulleObjCConcreteDictionaryKeyEnumerator : NSEnumerator
 {
-   struct _mulle_indexedkeyvaluebucketenumerator   _rover;
-   _MulleObjCConcreteDictionary                    *_owner;
+   struct _mulle_mapenumerator    _rover;
+   _MulleObjCConcreteDictionary   *_owner;
 }
 
 + (NSEnumerator *) enumeratorWithDictionary:(_MulleObjCConcreteDictionary *) owner
-                                      table:(struct _mulle_indexedkeyvaluebucket *) table;
+                                      table:(struct _mulle_map *) table;
 
 @end
 
@@ -40,15 +40,30 @@
 @implementation _MulleObjCConcreteDictionary
 
 
+__attribute__((ns_returns_retained))
+static inline _MulleObjCConcreteDictionary  *_MulleObjCNewConcreteDictionaryWithCapacity( Class self, NSUInteger count)
+{
+   _MulleObjCConcreteDictionary  *dictionary;
+   
+   dictionary = NSAllocateObject( self, 0, NULL);
+   dictionary->_allocator = MulleObjCObjectGetAllocator( self);
+   _mulle_map_init( &dictionary->_table,
+                    count + (count >> 2), // leave 25% spare room
+                    NSDictionaryCallback,
+                    dictionary->_allocator);
+   return( dictionary);
+}
+
+
 static void   _addEntriesFromDictionary( NSDictionary *other,
-                                         struct _mulle_indexedkeyvaluebucket *table,
+                                         struct _mulle_map *table,
                                          BOOL copyItems,
                                          struct mulle_allocator *allocator)
 {
-   NSEnumerator                  *rover;
-   struct _mulle_keyvaluepair    pair;
-   struct _mulle_keyvaluepair    (*impNext)( id, SEL, id);
-   SEL                           selNext;
+   NSEnumerator                             *rover;
+   struct _mulle_keyvaluepair                pair;
+   struct _mulle_keyvaluepair                (*impNext)( id, SEL, id);
+   SEL                                       selNext;
    struct mulle_container_keyvaluecallback   *callback;
 
    callback = copyItems ? NSDictionaryCopyValueCallback
@@ -59,43 +74,31 @@ static void   _addEntriesFromDictionary( NSDictionary *other,
    impNext = (void *) [rover methodForSelector:selNext];
    
    while( (pair = (*impNext)( rover, selNext, other))._key)
-      _mulle_indexedkeyvaluebucket_put( table, &pair, callback, allocator);
+      _mulle_map_set( table, &pair, callback, allocator);
 }
 
 
-- (id) initWithCapacity:(NSUInteger) count
++ (instancetype) newWithDictionary:(id) other
 {
-   self->_allocator = MulleObjCObjectGetAllocator( self);
-   _mulle_indexedkeyvaluebucket_init( &self->_table,
-                                      count + (count >> 2), // leave 25% spare room
-                                      NSDictionaryCallback,
-                                      self->_allocator);
-   return( self);
+   _MulleObjCConcreteDictionary   *dictionary;
+   
+   dictionary = _MulleObjCNewConcreteDictionaryWithCapacity( self, [other count]);
+   _addEntriesFromDictionary( other, &dictionary->_table, NO, dictionary->_allocator);
+
+   return( dictionary);
 }
 
 
-- (id) initWithDictionary:(id) other
++ (instancetype) newWithObjects:(id *) obj
+                        forKeys:(id *) key
+                          count:(NSUInteger) count
 {
-   NSUInteger   count;
-   
-   count = [other count];
-   
-   [self initWithCapacity:count];
-   _addEntriesFromDictionary( other,  &self->_table, NO, self->_allocator);
-
-   return( self);
-}
-
-
-- (id) initWithObjects:(id *) obj
-               forKeys:(id *) key
-                 count:(NSUInteger) count
-{
-   struct _mulle_keyvaluepair   pair;
-   id                          *sentinel;
+   _MulleObjCConcreteDictionary   *dictionary;
+   struct _mulle_keyvaluepair     pair;
+   id                             *sentinel;
    
    
-   [self initWithCapacity:count];
+   dictionary = _MulleObjCNewConcreteDictionaryWithCapacity( self, count);
    
    sentinel = &key[ count];
    while( key < sentinel)
@@ -103,38 +106,36 @@ static void   _addEntriesFromDictionary( NSDictionary *other,
       pair._key   = *key++;
       pair._value = *obj++;
       
-      _mulle_indexedkeyvaluebucket_put( &self->_table,
-                                        &pair,
-                                        NSDictionaryCallback,
-                                        self->_allocator);
+      _mulle_map_set( &dictionary->_table,
+                      &pair,
+                      NSDictionaryCallback,
+                      dictionary->_allocator);
    }
-   return( self);
+   return( dictionary);
 }
 
 
-- (id) initWithDictionary:(id) other
-                copyItems:(BOOL) copy
++ (instancetype) newWithDictionary:(id) other
+                         copyItems:(BOOL) copy
 {
-   NSUInteger   count;
+   _MulleObjCConcreteDictionary   *dictionary;
    
-   count = [other count];
-   
-   [self initWithCapacity:count];
-   _addEntriesFromDictionary( other, &self->_table, copy, self->_allocator);
+   dictionary = _MulleObjCNewConcreteDictionaryWithCapacity( self, [other count]);
+   _addEntriesFromDictionary( other, &dictionary->_table, copy, dictionary->_allocator);
 
-   return( self);
+   return( dictionary);
 }
 
 
-- (id) initWithObject:(id) object
-            arguments:(mulle_vararg_list) args;
++ (instancetype) newWithObject:(id) object
+                     arguments:(mulle_vararg_list) args
 {
+   _MulleObjCConcreteDictionary   *dictionary;
    id       *buf;
    id       *keys;
    id       *sentinel;
    id       *tofree;
    id       *values;
-   id       obj;
    id       p;
    size_t   count;
    size_t   size;
@@ -161,21 +162,20 @@ static void   _addEntriesFromDictionary( NSDictionary *other,
       while( values < sentinel);
    }
 
-   obj = [self initWithObjects:buf
-                       forKeys:&buf[ count]
-                         count:count];
+   dictionary = [self newWithObjects:buf
+                             forKeys:&buf[ count]
+                               count:count];
    MulleObjCDeallocateMemory( tofree);
-
-   return( obj);
+   
+   return( dictionary);
 }
-
 
 
 - (void) dealloc
 {
-   _mulle_indexedkeyvaluebucket_done( &self->_table,
-                                      NSDictionaryCallback,
-                                      self->_allocator);
+   _mulle_map_done( &self->_table,
+                    NSDictionaryCallback,
+                    self->_allocator);
    NSDeallocateObject( self);
 }
 
@@ -188,7 +188,7 @@ static void   _addEntriesFromDictionary( NSDictionary *other,
    uintptr_t   hash;
    
    hash = (NSDictionaryCallback->keycallback.hash)( &NSDictionaryCallback->keycallback, key);
-   return( _mulle_indexedkeyvaluebucket_get( &self->_table, key, hash, NSDictionaryCallback));
+   return( _mulle_map_get( &self->_table, key, NSDictionaryCallback));
 }
 
 
@@ -207,7 +207,7 @@ static void   _addEntriesFromDictionary( NSDictionary *other,
 
 - (NSUInteger) count
 {
-   return( _mulle_indexedkeyvaluebucket_get_count( &_table));
+   return( _mulle_map_get_count( &_table));
 }
 
 
@@ -219,13 +219,13 @@ static void   _addEntriesFromDictionary( NSDictionary *other,
 
 
 + (NSEnumerator *) enumeratorWithDictionary:(_MulleObjCConcreteDictionary *) owner
-                                      table:(struct _mulle_indexedkeyvaluebucket *) table
+                                      table:(struct _mulle_map *) table
 {
    _MulleObjCConcreteDictionaryKeyEnumerator   *obj;
    
    obj = NSAllocateObject( self, 0, NULL);
 
-   obj->_rover = _mulle_indexedkeyvaluebucket_enumerate( table, NSDictionaryCallback);
+   obj->_rover = _mulle_map_enumerate( table, NSDictionaryCallback);
    obj->_owner = [owner retain];
    
    return( NSAutoreleaseObject( obj));
@@ -234,22 +234,24 @@ static void   _addEntriesFromDictionary( NSDictionary *other,
 
 - (void) dealloc
 {
-   _mulle_indexedkeyvaluebucketenumerator_done( &_rover);
+   _mulle_mapenumerator_done( &_rover);
    [self->_owner release];
+
    NSDeallocateObject( self);
 }
 
 
 - (struct _mulle_keyvaluepair *) _nextKeyValuePair:(id) owner
 {
-   return( _mulle_indexedkeyvaluebucketenumerator_next( &_rover));
+   return( _mulle_mapenumerator_next( &_rover));
 }
+
 
 - (id) nextObject
 {
    struct _mulle_keyvaluepair   *pair;
    
-   pair = _mulle_indexedkeyvaluebucketenumerator_next( &_rover);
+   pair = _mulle_mapenumerator_next( &_rover);
    return( pair ? pair->_key : nil);
 }
 
@@ -262,9 +264,8 @@ static void   _addEntriesFromDictionary( NSDictionary *other,
 {
    struct _mulle_keyvaluepair *pair;
    
-   pair = _mulle_indexedkeyvaluebucketenumerator_next( &_rover);
+   pair = _mulle_mapenumerator_next( &_rover);
    return( pair ? pair->_value : nil);
 }
-
 
 @end

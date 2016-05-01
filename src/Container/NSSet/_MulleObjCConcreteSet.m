@@ -8,9 +8,13 @@
 
 #import "_MulleObjCConcreteSet.h"
 
+// other files in this library
 #import "NSEnumerator.h"
-#import "_MulleObjCContainerCallback.h"
+#import "MulleObjCContainerCallback.h"
 
+// other libraries of MulleObjCFoundation
+
+// std-c and dependencies
 #include <mulle_container/mulle_container.h>
 
 
@@ -58,24 +62,56 @@
 
 @implementation _MulleObjCConcreteSet
 
-- (instancetype) initWithObjects:(id *) objects
-                           count:(NSUInteger) count
-                       copyItems:(BOOL) copyItems
+
++ (instancetype) newWithObject:(id) firstObject
+                     arguments:(mulle_vararg_list) arguments
 {
    struct mulle_allocator   *allocator;
+   _MulleObjCConcreteSet    *obj;
+   NSUInteger               count;
+   id                       nextObject;
+
+   assert( firstObject);
    
-   allocator = MulleObjCObjectGetAllocator( self);
-   mulle_set_init( &_set,
-                   count,
-                   copyItems ? MulleObjCContainerObjectKeyCopyCallback : MulleObjCContainerObjectKeyRetainCallback,
+   obj       = NSAllocateObject( self, 0, NULL);
+   allocator = MulleObjCObjectGetAllocator( obj);
+
+   count = mulle_vararg_count( arguments, firstObject);
+   mulle_set_init( &obj->_set,
+                   (unsigned int) count,
+                   MulleObjCContainerObjectKeyRetainCallback,
+                   allocator);
+
+   mulle_set_set( &obj->_set, firstObject);
+   while( nextObject = mulle_vararg_next( arguments))
+      mulle_set_set( &obj->_set, nextObject);
+
+   return( obj);
+}
+
+
++ (instancetype) newWithObjects:(id *) objects
+                          count:(NSUInteger) count
+                      copyItems:(BOOL) copyItems
+{
+   struct mulle_allocator   *allocator;
+   _MulleObjCConcreteSet    *obj;
+   
+   obj       = NSAllocateObject( self, 0, NULL);
+   allocator = MulleObjCObjectGetAllocator( obj);
+
+   mulle_set_init( &obj->_set,
+                   (unsigned int) count,
+                   copyItems ? MulleObjCContainerObjectKeyCopyCallback
+                             : MulleObjCContainerObjectKeyRetainCallback,
                    allocator);
 
    while( count)
    {
-      mulle_set_insert( &_set, *objects++);
+      mulle_set_set( &obj->_set, *objects++);
       --count;
    }
-   return( self);
+   return( obj);
 }
 
 

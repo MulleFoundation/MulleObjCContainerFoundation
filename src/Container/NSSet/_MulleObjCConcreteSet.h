@@ -16,8 +16,11 @@
    struct mulle_set   _set;
 }
 
-- (instancetype) initWithObjects:(id *) objects
-                           count:(NSUInteger) count
-                       copyItems:(BOOL) copyItems;
++ (instancetype) newWithObject:(id) firstObject
+                     arguments:(mulle_vararg_list) arguments;
+
++ (instancetype) newWithObjects:(id *) objects
+                          count:(NSUInteger) count
+                      copyItems:(BOOL) copyItems;
 
 @end

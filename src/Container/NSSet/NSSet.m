@@ -13,9 +13,16 @@
  */
 #import "NSSet.h"
 
+// other files in this library
+
+// other libraries of MulleObjCFoundation
+
+// std-c and dependencies
+
+
 #import "NSEnumerator.h"
 #import "_MulleObjCConcreteSet.h"
-#import "_MulleObjCContainerCallback.h"
+#import "MulleObjCContainerCallback.h"
 
 #include <mulle_container/mulle_container.h>
 #include "ns_foundationconfiguration.h"
@@ -26,6 +33,12 @@
 
 
 @implementation _MulleObjCEmptySet
+
++ (instancetype) new
+{
+   return( NSAllocateObject( self, 0, NULL));
+}
+
 
 - (NSEnumerator *) objectEnumerator
 {
@@ -40,54 +53,6 @@
 
 @end
 
-
-#define MulleObjCSetAllocPlaceholderHash         0x331bd8f6291d398e  // MulleObjCSetAllocPlaceholder
-#define MulleObjCSetInstantiatePlaceholderHash   0x56fb1f12fb5bee1f  // MulleObjCSetInstantiatePlaceholder
-
-
-@interface MulleObjCSetAllocPlaceholder : NSSet
-@end
-
-
-@implementation MulleObjCSetAllocPlaceholder
-
-- (id) initWithObjects:(id *) objects
-                 count:(NSUInteger) count
-             copyItems:(BOOL) copyItems
-{
-   [self autorelease];  // placeholder (just release it, since it's a global)
-   
-   if( ! count)
-      return( (id) [[_MulleObjCEmptySet sharedInstance] retain]);
-   
-   return( (id) [[_MulleObjCConcreteSet alloc] initWithObjects:objects
-                                                    count:count
-                                                copyItems:copyItems]);
-}
-
-@end
-
-
-@interface MulleObjCSetInstantiatePlaceholder : MulleObjCSetAllocPlaceholder
-@end
-
-
-@implementation MulleObjCSetInstantiatePlaceholder
-
-- (id) initWithObjects:(id *) objects
-                 count:(NSUInteger) count
-            copyItems:(BOOL) copyItems
-{
-   [self autorelease];  // placeholder (just release it, since it's a global)
-   if( ! count)
-      return( (id) [[_MulleObjCEmptySet sharedInstance] retain]);
-   
-   return( (id) [[_MulleObjCConcreteSet alloc] initWithObjects:objects
-                                                    count:count
-                                                copyItems:copyItems]);
-}
-
-@end
 
 
 @implementation NSObject( NSSet)
@@ -107,29 +72,140 @@
    return( YES);
 }
 
+#pragma mark -
+#pragma mark common classcluster inits
 
-+ (mulle_objc_classid_t) __allocPlaceholderClassid
+
+- (instancetype) initWithObjects:(id *) objects
+                           count:(NSUInteger) count
+                       copyItems:(BOOL) copyItems
 {
-   return( MULLE_OBJC_CLASSID( MulleObjCSetAllocPlaceholderHash));
+   [self release];
+   if( ! count)
+      return( [_MulleObjCEmptySet new]);
+   return( [_MulleObjCConcreteSet newWithObjects:objects
+                                           count:count
+                                       copyItems:copyItems]);
 }
 
 
-+ (mulle_objc_classid_t) __instantiatePlaceholderClassid
+- (instancetype) initWithObject:(id) firstObject
+                      arguments:(mulle_vararg_list) arguments
 {
-   return( MULLE_OBJC_CLASSID( MulleObjCSetInstantiatePlaceholderHash));
+   [self release];
+   return( [_MulleObjCConcreteSet newWithObject:firstObject
+                                      arguments:arguments]);
 }
+
+
+#pragma mark -
+#pragma mark common initializers
+
+
+- (instancetype) initWithSet:(NSSet *) other
+{
+   NSSet        *set;
+   NSUInteger   otherCount;
+   id           *buf;
+   id           *toFree;
+
+   buf        = toFree = NULL;
+   otherCount = [other count];
+   if( otherCount)
+   {
+      if( otherCount < 32)
+         buf = alloca( sizeof( id) * otherCount);
+      if( ! buf)
+         toFree = buf = MulleObjCAllocateNonZeroedMemory( sizeof( id) * otherCount);
+
+      [other getObjects:buf
+                  count:otherCount];
+   }
+
+   set = [self initWithObjects:buf
+                         count:otherCount
+                     copyItems:NO];
+   MulleObjCDeallocateMemory( toFree);
+
+   return( set);
+}
+
+
+- (instancetype) init
+{
+   return( [self initWithObjects:NULL
+                           count:0
+                           copyItems:NO]);
+}
+
+
+- (instancetype) initWithObjects:(id *) buf
+                           count:(NSUInteger) count
+{
+   return( [self initWithObjects:buf
+                           count:count
+                       copyItems:NO]);
+}
+
+
+- (instancetype) initWithSet:(NSSet *) other
+                   copyItems:(BOOL) flag
+{
+   NSSet        *set;
+   NSUInteger   otherCount;
+   id           *buf;
+   id           *toFree;
+
+   buf        = toFree = NULL;
+   otherCount = [other count];
+   if( otherCount)
+   {
+      if( otherCount < 32)
+         buf = alloca( sizeof( id) * otherCount);
+      if( ! buf)
+         toFree = buf = MulleObjCAllocateNonZeroedMemory( sizeof( id) * otherCount);
+
+      [other getObjects:buf
+                  count:otherCount];
+   }
+
+   set = [self initWithObjects:buf
+                         count:otherCount
+                     copyItems:flag];
+
+   MulleObjCDeallocateMemory( toFree);
+
+   return( set);
+}
+
+
+- (instancetype) initWithObjects:(id) firstObject , ...
+{
+   mulle_vararg_list   args;
+   
+   mulle_vararg_start( args, firstObject);
+   
+   self = [self initWithObject:firstObject
+                     arguments:args];
+   
+   mulle_vararg_end( args);
+   return( self);
+}
+
+
+#pragma mark -
+#pragma mark conveniences
+
 
 
 // compiler: need an @alias( alloc, whatever), so that implementations
 //           can  be shared
 
 
-
-
 + (id) set
 {
-   return( [[self instantiate] initWithObjects:NULL
-                                         count:0]);
+   return( [[[self alloc] initWithObjects:NULL
+                                    count:0] autorelease]);
 }
 
 
@@ -147,24 +223,23 @@
 
 + (id) setWithObject:(id) object
 {
-   return( [[self instantiate] initWithObjects:&object
-                                         count:1]);
+   return( [[[self alloc] initWithObjects:&object
+                                    count:1] autorelease]);
 }
 
 + (instancetype) setWithObjects:(id) firstObject, ...
 {
    mulle_vararg_list   args;
-   NSSet                    *set;
+   NSSet               *set;
    
    mulle_vararg_start( args, firstObject);
 
-   set = [[self instantiate] initWithObject:firstObject
-                                  arguments:args];
+   set = [[[self alloc] initWithObject:firstObject
+                             arguments:args] autorelease];
    mulle_vararg_end( args);
    
    return( set);
 }
-
 
 
 + (id) setWithObjects:(id *) objects
@@ -173,22 +248,6 @@
    return( [[[self alloc] initWithObjects:objects
                                     count:count] autorelease]);
 }
-
-
-
-- (id) initWithObjects:(id) firstObject , ...
-{
-   mulle_vararg_list   args;
-   
-   mulle_vararg_start( args, firstObject);
-
-   self = [self initWithObject:firstObject
-                     arguments:args];
-   
-   mulle_vararg_end( args);
-   return( self);
-}
-
 
 
 - (id) anyObject
@@ -376,77 +435,6 @@ static BOOL   run_member_on_set_until( NSSet *self, NSSet *other, BOOL expect)
    MulleObjCDeallocateMemory( toFree);
    return( set);
 }
-
-
-
-- (id) initWithSet:(NSSet *) other
-{
-   NSSet        *set;
-   NSUInteger   otherCount;
-   id           *buf;
-   id           *toFree;
-
-   buf        = toFree = NULL;
-   otherCount = [other count];
-   if( otherCount)
-   {
-      if( otherCount < 32)
-         buf = alloca( sizeof( id) * otherCount);
-      if( ! buf)
-         toFree = buf = MulleObjCAllocateNonZeroedMemory( sizeof( id) * otherCount);
-
-      [other getObjects:buf
-                  count:otherCount];
-   }
-
-   set = [self initWithObjects:buf
-                         count:otherCount
-                     copyItems:NO];
-   MulleObjCDeallocateMemory( toFree);
-
-   return( set);
-}
-
-
-- (id) initWithObjects:(id *) buf
-                 count:(NSUInteger) count
-{
-   return( [self initWithObjects:buf
-                           count:count
-                       copyItems:NO]);
-}
-
-
-- (id) initWithSet:(NSSet *) other
-         copyItems:(BOOL) flag
-{
-   NSSet        *set;
-   NSUInteger   otherCount;
-   id           *buf;
-   id           *toFree;
-
-   buf        = toFree = NULL;
-   otherCount = [other count];
-   if( otherCount)
-   {
-      if( otherCount < 32)
-         buf = alloca( sizeof( id) * otherCount);
-      if( ! buf)
-         toFree = buf = MulleObjCAllocateNonZeroedMemory( sizeof( id) * otherCount);
-
-      [other getObjects:buf
-                  count:otherCount];
-   }
-
-   set = [self initWithObjects:buf
-                         count:otherCount
-                     copyItems:flag];
-
-   MulleObjCDeallocateMemory( toFree);
-
-   return( set);
-}
-
 
 @end
 

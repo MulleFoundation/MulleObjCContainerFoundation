@@ -22,3 +22,27 @@
 
 @implementation NSEnumerator
 @end
+
+
+@implementation NSEnumerator( Perform)
+
+- (void) makeObjectsPerformSelector:(SEL) sel
+{
+   id   obj;
+   
+   while( obj = [self nextObject])
+      [obj performSelector:sel];
+}
+
+
+- (void) makeObjectsPerformSelector:(SEL) sel
+                         withObject:(id) obj;
+{
+   id   obj;
+   
+   while( obj = [self nextObject])
+      [obj performSelector:sel
+                withObject:obj];
+}
+
+@end

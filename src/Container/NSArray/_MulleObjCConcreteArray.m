@@ -30,7 +30,8 @@ static inline id   *get_objects( _MulleObjCConcreteArray *self)
 }
 
 
-static inline _MulleObjCConcreteArray  *_MulleObjCConcreteArrayWithCapacity( Class self, NSUInteger count)
+__attribute__((ns_returns_retained))
+static inline _MulleObjCConcreteArray  *_MulleObjCNewConcreteArrayWithCapacity( Class self, NSUInteger count)
 {
    _MulleObjCConcreteArray  *array;
    
@@ -40,18 +41,18 @@ static inline _MulleObjCConcreteArray  *_MulleObjCConcreteArrayWithCapacity( Cla
 }
 
 
-
 + (id) arrayWithObjects:(id *) objects
                   count:(NSUInteger) count
 {
    _MulleObjCConcreteArray  *array;
 
-   array = _MulleObjCConcreteArrayWithCapacity( self, count);
-   memcpy( get_objects( array), objects, count * sizeof( id));
+   array = _MulleObjCNewConcreteArrayWithCapacity( self, count);
+
    MulleObjCMakeObjectsPerformRetain( objects, count);
+   memcpy( get_objects( array), objects, count * sizeof( id));
+
    return( array);
 }
-
 
 
 + (id) newWithObjects:(id *) objects
@@ -62,15 +63,41 @@ static inline _MulleObjCConcreteArray  *_MulleObjCConcreteArrayWithCapacity( Cla
    id                        *sentinel;
    id                        obj;
    
-   array    = _MulleObjCConcreteArrayWithCapacity( self, count);
+   array    = _MulleObjCNewConcreteArrayWithCapacity( self, count);
    buffer   = get_objects( array);
    sentinel = &buffer[ count];
+   
+   MulleObjCMakeObjectsPerformRetain( objects, count);
+   
    while( buffer < sentinel)
    {
       obj = *objects++;
       if( ! obj)
          MulleObjCThrowInvalidArgumentException( @"passed in a nil object at index %ld", buffer - get_objects( array));
-      *buffer++= obj;
+      *buffer++ = obj;
+   }
+   return( array);
+}
+
+
++ (id) newWithRetainedObjects:(id *) objects
+                        count:(NSUInteger) count
+{
+   _MulleObjCConcreteArray   *array;
+   id                        *buffer;
+   id                        *sentinel;
+   id                        obj;
+   
+   array    = _MulleObjCNewConcreteArrayWithCapacity( self, count);
+   buffer   = get_objects( array);
+   sentinel = &buffer[ count];
+   
+   while( buffer < sentinel)
+   {
+      obj = *objects++;
+      if( ! obj)
+         MulleObjCThrowInvalidArgumentException( @"passed in a nil object at index %ld", buffer - get_objects( array));
+      *buffer++ = obj;
    }
    return( array);
 }
@@ -83,7 +110,7 @@ static inline _MulleObjCConcreteArray  *_MulleObjCConcreteArrayWithCapacity( Cla
    _MulleObjCConcreteArray   *array;
    id                        *objects;
    
-   array  = _MulleObjCConcreteArrayWithCapacity( self, range.length);
+   array  = _MulleObjCNewConcreteArrayWithCapacity( self, range.length);
    objects = get_objects( array);
    [other getObjects:objects
                range:range];
@@ -103,7 +130,7 @@ static inline _MulleObjCConcreteArray  *_MulleObjCConcreteArrayWithCapacity( Cla
    NSUInteger                count;
    
    count   = [other count];
-   array   = _MulleObjCConcreteArrayWithCapacity( self, count);
+   array   = _MulleObjCNewConcreteArrayWithCapacity( self, count);
    objects = get_objects( array);
    [other getObjects:objects];
    
@@ -126,7 +153,7 @@ static inline _MulleObjCConcreteArray  *_MulleObjCConcreteArrayWithCapacity( Cla
    
    count = mulle_vararg_count( args, firstObject);
    
-   array = _MulleObjCConcreteArrayWithCapacity( self, count);
+   array = _MulleObjCNewConcreteArrayWithCapacity( self, count);
 
    objects = p = get_objects( array);
    value   = firstObject;
@@ -152,7 +179,7 @@ static inline _MulleObjCConcreteArray  *_MulleObjCConcreteArrayWithCapacity( Cla
    assert( obj);
    
    count = [other count];
-   array  = _MulleObjCConcreteArrayWithCapacity( self, count + 1);
+   array  = _MulleObjCNewConcreteArrayWithCapacity( self, count + 1);
 
    objects = get_objects( array);
    [other getObjects:objects];
@@ -175,7 +202,7 @@ static inline _MulleObjCConcreteArray  *_MulleObjCConcreteArrayWithCapacity( Cla
    count   = [other count];
    count2  = [other2 count];
    
-   array  = _MulleObjCConcreteArrayWithCapacity( self, count + count2);
+   array  = _MulleObjCNewConcreteArrayWithCapacity( self, count + count2);
 
    objects = get_objects( array);
    [other getObjects:objects];
@@ -193,13 +220,14 @@ static inline _MulleObjCConcreteArray  *_MulleObjCConcreteArrayWithCapacity( Cla
    _MulleObjCConcreteArray   *array;
    id                        *objects;
    
-   array  = _MulleObjCConcreteArrayWithCapacity( self, range.length);
+   array  = _MulleObjCNewConcreteArrayWithCapacity( self, range.length);
 
    objects = get_objects( array);
    [other getObjects:objects
                range:range];
 
    MulleObjCMakeObjectsPerformRetain( objects,  range.length);
+
    return( array);
 }
 
@@ -236,7 +264,7 @@ static int   bouncyBounce( bouncy *ctxt, id *a, id *b)
 
 static int   bouncyBounceSel( void *ctxt, id *a, id *b)
 {
-   return( (int) mulle_objc_object_call( *a, (SEL) ctxt, *b));
+   return( (int) mulle_objc_object_call( *a, (mulle_objc_methodid_t) ctxt, *b));
 }
         
 
@@ -408,6 +436,25 @@ static NSUInteger   findObjectWithRange( _MulleObjCConcreteArray *self,
 - (void) getObjects:(id *) buf
 {
    memcpy( buf, get_objects( self), sizeof( id) * _count);
+}
+
+
+
+//
+// https://www.mikeash.com/pyblog/friday-qa-2010-04-16-implementing-fast-enumeration.html
+//
+- (NSUInteger) countByEnumeratingWithState:(NSFastEnumerationState *) state
+                                   objects:(id *) stackbuf
+                                     count:(NSUInteger) len
+{
+   if( ! state->state)
+   {
+      state->mutationsPtr = (unsigned long *)self;
+      state->itemsPtr     = get_objects( self);
+      state->state        = 1;
+      return( self->_count);
+   }
+   return( 0);
 }
 
 

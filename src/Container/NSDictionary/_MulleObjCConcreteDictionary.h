@@ -13,9 +13,18 @@
 
 @interface _MulleObjCConcreteDictionary : NSDictionary
 {
-   struct _mulle_indexedkeyvaluebucket   _table;
-   struct mulle_allocator                *_allocator;
+   struct _mulle_map        _table;
+   struct mulle_allocator   *_allocator;
 }
+
++ (instancetype) newWithDictionary:(id) other;
++ (instancetype) newWithObjects:(id *) obj
+                        forKeys:(id *) key
+                          count:(NSUInteger) count;
++ (instancetype) newWithDictionary:(id) other
+                         copyItems:(BOOL) copy;
++ (instancetype) newWithObject:(id) object
+                     arguments:(mulle_vararg_list) args;
 
 @end
 

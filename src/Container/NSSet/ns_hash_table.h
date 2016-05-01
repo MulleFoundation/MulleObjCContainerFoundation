@@ -17,19 +17,27 @@
 #include <mulle_container/mulle_container.h>
 #include <MulleObjC/ns_objc.h>
 
-//
-// NSHashTable is pretty much mulle_set
-//
+
 typedef struct mulle_container_keycallback        NSHashTableCallBacks;
-typedef struct mulle_set                          NSHashTable;
-typedef struct mulle_setenumerator                NSHashEnumerator;
+
+//
+// NSHashTable is pretty much mulle_set with a copy of the callbacks
+//
+typedef struct
+{
+   struct mulle_set       _set;
+   NSHashTableCallBacks   _callback;
+} NSHashTable;
+
+typedef struct mulle_setenumerator    NSHashEnumerator;
 
 
 NSHashTable   *NSCreateHashTable( NSHashTableCallBacks callBacks, NSUInteger capacity);
 
 static inline void   NSInitHashTable( NSHashTable *table, NSHashTableCallBacks *callBacks, NSUInteger capacity)
 {
-   mulle_set_init( table, capacity, callBacks, MulleObjCAllocator());
+   table->_callback = *callBacks;
+   mulle_set_init( &table->_set, (unsigned int) capacity, &table->_callback, MulleObjCAllocator());
 }
 
 
@@ -41,44 +49,41 @@ static inline NSHashTable   *NSCreateHashTableWithZone( NSHashTableCallBacks cal
 
 static inline void   NSDoneHashTable( NSHashTable *table)
 {
-   mulle_set_done( table);
+   mulle_set_done( &table->_set);
 }
 
 
 static inline void   NSFreeHashTable( NSHashTable *table)
 {
-   mulle_set_free( table);
+   mulle_set_destroy( &table->_set);
 }
 
 
 static inline void   NSResetHashTable( NSHashTable *table)
 {
-   mulle_set_reset( table);
+   mulle_set_reset( &table->_set);
 }
 
 
 static inline void   *NSHashGet( NSHashTable *table, void *p)
 {
-   return( mulle_set_get( table, p));
+   return( mulle_set_get( &table->_set, p));
 }
 
 
 static inline void   NSHashRemove( NSHashTable *table, void *p)
 {
-   mulle_set_remove( table, p);
+   mulle_set_remove( &table->_set, p);
 }
 
 
 static inline NSUInteger   NSCountHashTable( NSHashTable *table)
 {
-   return( mulle_set_get_count( table));
+   return( mulle_set_get_count( &table->_set));
 }
 
 
-static inline NSHashTable   *NSCopyHashTable( NSHashTable *table)
-{
-   return( mulle_set_copy( table));
-}
+NSHashTable   *NSCopyHashTable( NSHashTable *table);
 
 
 static inline NSHashTable   *NSCopyHashTableWithZone( NSHashTable *table, NSZone *zone)
@@ -89,7 +94,7 @@ static inline NSHashTable   *NSCopyHashTableWithZone( NSHashTable *table, NSZone
 
 static inline NSHashEnumerator   NSEnumerateHashTable( NSHashTable *table)
 {
-   return( mulle_set_enumerate( table));
+   return( mulle_set_enumerate( &table->_set));
 }
 
 

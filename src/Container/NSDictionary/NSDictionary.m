@@ -15,6 +15,7 @@
 
 // other files in this library
 #import "NSEnumerator.h"
+#import "_MulleObjCConcreteDictionary.h"
 
 // other libraries of MulleObjCFoundation
 
@@ -47,7 +48,7 @@
 
 + (id) dictionaryWithObjectsAndKeys:(id) object, ...
 {
-   NSDictionary             *dictionary;
+   NSDictionary        *dictionary;
    mulle_vararg_list   args;
 
    mulle_vararg_start( args, object);
@@ -70,6 +71,63 @@
                                   forKeys:keys
                                     count:count] autorelease]);
 }
+
+
+#pragma mark -
+#pragma mark class cluster inits
+
+- (instancetype) initWithDictionary:(id) other
+{
+   [self release];
+   return( [_MulleObjCConcreteDictionary newWithDictionary:other]);
+}
+
+
+- (instancetype) initWithObjects:(id *) obj
+                         forKeys:(id *) key
+                           count:(NSUInteger) count
+{
+   [self release];
+   return( [_MulleObjCConcreteDictionary newWithObjects:obj
+                                                forKeys:key
+                                                  count:count]);
+}
+
+
+- (instancetype) initWithDictionary:(id) other
+                          copyItems:(BOOL) copy
+{
+   [self release];
+   return( [_MulleObjCConcreteDictionary newWithDictionary:other
+                                                 copyItems:copy]);
+}
+
+
+- (instancetype) initWithObject:(id) obj
+                      arguments:(mulle_vararg_list) args
+{
+   [self release];
+   return( [_MulleObjCConcreteDictionary newWithObject:obj
+                                             arguments:args]);
+}
+
+
+- (instancetype) initWithObject:(id) obj, ...
+{
+   mulle_vararg_list   args;
+   id                  dictionary;
+   
+   mulle_vararg_start( args, obj);
+   dictionary = [self initWithObject:obj
+                           arguments:args];
+   mulle_vararg_end( args);
+   return( dictionary);
+}
+
+
+
+#pragma mark -
+#pragma mark accessors
 
 
 - (id) anyKey

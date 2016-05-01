@@ -48,6 +48,8 @@
 
 - (instancetype) initWithArray:(NSArray *) other
 {
+   [self release];
+
    return( [_MulleObjCConcreteArray newWithArray:other
                                        copyItems:NO]);
 }
@@ -56,8 +58,10 @@
 - (instancetype) initWithArray:(NSArray *) other
                          range:(NSRange) range
 {
+   [self release];
+
    if( ! range.length)
-      return( [_MulleObjCEmptyArray sharedInstance]);
+      return( [[_MulleObjCEmptyArray sharedInstance] retain]);
    
    return( [_MulleObjCConcreteArray newWithArray:other
                                            range:range]);
@@ -67,6 +71,8 @@
 - (instancetype) initWithArray:(NSArray *) other
                      copyItems:(BOOL) flag
 {
+   [self release];
+   
    return( [_MulleObjCConcreteArray newWithArray:other
                                        copyItems:flag]);
 }
@@ -82,7 +88,7 @@
    // ..V method
    //
    if( ! firstObject)
-      return( [_MulleObjCEmptyArray sharedInstance]);
+      return( [[_MulleObjCEmptyArray sharedInstance] retain]);
 
    return( [_MulleObjCConcreteArray newWithObject:firstObject
                                         arguments:args]);
@@ -91,15 +97,17 @@
            
 - (instancetype) initWithObjects:(id) firstObject, ...
 {
-   NSArray                  *array;
+   NSArray            *array;
    mulle_vararg_list   args;
 
+   [self release];
+   
    //
    // subclass check falls on its face, because there is no defined
    // ..V method
    //
    if( ! firstObject)
-      return( [_MulleObjCEmptyArray sharedInstance]);
+      return( [[_MulleObjCEmptyArray sharedInstance] retain]);
    
    mulle_vararg_start( args, firstObject);
    array = [_MulleObjCConcreteArray newWithObject:firstObject
@@ -113,17 +121,34 @@
 - (instancetype) initWithObjects:(id *) objects
                            count:(NSUInteger) count
 {
+   [self release];
+   
    if( ! count)
-      return( [_MulleObjCEmptyArray sharedInstance]);
+      return( [[_MulleObjCEmptyArray sharedInstance] retain]);
 
    return( [_MulleObjCConcreteArray newWithObjects:objects
                                              count:count]);
 }
 
 
+- (instancetype) initWithRetainedObjects:(id *) objects
+                                  count:(NSUInteger) count
+{
+   [self release];
+   
+   if( ! count)
+      return( [[_MulleObjCEmptyArray sharedInstance] retain]);
+
+   return( [_MulleObjCConcreteArray newWithRetainedObjects:objects
+                                                     count:count]);
+}
+
+
 - (instancetype) initWithArray:(NSArray *) other
                      andObject:(id) obj
 {
+   [self release];
+   
    return( [[_MulleObjCConcreteArray newWithArray:other
                                         andObject:obj] autorelease]);
 }
@@ -132,6 +157,8 @@
 - (instancetype) initWithArray:(NSArray *) other
                       andArray:(NSArray *) other2
 {
+   [self release];
+   
    return( [[_MulleObjCConcreteArray newWithArray:other
                                          andArray:other2] autorelease]);
 }
@@ -206,6 +233,14 @@
 {
    return( [[[self alloc] initWithObjects:objects
                                     count:count] autorelease]);
+}
+
+
++ (id) arrayWithRetainedObjects:(id *) objects
+                          count:(NSUInteger) count
+{
+   return( [[[self alloc] _initWithRetainedObjects:objects
+                                             count:count] autorelease]);
 }
 
 
@@ -449,6 +484,8 @@ static void   perform( NSArray *self, NSRange range, SEL sel, id obj)
 }
 
 
+#pragma mark -
+#pragma mark enumeration
 
 - (NSEnumerator *) objectEnumerator
 {
@@ -498,30 +535,6 @@ static void   perform( NSArray *self, NSRange range, SEL sel, id obj)
    [self getObjects:objects
               range:NSMakeRange( 0, [self count])];
 }
-
-#if 0
-- (id) debugDescription
-{
-   NSMutableString   *s;
-   NSEnumerator      *rover;
-   BOOL              flag;
-   id                p;
-   
-   flag = NO;
-   s = [NSMutableString stringWithString:@"("];
-   rover = [self objectEnumerator];
-   while( p = [rover nextObject])
-   {
-      if( flag)
-         [s appendString:@", "];
-      flag = YES;
-      
-      [s appendString:[p debugDescription]];
-   }
-   [s appendString:@")"];
-   return( s);
-}
-#endif
 
 
 #if DEBUG

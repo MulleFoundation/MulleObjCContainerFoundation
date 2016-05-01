@@ -27,6 +27,9 @@
 + (id) newWithObjects:(id *) objects
                 count:(NSUInteger) count;
 
++ (id) newWithRetainedObjects:(id *) objects
+                        count:(NSUInteger) count;
+
 + (id) newWithArray:(NSArray *) other
            copyItems:(BOOL) flag;
 
@@ -34,7 +37,7 @@
            arguments:(mulle_vararg_list) args;
 
 + (id) newWithArray:(NSArray *) other
-          andObject:(id) obj;
+          andObject:(id) obj              __attribute__(( ns_returns_retained));
 
 + (id) newWithArray:(NSArray *) other
            andArray:(NSArray *) other2;

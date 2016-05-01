@@ -15,45 +15,53 @@
 
 // other files in this library
 #import "NSArray.h"
+#import "NSEnumerator.h"
+#import "NSMutableArray.h"
 
 // other libraries of MulleObjCFoundation
+#import "MulleObjCFoundationData.h"
 
 // std-c and dependencies
 
 
 @implementation NSSet( NSArray)
 
-
 + (id) setWithArray:(NSArray *) array
 {
-   NSSet  *set;
-   id     *
-   if( self != __NSSetClass && self != __NSMutableSetClass)
-      return( NSAutoreleaseObject( [[self allocWithZone:NULL] initWithArray:array]));
-      
-   set = [self alloc];
-   if( [array _pointerArray])
-   NSInitSet( set, [array count]);
-   [self addObjectsFromEnumerator:[array objectEnumerator]
-                      toHashTable:get_hash_table( set)
-                        copyItems:NO];
-   return( NSAutoreleaseObject( set));
+   return( [[[self alloc] initWithArray:array] autorelease]);
 }
 
 
 - (id) initWithArray:(NSArray *) array
 {
-   NSInitSet( self, [array count]);
-   [isa addObjectsFromEnumerator:[array objectEnumerator]
-                     toHashTable:get_hash_table( self)
-                       copyItems:NO];
-   return( self);
+   NSMutableData   *data;
+   NSUInteger      count;
+   id              *buf;
+   
+   count = [array count];
+   if( ! count)
+      return( [self init]);
+      
+   data = [NSMutableData dataWithLength:sizeof( id) * count];
+   buf  = (id *) [data mutableBytes];
+   [array getObjects:buf];
+   return( [self initWithObjects:buf
+                           count:count]);
 }
 
 
 - (NSArray *) allObjects
 {
-   return( MulleObjCAllHashTableObjects( get_hash_table( self)));
+   NSMutableArray   *array;
+   NSEnumerator     *rover;
+   id               obj;
+   
+   array = [NSMutableArray array];
+   rover = [self objectEnumerator];
+   while( obj = [rover nextObject])
+      [array addObject:obj];
+
+   return( array);
 }
 
 

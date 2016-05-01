@@ -14,7 +14,7 @@
 #import "NSMutableDictionary.h"
 
 // other files in this library
-#import "_MulleObjCContainerCallback.h"
+#import "MulleObjCContainerCallback.h"
 #import "NSEnumerator.h"
 
 // other libraries of MulleObjCFoundation
@@ -63,6 +63,13 @@
 }
 
 
+- (id) init
+{
+   mulle_map_init( &self->_table, 16, NSDictionaryCallback, MulleObjCObjectGetAllocator( self));
+   return( self);
+}
+
+
 - (void) setObject:(id) obj
             forKey:(NSObject <NSCopying> *) key
 {
@@ -71,7 +78,7 @@
    assert( [key respondsToSelector:@selector( isEqual:)]);
    assert( [obj respondsToSelector:@selector( retain)]);
    
-   mulle_map_put( &_table, key, obj);
+   mulle_map_set( &_table, key, obj);
 }
 
 
