@@ -48,4 +48,12 @@
    return( self);
 }
 
+
+- (NSUInteger) countByEnumeratingWithState:(NSFastEnumerationState *) state
+                                   objects:(id *) stackbuf
+                                     count:(NSUInteger) len
+{
+   return( 0);
+}
+
 @end

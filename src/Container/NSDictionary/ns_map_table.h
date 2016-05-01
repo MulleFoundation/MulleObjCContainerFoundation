@@ -15,6 +15,7 @@
 #define ns_map_table_h__
  
 #include <MulleObjC/ns_objc.h>
+#include <MulleObjC/ns_exception.h>
 #include <mulle_container/mulle_container.h>
 
 
@@ -35,35 +36,37 @@ typedef struct
 } NSMapTable;
 
 
+# pragma mark -
+# pragma mark setup and tear down
+
+NSMapTable   *_NSCreateMapTableWithAllocator( NSMapTableKeyCallBacks keyCallBacks,
+                                              NSMapTableValueCallBacks valueCallBacks,
+                                              NSUInteger capacity,
+                                              struct mulle_allocator *allocator);
+
 NSMapTable   *NSCreateMapTable( NSMapTableKeyCallBacks keyCallBacks, 
                                 NSMapTableValueCallBacks valueCallBacks, 
                                 NSUInteger capacity);
 
-void   NSInitMapTable( NSMapTable *table,
-                       NSMapTableKeyCallBacks *keyCallBacks,
-                       NSMapTableValueCallBacks *valueCallBacks, 
-                       NSUInteger capacity);
-                       
-static inline void    NSMapTableDone( NSMapTable *table)
-{
-   _mulle_map_done( (struct _mulle_map *) table, &table->_callback, table->_allocator);
-}
-
-
 static inline void   NSFreeMapTable( NSMapTable *table)
 {
-   _mulle_map_free( (struct _mulle_map *) table, &table->_callback, table->_allocator);
+   _mulle_map_destroy( (struct _mulle_map *) table, &table->_callback, table->_allocator);
+}
+
+void    NSResetMapTable( NSMapTable *table);
+
+
+# pragma mark -
+# pragma mark petty accessors
+
+static inline NSUInteger   NSCountMapTable( NSMapTable *table)
+{
+   return( (NSUInteger) _mulle_map_get_count( (struct _mulle_map *) table));
 }
 
 
-static inline NSMapTable   *NSCreateMapTableWithZone( NSMapTableKeyCallBacks keyCallBacks,
-                                                      NSMapTableValueCallBacks valueCallBacks, 
-                                                      NSUInteger capacity, 
-                                                      NSZone *zone)
-{  
-   return( NSCreateMapTable( keyCallBacks, valueCallBacks, capacity));
-}
-
+# pragma mark -
+# pragma mark operations
 
 static inline void   *NSMapGet( NSMapTable *table, void *key)
 {
@@ -77,17 +80,40 @@ static inline void   NSMapRemove( NSMapTable *table, void *key)
 }
 
 
-static inline NSUInteger   NSCountMapTable( NSMapTable *table)
+static inline void   NSMapInsert( NSMapTable *table, void *key, void *value)
 {
-   return( (NSUInteger) _mulle_map_get_count( (struct _mulle_map *) table));
+   struct _mulle_keyvaluepair   pair;
+   
+   if( key == table->_callback.keycallback.not_a_key_marker)
+      mulle_objc_throw_invalid_argument_exception( "key is not a key marker (%p)", key);
+   
+   pair._key   = key;
+   pair._value = value;
+   
+   _mulle_map_insert( (struct _mulle_map *) table, &pair, &table->_callback, table->_allocator);
 }
 
 
-void   NSMapInsert( NSMapTable *table, void *key, void *value);
 void   NSMapInsertKnownAbsent( NSMapTable *table, void *key, void *value);
 void   *NSMapInsertIfAbsent( NSMapTable *table, void *key, void *value);
 
+
+# pragma mark -
+# pragma mark copying
+
 NSMapTable   *NSCopyMapTable( NSMapTable *table);
+
+
+# pragma mark -
+# pragma mark compatibility
+
+static inline NSMapTable   *NSCreateMapTableWithZone( NSMapTableKeyCallBacks keyCallBacks,
+                                                     NSMapTableValueCallBacks valueCallBacks,
+                                                     NSUInteger capacity,
+                                                     NSZone *zone)
+{
+   return( NSCreateMapTable( keyCallBacks, valueCallBacks, capacity));
+}
 
 
 static inline NSMapTable   *NSCopyMapTableWithZone( NSMapTable *table, NSZone *zone)
@@ -95,6 +121,8 @@ static inline NSMapTable   *NSCopyMapTableWithZone( NSMapTable *table, NSZone *z
    return( NSCopyMapTable( table));
 }
 
+# pragma mark -
+# pragma mark enumeration
 
 static inline NSMapEnumerator   NSEnumerateMapTable( NSMapTable *table)
 {
@@ -104,7 +132,17 @@ static inline NSMapEnumerator   NSEnumerateMapTable( NSMapTable *table)
 
 static inline BOOL    NSNextMapEnumeratorPair( NSMapEnumerator *rover, void **key, void **value)
 {
-   return( _mulle_mapenumerator_next( rover, key, value));
+   struct _mulle_keyvaluepair   *pair;
+   
+   pair = _mulle_mapenumerator_next( rover);
+   if( ! pair)
+      return( NO);
+
+   if( key)
+      *key = pair->_key;
+   if( value)
+      *value = pair->_value;
+   return( YES);
 }
 
 
@@ -113,22 +151,8 @@ static inline void    NSEndMapTableEnumeration( NSMapEnumerator *rover)
    _mulle_mapenumerator_done( rover);
 }
 
+#pragma mark - 
+#pragma mark Callbacks
 
-static inline void    NSResetMapTable( NSMapTable *table)
-{
-   NSMapTableDone( table);
-   NSInitMapTable( table, &table->_callback.keycallback, &table->_callback.valuecallback, 0);
-}
-
-
-#define NSIntMapKeyCallBacks              (*(NSMapTableKeyCallBacks *) &mulle_container_keycallback_int)
-#define NSIntegerMapKeyCallBacks          (*(NSMapTableKeyCallBacks *) &mulle_container_keycallback_intptr)
-#define NSNonOwnedPointerMapKeyCallBacks  (*(NSMapTableKeyCallBacks *) &mulle_container_keycallback_nonowned_pointer)
-#define NSOwnedPointerMapKeyCallBacks     (*(NSMapTableKeyCallBacks *) &mulle_container_keycallback_owned_pointer)
-
-#define NSIntMapValueCallBacks              (*(NSMapTableValueCallBacks *) &mulle_container_valuecallback_int)
-#define NSIntegerMapValueCallBacks          (*(NSMapTableValueCallBacks *) &mulle_container_valuecallback_intptr)
-#define NSNonOwnedPointerMapValueCallBacks  (*(NSMapTableValueCallBacks *) &mulle_container_valuecallback_nonowned_pointer)
-#define NSOwnedPointerMapValueCallBacks     (*(NSMapTableValueCallBacks *) &mulle_container_valuecallback_owned_pointer)
 
 #endif

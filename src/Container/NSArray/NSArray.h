@@ -17,14 +17,14 @@
 @class NSEnumerator;
 
 
-@interface NSArray : NSObject < MulleObjCClassCluster>
+@interface NSArray : NSObject < MulleObjCClassCluster, NSCopying>
 
 + (instancetype) array;
 + (instancetype) arrayWithArray:(NSArray *) other;
 + (instancetype) arrayWithObject:(id) obj;
 + (instancetype) arrayWithObjects:(id) firstObject, ...;
 + (instancetype) arrayWithObjects:(id *) objects
-                  count:(NSUInteger) count;
+                            count:(NSUInteger) count;
 
 - (instancetype) initWithArray:(NSArray *) other;
 - (instancetype) initWithArray:(NSArray *) other
@@ -51,13 +51,14 @@
 - (void) makeObjectsPerformSelector:(SEL) sel; 
 - (void) makeObjectsPerformSelector:(SEL) sel 
                          withObject:(id) obj;
+
 - (NSEnumerator *) objectEnumerator;
 - (NSEnumerator *) reverseObjectEnumerator;
-- (NSArray *) sortedArrayUsingFunction:(NSInteger (*)(id, id, void *)) comparator 
+
+- (NSArray *) sortedArrayUsingFunction:(NSInteger (*)(id, id, void *)) comparator
                                context:(void *) context;
 - (NSArray *) sortedArrayUsingSelector:(SEL) comparator;
 - (NSArray *) subarrayWithRange:(NSRange) range;
-
 
 - (NSUInteger) hash;
 
@@ -68,11 +69,29 @@
 @end
 
 
-@interface NSArray( Subclasses)
+@interface NSArray( MulleAdditions)
+
+- (instancetype) _initWithRetainedObjects:(id *) objects
+                                    count:(NSUInteger) count;
+
++ (instancetype) arrayWithArray:(NSArray *) other
+                          range:(NSRange) range;
+
+- (instancetype) initWithArray:(NSArray *) other
+                         range:(NSRange) range;
+
+@end
+
+
+@interface NSArray( Subclasses) < NSFastEnumeration>
 
 - (NSUInteger) count;
 - (id) objectAtIndex:(NSUInteger) index;
 - (void) getObjects:(id *) objects
               range:(NSRange) range;
+
+- (NSUInteger) countByEnumeratingWithState:(NSFastEnumerationState *) state
+                                   objects:(id *) objects
+                                     count:(NSUInteger) count;
 
 @end

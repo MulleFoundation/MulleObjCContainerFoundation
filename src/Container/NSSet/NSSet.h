@@ -21,11 +21,6 @@
 {
 }
 
-// designated initializer
-- (instancetype) initWithObjects:(id *) objects
-                           count:(NSUInteger) count
-                       copyItems:(BOOL) flag;
-
 + (instancetype) set;
 
 + (instancetype) setWithObject:(id) object;
@@ -36,8 +31,6 @@
 - (instancetype) setByAddingObject:(id) object;
 - (instancetype) setByAddingObjectsFromSet:(NSSet *) set ;
 - (instancetype) initWithObjects:(id) object, ...;
-- (instancetype) initWithObject:(id) object
-                      arguments:(mulle_vararg_list) args;
 - (instancetype) initWithObjects:(id *) objects
                            count:(NSUInteger) count;
 - (instancetype) initWithSet:(NSSet *) set
@@ -53,6 +46,14 @@
 @end
 
 @interface NSSet( Subclass)
+
+// designated initializer
+- (instancetype) initWithObjects:(id *) objects
+                           count:(NSUInteger) count
+                       copyItems:(BOOL) flag;
+
+- (instancetype) initWithObject:(id) object
+                      arguments:(mulle_vararg_list) args;
 
 /* subclasses need to override those */
 - (NSUInteger) count;

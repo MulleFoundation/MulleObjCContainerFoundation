@@ -38,7 +38,7 @@
 - (void) removeObjectsInRange:(NSRange) range;
 - (void) removeObjectIdenticalTo:(id) obj;
 - (void) removeObjectIdenticalTo:(id) obj
-                         inRange:(NSRange) aRange;
+                         inRange:(NSRange) range;
 - (void) removeObjectsInArray:(NSArray *) other;
 
 - (void) removeAllObjects;
