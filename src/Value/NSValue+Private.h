@@ -18,13 +18,3 @@
 
 @end
 
-
-// a bit tricky, MulleObjCGenericValue varies with the content size and
-// the size of the @encoding string which has to be copied
-//
-@interface _MulleObjCConcreteValue : NSValue
-{
-   NSInteger   _size;
-}
-@end
-

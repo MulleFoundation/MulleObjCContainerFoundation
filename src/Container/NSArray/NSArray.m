@@ -25,7 +25,7 @@
 // std-c and dependencies
 
 
-@implementation NSObject( NSArray)
+@implementation NSObject( _NSArray)
 
 - (BOOL) __isNSArray
 {
@@ -131,8 +131,8 @@
 }
 
 
-- (instancetype) initWithRetainedObjects:(id *) objects
-                                  count:(NSUInteger) count
+- (instancetype) _initWithRetainedObjects:(id *) objects
+                                    count:(NSUInteger) count
 {
    [self release];
    
@@ -164,23 +164,48 @@
 }
 
 
+#pragma mark -
+#pragma mark NSCoding
 
-//
-// could optimize the next two, by a subclass that just "stacks" arrays
-// (would be cool, if both are immutable
-//
-- (NSArray *) arrayByAddingObject:(id) obj
+- (Class) classForCoder
 {
-   return( [[_MulleObjCConcreteArray newWithArray:self
-                                        andObject:obj] autorelease]);
+   return( [NSArray class]);
 }
 
 
-- (NSArray *) arrayByAddingObjectsFromArray:(NSArray *) other
+- (id) initWithCoder:(NSCoder *) coder
 {
-   return( [[_MulleObjCConcreteArray newWithArray:self
-                                         andArray:other] autorelease]);
+   NSUInteger   count;
+   
+   [coder decodeValueOfObjCType:@encode( NSUInteger)
+                             at:&count];
+   
+   [self release];
+   if( ! count)
+      return( [[_MulleObjCEmptyArray sharedInstance] retain]);
+      
+   return( [_MulleObjCConcreteArray _allocWithCapacity:count]);
 }
+
+
+
+- (void) encodeWithCoder:(NSCoder *) coder
+{
+   NSUInteger   count;
+   id           obj;
+   
+   count = (uint32_t) [self count];
+   [coder encodeValueOfObjCType:@encode( NSUInteger)
+                             at:&count];
+   for( obj in self)
+      [coder encodeObject:obj];
+}
+
+
+- (void) decodeWithCoder:(NSCoder *) coder
+{
+}
+
 
 
 # pragma mark -
@@ -217,7 +242,7 @@
 + (instancetype) arrayWithObjects:(id) firstObject, ...
 {
    mulle_vararg_list   args;
-   NSArray                  *array;
+   NSArray             *array;
    
    mulle_vararg_start( args, firstObject);
    array = [[[self alloc] initWithObject:firstObject
@@ -242,6 +267,26 @@
    return( [[[self alloc] _initWithRetainedObjects:objects
                                              count:count] autorelease]);
 }
+
+
+
+//
+// could optimize the next two, by a subclass that just "stacks" arrays
+// (would be cool, if both are immutable
+//
+- (NSArray *) arrayByAddingObject:(id) obj
+{
+   return( [[_MulleObjCConcreteArray newWithArray:self
+                                        andObject:obj] autorelease]);
+}
+
+
+- (NSArray *) arrayByAddingObjectsFromArray:(NSArray *) other
+{
+   return( [[_MulleObjCConcreteArray newWithArray:self
+                                         andArray:other] autorelease]);
+}
+
 
 
 # pragma mark -
@@ -375,7 +420,7 @@ static NSUInteger  findIndexWithRange( NSArray *self, NSRange range, id obj)
 
 - (BOOL) isEqual:(id) other
 {
-   if( ! other)
+   if( ! [other __isNSArray])
       return( NO);
    return( [self isEqualToArray:other]);
 }

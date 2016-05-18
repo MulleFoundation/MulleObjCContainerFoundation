@@ -17,7 +17,7 @@
 @class NSEnumerator;
 
 
-@interface NSArray : NSObject < MulleObjCClassCluster, NSCopying>
+@interface NSArray : NSObject < MulleObjCClassCluster, NSCopying, NSCoding>
 
 + (instancetype) array;
 + (instancetype) arrayWithArray:(NSArray *) other;

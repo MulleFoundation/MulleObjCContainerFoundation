@@ -17,7 +17,7 @@
 @class NSEnumerator;
 
 
-@interface NSSet : NSObject < MulleObjCClassCluster>
+@interface NSSet : NSObject < MulleObjCClassCluster, NSCoding, NSCopying>
 {
 }
 

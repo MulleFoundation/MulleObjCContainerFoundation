@@ -15,15 +15,36 @@
 
 // other files in this library
 #import "NSEnumerator.h"
+#import "_MulleObjCDictionary.h"
 #import "_MulleObjCConcreteDictionary.h"
 
 // other libraries of MulleObjCFoundation
 
 // std-c and dependencies
 
+@interface NSDictionary( NSCoder)
+
+@end
+
+
+@implementation NSObject( _NSString)
+
+- (BOOL) __isNSDictionary
+{
+   return( NO);
+}
+
+@end
 
 
 @implementation NSDictionary 
+
+
+- (BOOL) __isNSDictionary
+{
+   return( YES);
+}
+
 
 + (id) dictionary
 {
@@ -76,6 +97,13 @@
 #pragma mark -
 #pragma mark class cluster inits
 
+- (instancetype) init
+{
+   [self release];
+   return( [_MulleObjCConcreteDictionary new]);
+}
+
+
 - (instancetype) initWithDictionary:(id) other
 {
    [self release];
@@ -112,7 +140,10 @@
 }
 
 
-- (instancetype) initWithObject:(id) obj, ...
+#pragma mark -
+#pragma mark generic inits
+
+- (instancetype) initWithObjectsAndKeys:(id) obj, ...
 {
    mulle_vararg_list   args;
    id                  dictionary;
@@ -124,6 +155,92 @@
    return( dictionary);
 }
 
+
+#pragma mark -
+#pragma mark NSCoding
+
+- (Class) classForCoder
+{
+   return( [NSDictionary class]);
+}
+
+
+- (id) initWithCoder:(NSCoder *) coder
+{
+   NSUInteger   count;
+
+   [coder decodeValueOfObjCType:@encode( NSUInteger)
+                             at:&count];
+   [self release];
+   return( [_MulleObjCConcreteDictionary _allocWithCapacity:count]);
+}
+
+
+- (void) decodeWithCoder:(NSCoder *) coder
+{
+   NSUInteger   count;
+   id           *keys;
+   id           *values;
+   id           *p;
+   id           *q;
+   id           *sentinel;
+   size_t       size;
+   
+   [coder decodeValueOfObjCType:@encode( NSUInteger)
+                             at:&count];
+   
+   size   = count * sizeof( id) * 2;
+   keys   = MulleObjCObjectAllocateNonZeroedMemory( self, size);
+   values = &keys[ count];
+
+   p        = keys;
+   q        = values;
+   sentinel = &p[ count];
+   while( p < sentinel)
+   {
+      [coder decodeValueOfObjCType:@encode( id)
+                                at:p];
+      [coder decodeValueOfObjCType:@encode( id)
+                                at:q];
+      ++p;
+      ++q;
+   }
+   
+   // ugliness
+   [(id <_MulleObjCDictionary>) self  _setObjects:values
+                                             keys:keys
+                                            count:count];
+
+   MulleObjCMakeObjectsPerformRelease( keys, count * 2);
+   MulleObjCObjectDeallocateMemory( self, keys);
+}
+
+
+- (void) encodeWithCoder:(NSCoder *) coder
+{
+   NSUInteger     count;
+   NSEnumerator   *rover;
+   id             key;
+   id             value;
+   
+   count = (NSUInteger) [self count];
+   [coder encodeValueOfObjCType:@encode( NSUInteger)
+                             at:&count];
+
+   rover = [self keyEnumerator];
+   while( key = [rover nextObject])
+   {
+      value = [self objectForKey:key];
+      [coder encodeObject:key];
+      [coder encodeObject:value];
+   }
+}
+
+
+- (id) copy
+{
+   return( [self retain]);
+}
 
 
 #pragma mark -
@@ -147,6 +264,8 @@
    return( [[self anyObject] hash]);
 }
 
+#pragma mark -
+#pragma mark operations
 
 - (BOOL) isEqualToDictionary:(NSDictionary *) other
 {
@@ -183,6 +302,14 @@
          return( NO);
    }
    return( YES);
+}
+
+
+- (BOOL) isEqual:(id) other
+{
+   if( ! [other __isNSDictionary])
+      return( NO);
+   return( [self isEqualToDictionary:other]);
 }
 
 @end

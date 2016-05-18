@@ -21,7 +21,7 @@
    NSRange   _range;
 }
 
-+ (id) enumeratorWithArray:(NSArray *) array;
++ (instancetype) enumeratorWithArray:(NSArray *) array;
 
 @end
 

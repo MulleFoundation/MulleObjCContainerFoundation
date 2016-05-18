@@ -37,7 +37,7 @@ NSHashTable   *NSCreateHashTable( NSHashTableCallBacks callBacks, NSUInteger cap
 static inline void   NSInitHashTable( NSHashTable *table, NSHashTableCallBacks *callBacks, NSUInteger capacity)
 {
    table->_callback = *callBacks;
-   mulle_set_init( &table->_set, (unsigned int) capacity, &table->_callback, MulleObjCAllocator());
+   mulle_set_init( &table->_set, (unsigned int) capacity, &table->_callback, &mulle_default_allocator);
 }
 
 

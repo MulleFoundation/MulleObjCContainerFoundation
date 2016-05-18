@@ -52,7 +52,7 @@
    if( size <= 0x400)
       buf = alloca( size);
    else
-      tofree = buf = MulleObjCAllocateNonZeroedMemory( size);
+      tofree = buf = mulle_malloc( size);
    
    [objects getObjects:buf];
    [keys getObjects:&buf[ count]];
@@ -60,7 +60,7 @@
    dictionary = [self initWithObjects:buf
                               forKeys:&buf[ count]
                                  count:count];
-   MulleObjCDeallocateMemory( tofree);
+   mulle_free( tofree);
 
    return( dictionary);
 }

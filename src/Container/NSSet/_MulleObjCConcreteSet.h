@@ -7,20 +7,11 @@
 //
 
 #import "NSSet.h"
+#import "_MulleObjCSet.h"
 
-#include <mulle_container/mulle_container.h>
 
-
-@interface _MulleObjCConcreteSet : NSSet
+@interface _MulleObjCConcreteSet : NSSet < _MulleObjCSet>
 {
-   struct mulle_set   _set;
+   _MulleObjCSetIvars   _ivars;
 }
-
-+ (instancetype) newWithObject:(id) firstObject
-                     arguments:(mulle_vararg_list) arguments;
-
-+ (instancetype) newWithObjects:(id *) objects
-                          count:(NSUInteger) count
-                      copyItems:(BOOL) copyItems;
-
 @end

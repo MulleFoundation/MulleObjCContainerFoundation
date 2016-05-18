@@ -13,7 +13,7 @@
 
 @implementation _MulleObjCArrayEnumerator
 
-+ (id) enumeratorWithArray:(NSArray *) owner
++ (instancetype) enumeratorWithArray:(NSArray *) owner
 {
    _MulleObjCArrayEnumerator   *rover;
    
@@ -22,7 +22,7 @@
    rover->_range  = NSMakeRange( 0, [owner count]);
    rover->_owner  = [owner retain];
 
-   return( rover);
+   return( [rover autorelease]);
 }
 
 

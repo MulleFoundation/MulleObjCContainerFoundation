@@ -48,12 +48,10 @@ NSMapTable   *NSCreateMapTable( NSMapTableKeyCallBacks keyCallBacks,
                                 NSMapTableValueCallBacks valueCallBacks, 
                                 NSUInteger capacity);
 
-static inline void   NSFreeMapTable( NSMapTable *table)
-{
-   _mulle_map_destroy( (struct _mulle_map *) table, &table->_callback, table->_allocator);
-}
+void   NSFreeMapTable( NSMapTable *table);
 
-void    NSResetMapTable( NSMapTable *table);
+void   NSResetMapTable( NSMapTable *table);
+
 
 
 # pragma mark -
@@ -82,7 +80,7 @@ static inline void   NSMapRemove( NSMapTable *table, void *key)
 
 static inline void   NSMapInsert( NSMapTable *table, void *key, void *value)
 {
-   struct _mulle_keyvaluepair   pair;
+   struct mulle_pointerpair   pair;
    
    if( key == table->_callback.keycallback.not_a_key_marker)
       mulle_objc_throw_invalid_argument_exception( "key is not a key marker (%p)", key);
@@ -132,7 +130,7 @@ static inline NSMapEnumerator   NSEnumerateMapTable( NSMapTable *table)
 
 static inline BOOL    NSNextMapEnumeratorPair( NSMapEnumerator *rover, void **key, void **value)
 {
-   struct _mulle_keyvaluepair   *pair;
+   struct mulle_pointerpair   *pair;
    
    pair = _mulle_mapenumerator_next( rover);
    if( ! pair)

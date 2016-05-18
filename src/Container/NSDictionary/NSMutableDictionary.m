@@ -14,6 +14,7 @@
 #import "NSMutableDictionary.h"
 
 // other files in this library
+#import "_MulleObjCConcreteMutableDictionary.h"
 #import "MulleObjCContainerCallback.h"
 #import "NSEnumerator.h"
 
@@ -26,7 +27,7 @@
 #define NSDictionaryCopyValueCallback  ((struct mulle_container_keyvaluecallback *) &_MulleObjCContainerObjectKeyCopyValueCopyCallback)
 
 
-@implementation NSObject( NSMutableDictionary)
+@implementation NSObject( _NSMutableDictionary)
 
 - (BOOL) __isNSMutableDictionary
 {
@@ -44,11 +45,6 @@
 }
 
 
-+ (id) dictionary
-{
-   return( [[[self alloc] initWithCapacity:0] autorelease]);
-}
-
 
 + (id) dictionaryWithCapacity:(NSUInteger) capacity
 {
@@ -56,43 +52,69 @@
 }
 
 
-- (id) initWithCapacity:(NSUInteger) capacity
+# pragma mark -
+# pragma mark classcluster inits
+
+- (instancetype) init
 {
-   mulle_map_init( &self->_table, capacity, NSDictionaryCallback, MulleObjCObjectGetAllocator( self));
-   return( self);
+   [self release];
+   return( [_MulleObjCConcreteMutableDictionary new]);
 }
 
 
-- (id) init
+- (instancetype) initWithCapacity:(NSUInteger) capacity
 {
-   mulle_map_init( &self->_table, 16, NSDictionaryCallback, MulleObjCObjectGetAllocator( self));
-   return( self);
+   [self release];
+   return( [_MulleObjCConcreteMutableDictionary newWithCapacity:capacity]);
 }
 
 
-- (void) setObject:(id) obj
-            forKey:(NSObject <NSCopying> *) key
+- (instancetype) initWithDictionary:(id) other
 {
-   assert( [key respondsToSelector:@selector( copyWithZone:)]);
-   assert( [key respondsToSelector:@selector( hash)]);
-   assert( [key respondsToSelector:@selector( isEqual:)]);
-   assert( [obj respondsToSelector:@selector( retain)]);
-   
-   mulle_map_set( &_table, key, obj);
+   [self release];
+   return( [_MulleObjCConcreteMutableDictionary newWithDictionary:other]);
 }
 
 
-- (id) objectForKey:(id) key
+- (instancetype) initWithObjects:(id *) obj
+                         forKeys:(id *) key
+                           count:(NSUInteger) count
 {
-   return( mulle_map_get( &_table, key));
+   [self release];
+   return( [_MulleObjCConcreteMutableDictionary newWithObjects:obj
+                                                       forKeys:key
+                                                         count:count]);
 }
 
 
-- (void) removeObjectForKey:(id) key
+- (instancetype) initWithDictionary:(id) other
+                          copyItems:(BOOL) copy
 {
-   mulle_map_remove( &_table, key);
+   [self release];
+   return( [_MulleObjCConcreteMutableDictionary newWithDictionary:other
+                                                        copyItems:copy]);
 }
 
+
+- (instancetype) initWithObject:(id) obj
+                      arguments:(mulle_vararg_list) args
+{
+   [self release];
+   return( [_MulleObjCConcreteMutableDictionary newWithObject:obj
+                                                   arguments:args]);
+}
+
+#pragma mark -
+#pragma mark NSCoding
+
+- (Class) classForCoder
+{
+   return( [NSDictionary class]);
+}
+
+
+#pragma mark - 
+#pragma mark generic operations
 
 - (void) addEntriesFromDictionary:(NSDictionary *) other
 {
@@ -107,12 +129,6 @@
       [self setObject:value
       forKey:key];
    }
-}
-
-
-- (void) removeAllObjects
-{
-   mulle_map_reset( &_table);
 }
 
 

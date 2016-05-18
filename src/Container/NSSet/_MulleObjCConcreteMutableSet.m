@@ -19,38 +19,40 @@
 
 @implementation _MulleObjCConcreteMutableSet
 
-+ (instancetype) newWithCapacity:(NSUInteger) capacity
+
++ (instancetype) newWithCapacity:(NSUInteger) count
 {
-   struct mulle_allocator         *allocator;
-   _MulleObjCConcreteMutableSet   *obj;
+   id   obj;
    
-   obj       = NSAllocateObject( self, 0, NULL);
-   allocator = MulleObjCObjectGetAllocator( obj);
-
-   mulle_set_init( &obj->_set,
-                   (unsigned int) capacity,
-                   MulleObjCContainerObjectKeyRetainCallback,
-                   allocator);
-
+   obj = _MulleObjCNewSetWithCapacity( self, count);
    return( obj);
 }
 
 
 - (void) addObject:(id) obj
 {
-   mulle_set_set( &self->_set, obj);
+   _MulleObjCSetIvars *ivars;
+
+   ivars = getSetIvars( self);
+   _mulle_set_set( &ivars->_table, obj, NSSetCallback, ivars->_allocator);
 }
 
 
 - (void) removeObject:(id) obj
 {
-   mulle_set_remove( &self->_set, obj);
+   _MulleObjCSetIvars *ivars;
+
+   ivars = getSetIvars( self);
+   _mulle_set_remove( &ivars->_table, obj, NSSetCallback, ivars->_allocator);
 }
 
 
 - (void) removeAllObjects
 {
-   mulle_set_reset( &self->_set);
+   _MulleObjCSetIvars *ivars;
+
+   ivars = getSetIvars( self);
+   _mulle_set_reset( &ivars->_table, NSSetCallback, ivars->_allocator);
 }
 
 @end
