@@ -31,6 +31,54 @@
 }
 
 
+- (instancetype) initWithObjects:(id *) objects
+                           count:(NSUInteger) count
+                       copyItems:(BOOL) copyItems
+{
+   [self release];
+   return( (id) [_MulleObjCConcreteMutableSet newWithObjects:objects
+                                                       count:count
+                                                   copyItems:copyItems]);
+}
+
+
+- (instancetype) initWithObject:(id) firstObject
+                      arguments:(mulle_vararg_list) arguments
+{
+   [self release];
+   return( (id) [_MulleObjCConcreteMutableSet newWithObject:firstObject
+                                                  arguments:arguments]);
+}
+
+#pragma mark -
+#pragma mark NSCoding
+
+- (Class) classForCoder
+{
+   return( [NSMutableSet class]);
+}
+
+
++ (instancetype ) _allocWithCapacity:(NSUInteger) count
+{
+   return( (id) [_MulleObjCConcreteMutableSet newWithCapacity:count]);
+}
+
+
+- (id) initWithCoder:(NSCoder *) coder
+{
+   NSUInteger   count;
+   
+   [coder decodeValueOfObjCType:@encode( NSUInteger)
+                             at:&count];
+   
+   return( (id) [_MulleObjCConcreteMutableSet _allocWithCapacity:count]);
+}
+
+
+#pragma mark -
+#pragma mark operations
+
 - (void) intersectSet:(NSSet *) other
 {
    id             obj;
@@ -107,6 +155,24 @@
 {
    [self removeAllObjects];
    [self unionSet:other];
+}
+
+- (id) copy
+{
+   return( [[NSSet alloc] initWithSet:self
+                            copyItems:NO]);
+}
+
+
+@end
+
+
+@implementation NSSet( NSMutableSet)
+
+- (id) mutableCopy
+{
+   return( [[NSMutableSet alloc] initWithSet:self
+                                  copyItems:NO]);
 }
 
 @end

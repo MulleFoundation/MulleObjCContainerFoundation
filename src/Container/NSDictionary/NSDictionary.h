@@ -17,7 +17,7 @@
 @class NSEnumerator;
 
 
-@interface NSDictionary : NSObject < NSCopying, MulleObjCClassCluster>
+@interface NSDictionary : NSObject < NSCopying, NSCoding, MulleObjCClassCluster>
 
 + (id) dictionary;
 + (id) dictionaryWithDictionary:(NSDictionary *) dictionary;

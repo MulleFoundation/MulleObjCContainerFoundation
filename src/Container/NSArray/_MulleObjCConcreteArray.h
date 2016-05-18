@@ -23,7 +23,6 @@
    size_t   _count;
 }
 
-
 + (id) newWithObjects:(id *) objects
                 count:(NSUInteger) count;
 
@@ -51,5 +50,9 @@
 + (id) newWithArray:(NSArray *) other
        sortFunction:(NSInteger (*)( id, id, void *)) f
             context:(void *) context;
+
+// used for NSCoder
++ (id) _allocWithCapacity:(NSUInteger) count;
+
 @end
 

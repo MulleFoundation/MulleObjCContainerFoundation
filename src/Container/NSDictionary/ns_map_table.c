@@ -37,41 +37,21 @@ static void   _NSMapTableInitWithAllocator( NSMapTable *table,
 }
 
 
-static void   NSMapTableInit( NSMapTable *table,
-                              NSMapTableKeyCallBacks *keyCallBacks,
-                              NSMapTableValueCallBacks *valueCallBacks,
-                              NSUInteger capacity)
-{
-   table->_callback.keycallback   = *keyCallBacks;
-   table->_callback.valuecallback = *valueCallBacks;
-   table->_allocator              = MulleObjCAllocator();
-   
-   _mulle_map_init( (struct _mulle_map *) table, capacity, &table->_callback, table->_allocator);
-}
-
-
-static inline void    NSMapTableDone( NSMapTable *table)
-{
-   _mulle_map_done( (struct _mulle_map *) table, &table->_callback, table->_allocator);
-}
-
-
 void    NSResetMapTable( NSMapTable *table)
 {
-   NSMapTableDone( table);
-   NSMapTableInit( table, &table->_callback.keycallback, &table->_callback.valuecallback, 0);
+   _mulle_map_done( (struct _mulle_map *) table, &table->_callback, table->_allocator);
+   _NSMapTableInitWithAllocator( table, &table->_callback.keycallback, &table->_callback.valuecallback, 0, table->_allocator);
 }
 
 
-
-NSMapTable   *NSCreateMapTable( NSMapTableKeyCallBacks keyCallBacks, 
+NSMapTable   *NSCreateMapTable( NSMapTableKeyCallBacks keyCallBacks,
                                 NSMapTableValueCallBacks valueCallBacks, 
                                 NSUInteger capacity)
 {
    NSMapTable   *table;
    
-   table = MulleObjCAllocateMemory( sizeof( NSMapTable));
-   NSMapTableInit( table, &keyCallBacks, &valueCallBacks, capacity);
+   table = mulle_malloc( sizeof( NSMapTable));
+   _NSMapTableInitWithAllocator( table, &keyCallBacks, &valueCallBacks, capacity, &mulle_default_allocator);
    return( table);
 }
 
@@ -83,10 +63,17 @@ NSMapTable   *_NSCreateMapTableWithAllocator( NSMapTableKeyCallBacks keyCallBack
 {
    NSMapTable   *table;
    
-   table = MulleObjCAllocateMemory( sizeof( NSMapTable));
+   table = mulle_allocator_malloc( allocator, sizeof( NSMapTable));
    _NSMapTableInitWithAllocator( table, &keyCallBacks, &valueCallBacks, capacity, allocator);
    return( table);
 }
+
+
+void   NSFreeMapTable( NSMapTable *table)
+{
+   _mulle_map_destroy( (struct _mulle_map *) table, &table->_callback, table->_allocator);
+}
+
 
 
 #pragma mark -
@@ -95,7 +82,7 @@ NSMapTable   *_NSCreateMapTableWithAllocator( NSMapTableKeyCallBacks keyCallBack
 
 void   NSMapInsertKnownAbsent( NSMapTable *table, void *key, void *value)
 {
-   struct _mulle_keyvaluepair   pair;
+   struct mulle_pointerpair   pair;
    
    if( key == table->_callback.keycallback.not_a_key_marker)
       mulle_objc_throw_invalid_argument_exception( "key is not a key marker (%p)", key);
@@ -112,7 +99,7 @@ void   NSMapInsertKnownAbsent( NSMapTable *table, void *key, void *value)
 
 void   *NSMapInsertIfAbsent( NSMapTable *table, void *key, void *value)
 {
-   struct _mulle_keyvaluepair   pair;
+   struct mulle_pointerpair   pair;
    void                         *old;
    
    old =  _mulle_map_get( (struct _mulle_map *) table, key, &table->_callback);

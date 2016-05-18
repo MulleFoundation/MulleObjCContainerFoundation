@@ -46,10 +46,9 @@
 
 - (void) makeObjectsPerformSelector:(SEL) sel
 {
-   NSMutableArray  *array;
-   IMP             impNext;
-   SEL             selNext;
-   id              obj;
+   IMP   impNext;
+   SEL   selNext;
+   id    obj;
    
    selNext = @selector( nextObject);
    impNext = [self methodForSelector:selNext];
@@ -62,10 +61,9 @@
 - (void) makeObjectsPerformSelector:(SEL) sel
                          withObject:(id) argument
 {
-   NSMutableArray  *array;
-   IMP             impNext;
-   SEL             selNext;
-   id              obj;
+   IMP   impNext;
+   SEL   selNext;
+   id    obj;
    
    selNext = @selector( nextObject);
    impNext = [self methodForSelector:selNext];

@@ -24,7 +24,7 @@ NSHashTable   *NSCreateHashTable( NSHashTableCallBacks callBacks, NSUInteger cap
 {
    NSHashTable   *table;
    
-   table  = MulleObjCAllocateMemory( sizeof( NSHashTable));
+   table  = mulle_malloc( sizeof( NSHashTable));
    NSInitHashTable( table, &callBacks, capacity);
    return( table);
 }

@@ -18,7 +18,7 @@
 #import <mulle_container/mulle_container.h>
 
 
-@interface NSMutableDictionary : NSDictionary
+@interface NSMutableDictionary : NSDictionary < MulleObjCClassCluster>
 {
    struct mulle_map  _table;
 }

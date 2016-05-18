@@ -6,10 +6,14 @@
 //  Copyright © 2016 Mulle kybernetiK. All rights reserved.
 //
 
-#import "_MulleObjCConcreteSet.h"
+#import "NSMutableSet.h"
+#import "_MulleObjCSet.h"
 
 
-@interface _MulleObjCConcreteMutableSet : _MulleObjCConcreteSet
+@interface _MulleObjCConcreteMutableSet : NSMutableSet < _MulleObjCSet>
+{
+   _MulleObjCSetIvars   _ivars;
+}
 
 + (instancetype) newWithCapacity:(NSUInteger) count;
 

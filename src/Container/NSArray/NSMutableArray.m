@@ -38,7 +38,8 @@ static void   add_object( NSMutableArray *self, id other);
 
 - (void) dealloc
 {
-   MulleObjCDeallocateMemory( _storage);
+   MulleObjCMakeObjectsPerformRelease( _storage, _count);
+   MulleObjCObjectDeallocateMemory( self, _storage);
 
    [super dealloc];
 }
@@ -47,7 +48,7 @@ static void   add_object( NSMutableArray *self, id other);
 #pragma mark -
 #pragma mark init
 
-static void   initWithArrayAndRange( NSMutableArray *self, NSArray *other, NSRange range)
+static id   initWithArrayAndRange( NSMutableArray *self, NSArray *other, NSRange range)
 {
    assert( [other count] >= range.location + range.length);
    
@@ -55,20 +56,21 @@ static void   initWithArrayAndRange( NSMutableArray *self, NSArray *other, NSRan
    self->_size  = self->_count;
    if( self->_size < 8)
       self->_size = 8;
-   
-   self->_storage = MulleObjCReallocateNonZeroedMemory( self->_storage, sizeof( id) * self->_size);
+
+   self->_storage = MulleObjCObjectReallocateNonZeroedMemory( self, self->_storage, sizeof( id) * self->_size);
    [other getObjects:self->_storage
                range:range];
 
    MulleObjCMakeObjectsPerformRetain( self->_storage, range.length);
 
    self->_mutationCount++;
+   return( self);
 }
 
 
-static void  initWithObjects( NSMutableArray *self,
-                              id *objects,
-                              NSUInteger n)
+static id  initWithRetainedObjects( NSMutableArray *self,
+                                    id *objects,
+                                    NSUInteger n)
 {
 #ifndef NDEBUG
    {
@@ -82,11 +84,20 @@ static void  initWithObjects( NSMutableArray *self,
    self->_count = n;
    if( n < 8)
       self->_size = 8;
-   self->_storage = MulleObjCAllocateNonZeroedMemory( sizeof( id) * self->_size);
+   self->_storage = MulleObjCObjectAllocateNonZeroedMemory( self, sizeof( id) * self->_size);
 	 
    memcpy( self->_storage, objects, n * sizeof( id));
-   
-   MulleObjCMakeObjectsPerformRetain( self->_storage, n);
+   return( self);
+}
+
+
+static id  initWithObjects( NSMutableArray *self,
+                            id *objects,
+                            NSUInteger n)
+{
+   self = initWithRetainedObjects( self, objects, n);
+   MulleObjCMakeObjectsPerformRetain( objects, n);
+   return( self);
 }
 
 
@@ -103,17 +114,14 @@ static void  initWithObjects( NSMutableArray *self,
 - (id) initWithArray:(NSArray *) other
                range:(NSRange) range
 {
-   initWithArrayAndRange( self, other, range);
-   return( self);
+   return( initWithArrayAndRange( self, other, range));
 }
-
 
 
 - (id) initWithObjects:(id *) objects
                  count:(NSUInteger) n
 {
-   initWithObjects( self, objects, n);
-   return( self);
+   return( initWithObjects( self, objects, n));
 }
 
 
@@ -138,6 +146,13 @@ static void  initWithObjects( NSMutableArray *self,
 }
 
 
+- (instancetype) _initWithRetainedObjects:(id *) objects
+                                    count:(NSUInteger) count
+{
+   return( initWithRetainedObjects( self, objects, count));
+}
+
+
 - (id) initWithObjects:(id) object, ...
 {
    mulle_vararg_list   args;
@@ -156,11 +171,24 @@ static void  initWithObjects( NSMutableArray *self,
    if( capacity)
    {
       self->_size    = capacity;
-      self->_storage = MulleObjCAllocateNonZeroedMemory( sizeof( id) * self->_size);
+      self->_storage = MulleObjCObjectAllocateNonZeroedMemory( self, sizeof( id) * self->_size);
    }
    return( self);
 }
 
+
+
+#pragma mark -
+#pragma mark NSCoding
+
+- (Class) classForCoder
+{
+   return( [NSArray class]);
+}
+
+
+#pragma mark -
+#pragma mark methods
 
 static void   reserve(  NSMutableArray *self, size_t count)
 {
@@ -171,7 +199,7 @@ static void   reserve(  NSMutableArray *self, size_t count)
       if( count < 8)
          count += 8;
       self->_size += count;
-      self->_storage = MulleObjCReallocateNonZeroedMemory( self->_storage, sizeof( id) * self->_size);
+      self->_storage = MulleObjCObjectReallocateNonZeroedMemory( self, self->_storage, sizeof( id) * self->_size);
    }
 }
 
@@ -186,7 +214,7 @@ static void   add_object( NSMutableArray *self, id other)
       self->_size += self->_size;
       if( self->_size < 8)
          self->_size = 8;
-      self->_storage = MulleObjCReallocateNonZeroedMemory( self->_storage, sizeof( id) * self->_size);
+      self->_storage = MulleObjCObjectReallocateNonZeroedMemory( self, self->_storage, sizeof( id) * self->_size);
    }
  
    self->_storage[ self->_count++] = [other retain];
@@ -194,8 +222,7 @@ static void   add_object( NSMutableArray *self, id other)
 }
 
 
-#pragma mark -
-#pragma mark methods
+
 
 
 - (void) addObject:(id) other
@@ -253,7 +280,7 @@ static NSUInteger  indexOfObjectIdenticalTo( NSMutableArray *self, id obj, NSRan
 - (NSUInteger) indexOfObjectIdenticalTo:(id) obj 
                                 inRange:(NSRange) range
 {
-   if( range.location + range.length > _count)
+   if( range.length + range.location > _count || range.length > _count)
       MulleObjCThrowInvalidRangeException( range);
    
    return( indexOfObjectIdenticalTo( self, obj, range));
@@ -310,7 +337,7 @@ static NSUInteger  indexOfObject( NSMutableArray *self, id obj, NSRange range, i
 - (NSUInteger) indexOfObject:(id) obj
                        inRange:(NSRange) range
 {
-   if( range.location + range.length > _count)
+   if( range.length + range.location > _count || range.length > _count)
       MulleObjCThrowInvalidRangeException( range);
 
    return( indexOfObject( self, obj, range, 1));
@@ -380,12 +407,17 @@ static NSUInteger  indexOfObject( NSMutableArray *self, id obj, NSRange range, i
    if( _count < (_size >> 1) && _size > 8)
    {
       _size >>= 1;
-      _storage = MulleObjCReallocateNonZeroedMemory( _storage, sizeof( id) * _size);
+      _storage = MulleObjCObjectReallocateNonZeroedMemory( self, _storage, sizeof( id) * _size);
    }
    _mutationCount++;
 }
 
 
+//
+// idea: use a struct _mulle_autoreleasepointerarray as
+// backing storage and just hand it en block over to the autorelease
+// pool
+//
 - (void) removeAllObjects
 {
    _MulleObjCAutoreleaseObjects( &_storage[ 0], _count);
@@ -439,7 +471,7 @@ static NSUInteger  indexOfObject( NSMutableArray *self, id obj, NSRange range, i
 - (void) getObjects:(id *) aBuffer
               range:(NSRange) range
 {
-   if( range.location + range.length > _count)
+   if( range.length + range.location > _count || range.length > _count)
       MulleObjCThrowInvalidRangeException( range);
    memcpy( aBuffer, &self->_storage[ range.location], range.length * sizeof( id));
 }
@@ -491,7 +523,7 @@ static NSUInteger  indexOfObject( NSMutableArray *self, id obj, NSRange range, i
    assert( range.length == n);
    assert( objects);
    
-   if( range.location + range.length > self->_count)
+   if( range.length + range.location > _count || range.length > _count)
       MulleObjCThrowInvalidRangeException( range);
 
    _MulleObjCAutoreleaseObjects( &_storage[ range.location], range.length);
@@ -507,17 +539,18 @@ static NSUInteger  indexOfObject( NSMutableArray *self, id obj, NSRange range, i
 - (void) replaceObjectsInRange:(NSRange) aRange 
           withObjectsFromArray:(NSArray *) otherArray
 {
-   id           *objects;
+   id           *tmp;
    NSUInteger   n;
    
-   n       = [otherArray count];
-   objects = MulleObjCAllocateNonZeroedMemory( sizeof( id) * n);
+   n   = [otherArray count];
+   tmp = mulle_malloc( sizeof( id) * n);
 
-   [otherArray getObjects:objects];
+   [otherArray getObjects:tmp];
    [self replaceObjectsInRange:aRange
-                   withObjects:objects
+                   withObjects:tmp
                          count:n];
-   MulleObjCDeallocateMemory( objects);
+   
+   mulle_free( tmp);
 }
 
 
@@ -525,15 +558,15 @@ static NSUInteger  indexOfObject( NSMutableArray *self, id obj, NSRange range, i
           withObjectsFromArray:(NSArray *) otherArray 
                          range:(NSRange) otherRange
 {
-   id   *objects;
+   id   *tmp;
    
-   objects = MulleObjCAllocateNonZeroedMemory( sizeof( id) * otherRange.length);
-   [otherArray getObjects:objects
+   tmp = mulle_malloc( sizeof( id) * otherRange.length);
+   [otherArray getObjects:tmp
                     range:otherRange];
    [self replaceObjectsInRange:aRange
-                   withObjects:objects
+                   withObjects:tmp
                          count:otherRange.length];
-   MulleObjCDeallocateMemory( objects);
+   mulle_free( tmp);
 }
 
 
@@ -566,7 +599,7 @@ static NSUInteger  indexOfObject( NSMutableArray *self, id obj, NSRange range, i
       self->_size += self->_size;
       if( self->_size < 8)
          self->_size = 8;
-      _storage = MulleObjCReallocateNonZeroedMemory( _storage, sizeof( id) * _size);
+      _storage = MulleObjCObjectReallocateNonZeroedMemory( self, _storage, sizeof( id) * _size);
    }
          
    n = self->_count - i;

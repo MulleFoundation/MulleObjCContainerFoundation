@@ -11,7 +11,31 @@ Container, Data, Exception, String, Value are interdependent.
 Whereas Locale, KVC, Archiver can be taken out and stuff should still compile.
 
 
+## Dependencies
+
+MulleObjCFoundation depends on 
+
+* MulleObjC
+* standard C libraries only (f.e. no <unistd.h>)
+* mulle_container 
+* mulle_sprintf 
+* mulle_utf 
+
+MulleObjCFoundation should not depend on ICU, `<unistd.h>` or any POSIX headers.
+MulleObjC should not use mulle_objc_runtime functions directly, but only 
+through `MulleObjC`.
+
 # When to release and when to autorelease
 
-* if you are in `-init` ot `-dealloc` you `-release`.
+* if you are in `-init` or `-dealloc` you `-release`.
 * otherwise you **always** `-autorelease` only,
+
+> No rule without exception. If you are sure that the object does not
+escape to another object after creation, you may release it within the same 
+method. (Need to specify what escape means)
+
+
+
+# TODO
+
+* KVC doesn't cache yet
