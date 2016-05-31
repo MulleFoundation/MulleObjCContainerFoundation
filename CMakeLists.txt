@@ -267,6 +267,7 @@ src/MulleStandaloneObjCFoundation.m
 add_dependencies( MulleStandaloneObjCFoundation MulleObjCFoundation)
 
 TARGET_LINK_LIBRARIES( MulleStandaloneObjCFoundation
+${BEGIN_ALL_LOAD}
 MulleObjCFoundation
 MulleObjC
 mulle_utf
@@ -276,7 +277,9 @@ mulle_container
 mulle_concurrent
 mulle_aba
 mulle_allocator
-mulle_test_allocator )
+mulle_test_allocator
+${END_ALL_LOAD}
+)
 
 
 INSTALL( TARGETS MulleObjCFoundation MulleStandaloneObjCFoundation DESTINATION "lib")
