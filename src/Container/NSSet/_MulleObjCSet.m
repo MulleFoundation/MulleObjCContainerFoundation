@@ -60,29 +60,6 @@
 
 @implementation _MulleObjCSet
 
-static void   _addEntriesFromCollection( id other,
-                                         struct _mulle_set *table,
-                                         BOOL copyItems,
-                                         struct mulle_allocator *allocator)
-{
-   NSEnumerator                         *rover;
-   id                                   obj;
-   id                                   (*impNext)( id, SEL, id);
-   SEL                                  selNext;
-   struct mulle_container_keycallback   *callback;
-
-   callback = copyItems ? NSSetCopyCallback
-                        : NSSetCallback;
-      
-   rover   = [other objectEnumerator];
-   selNext = @selector( nextObject:);
-   impNext = (void *) [rover methodForSelector:selNext];
-   
-   while( obj = (*impNext)( rover, selNext, NULL))
-      _mulle_set_set( table, obj, callback, allocator);
-}
-
-
 static id    initWithObjects( _MulleObjCSet *self, id *objects, NSUInteger count, BOOL copyItems)
 {
    _MulleObjCSetIvars   *ivars;

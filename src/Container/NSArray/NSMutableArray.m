@@ -1,5 +1,5 @@
 /*
- *  NSTinyFoundation - A tiny Foundation replacement
+ *  NSTinyFoundation - the mulle-objc class library
  *
  *  NSMutableArray.m is a part of NSTinyFoundation
  *

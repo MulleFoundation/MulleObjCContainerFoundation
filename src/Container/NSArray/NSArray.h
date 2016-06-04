@@ -1,5 +1,5 @@
 /*
- *  MulleFoundation - A tiny Foundation replacement
+ *  MulleFoundation - the mulle-objc class library
  *
  *  NSArray.h is a part of MulleFoundation
  *
