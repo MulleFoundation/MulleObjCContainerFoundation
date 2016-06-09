@@ -22,6 +22,7 @@
 // other libraries of MulleObjCFoundation
 
 // std-c and dependencies
+#include <alloca.h>
 
 
 

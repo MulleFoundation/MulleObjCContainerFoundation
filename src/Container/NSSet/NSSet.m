@@ -14,18 +14,19 @@
 #import "NSSet.h"
 
 // other files in this library
+#import "NSEnumerator.h"
+#import "_MulleObjCConcreteSet.h"
+#import "MulleObjCContainerCallback.h"
+#include "ns_foundationconfiguration.h"
 
 // other libraries of MulleObjCFoundation
 
 // std-c and dependencies
-
-
-#import "NSEnumerator.h"
-#import "_MulleObjCConcreteSet.h"
-#import "MulleObjCContainerCallback.h"
-
+#include <alloca.h>
 #include <mulle_container/mulle_container.h>
-#include "ns_foundationconfiguration.h"
+
+
+
 
 
 @interface _MulleObjCEmptySet : NSSet < MulleObjCSingleton>
