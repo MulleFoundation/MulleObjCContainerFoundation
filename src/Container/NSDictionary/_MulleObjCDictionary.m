@@ -147,8 +147,10 @@ static void   setObjectsAndKeys( _MulleObjCDictionary *self, id *objects, id *ke
    buf = tofree = NULL;
    if( count)
    {
+      id   _tmp[ 0x400];
+      
       size = sizeof( id) * 2 * count;
-      buf  = size <= 0x400 ? alloca( size) : (tofree = mulle_malloc( size));
+      buf  = size <= 0x400 ? _tmp : (tofree = mulle_malloc( size));
 
       values   = buf;
       keys     = &buf[ count];
