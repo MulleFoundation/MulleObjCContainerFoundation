@@ -22,7 +22,6 @@
 // other libraries of MulleObjCFoundation
 
 // std-c and dependencies
-#include <alloca.h>
 
 
 
@@ -48,21 +47,24 @@
    if( count != [keys count])
       MulleObjCThrowInvalidArgumentException( @"mismatched keys lengths");
 
-   tofree = NULL;
-   size   =  sizeof( id) * 2 * count;
-   if( size <= 0x400)
-      buf = alloca( size);
-   else
-      tofree = buf = mulle_malloc( size);
+   size   = 2 * count;
+   {
+      id   tmp[ 0x100];
+      
+      tofree = NULL;
+      buf    = tmp;
+      if( size > 0x100)
+         tofree = buf = mulle_malloc( size * sizeof( id));
    
-   [objects getObjects:buf];
-   [keys getObjects:&buf[ count]];
+      [objects getObjects:buf];
+      [keys getObjects:&buf[ count]];
 
-   dictionary = [self initWithObjects:buf
-                              forKeys:&buf[ count]
-                                 count:count];
-   mulle_free( tofree);
-
+      dictionary = [self initWithObjects:buf
+                                 forKeys:&buf[ count]
+                                    count:count];
+      mulle_free( tofree);
+   }
+   
    return( dictionary);
 }
                

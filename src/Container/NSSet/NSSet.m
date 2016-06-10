@@ -22,7 +22,6 @@
 // other libraries of MulleObjCFoundation
 
 // std-c and dependencies
-#include <alloca.h>
 #include <mulle_container/mulle_container.h>
 
 
@@ -115,25 +114,25 @@
    NSSet        *set;
    NSUInteger   otherCount;
    id           *buf;
-   id           *toFree;
+   id           *tofree;
 
-   buf        = toFree = NULL;
    otherCount = [other count];
-   if( otherCount)
    {
-      if( otherCount < 32)
-         buf = alloca( sizeof( id) * otherCount);
-      if( ! buf)
-         toFree = buf = mulle_malloc( sizeof( id) * otherCount);
+      id   tmp[ 0x100];
+      
+      tofree = NULL;
+      buf    = tmp;
+      
+      if( otherCount > 0x100)
+         tofree = buf = mulle_malloc( sizeof( id) * otherCount);
 
       [other getObjects:buf
                   count:otherCount];
+      set = [self initWithObjects:buf
+                            count:otherCount
+                        copyItems:NO];
+      mulle_free( tofree);
    }
-
-   set = [self initWithObjects:buf
-                         count:otherCount
-                     copyItems:NO];
-   mulle_free( toFree);
 
    return( set);
 }
@@ -162,27 +161,26 @@
    NSSet        *set;
    NSUInteger   otherCount;
    id           *buf;
-   id           *toFree;
-
-   buf        = toFree = NULL;
+   id           *tofree;
+   
    otherCount = [other count];
-   if( otherCount)
    {
-      if( otherCount < 32)
-         buf = alloca( sizeof( id) * otherCount);
-      if( ! buf)
-         toFree = buf = mulle_malloc( sizeof( id) * otherCount);
-
+      id   tmp[ 0x100];
+      
+      tofree = NULL;
+      buf    = tmp;
+      
+      if( otherCount > 0x100)
+         tofree = buf = mulle_malloc( sizeof( id) * otherCount);
+      
       [other getObjects:buf
                   count:otherCount];
+      set = [self initWithObjects:buf
+                            count:otherCount
+                        copyItems:flag];
+      mulle_free( tofree);
    }
-
-   set = [self initWithObjects:buf
-                         count:otherCount
-                     copyItems:flag];
-
-   mulle_free( toFree);
-
+   
    return( set);
 }
 
@@ -424,27 +422,32 @@ static BOOL   run_member_on_set_until( NSSet *self, NSSet *other, BOOL expect)
    NSUInteger   count;
    NSUInteger   newCount;
    id           *buf;
-   id           *toFree;
+   id           *tofree;
 
    if( ! obj)
       return( [self immutableInstance]);
 
    count    = [self count];
    newCount = count + 1;
-   buf      = toFree = NULL;
-   if( newCount < 32)
-      buf = alloca( sizeof( id) * newCount);
    
-   if( ! buf)
-      toFree = buf = mulle_malloc( sizeof( id) * newCount);
+   {
+      id   tmp[ 0x100];
+      
+      tofree = NULL;
+      buf    = tmp;
+      
+      if( newCount > 0x100)
+         tofree = buf = mulle_malloc( sizeof( id) * newCount);
+      
+      [self getObjects:buf
+                 count:count];
+      buf[ count] = obj;
+      set         = [self initWithObjects:buf
+                                    count:newCount
+                                copyItems:NO];
 
-   [self getObjects:buf
-              count:count];
-   buf[ count] = obj;
-   set         = [self initWithObjects:buf
-                                 count:newCount
-                             copyItems:NO];
-   mulle_free( toFree);
+      mulle_free( tofree);
+   }
    return( set);
 }
 
@@ -456,7 +459,7 @@ static BOOL   run_member_on_set_until( NSSet *self, NSSet *other, BOOL expect)
    NSUInteger   otherCount;
    NSUInteger   newCount;
    id           *buf;
-   id           *toFree;
+   id           *tofree;
    
    otherCount = [other count];
    
@@ -466,23 +469,28 @@ static BOOL   run_member_on_set_until( NSSet *self, NSSet *other, BOOL expect)
    
    count   = [self count];
    newCount = count + otherCount;
-   buf      = toFree = NULL;
-   if( newCount < 32)
-      buf = alloca( sizeof( id) * newCount);
    
-   if( ! buf)
-      toFree = buf = mulle_malloc( sizeof( id) * newCount);
-
-   [self getObjects:buf
-              count:count];
-   [other getObjects:&buf[ count]
-               count:otherCount];
-
-   set = [self initWithObjects:buf
-                         count:newCount
-                     copyItems:NO];
+   {
+      id   tmp[ 0x100];
+      
+      tofree = NULL;
+      buf    = tmp;
+      
+      if( newCount > 0x100)
+         tofree = buf = mulle_malloc( sizeof( id) * newCount);
+      
+      [self getObjects:buf
+                 count:count];
+      [other getObjects:&buf[ count]
+                  count:otherCount];
+      
+      set = [self initWithObjects:buf
+                            count:newCount
+                        copyItems:NO];
+      
+      mulle_free( tofree);
+   }
    
-   mulle_free( toFree);
    return( set);
 }
 
