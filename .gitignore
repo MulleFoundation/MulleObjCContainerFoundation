@@ -16,3 +16,4 @@ project.xcworkspace/
 *.exe.debug
 tmp/
 tmp/.repos/gitolite.mulle-kybernetik/mulle-configuration/
+.repos/mulle-sprintf/mulle-configuration/
