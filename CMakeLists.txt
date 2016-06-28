@@ -132,7 +132,7 @@ src/Archiver/MulleObjCArchiver.m
 src/Archiver/MulleObjCUnarchiver.m
 src/Archiver/NSArchiver.m
 src/Archiver/NSKeyedArchiver.m
-src/Archiver/NSKeyedUnarchiver.h
+src/Archiver/NSKeyedUnarchiver.m
 src/Archiver/NSUnarchiver.m
 src/Base/MulleObjCBaseFunctions.m
 src/Base/ns_foundationconfiguration.c
