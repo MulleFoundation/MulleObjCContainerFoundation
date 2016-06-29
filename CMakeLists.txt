@@ -43,6 +43,7 @@ src/Archiver/NSArchiver.h
 src/Archiver/NSKeyedArchiver.h
 src/Archiver/NSKeyedUnarchiver.h
 src/Archiver/NSUnarchiver.h
+src/Archiver/mulle_buffer_archiver.h
 src/Base/MulleObjCBaseFunctions.h
 src/Base/MulleObjCFoundationBase.h
 src/Base/NSMutableCopying.h
