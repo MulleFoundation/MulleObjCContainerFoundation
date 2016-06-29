@@ -55,6 +55,7 @@ src/Container/NSArray/NSArray+NSString.h
 src/Container/NSArray/NSArray.h
 src/Container/NSArray/NSEnumerator+NSArray.h
 src/Container/NSArray/NSMutableArray.h
+src/Container/NSArray/mulle_qsort_pointers.h
 src/Container/NSDictionary/NSDictionary+NSArray.h
 src/Container/NSDictionary/NSDictionary.h
 src/Container/NSDictionary/NSMapTable+NSArray+NSString.h
@@ -145,6 +146,7 @@ src/Container/NSArray/NSMutableArray.m
 src/Container/NSArray/_MulleObjCArrayEnumerator.m
 src/Container/NSArray/_MulleObjCConcreteArray.m
 src/Container/NSArray/_MulleObjCEmptyArray.m
+src/Container/NSArray/mulle_qsort_pointers.c
 src/Container/NSDictionary/NSDictionary+NSArray.m
 src/Container/NSDictionary/NSDictionary+NSString.m
 src/Container/NSDictionary/NSDictionary.m

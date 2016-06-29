@@ -5,6 +5,8 @@ dependencies/
 mulle-configuration/
 .repos/
 build/
+/include/
+/lib/
 old/
 xcuserdata/
 project.xcworkspace/
