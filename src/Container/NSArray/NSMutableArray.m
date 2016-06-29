@@ -14,6 +14,7 @@
 #import "NSMutableArray.h"
 
 // other files in this library
+#include "mulle_qsort_pointers.h"
 
 // other libraries of MulleObjCFoundation
 
@@ -630,15 +631,15 @@ static NSUInteger  indexOfObject( NSMutableArray *self, id obj, NSRange range, i
 }
 
 
-static int   bouncyBounceSel( void *ctxt, id *a, id *b)
+static int   bouncyBounceSel( void *a, void *b, void *ctxt)
 {
-   return( (int) mulle_objc_object_call( *a, (mulle_objc_methodid_t) ctxt, *b));
+   return( (int) mulle_objc_object_call( (id) a, (mulle_objc_methodid_t) ctxt, b));
 }
 
 
 - (void) sortUsingSelector:(SEL) sel
 {
-   qsort_r( _storage, _count, sizeof( id), (void *) (intptr_t) sel, (void *) bouncyBounceSel);
+   mulle_qsort_pointers( (void **) _storage, _count, bouncyBounceSel, (void *) (intptr_t) sel);
    _mutationCount++;
 }
 
@@ -650,9 +651,12 @@ typedef struct
 } bouncy;
 
 
-static int   bouncyBounce( bouncy *ctxt, id *a, id *b)
+static int   bouncyBounce( void *a, void *b, void *_ctxt)
 {
-   return( (int) (ctxt->f)( *a, *b, ctxt->ctxt));
+   bouncy  *ctxt;
+   
+   ctxt = _ctxt;
+   return( (int) (ctxt->f)( (id) a, (id) b, ctxt->ctxt));
 }
 
 
@@ -664,7 +668,7 @@ static int   bouncyBounce( bouncy *ctxt, id *a, id *b)
    bounce.ctxt = context;
    bounce.f    = f;
    
-   qsort_r( _storage, _count, sizeof( id), (void *) &bounce, (void *) &bouncyBounce);
+   mulle_qsort_pointers( (void **) _storage, _count, bouncyBounce, &bounce);
    _mutationCount++;
 }
 

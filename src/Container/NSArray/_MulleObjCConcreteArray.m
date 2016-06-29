@@ -15,6 +15,7 @@
 #import "_MulleObjCConcreteArray.h"
 
 // other files in this library
+#include "mulle_qsort_pointers.h"
 
 // other libraries of MulleObjCFoundation
 
@@ -222,9 +223,12 @@ typedef struct
 } bouncy;
 
 
-static int   bouncyBounce( bouncy *ctxt, id *a, id *b)
+static int   bouncyBounce( void *a, void *b, void *_ctxt)
 {
-   return( (int) (ctxt->f)( *a, *b, ctxt->ctxt));
+   bouncy  *ctxt;
+   
+   ctxt = _ctxt;
+   return( (int) (ctxt->f)( (id) a, (id) b, ctxt->ctxt));
 }
 
 
@@ -234,20 +238,22 @@ static int   bouncyBounce( bouncy *ctxt, id *a, id *b)
 {
    _MulleObjCConcreteArray   *array;
    bouncy                    bounce;
-
+   id                        *objects;
+   
    bounce.f    = f;
    bounce.ctxt = context;
 
    array  = [self newWithArray:other
                      copyItems:NO];
-   qsort_r( get_objects( array), array->_count, sizeof( id), (void *) &bounce, (void *) &bouncyBounce);
+   objects = get_objects( array);
+   mulle_qsort_pointers( (void **) objects, array->_count, bouncyBounce, &bounce);
    return( array);
 }
 
 
-static int   bouncyBounceSel( void *ctxt, id *a, id *b)
+static int   bouncyBounceSel( void *a, void *b, void *ctxt)
 {
-   return( (int) mulle_objc_object_call( *a, (mulle_objc_methodid_t) ctxt, *b));
+   return( (int) mulle_objc_object_call( (id) a, (mulle_objc_methodid_t) ctxt, b));
 }
 
 
@@ -256,12 +262,14 @@ static int   bouncyBounceSel( void *ctxt, id *a, id *b)
 {
    _MulleObjCConcreteArray    *array;
    NSUInteger                 count;
-
+   id                         *objects;
+   
    count = [other count];
    array = [self newWithArray:other
                         range:NSMakeRange( 0, count)
                     copyItems:NO];
-   qsort_r( get_objects( array), count, sizeof( id), (void *) (intptr_t) sel, (void *) bouncyBounceSel);
+   objects = get_objects( array);
+   mulle_qsort_pointers( (void **) objects, array->_count, bouncyBounceSel, (void *) (intptr_t) sel);
 
    return( array);
 }
