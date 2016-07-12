@@ -37,7 +37,7 @@
 #import "ns_hash_table.h"
 
 
-#if MULLE_CONTAINER_VERSION < ((0 << 20) | (6 << 8) | 0)
+#if MULLE_CONTAINER_VERSION < ((0 << 20) | (8 << 8) | 0)
 # error "mulle_allocator is too old"
 #endif
 

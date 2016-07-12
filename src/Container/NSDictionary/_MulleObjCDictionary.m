@@ -55,7 +55,7 @@ static void   _addEntriesFromDictionary( NSDictionary *other,
       
    rover  = [other keyEnumerator];
    selNext = @selector( _nextKeyValuePair:);
-   impNext = (void *) [rover methodForSelector:selNext];
+   impNext = (struct mulle_pointerpair *(*)()) [rover methodForSelector:selNext];
    
    while( pair = (*impNext)( rover, selNext, other))
       _mulle_map_set( table, pair, callback, allocator);
