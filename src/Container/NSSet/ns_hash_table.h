@@ -25,8 +25,8 @@ typedef struct mulle_container_keycallback        NSHashTableCallBacks;
 //
 typedef struct
 {
+   NSHashTableCallBacks   _callback;   // callbacks must be first (!) (for callbacks)
    struct mulle_set       _set;
-   NSHashTableCallBacks   _callback;
 } NSHashTable;
 
 typedef struct mulle_setenumerator    NSHashEnumerator;

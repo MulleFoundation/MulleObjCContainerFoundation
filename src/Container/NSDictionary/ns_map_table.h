@@ -30,8 +30,8 @@ typedef struct _mulle_mapenumerator               NSMapEnumerator;
 
 typedef struct
 {
-   _MULLE_MAP_BASE;
-   struct mulle_container_keyvaluecallback   _callback;
+   struct _mulle_map                         _map;
+   struct mulle_container_keyvaluecallback   _callback;   
    struct mulle_allocator                    *_allocator;
 } NSMapTable;
 
@@ -59,7 +59,7 @@ void   NSResetMapTable( NSMapTable *table);
 
 static inline NSUInteger   NSCountMapTable( NSMapTable *table)
 {
-   return( (NSUInteger) _mulle_map_get_count( (struct _mulle_map *) table));
+   return( (NSUInteger) _mulle_map_get_count( &table->_map));
 }
 
 
@@ -68,13 +68,13 @@ static inline NSUInteger   NSCountMapTable( NSMapTable *table)
 
 static inline void   *NSMapGet( NSMapTable *table, void *key)
 {
-   return( _mulle_map_get( (struct _mulle_map *) table, key, &table->_callback));
+   return( _mulle_map_get( &table->_map, key, &table->_callback));
 }
 
 
 static inline void   NSMapRemove( NSMapTable *table, void *key)
 {
-   _mulle_map_remove( (struct _mulle_map *) table, key, &table->_callback, table->_allocator);
+   _mulle_map_remove( &table->_map, key, &table->_callback, table->_allocator);
 }
 
 
@@ -88,7 +88,7 @@ static inline void   NSMapInsert( NSMapTable *table, void *key, void *value)
    pair._key   = key;
    pair._value = value;
    
-   _mulle_map_insert( (struct _mulle_map *) table, &pair, &table->_callback, table->_allocator);
+   _mulle_map_insert( &table->_map, &pair, &table->_callback, table->_allocator);
 }
 
 
@@ -124,7 +124,7 @@ static inline NSMapTable   *NSCopyMapTableWithZone( NSMapTable *table, NSZone *z
 
 static inline NSMapEnumerator   NSEnumerateMapTable( NSMapTable *table)
 {
-   return( _mulle_map_enumerate( (struct _mulle_map *) table, &table->_callback));
+   return( _mulle_map_enumerate( &table->_map, &table->_callback));
 }
 
 

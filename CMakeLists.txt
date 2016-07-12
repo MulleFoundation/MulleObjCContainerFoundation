@@ -238,6 +238,7 @@ src/String/NSString+Sprintf.m
 src/String/NSString.m
 src/String/http_parser.c
 src/String/NSURL.m
+src/String/_MulleObjCChar5String.m
 src/String/_MulleObjCASCIIString.m
 src/String/_MulleObjCCheatingASCIIString.m
 src/String/_MulleObjCConcreteBitmapCharacterSet.m
@@ -276,7 +277,7 @@ MulleObjCFoundation
 MulleObjC
 mulle_utf
 mulle_sprintf
-mulle_objc_runtime
+mulle_objc
 mulle_container
 mulle_concurrent
 mulle_aba

@@ -327,7 +327,7 @@ static NSUInteger  findIndexWithRangeForEquality( NSArray *self, NSRange range, 
    SEL          selEqual;
    
    selEqual = @selector( isEqual:);
-   impEqual = (void *) [obj methodForSelector:selEqual];
+   impEqual = (BOOL (*)()) [obj methodForSelector:selEqual];
 
    for(;;)
    {
@@ -544,7 +544,7 @@ static void   perform( NSArray *self, NSRange range, SEL sel, id obj)
 }
 
 
-- (NSArray *) sortedArrayUsingFunction:(NSInteger (*)(id, id, void *)) f 
+- (NSArray *) sortedArrayUsingFunction:(NSInteger (*)(id, id, void *)) f
                                context:(void *) context
 {
    return( [[_MulleObjCConcreteArray newWithArray:self
