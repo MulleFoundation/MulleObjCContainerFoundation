@@ -225,6 +225,7 @@ src/PropertyList/Stream/_MulleObjCUTF8StreamReader.m
 src/String/NSCharacterSet.m
 src/String/NSConstantString.m
 src/String/NSMutableString.m
+src/String/NSMutableString+NSData.m
 src/String/NSObject+NSString.m
 src/String/NSMethodSignature+NSString.m
 src/String/NSScanner.m
