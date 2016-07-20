@@ -183,14 +183,11 @@ src/KVC/NSDictionary+KeyValueCoding.m
 src/KVC/NSMutableDictionary+KeyValueCoding.m
 src/KVC/NSNumber+MulleObjCArithmetic.m
 src/KVC/NSObject+KeyValueCoding.m
-src/KVC/NSObject+_MulleObjCKVCCache.m
 src/KVC/NSObject+_MulleObjCKVCInformation.m
 src/KVC/NSProxy+_MulleObjCKVCInformation.m
 src/KVC/NSSortDescriptor.m
 src/KVC/_MulleObjCInstanceVariableAccess.m
-src/KVC/_MulleObjCKVCCache.m
 src/KVC/_MulleObjCKVCInformation.m
-src/KVC/_MulleObjCKVCKeybasedCache.m
 src/Locale/NSArray+NSLocale.m
 src/Locale/NSDate+NSLocale.m
 src/Locale/NSDateFormatter+NSTimeZone.m
@@ -266,13 +263,13 @@ src/Value/_MulleObjCConcreteValue.m
 )
 
 
-add_library( MulleStandaloneObjCFoundation SHARED
-src/MulleStandaloneObjCFoundation.m
+add_library( MulleObjCFoundationStandalone SHARED
+src/MulleObjCFoundationStandalone.m
 )
 
-add_dependencies( MulleStandaloneObjCFoundation MulleObjCFoundation)
+add_dependencies( MulleObjCFoundationStandalone MulleObjCFoundation)
 
-TARGET_LINK_LIBRARIES( MulleStandaloneObjCFoundation
+TARGET_LINK_LIBRARIES( MulleObjCFoundationStandalone
 ${BEGIN_ALL_LOAD}
 MulleObjCFoundation
 MulleObjC
@@ -288,7 +285,6 @@ ${END_ALL_LOAD}
 )
 
 
-INSTALL( TARGETS MulleObjCFoundation MulleStandaloneObjCFoundation DESTINATION "lib")
+INSTALL( TARGETS MulleObjCFoundation MulleObjCFoundationStandalone DESTINATION "lib")
 INSTALL( FILES ${HEADERS} DESTINATION "include/MulleObjCFoundation")
-INSTALL( FILES src/MulleStandaloneObjCFoundation.h DESTINATION "include/MulleStandaloneObjCFoundation")
 
