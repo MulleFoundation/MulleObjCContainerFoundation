@@ -19,3 +19,4 @@ project.xcworkspace/
 tmp/
 tmp/.repos/gitolite.mulle-kybernetik/mulle-configuration/
 .repos/mulle-sprintf/mulle-configuration/
+mulle-tests/
