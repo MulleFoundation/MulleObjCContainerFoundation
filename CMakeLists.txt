@@ -236,7 +236,8 @@ src/String/NSString+Sprintf.m
 src/String/NSString.m
 src/String/http_parser.c
 src/String/NSURL.m
-src/String/_MulleObjCChar5String.m
+src/String/_MulleObjCTaggedPointerChar5String.m
+src/String/_MulleObjCTaggedPointerChar7String.m
 src/String/_MulleObjCASCIIString.m
 src/String/_MulleObjCCheatingASCIIString.m
 src/String/_MulleObjCConcreteBitmapCharacterSet.m
@@ -260,6 +261,7 @@ src/Value/NSValue+NSString.m
 src/Value/_MulleObjCConcreteNumber+NSString.m
 src/Value/_MulleObjCConcreteNumber.m
 src/Value/_MulleObjCConcreteValue.m
+src/Value/_MulleObjCTaggedPointerIntegerNumber.m
 )
 
 
