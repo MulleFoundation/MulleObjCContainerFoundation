@@ -94,6 +94,7 @@ src/Locale/NSTimeZone+NSDate.h
 src/Locale/NSTimeZone.h
 src/MulleObjCFoundation.h
 src/MulleObjCFoundationCore.h
+src/MulleObjCFoundationSetup.h
 src/Notification/MulleObjCFoundationNotification.h
 src/Notification/NSNotification.h
 src/Notification/NSNotificationCenter.h
@@ -178,10 +179,11 @@ src/Exception/NSError.m
 src/Exception/NSException+String.m
 src/Exception/NSException.m
 src/KVC/NSArray+KeyValueCoding.m
+src/KVC/NSArray+MulleObjCKVCArithmetic.m
 src/KVC/NSArray+NSSortDescriptor.m
 src/KVC/NSDictionary+KeyValueCoding.m
 src/KVC/NSMutableDictionary+KeyValueCoding.m
-src/KVC/NSNumber+MulleObjCArithmetic.m
+src/KVC/NSNumber+MulleObjCKVCArithmetic.m
 src/KVC/NSObject+KeyValueCoding.m
 src/KVC/NSObject+_MulleObjCKVCInformation.m
 src/KVC/NSProxy+_MulleObjCKVCInformation.m
@@ -198,6 +200,7 @@ src/Locale/NSNumber+NSLocale.m
 src/Locale/NSString+Localization.m
 src/Locale/NSTimeZone+NSDate.m
 src/Locale/NSTimeZone.m
+src/MulleObjCFoundationSetup.m
 src/Notification/NSNotification.m
 src/Notification/NSNotificationCenter.m
 src/PropertyList/NSData+Unicode.m
