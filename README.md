@@ -1,9 +1,9 @@
-# The MulleObjCFoundation 
+# The MulleObjCFoundation
 
-These are all the classes that run with the standard C libraries only. 
+These are all the classes that run with the standard C libraries only.
 
 * Interfaces with MulleObJC runtime via "ns_foundationconfiguration"
-* otherwise it is <mulle_objc_runtime/mulle_objc_runtime.h> agnostic, which 
+* otherwise it is <mulle_objc_runtime/mulle_objc_runtime.h> agnostic, which
 means no _mulle_objc function calls or structure access.
 
 
@@ -17,16 +17,16 @@ Whereas Locale, KVC, Archiver can be taken out and stuff should still compile.
 
 ## Dependencies
 
-MulleObjCFoundation depends on 
+MulleObjCFoundation depends on
 
 * MulleObjC
 * standard C libraries only (f.e. no <unistd.h>)
-* mulle_container 
-* mulle_sprintf 
-* mulle_utf 
+* mulle_container
+* mulle_sprintf
+* mulle_utf
 
 MulleObjCFoundation should not depend on ICU, `<unistd.h>` or any POSIX headers.
-MulleObjC should not use mulle_objc_runtime functions directly, but only 
+MulleObjC should not use mulle_objc_runtime functions directly, but only
 through `MulleObjC`.
 
 # When to release and when to autorelease
@@ -35,7 +35,7 @@ through `MulleObjC`.
 * otherwise you **always** `-autorelease` only,
 
 > No rule without exception. If you are sure that the object does not
-escape to another object after creation, you may release it within the same 
+escape to another object after creation, you may release it within the same
 method. (Need to specify what escape means)
 
 
@@ -74,3 +74,8 @@ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 IN THE SOFTWARE.
 ```
 
+## Author
+
+[Nat!](//www.mulle-kybernetik.com/weblog) for
+[Mulle kybernetiK](//www.mulle-kybernetik.com) and
+[Codeon GmbH](//www.codeon.de)

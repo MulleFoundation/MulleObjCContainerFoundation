@@ -90,12 +90,12 @@ static id    initWithObjects( _MulleObjCSet *self, id *objects, NSUInteger count
    
    assert( firstObject);
    
-   count = mulle_vararg_count( arguments, firstObject);
+   count = mulle_vararg_count_objects( arguments, firstObject);
    obj   = _MulleObjCNewSetWithCapacity( self, count);
    ivars = getSetIvars( obj);
    
    _mulle_set_set( &ivars->_table, firstObject, NSSetCallback, ivars->_allocator);
-   while( nextObject = mulle_vararg_next( arguments))
+   while( nextObject = mulle_vararg_next_object( arguments))
       _mulle_set_set( &ivars->_table, nextObject, NSSetCallback, ivars->_allocator);
 
    return( obj);

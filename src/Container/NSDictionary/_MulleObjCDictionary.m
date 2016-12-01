@@ -142,7 +142,7 @@ static void   setObjectsAndKeys( _MulleObjCDictionary *self, id *objects, id *ke
    size_t                 count;
    size_t                 size;
    
-   count = mulle_vararg_count( args, object);
+   count = mulle_vararg_count_objects( args, object);
 
    buf = tofree = NULL;
    if( count)
@@ -160,8 +160,8 @@ static void   setObjectsAndKeys( _MulleObjCDictionary *self, id *objects, id *ke
       do
       {
          *values++ = p;
-         *keys++   = mulle_vararg_next_object( args, id);
-         p         = mulle_vararg_next_object( args, id);
+         *keys++   = mulle_vararg_next_object( args);
+         p         = mulle_vararg_next_object( args);
       }
       while( values < sentinel);
    }

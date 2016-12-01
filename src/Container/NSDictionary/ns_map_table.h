@@ -82,7 +82,7 @@ static inline void   NSMapInsert( NSMapTable *table, void *key, void *value)
 {
    struct mulle_pointerpair   pair;
    
-   if( key == table->_callback.keycallback.not_a_key_marker)
+   if( key == table->_callback.keycallback.notakey)
       mulle_objc_throw_invalid_argument_exception( "key is not a key marker (%p)", key);
    
    pair._key   = key;

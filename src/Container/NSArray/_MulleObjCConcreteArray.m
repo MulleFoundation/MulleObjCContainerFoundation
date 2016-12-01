@@ -135,7 +135,7 @@ static id   initWithRetainedObjects( _MulleObjCConcreteArray *self,
    id                        *objects;
    id                        *p;
 
-   count = mulle_vararg_count( args, firstObject);
+   count = mulle_vararg_count_objects( args, firstObject);
 
    array = _MulleObjCNewConcreteArrayWithCapacity( self, count);
 
@@ -144,7 +144,7 @@ static id   initWithRetainedObjects( _MulleObjCConcreteArray *self,
    while( value)
    {
       *p++  = value;
-      value = mulle_vararg_next( args);
+      value = mulle_vararg_next_object( args);
    }
 
    MulleObjCMakeObjectsPerformRetain( objects, count);
