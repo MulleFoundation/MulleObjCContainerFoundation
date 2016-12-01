@@ -132,7 +132,7 @@ static id  initWithObjects( NSMutableArray *self,
    NSUInteger   count;
    id           p;
    
-   count = mulle_vararg_count( args, object);
+   count = mulle_vararg_count_objects( args, object);
    
    self = [self initWithCapacity:count];
 
@@ -140,7 +140,7 @@ static id  initWithObjects( NSMutableArray *self,
    while( p)
    {
       add_object( self, p);
-      p = mulle_vararg_next( args);
+      p = mulle_vararg_next_object( args);
    }
    
    return( self);

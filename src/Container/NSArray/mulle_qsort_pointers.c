@@ -44,10 +44,10 @@ static inline int  isAscending( int result)
 }
 
 
-static inline int  isSame( int result)
-{
-   return( result == 0);
-}
+//static inline int  isSame( int result)
+//{
+//   return( result == 0);
+//}
 
 
 void   mulle_qsort_pointers( mulle_qsorttype_t *v,
