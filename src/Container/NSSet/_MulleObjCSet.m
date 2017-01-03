@@ -44,6 +44,7 @@
 // std-c and dependencies
 
 
+#pragma clang diagnostic ignored "-Wprotocol"
 
 
 @interface _MulleObjCSetEnumerator : NSEnumerator

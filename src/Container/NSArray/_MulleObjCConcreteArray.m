@@ -43,6 +43,7 @@
 // std-c and dependencies
 #include <stdlib.h>
 
+#pragma clang diagnostic ignored "-Wobjc-missing-super-calls"
 
 
 @implementation _MulleObjCConcreteArray
@@ -460,6 +461,16 @@ static NSUInteger   findObjectWithRange( _MulleObjCConcreteArray *self,
                          withObject:(id) obj
 {
    MulleObjCMakeObjectsPerformSelector( get_objects( self), _count, sel, obj);
+}
+
+
+// need @alias for this
+- (id) :(NSUInteger) i
+{
+   if( i >= _count)
+      MulleObjCThrowInvalidIndexException( i);
+   
+   return( get_objects( self)[ i]);
 }
 
 

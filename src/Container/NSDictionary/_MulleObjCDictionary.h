@@ -71,9 +71,13 @@ typedef struct
 @end
 
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wobjc-root-class"
 
 @interface _MulleObjCDictionary < _MulleObjCDictionary>
 @end
+
+#pragma clang diagnostic pop
 
 
 static inline _MulleObjCDictionaryIvars  *getDictionaryIvars( id self)

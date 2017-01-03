@@ -45,6 +45,9 @@
 // std-c and dependencies
 
 
+#pragma clang diagnostic ignored "-Wprotocol"
+
+
 @implementation _MulleObjCConcreteMutableSet
 
 

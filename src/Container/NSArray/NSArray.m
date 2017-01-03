@@ -46,6 +46,8 @@
 
 // std-c and dependencies
 
+#pragma clang diagnostic ignored "-Wprotocol"
+
 
 @implementation NSObject( _NSArray)
 
@@ -184,6 +186,13 @@
    return( [[_MulleObjCConcreteArray newWithArray:other
                                          andArray:other2] autorelease]);
 }
+
+
+#pragma mark -
+#pragma mark NSCopying
+
+
+// done by returning self in protocol already, NSMutableArray must override
 
 
 #pragma mark -
@@ -492,6 +501,12 @@ static NSUInteger  findIndexWithRange( NSArray *self, NSRange range, id obj)
 - (NSUInteger) hash
 {
    return( [[self lastObject] hash]);
+}
+
+// need @alias for this
+- (id) :(NSUInteger) i
+{
+   return( [self objectAtIndex:i]);
 }
 
 
