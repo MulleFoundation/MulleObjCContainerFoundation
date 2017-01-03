@@ -36,6 +36,16 @@
 
 #import "_MulleObjCConcreteMutableDictionary.h"
 
+// other files in this library
+
+// other libraries of MulleObjCFoundation
+
+// std-c and dependencies
+
+
+#pragma clang diagnostic ignored "-Wobjc-missing-super-calls"
+#pragma clang diagnostic ignored "-Wprotocol"
+
 
 @implementation _MulleObjCConcreteMutableDictionary
 

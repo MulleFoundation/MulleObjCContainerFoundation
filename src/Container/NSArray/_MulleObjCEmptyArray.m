@@ -57,6 +57,14 @@
 }
 
 
+// need @alias for this
+- (id) :(NSUInteger) i
+{
+   MulleObjCThrowInvalidIndexException( i);
+   return( nil);
+}
+
+
 - (id) objectAtIndex:(NSUInteger) i
 {
    MulleObjCThrowInvalidIndexException( i);

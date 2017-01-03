@@ -40,6 +40,11 @@
 
 // other libraries of MulleObjCFoundation
 
+// std-c and dependencies
+
+
+#pragma clang diagnostic ignored "-Wprotocol"
+
 
 @implementation _MulleObjCConcreteDictionary
 

@@ -273,6 +273,12 @@ static void  assert_index_1( NSMutableArray *self, NSUInteger i)
       MulleObjCThrowInvalidIndexException( i);
 }
 
+// need @alias for this
+- (id) :(NSUInteger) i
+{
+   assert_index( self, i);
+   return( _storage[ i]);
+}
 
 - (id) objectAtIndex:(NSUInteger) i
 {

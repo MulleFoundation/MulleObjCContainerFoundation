@@ -286,6 +286,14 @@
    return( [[self anyObject] hash]);
 }
 
+
+// need @alias for this
+- (id) :(id) key
+{
+   return( [self objectForKey:key]);
+}
+
+
 #pragma mark -
 #pragma mark operations
 

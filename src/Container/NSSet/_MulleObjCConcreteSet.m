@@ -43,6 +43,8 @@
 // std-c and dependencies
 
 
+#pragma clang diagnostic ignored "-Wprotocol"
+
 @implementation _MulleObjCConcreteSet
 
 // all done in the protocol

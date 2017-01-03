@@ -52,6 +52,7 @@ typedef struct
 #define NSSetCopyCallback  MulleObjCContainerObjectKeyCopyCallback
 
 
+
 @protocol _MulleObjCSet
 
 + (instancetype) newWithCapacity:(NSUInteger) capacity;
@@ -74,11 +75,13 @@ typedef struct
 @end
 
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wobjc-root-class"
 
 @interface _MulleObjCSet < _MulleObjCSet>
 @end
 
-
+#pragma clang diagnostic pop
 
 
 static inline _MulleObjCSetIvars  *getSetIvars( id self)
