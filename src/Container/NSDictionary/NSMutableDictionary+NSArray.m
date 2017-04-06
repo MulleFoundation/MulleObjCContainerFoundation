@@ -50,7 +50,7 @@
 {
    NSEnumerator   *rover;
    id             key;
-   
+
    rover = [array objectEnumerator];
    while( key = [rover nextObject])
       [self removeObjectForKey:key];

@@ -1,8 +1,16 @@
-# MulleObjCFoundation does not directly depend on `mulle_objc_runtime`.
+## MulleObjCFoundation should not directly depend on `mulle_objc_runtime` but only on MulleObjC
 
+* KVC breaks this in a big way unsaveable
+* _MulleObjCCheatingASCIIStringStorage storage does too
+* MulleObjCArchiver/MulleObjCUnrchiver could be corrected I guess
+* MulleObjCArchiver can be saved I guess
 * Interfaces with MulleObjC runtime via "ns_foundationconfiguration"
 * otherwise it is `mulle_objc_runtime` agnostic, which means no `mulle_objc` 
 function calls or structure access.
+
+## MulleObjCFoundation should not define MulleObjC symbols but _NS instead
+
+* this is broken all over
 
 
 ## Why are there so many little internal libraries ?

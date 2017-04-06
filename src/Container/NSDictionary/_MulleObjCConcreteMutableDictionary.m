@@ -61,12 +61,12 @@
 {
    _MulleObjCDictionaryIvars    *ivars;
    struct mulle_pointerpair    pair;
-   
+
    assert( [key respondsToSelector:@selector( copy)]);
    assert( [key respondsToSelector:@selector( hash)]);
    assert( [key respondsToSelector:@selector( isEqual:)]);
    assert( [obj respondsToSelector:@selector( retain)]);
-   
+
    ivars = getDictionaryIvars( self);
    pair._key   = key;
    pair._value = obj;

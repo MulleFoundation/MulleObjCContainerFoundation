@@ -50,7 +50,7 @@
    IMP             impAdd;
    SEL             selAdd;
    id              obj;
-   
+
    array = [NSMutableArray array];
 
    selNext = @selector( nextObject);
@@ -61,7 +61,7 @@
 
    while( obj = (*impNext)( self, selNext, NULL))
       (*impAdd)( array, selAdd, obj);
-   
+
    return( array);
 }
 
@@ -71,7 +71,7 @@
    IMP   impNext;
    SEL   selNext;
    id    obj;
-   
+
    selNext = @selector( nextObject);
    impNext = [self methodForSelector:selNext];
 
@@ -86,10 +86,10 @@
    IMP   impNext;
    SEL   selNext;
    id    obj;
-   
+
    selNext = @selector( nextObject);
    impNext = [self methodForSelector:selNext];
-   
+
    while( obj = (*impNext)( self, selNext, NULL))
       [obj performSelector:sel
                 withObject:argument];

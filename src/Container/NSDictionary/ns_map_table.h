@@ -35,9 +35,10 @@
 //
 #ifndef ns_map_table_h__
 #define ns_map_table_h__
- 
-#include <MulleObjC/ns_objc.h>
+
+//#include <MulleObjC/ns_objc.h>
 #include <MulleObjC/ns_exception.h>
+#include <MulleObjC/ns_zone.h>
 #include <mulle_container/mulle_container.h>
 
 
@@ -53,7 +54,7 @@ typedef struct _mulle_mapenumerator               NSMapEnumerator;
 typedef struct
 {
    struct _mulle_map                         _map;
-   struct mulle_container_keyvaluecallback   _callback;   
+   struct mulle_container_keyvaluecallback   _callback;
    struct mulle_allocator                    *_allocator;
 } NSMapTable;
 
@@ -66,8 +67,8 @@ NSMapTable   *_NSCreateMapTableWithAllocator( NSMapTableKeyCallBacks keyCallBack
                                               NSUInteger capacity,
                                               struct mulle_allocator *allocator);
 
-NSMapTable   *NSCreateMapTable( NSMapTableKeyCallBacks keyCallBacks, 
-                                NSMapTableValueCallBacks valueCallBacks, 
+NSMapTable   *NSCreateMapTable( NSMapTableKeyCallBacks keyCallBacks,
+                                NSMapTableValueCallBacks valueCallBacks,
                                 NSUInteger capacity);
 
 void   NSFreeMapTable( NSMapTable *table);
@@ -103,13 +104,13 @@ static inline void   NSMapRemove( NSMapTable *table, void *key)
 static inline void   NSMapInsert( NSMapTable *table, void *key, void *value)
 {
    struct mulle_pointerpair   pair;
-   
+
    if( key == table->_callback.keycallback.notakey)
       mulle_objc_throw_invalid_argument_exception( "key is not a key marker (%p)", key);
-   
+
    pair._key   = key;
    pair._value = value;
-   
+
    _mulle_map_insert( &table->_map, &pair, &table->_callback, table->_allocator);
 }
 
@@ -153,7 +154,7 @@ static inline NSMapEnumerator   NSEnumerateMapTable( NSMapTable *table)
 static inline BOOL    NSNextMapEnumeratorPair( NSMapEnumerator *rover, void **key, void **value)
 {
    struct mulle_pointerpair   *pair;
-   
+
    pair = _mulle_mapenumerator_next( rover);
    if( ! pair)
       return( NO);
@@ -171,8 +172,15 @@ static inline void    NSEndMapTableEnumeration( NSMapEnumerator *rover)
    _mulle_mapenumerator_done( rover);
 }
 
-#pragma mark - 
-#pragma mark Callbacks
+# pragma mark - harmless hacks 
+
+// since the callbacks are copied into NSMapTable, we can
+// do this:
+static inline void  _NSObjCMapTableSetValueRelease( NSMapTable *table,
+                                                    void   (*release)( struct mulle_container_valuecallback *callback, void *p, struct mulle_allocator *allocator))
+{
+   table->_callback.valuecallback.release = release;
+}
 
 
 #endif

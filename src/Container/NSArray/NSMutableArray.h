@@ -70,13 +70,13 @@
                    withObjects:(id *) objects
                          count:(NSUInteger) count;
 
-- (void) replaceObjectsInRange:(NSRange) aRange 
+- (void) replaceObjectsInRange:(NSRange) aRange
           withObjectsFromArray:(NSArray *) other;
-          
+
 - (void) setArray:(NSArray *) other;
 
 - (void) sortUsingSelector:(SEL)comparator;
-- (void) sortUsingFunction:(NSInteger (*)(id, id, void *)) compare 
+- (void) sortUsingFunction:(NSInteger (*)(id, id, void *)) compare
                    context:(void *) context;
 + (id) arrayWithCapacity:(NSUInteger) capacity;
 

@@ -59,7 +59,7 @@
 - (void) removeAllObjects;
 - (void) removeObjectForKey:(id)aKey;
 - (void) setDictionary:(NSDictionary *) other;
-- (void) setObject:(id) anObject 
+- (void) setObject:(id) anObject
             forKey:(id <NSCopying>) aKey;
 
 @end

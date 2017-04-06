@@ -92,14 +92,14 @@
 static id    initWithObjects( _MulleObjCSet *self, id *objects, NSUInteger count, BOOL copyItems)
 {
    _MulleObjCSetIvars   *ivars;
-   
+
    ivars = getSetIvars( self);
    _mulle_set_init( &ivars->_table,
                   (unsigned int) count,
                   copyItems ? MulleObjCContainerObjectKeyCopyCallback
                   : MulleObjCContainerObjectKeyRetainCallback,
                   ivars->_allocator);
-   
+
    while( count)
    {
       _mulle_set_set( &ivars->_table, *objects++, NSSetCallback, ivars->_allocator);
@@ -116,15 +116,15 @@ static id    initWithObjects( _MulleObjCSet *self, id *objects, NSUInteger count
    _MulleObjCSet        *obj;
    _MulleObjCSetIvars   *ivars;
    id                   nextObject;
-   
+
    assert( firstObject);
-   
+
    count = mulle_vararg_count_objects( arguments, firstObject);
    obj   = _MulleObjCNewSetWithCapacity( self, count);
    ivars = getSetIvars( obj);
-   
+
    _mulle_set_set( &ivars->_table, firstObject, NSSetCallback, ivars->_allocator);
-   while( nextObject = mulle_vararg_next_object( arguments))
+   while( nextObject = mulle_vararg_next_id( arguments))
       _mulle_set_set( &ivars->_table, nextObject, NSSetCallback, ivars->_allocator);
 
    return( obj);
@@ -134,7 +134,7 @@ static id    initWithObjects( _MulleObjCSet *self, id *objects, NSUInteger count
 + (id) _allocWithCapacity:(NSUInteger) count
 {
    id   obj;
-   
+
    obj = _MulleObjCNewSetWithCapacity( self, count);
    return( obj);
 }
@@ -145,7 +145,7 @@ static id    initWithObjects( _MulleObjCSet *self, id *objects, NSUInteger count
                       copyItems:(BOOL) copyItems
 {
    id   obj;
-   
+
    obj   = _MulleObjCNewSetWithCapacity( self, count);
    initWithObjects( obj, objects, count, copyItems);
    return( obj);

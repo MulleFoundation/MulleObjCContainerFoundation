@@ -33,13 +33,13 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
-#import <MulleObjC/MulleObjC.h>
+#import "MulleObjCFoundationBase.h"
 
 
 @class NSEnumerator;
 
 
-@interface NSArray : NSObject < MulleObjCClassCluster, NSCopying, NSCoding>
+@interface NSArray : NSObject < MulleObjCClassCluster, NSCopying>
 
 + (instancetype) array;
 + (instancetype) arrayWithArray:(NSArray *) other;
@@ -61,17 +61,17 @@
 - (BOOL) containsObject:(id) obj;
 - (id) firstObjectCommonWithArray:(NSArray *) other;
 - (NSUInteger) indexOfObject:(id) obj;
-- (NSUInteger) indexOfObject:(id) obj 
+- (NSUInteger) indexOfObject:(id) obj
                      inRange:(NSRange) range;
 - (NSUInteger) indexOfObjectIdenticalTo:(id) obj;
-- (NSUInteger) indexOfObjectIdenticalTo:(id) obj 
+- (NSUInteger) indexOfObjectIdenticalTo:(id) obj
                                 inRange:(NSRange) range;
 
 - (BOOL) isEqual:(id) other;
 - (BOOL) isEqualToArray:(NSArray *) other;
 - (id) lastObject;
-- (void) makeObjectsPerformSelector:(SEL) sel; 
-- (void) makeObjectsPerformSelector:(SEL) sel 
+- (void) makeObjectsPerformSelector:(SEL) sel;
+- (void) makeObjectsPerformSelector:(SEL) sel
                          withObject:(id) obj;
 
 - (NSEnumerator *) objectEnumerator;

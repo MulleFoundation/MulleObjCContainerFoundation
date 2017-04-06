@@ -77,30 +77,9 @@
    return( (id) [_MulleObjCConcreteMutableSet newWithObject:firstObject
                                                   arguments:arguments]);
 }
-
-#pragma mark -
-#pragma mark NSCoding
-
-- (Class) classForCoder
-{
-   return( [NSMutableSet class]);
-}
-
-
 + (instancetype ) _allocWithCapacity:(NSUInteger) count
 {
    return( (id) [_MulleObjCConcreteMutableSet newWithCapacity:count]);
-}
-
-
-- (id) initWithCoder:(NSCoder *) coder
-{
-   NSUInteger   count;
-   
-   [coder decodeValueOfObjCType:@encode( NSUInteger)
-                             at:&count];
-   
-   return( (id) [_MulleObjCConcreteMutableSet _allocWithCapacity:count]);
 }
 
 
@@ -117,7 +96,7 @@
    SEL            removeObjectSEL;
    IMP            memberObjectIMP;
    SEL            memberObjectSEL;
-   
+
    rover = [self objectEnumerator];
 
    nextObjectSEL = @selector( methodForSelector:);
@@ -128,10 +107,10 @@
 
    removeObjectSEL = @selector( removeObject:);
    removeObjectIMP = [self methodForSelector:removeObjectSEL];
-   
-   while( obj = (*nextObjectIMP)( rover, nextObjectSEL, NULL))
-      if( ! (*memberObjectIMP)( other, memberObjectSEL, obj))
-         (*removeObjectIMP)( self, removeObjectSEL, obj);
+
+   while( obj = MulleObjCCallIMP0( nextObjectIMP, rover, nextObjectSEL))
+      if( ! MulleObjCCallIMP( memberObjectIMP, other, memberObjectSEL, obj))
+         MulleObjCCallIMP( removeObjectIMP, self, removeObjectSEL, obj);
 }
 
 
@@ -143,7 +122,7 @@
    SEL            nextObjectSEL;
    IMP            removeObjectIMP;
    SEL            removeObjectSEL;
-   
+
    rover = [other objectEnumerator];
 
    nextObjectSEL = @selector( methodForSelector:);
@@ -151,9 +130,9 @@
 
    removeObjectSEL = @selector( removeObject:);
    removeObjectIMP = [self methodForSelector:removeObjectSEL];
-   
-   while( obj = (*nextObjectIMP)( rover, nextObjectSEL, NULL))
-      (*removeObjectIMP)( rover, removeObjectSEL, obj);
+
+   while( obj = MulleObjCCallIMP0( nextObjectIMP, rover, nextObjectSEL))
+      MulleObjCCallIMP( removeObjectIMP, self, removeObjectSEL, obj);
 }
 
 
@@ -165,7 +144,7 @@
    SEL            nextObjectSEL;
    IMP            addObjectIMP;
    SEL            addObjectSEL;
-   
+
    rover = [other objectEnumerator];
 
    nextObjectSEL = @selector( methodForSelector:);
@@ -173,9 +152,9 @@
 
    addObjectSEL = @selector( addObject:);
    addObjectIMP = [self methodForSelector:addObjectSEL];
-   
-   while( obj = (*nextObjectIMP)( rover, nextObjectSEL, NULL))
-      (*addObjectIMP)( rover, addObjectSEL, obj);
+
+   while( obj = MulleObjCCallIMP0( nextObjectIMP, rover, nextObjectSEL))
+      MulleObjCCallIMP( addObjectIMP, self, addObjectSEL, obj);
 }
 
 

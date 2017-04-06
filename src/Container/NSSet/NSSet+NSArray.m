@@ -59,11 +59,11 @@
    NSMutableData   *data;
    NSUInteger      count;
    id              *buf;
-   
+
    count = [array count];
    if( ! count)
       return( [self init]);
-      
+
    data = [NSMutableData dataWithLength:sizeof( id) * count];
    buf  = (id *) [data mutableBytes];
    [array getObjects:buf];
@@ -77,7 +77,7 @@
    NSMutableArray   *array;
    NSEnumerator     *rover;
    id               obj;
-   
+
    array = [NSMutableArray array];
    rover = [self objectEnumerator];
    while( obj = [rover nextObject])
@@ -93,7 +93,7 @@
 }
 
 
-- (void) makeObjectsPerformSelector:(SEL) sel 
+- (void) makeObjectsPerformSelector:(SEL) sel
                          withObject:(id) obj
 {
    [[self objectEnumerator] makeObjectsPerformSelector:sel

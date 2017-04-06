@@ -33,28 +33,28 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
-#import <MulleObjC/MulleObjC.h>
+#import "MulleObjCFoundationBase.h"
 
 
 @class NSEnumerator;
 
 
-@interface NSDictionary : NSObject < NSCopying, NSCoding, MulleObjCClassCluster>
+@interface NSDictionary : NSObject < MulleObjCClassCluster, NSCopying >
 
 + (id) dictionary;
 + (id) dictionaryWithDictionary:(NSDictionary *) dictionary;
-+ (id) dictionaryWithObject:(id) anObject 
++ (id) dictionaryWithObject:(id) anObject
                      forKey:(id) aKey;
-+ (id) dictionaryWithObjects:(id *) objects 
-                     forKeys:(id *) keys 
++ (id) dictionaryWithObjects:(id *) objects
+                     forKeys:(id *) keys
                        count:(NSUInteger) count;
 + (id) dictionaryWithObjectsAndKeys:(id) firstObject , ...;
 
 - (id) initWithDictionary:(NSDictionary *) otherDictionary;
-- (id) initWithDictionary:(NSDictionary *) otherDictionary 
+- (id) initWithDictionary:(NSDictionary *) otherDictionary
                 copyItems:(BOOL) flag;
-- (id) initWithObjects:(id *) objects 
-               forKeys:(id *) keys 
+- (id) initWithObjects:(id *) objects
+               forKeys:(id *) keys
                  count:(NSUInteger) count;
 - (id) initWithObjectsAndKeys:(id)firstObject , ...;
 - (id) initWithObject:(id) object
@@ -70,7 +70,7 @@
 @interface NSDictionary( Subclasses)
 
 - (NSUInteger) count;
-- (void) getObjects:(id *) objects 
+- (void) getObjects:(id *) objects
             andKeys:(id *) keys;
 
 - (id) objectForKey:(id) key;

@@ -135,7 +135,7 @@
 }
 
 
-#pragma mark - 
+#pragma mark -
 #pragma mark generic operations
 
 - (void) addEntriesFromDictionary:(NSDictionary *) other
@@ -143,7 +143,7 @@
    NSEnumerator   *rover;
    id             key;
    id             value;
-   
+
    rover = [other keyEnumerator];
    while( key = [rover nextObject])
    {
@@ -169,7 +169,7 @@
 @end
 
 
-@implementation NSDictionary ( NSMutableDictionary) 
+@implementation NSDictionary ( NSMutableDictionary)
 
 - (id) mutableCopy
 {

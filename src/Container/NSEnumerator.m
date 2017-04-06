@@ -51,7 +51,7 @@
 - (void) makeObjectsPerformSelector:(SEL) sel
 {
    id   obj;
-   
+
    while( obj = [self nextObject])
       [obj performSelector:sel];
 }
@@ -61,7 +61,7 @@
                          withObject:(id) argument
 {
    id   obj;
-   
+
    while( obj = [self nextObject])
       [obj performSelector:sel
                 withObject:argument];

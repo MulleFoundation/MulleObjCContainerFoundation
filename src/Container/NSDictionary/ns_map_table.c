@@ -38,6 +38,7 @@
 // other files in this library
 
 // other libraries of MulleObjCFoundation
+#include "MulleObjCCExceptionFunctions.h"
 
 // std-c and dependencies
 
@@ -54,7 +55,7 @@ static void   _NSMapTableInitWithAllocator( NSMapTable *table,
    table->_callback.keycallback   = *keyCallBacks;
    table->_callback.valuecallback = *valueCallBacks;
    table->_allocator              = allocator;
-   
+
    _mulle_map_init( &table->_map, capacity, &table->_callback, table->_allocator);
 }
 
@@ -67,11 +68,11 @@ void    NSResetMapTable( NSMapTable *table)
 
 
 NSMapTable   *NSCreateMapTable( NSMapTableKeyCallBacks keyCallBacks,
-                                NSMapTableValueCallBacks valueCallBacks, 
+                                NSMapTableValueCallBacks valueCallBacks,
                                 NSUInteger capacity)
 {
    NSMapTable   *table;
-   
+
    table = mulle_malloc( sizeof( NSMapTable));
    _NSMapTableInitWithAllocator( table, &keyCallBacks, &valueCallBacks, capacity, &mulle_default_allocator);
    return( table);
@@ -84,7 +85,7 @@ NSMapTable   *_NSCreateMapTableWithAllocator( NSMapTableKeyCallBacks keyCallBack
                                               struct mulle_allocator *allocator)
 {
    NSMapTable   *table;
-   
+
    table = mulle_allocator_malloc( allocator, sizeof( NSMapTable));
    _NSMapTableInitWithAllocator( table, &keyCallBacks, &valueCallBacks, capacity, allocator);
    return( table);
@@ -105,16 +106,16 @@ void   NSFreeMapTable( NSMapTable *table)
 void   NSMapInsertKnownAbsent( NSMapTable *table, void *key, void *value)
 {
    struct mulle_pointerpair   pair;
-   
+
    if( key == table->_callback.keycallback.notakey)
-      mulle_objc_throw_invalid_argument_exception( "key is not a key marker (%p)", key);
-   
+      MulleObjCThrowCInvalidArgumentException( "key is not a key marker (%p)", key);
+
    if(  _mulle_map_get( &table->_map, key, &table->_callback))
-      mulle_objc_throw_invalid_argument_exception( "key is already present (%p)", key);
-   
+      MulleObjCThrowCInvalidArgumentException( "key is already present (%p)", key);
+
    pair._key   = key;
    pair._value = value;
-   
+
    _mulle_map_insert( &table->_map, &pair, &table->_callback, table->_allocator);
 }
 
@@ -123,14 +124,14 @@ void   *NSMapInsertIfAbsent( NSMapTable *table, void *key, void *value)
 {
    struct mulle_pointerpair   pair;
    void                         *old;
-   
+
    old =  _mulle_map_get( &table->_map, key, &table->_callback);
    if( old)
       return( old);
-   
+
    pair._key   = key;
    pair._value = value;
-   
+
    _mulle_map_insert( &table->_map, &pair, &table->_callback, table->_allocator);
    return( NULL);
 }

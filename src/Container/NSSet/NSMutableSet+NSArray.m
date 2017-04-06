@@ -51,10 +51,10 @@
    id   obj;
    IMP   addObjectIMP;
    SEL   addObjectSEL;
-   
+
    addObjectSEL = @selector( addObject:);
    addObjectIMP = [self methodForSelector:addObjectSEL];
-   
+
    for( obj in array)
       (*addObjectIMP)( self, addObjectSEL, obj);
 

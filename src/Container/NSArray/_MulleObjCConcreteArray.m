@@ -37,6 +37,7 @@
 
 // other files in this library
 #include "mulle_qsort_pointers.h"
+#import "_MulleObjCConcreteArray+Private.h"
 
 // other libraries of MulleObjCFoundation
 
@@ -47,12 +48,6 @@
 
 
 @implementation _MulleObjCConcreteArray
-
-static inline id   *get_objects( _MulleObjCConcreteArray *self)
-{
-   return( (id *) (&self->_count + 1));
-}
-
 
 __attribute__((ns_returns_retained))
 static inline _MulleObjCConcreteArray  *_MulleObjCNewConcreteArrayWithCapacity( Class self, NSUInteger count)
@@ -73,14 +68,14 @@ static id   initWithRetainedObjects( _MulleObjCConcreteArray *self,
    id   *sentinel;
    id   obj;
 
-   buffer   = get_objects( self);
+   buffer   = _MulleObjCConcreteArrayGetObjects( self);
    sentinel = &buffer[ count];
 
    while( buffer < sentinel)
    {
       obj = *objects++;
       if( ! obj)
-         MulleObjCThrowInvalidArgumentException( @"passed in a nil object at index %ld", buffer - get_objects( self));
+         MulleObjCThrowInvalidArgumentException( @"passed in a nil object at index %ld", buffer - _MulleObjCConcreteArrayGetObjects( self));
       *buffer++ = obj;
    }
    return( self);
@@ -117,7 +112,7 @@ static id   initWithRetainedObjects( _MulleObjCConcreteArray *self,
    id                        *objects;
 
    array  = _MulleObjCNewConcreteArrayWithCapacity( self, range.length);
-   objects = get_objects( array);
+   objects = _MulleObjCConcreteArrayGetObjects( array);
    [other getObjects:objects
                range:range];
    if( flag)
@@ -137,7 +132,7 @@ static id   initWithRetainedObjects( _MulleObjCConcreteArray *self,
 
    count   = [other count];
    array   = _MulleObjCNewConcreteArrayWithCapacity( self, count);
-   objects = get_objects( array);
+   objects = _MulleObjCConcreteArrayGetObjects( array);
    [other getObjects:objects];
 
    if( flag)
@@ -161,12 +156,12 @@ static id   initWithRetainedObjects( _MulleObjCConcreteArray *self,
 
    array = _MulleObjCNewConcreteArrayWithCapacity( self, count);
 
-   objects = p = get_objects( array);
+   objects = p = _MulleObjCConcreteArrayGetObjects( array);
    value   = firstObject;
    while( value)
    {
       *p++  = value;
-      value = mulle_vararg_next_object( args);
+      value = mulle_vararg_next_id( args);
    }
 
    MulleObjCMakeObjectsPerformRetain( objects, count);
@@ -187,7 +182,7 @@ static id   initWithRetainedObjects( _MulleObjCConcreteArray *self,
    count = [other count];
    array  = _MulleObjCNewConcreteArrayWithCapacity( self, count + 1);
 
-   objects = get_objects( array);
+   objects = _MulleObjCConcreteArrayGetObjects( array);
    [other getObjects:objects];
    objects[ count] = obj;
 
@@ -210,7 +205,7 @@ static id   initWithRetainedObjects( _MulleObjCConcreteArray *self,
 
    array  = _MulleObjCNewConcreteArrayWithCapacity( self, count + count2);
 
-   objects = get_objects( array);
+   objects = _MulleObjCConcreteArrayGetObjects( array);
    [other getObjects:objects];
    [other2 getObjects:&objects[ count]];
 
@@ -228,7 +223,7 @@ static id   initWithRetainedObjects( _MulleObjCConcreteArray *self,
 
    array  = _MulleObjCNewConcreteArrayWithCapacity( self, range.length);
 
-   objects = get_objects( array);
+   objects = _MulleObjCConcreteArrayGetObjects( array);
    [other getObjects:objects
                range:range];
 
@@ -248,7 +243,7 @@ typedef struct
 static int   bouncyBounce( void *a, void *b, void *_ctxt)
 {
    bouncy  *ctxt;
-   
+
    ctxt = _ctxt;
    return( (int) (ctxt->f)( (id) a, (id) b, ctxt->ctxt));
 }
@@ -261,13 +256,13 @@ static int   bouncyBounce( void *a, void *b, void *_ctxt)
    _MulleObjCConcreteArray   *array;
    bouncy                    bounce;
    id                        *objects;
-   
+
    bounce.f    = f;
    bounce.ctxt = context;
 
    array  = [self newWithArray:other
                      copyItems:NO];
-   objects = get_objects( array);
+   objects = _MulleObjCConcreteArrayGetObjects( array);
    mulle_qsort_pointers( (void **) objects, array->_count, bouncyBounce, &bounce);
    return( array);
 }
@@ -275,7 +270,7 @@ static int   bouncyBounce( void *a, void *b, void *_ctxt)
 
 static int   bouncyBounceSel( void *a, void *b, void *ctxt)
 {
-   return( (int) mulle_objc_object_call( (id) a, (mulle_objc_methodid_t) ctxt, b));
+   return( (int) MulleObjCPerformSelector( (id) a, (SEL) ctxt, (id) b));
 }
 
 
@@ -285,12 +280,12 @@ static int   bouncyBounceSel( void *a, void *b, void *ctxt)
    _MulleObjCConcreteArray    *array;
    NSUInteger                 count;
    id                         *objects;
-   
+
    count = [other count];
    array = [self newWithArray:other
                         range:NSMakeRange( 0, count)
                     copyItems:NO];
-   objects = get_objects( array);
+   objects = _MulleObjCConcreteArrayGetObjects( array);
    mulle_qsort_pointers( (void **) objects, array->_count, bouncyBounceSel, (void *) (intptr_t) sel);
 
    return( array);
@@ -299,42 +294,17 @@ static int   bouncyBounceSel( void *a, void *b, void *ctxt)
 
 - (void) dealloc
 {
-   MulleObjCMakeObjectsPerformRelease( get_objects( self), _count);
+   MulleObjCMakeObjectsPerformRelease( _MulleObjCConcreteArrayGetObjects( self), _count);
    NSDeallocateObject( self);
 }
 
 
-#pragma mark -
-#pragma mark NSCoder
 
 + (id) _allocWithCapacity:(NSUInteger) count
 {
    return( _MulleObjCNewConcreteArrayWithCapacity( self, count));
 }
 
-
-- (void) decodeWithCoder:(NSCoder *) coder
-{
-   NSUInteger   count;
-   id           *p;
-   id           *sentinel;
-   id           *objects;
-
-   [coder decodeValueOfObjCType:@encode( NSUInteger)
-                             at:&count];
-   assert( self->_count && count);
-
-   objects = get_objects( self);
-   p        = objects;
-   sentinel = &p[ count];
-
-   while( p < sentinel)
-   {
-      [coder decodeValueOfObjCType:@encode( id)
-                                at:p];
-      ++p;
-   }
-}
 
 
 #pragma mark -
@@ -349,7 +319,7 @@ static NSUInteger   findObject( _MulleObjCConcreteArray *self,
    id           *p;
    NSUInteger   i;
 
-   buffer   = get_objects( self);
+   buffer   = _MulleObjCConcreteArrayGetObjects( self);
    sentinel = &buffer[ self->_count];
 
    i = 0;
@@ -385,7 +355,7 @@ static NSUInteger   findObjectWithRange( _MulleObjCConcreteArray *self,
    if( sentinelLength > self->_count || range.length > self->_count)
       MulleObjCThrowInvalidRangeException( range);
 
-   buffer   = get_objects( self);
+   buffer   = _MulleObjCConcreteArrayGetObjects( self);
    sentinel = &buffer[ sentinelLength];
 
    i = range.location;
@@ -447,20 +417,20 @@ static NSUInteger   findObjectWithRange( _MulleObjCConcreteArray *self,
    if( ! _count)
       return( nil);
 
-   return( get_objects( self)[_count - 1]);
+   return( _MulleObjCConcreteArrayGetObjects( self)[_count - 1]);
 }
 
 
 - (void) makeObjectsPerformSelector:(SEL) sel
 {
-   MulleObjCMakeObjectsPerformSelector( get_objects( self), _count, sel, nil);
+   MulleObjCMakeObjectsPerformSelector( _MulleObjCConcreteArrayGetObjects( self), _count, sel, nil);
 }
 
 
 - (void) makeObjectsPerformSelector:(SEL) sel
                          withObject:(id) obj
 {
-   MulleObjCMakeObjectsPerformSelector( get_objects( self), _count, sel, obj);
+   MulleObjCMakeObjectsPerformSelector( _MulleObjCConcreteArrayGetObjects( self), _count, sel, obj);
 }
 
 
@@ -469,8 +439,8 @@ static NSUInteger   findObjectWithRange( _MulleObjCConcreteArray *self,
 {
    if( i >= _count)
       MulleObjCThrowInvalidIndexException( i);
-   
-   return( get_objects( self)[ i]);
+
+   return( _MulleObjCConcreteArrayGetObjects( self)[ i]);
 }
 
 
@@ -479,7 +449,7 @@ static NSUInteger   findObjectWithRange( _MulleObjCConcreteArray *self,
    if( i >= _count)
       MulleObjCThrowInvalidIndexException( i);
 
-   return( get_objects( self)[ i]);
+   return( _MulleObjCConcreteArrayGetObjects( self)[ i]);
 }
 
 
@@ -495,13 +465,13 @@ static NSUInteger   findObjectWithRange( _MulleObjCConcreteArray *self,
    if( range.location + range.length > _count || range.length > _count)
       MulleObjCThrowInvalidRangeException( range);
 
-   memcpy( buf, &get_objects( self)[ range.location], sizeof( id) * range.length);
+   memcpy( buf, &_MulleObjCConcreteArrayGetObjects( self)[ range.location], sizeof( id) * range.length);
 }
 
 
 - (void) getObjects:(id *) buf
 {
-   memcpy( buf, get_objects( self), sizeof( id) * _count);
+   memcpy( buf, _MulleObjCConcreteArrayGetObjects( self), sizeof( id) * _count);
 }
 
 
@@ -516,7 +486,7 @@ static NSUInteger   findObjectWithRange( _MulleObjCConcreteArray *self,
    if( ! state->state)
    {
       state->mutationsPtr = (unsigned long *)self;
-      state->itemsPtr     = get_objects( self);
+      state->itemsPtr     = _MulleObjCConcreteArrayGetObjects( self);
       state->state        = 1;
       return( self->_count);
    }

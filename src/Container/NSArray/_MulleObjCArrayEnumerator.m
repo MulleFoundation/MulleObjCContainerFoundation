@@ -44,9 +44,9 @@
 + (instancetype) enumeratorWithArray:(NSArray *) owner
 {
    _MulleObjCArrayEnumerator   *rover;
-   
+
    rover = NSAllocateObject( self, 0, NULL);
-   
+
    rover->_range  = NSMakeRange( 0, [owner count]);
    rover->_owner  = [owner retain];
 
@@ -57,7 +57,7 @@
 - (void) dealloc
 {
    [_owner release];
-   
+
    [super dealloc];
 }
 
@@ -66,7 +66,7 @@
 {
    if( _range.location >= _range.length)
       return( nil);
-   
+
    return( [_owner objectAtIndex:_range.location++]);
 }
 
@@ -80,7 +80,7 @@
 {
    if( _range.location >= _range.length)
       return( nil);
-   
+
    return( [_owner objectAtIndex:_range.length - ++_range.location]);
 }
 

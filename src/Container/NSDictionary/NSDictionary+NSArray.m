@@ -49,7 +49,7 @@
 
 @implementation NSDictionary( NSArray)
 
-+ (id) dictionaryWithObjects:(NSArray *) objects 
++ (id) dictionaryWithObjects:(NSArray *) objects
                      forKeys:(NSArray *) keys
 {
    return( [[[self alloc] initWithObjects:objects
@@ -64,7 +64,7 @@
    id             *tofree;
    NSDictionary   *dictionary;
    size_t         size;
-   
+
    count = [objects count];
    if( count != [keys count])
       MulleObjCThrowInvalidArgumentException( @"mismatched keys lengths");
@@ -72,12 +72,12 @@
    size   = 2 * count;
    {
       id   tmp[ 0x100];
-      
+
       tofree = NULL;
       buf    = tmp;
       if( size > 0x100)
          tofree = buf = mulle_malloc( size * sizeof( id));
-   
+
       [objects getObjects:buf];
       [keys getObjects:&buf[ count]];
 
@@ -86,35 +86,35 @@
                                     count:count];
       mulle_free( tofree);
    }
-   
+
    return( dictionary);
 }
-               
+
 
 - (NSArray *) keysSortedByValueUsingSelector:(SEL) comparator
 {
    NSArray  *array;
-   
+
    array = [[self keyEnumerator] allObjects];
    return( [array sortedArrayUsingSelector:comparator]);
 
 }
 
-- (NSArray *) objectsForKeys:(NSArray *) keys 
+- (NSArray *) objectsForKeys:(NSArray *) keys
               notFoundMarker:(id) anObject
 {
    NSEnumerator    *rover;
    NSMutableArray  *array;
    id              value;
    id              key;
-   
+
    array = [NSMutableArray array];
-   
+
    rover = [keys objectEnumerator];
    while( key = [rover nextObject])
    {
       value = [self objectForKey:key];
-      if( value)  
+      if( value)
          [array addObject:value];
    }
    return( array);
@@ -134,14 +134,14 @@
    NSMutableArray  *array;
    id              value;
    id              key;
-   
+
    array = [NSMutableArray array];
-   
+
    rover = [self keyEnumerator];
    while( key = [rover nextObject])
    {
       value = [self objectForKey:key];
-      if( [value isEqual:anObject])  
+      if( [value isEqual:anObject])
          [array addObject:key];
    }
    return( array);

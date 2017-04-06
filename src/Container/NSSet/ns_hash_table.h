@@ -37,13 +37,16 @@
 #define ns_hash_table_h__
 
 #include <mulle_container/mulle_container.h>
-#include <MulleObjC/ns_objc.h>
+#include <MulleObjC/ns_int_type.h>
+#include <MulleObjC/ns_zone.h>
 
 
 typedef struct mulle_container_keycallback        NSHashTableCallBacks;
 
 //
 // NSHashTable is pretty much mulle_set with a copy of the callbacks
+// This is tied to the runtime, through the exception mechanism
+// otherwise it's pure C
 //
 typedef struct
 {
@@ -140,14 +143,13 @@ void   *NSHashInsertIfAbsent( NSHashTable *table, void *p);
 //MulleObjUTF8String *MulleObjUTF8StringFromHashTable( NSHashTable *table);
 //MulleObjCArray *MulleObjCAllHashTableObjects( NSHashTable *table);
 
-#define NSIntHashCallBacks              (*(NSHashTableCallBacks *) &mulle_container_keycallback_int)
-#define NSIntegerHashCallBacks          (*(NSHashTableCallBacks *) &mulle_container_keycallback_intptr)
-#define NSNonOwnedPointerHashCallBacks  (*(NSHashTableCallBacks *) &mulle_container_keycallback_nonowned_pointer)
-#define NSOwnedPointerHashCallBacks     (*(NSHashTableCallBacks *) &mulle_container_keycallback_owned_pointer)
 
-
-//extern NSHashTableCallBacks   MulleObjCNonRetainedObjectHashCallBacks;
-//extern NSHashTableCallBacks   MulleObjCObjectHashCallBacks;
-//extern NSHashTableCallBacks   MulleObjCOwnedObjectIdentityHashCallBacks;
+#define NSIntHashCallBacks                 (*(NSHashTableCallBacks *) &NSIntMapKeyCallBacks)
+#define NSIntegerHashCallBacks             (*(NSHashTableCallBacks *) &NSIntegerMapKeyCallBacks)
+#define NSNonOwnedPointerHashCallBacks     (*(NSHashTableCallBacks *) &NSNonOwnedPointerMapKeyCallBacks)
+#define NSOwnedPointerHashCallBacks        (*(NSHashTableCallBacks *) &NSOwnedPointerMapKeyCallBacks)
+#define NSNonOwnedPointerHashCallBacks     (*(NSHashTableCallBacks *) &NSNonOwnedPointerMapKeyCallBacks)
+#define NSNonRetainedObjectHashCallBacks   (*(NSHashTableCallBacks *) &NSNonRetainedObjectMapKeyCallBacks)
+#define NSObjectHashCallBacks              (*(NSHashTableCallBacks *) &NSObjectMapKeyCallBacks)
 
 #endif
