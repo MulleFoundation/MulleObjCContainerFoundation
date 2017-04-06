@@ -91,9 +91,9 @@ static inline _MulleObjCDictionary  *_MulleObjCNewDictionaryWithCapacity( Class 
 {
    _MulleObjCDictionary        *dictionary;
    _MulleObjCDictionaryIvars   *ivars;
-   
+
    dictionary = NSAllocateObject( self, 0, NULL);
-   
+
    ivars = getDictionaryIvars( dictionary);
    ivars->_allocator = MulleObjCObjectGetAllocator( dictionary);
    _mulle_map_init( &ivars->_table,

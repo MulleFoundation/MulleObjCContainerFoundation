@@ -95,9 +95,9 @@ static inline _MulleObjCSet  *_MulleObjCNewSetWithCapacity( Class self, NSUInteg
 {
    _MulleObjCSet        *set;
    _MulleObjCSetIvars   *ivars;
-   
+
    set = NSAllocateObject( self, 0, NULL);
-   
+
    ivars = getSetIvars( set);
    ivars->_allocator = MulleObjCObjectGetAllocator( set);
    _mulle_set_init( &ivars->_table,

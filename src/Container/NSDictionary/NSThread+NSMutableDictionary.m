@@ -37,11 +37,11 @@
 #import "NSThread+NSMutableDictionary.h"
 
 
-@implementation NSThread (NSDictionary)
+@implementation NSThread( NSDictionary)
 
 - (NSMutableDictionary *) threadDictionary
 {
-   if(  _userInfo)
+   if( ! _userInfo)
       _userInfo = [NSMutableDictionary new];
    return( _userInfo);
 }

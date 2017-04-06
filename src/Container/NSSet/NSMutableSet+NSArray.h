@@ -36,6 +36,12 @@
 
 #import "NSMutableSet.h"
 
+
+@class NSArray;
+
+
 @interface NSMutableSet (NSArray)
+
+- (void) addObjectsFromArray:(NSArray *) array;
 
 @end

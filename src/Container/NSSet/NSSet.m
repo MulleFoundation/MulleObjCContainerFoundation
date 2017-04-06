@@ -141,10 +141,10 @@
    otherCount = [other count];
    {
       id   tmp[ 0x100];
-      
+
       tofree = NULL;
       buf    = tmp;
-      
+
       if( otherCount > 0x100)
          tofree = buf = mulle_malloc( sizeof( id) * otherCount);
 
@@ -184,17 +184,17 @@
    NSUInteger   otherCount;
    id           *buf;
    id           *tofree;
-   
+
    otherCount = [other count];
    {
       id   tmp[ 0x100];
-      
+
       tofree = NULL;
       buf    = tmp;
-      
+
       if( otherCount > 0x100)
          tofree = buf = mulle_malloc( sizeof( id) * otherCount);
-      
+
       [other getObjects:buf
                   count:otherCount];
       set = [self initWithObjects:buf
@@ -202,7 +202,7 @@
                         copyItems:flag];
       mulle_free( tofree);
    }
-   
+
    return( set);
 }
 
@@ -210,89 +210,19 @@
 - (instancetype) initWithObjects:(id) firstObject , ...
 {
    mulle_vararg_list   args;
-   
+
    mulle_vararg_start( args, firstObject);
-   
+
    self = [self initWithObject:firstObject
                      arguments:args];
-   
+
    mulle_vararg_end( args);
    return( self);
 }
 
 
 #pragma mark -
-#pragma mark NSCoder
-
-- (Class) classForCoder
-{
-   return( [NSSet class]);
-}
-
-
-- (id) initWithCoder:(NSCoder *) coder
-{
-   NSUInteger   count;
-   
-   [coder decodeValueOfObjCType:@encode( NSUInteger)
-                             at:&count];
-   
-   return( [_MulleObjCConcreteSet _allocWithCapacity:count]);
-}
-
-
-- (void) encodeWithCoder:(NSCoder *) coder
-{
-   NSUInteger     count;
-   NSEnumerator   *rover;
-   id             obj;
-   
-   count = (NSUInteger) [self count];
-   [coder encodeValueOfObjCType:@encode( NSUInteger)
-                             at:&count];
-   
-   rover = [self objectEnumerator];
-   while( obj = [rover nextObject])
-      [coder encodeObject:obj];
-}
-
-
-- (void) decodeWithCoder:(NSCoder *) coder
-{
-   NSUInteger   count;
-   id           *objects;
-   id           *p;
-   id           *sentinel;
-   size_t       size;
-   
-   [coder decodeValueOfObjCType:@encode( NSUInteger)
-                             at:&count];
-   if( ! count)
-      return;
-   
-   size    = count * sizeof( id);
-   objects = MulleObjCObjectAllocateNonZeroedMemory( self, size);
-   
-   p        = objects;
-   sentinel = &p[ count];
-   while( p < sentinel)
-   {
-      [coder decodeValueOfObjCType:@encode( id)
-                                at:p];
-      ++p;
-   }
-   
-   [(_MulleObjCConcreteSet *) self _initWithObjects:objects
-                                              count:count];
-   MulleObjCMakeObjectsPerformRelease( objects, count);
-   MulleObjCObjectDeallocateMemory( self, objects);
-}
-
-
-#pragma mark -
 #pragma mark conveniences
-
-
 
 // compiler: need an @alias( alloc, whatever), so that implementations
 //           can  be shared
@@ -328,13 +258,13 @@
 {
    mulle_vararg_list   args;
    NSSet               *set;
-   
+
    mulle_vararg_start( args, firstObject);
 
    set = [[[self alloc] initWithObject:firstObject
                              arguments:args] autorelease];
    mulle_vararg_end( args);
-   
+
    return( set);
 }
 
@@ -367,7 +297,7 @@ static BOOL   run_member_on_set_until( NSSet *self, NSSet *other, BOOL expect)
    IMP            impMember;
    SEL            selMember;
    id             obj;
-   
+
    rover = [self objectEnumerator];
 
    selNext = @selector( nextObject);
@@ -375,7 +305,7 @@ static BOOL   run_member_on_set_until( NSSet *self, NSSet *other, BOOL expect)
 
    selMember = @selector( member:);
    impMember = [other methodForSelector:selMember];
-   
+
    while( obj = (*impNext)( rover, selNext, NULL))
       if( (intptr_t) (*impMember)( other, selMember, obj) == expect)
          return( YES);
@@ -388,15 +318,15 @@ static BOOL   run_member_on_set_until( NSSet *self, NSSet *other, BOOL expect)
 {
    NSUInteger     n;
    NSUInteger     m;
-   
+
    n = [self count];
    if( ! n)
       return( YES);
-      
+
    m = [other count];
    if( m > n)
       return( NO);
-      
+
    return( ! run_member_on_set_until( self, other, NO));
 }
 
@@ -414,7 +344,7 @@ static BOOL   run_member_on_set_until( NSSet *self, NSSet *other, BOOL expect)
 {
    if( [self count] != [other count])
       return( NO);
-   
+
    //
    // if we find something where other says NO to
    // member, we know they are not equal
@@ -451,16 +381,16 @@ static BOOL   run_member_on_set_until( NSSet *self, NSSet *other, BOOL expect)
 
    count    = [self count];
    newCount = count + 1;
-   
+
    {
       id   tmp[ 0x100];
-      
+
       tofree = NULL;
       buf    = tmp;
-      
+
       if( newCount > 0x100)
          tofree = buf = mulle_malloc( sizeof( id) * newCount);
-      
+
       [self getObjects:buf
                  count:count];
       buf[ count] = obj;
@@ -474,7 +404,7 @@ static BOOL   run_member_on_set_until( NSSet *self, NSSet *other, BOOL expect)
 }
 
 
-- (id) setByAddingObjectsFromSet:(NSSet *) other 
+- (id) setByAddingObjectsFromSet:(NSSet *) other
 {
    NSSet        *set;
    NSUInteger   count;
@@ -482,37 +412,37 @@ static BOOL   run_member_on_set_until( NSSet *self, NSSet *other, BOOL expect)
    NSUInteger   newCount;
    id           *buf;
    id           *tofree;
-   
+
    otherCount = [other count];
-   
+
    // possibly return self
    if( ! otherCount)
       return( [self immutableInstance]);
-   
+
    count   = [self count];
    newCount = count + otherCount;
-   
+
    {
       id   tmp[ 0x100];
-      
+
       tofree = NULL;
       buf    = tmp;
-      
+
       if( newCount > 0x100)
          tofree = buf = mulle_malloc( sizeof( id) * newCount);
-      
+
       [self getObjects:buf
                  count:count];
       [other getObjects:&buf[ count]
                   count:otherCount];
-      
+
       set = [self initWithObjects:buf
                             count:newCount
                         copyItems:NO];
-      
+
       mulle_free( tofree);
    }
-   
+
    return( set);
 }
 

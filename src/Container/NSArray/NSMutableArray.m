@@ -74,7 +74,7 @@ static void   add_object( NSMutableArray *self, id other);
 static id   initWithArrayAndRange( NSMutableArray *self, NSArray *other, NSRange range)
 {
    assert( [other count] >= range.location + range.length);
-   
+
    self->_count = range.length;
    self->_size  = self->_count;
    if( self->_size < 8)
@@ -98,7 +98,7 @@ static id  initWithRetainedObjects( NSMutableArray *self,
 #ifndef NDEBUG
    {
       unsigned int   i;
-      
+
       for( i = 0; i < n; i++)
          assert( objects[ i]);
    }
@@ -108,7 +108,7 @@ static id  initWithRetainedObjects( NSMutableArray *self,
    if( n < 8)
       self->_size = 8;
    self->_storage = MulleObjCObjectAllocateNonZeroedMemory( self, sizeof( id) * self->_size);
-	 
+
    memcpy( self->_storage, objects, n * sizeof( id));
    return( self);
 }
@@ -127,7 +127,7 @@ static id  initWithObjects( NSMutableArray *self,
 - (id) initWithArray:(NSArray *) other
 {
    NSRange  range;
-   
+
    range = NSMakeRange( 0, [other count]);
    initWithArrayAndRange( self, other, range);
    return( self);
@@ -153,18 +153,18 @@ static id  initWithObjects( NSMutableArray *self,
 {
    NSUInteger   count;
    id           p;
-   
-   count = mulle_vararg_count_objects( args, object);
-   
+
+   count = mulle_vararg_count_ids( args, object);
+
    self = [self initWithCapacity:count];
 
    p = object;
    while( p)
    {
       add_object( self, p);
-      p = mulle_vararg_next_object( args);
+      p = mulle_vararg_next_id( args);
    }
-   
+
    return( self);
 }
 
@@ -179,12 +179,12 @@ static id  initWithObjects( NSMutableArray *self,
 - (id) initWithObjects:(id) object, ...
 {
    mulle_vararg_list   args;
-   
+
    mulle_vararg_start( args, object);
    self = [self initWithObject:object
                      arguments:args];
    mulle_vararg_end( args);
-   
+
    return( self);
 }
 
@@ -197,16 +197,6 @@ static id  initWithObjects( NSMutableArray *self,
       self->_storage = MulleObjCObjectAllocateNonZeroedMemory( self, sizeof( id) * self->_size);
    }
    return( self);
-}
-
-
-
-#pragma mark -
-#pragma mark NSCoding
-
-- (Class) classForCoder
-{
-   return( [NSArray class]);
 }
 
 
@@ -239,7 +229,7 @@ static void   add_object( NSMutableArray *self, id other)
          self->_size = 8;
       self->_storage = MulleObjCObjectReallocateNonZeroedMemory( self, self->_storage, sizeof( id) * self->_size);
    }
- 
+
    self->_storage[ self->_count++] = [other retain];
    self->_mutationCount++;
 }
@@ -290,12 +280,12 @@ static void  assert_index_1( NSMutableArray *self, NSUInteger i)
 static NSUInteger  indexOfObjectIdenticalTo( NSMutableArray *self, id obj, NSRange range)
 {
    NSUInteger   i, n;
-   
+
    n = range.length + range.location;
    for( i = range.location; i < n; i++)
       if( self->_storage[ i] == obj)
          return( i);
-   
+
    return( NSNotFound);
 }
 
@@ -306,12 +296,12 @@ static NSUInteger  indexOfObjectIdenticalTo( NSMutableArray *self, id obj, NSRan
 }
 
 
-- (NSUInteger) indexOfObjectIdenticalTo:(id) obj 
+- (NSUInteger) indexOfObjectIdenticalTo:(id) obj
                                 inRange:(NSRange) range
 {
    if( range.length + range.location > _count || range.length > _count)
       MulleObjCThrowInvalidRangeException( range);
-   
+
    return( indexOfObjectIdenticalTo( self, obj, range));
 }
 
@@ -321,24 +311,24 @@ static NSUInteger  indexOfObject( NSMutableArray *self, id obj, NSRange range, i
    NSUInteger   i, n;
    BOOL         (*imp)( id, SEL, id);
    SEL          sel;
-   
+
    // allow obj == nil
    if( ! obj || ! self->_count)
       return( NSNotFound);
-      
+
    assert( [obj respondsToSelector:@selector( isEqual:)]);
-   
+
    // quick check for first 32 pointers
    n = range.length;
    if( n > 32)
       n = 32;
    n += range.location;
-   
+
    if( ! pedantic)
       for( i = range.location; i < n; i++)
          if( self->_storage[ i] == obj)
             return( i);
-   
+
    sel = @selector( isEqual:);
    imp = (BOOL (*)()) [[obj self] methodForSelector:sel];  // resolve EOFault here
 
@@ -346,7 +336,7 @@ static NSUInteger  indexOfObject( NSMutableArray *self, id obj, NSRange range, i
    for( i = range.location; i < n; i++)
       if( (*imp)( obj, sel, self->_storage[ i]))
          return( i);
-   
+
    return( NSNotFound);
 }
 
@@ -380,7 +370,7 @@ static NSUInteger  indexOfObject( NSMutableArray *self, id obj, NSRange range, i
 
    [object retain];
    [_storage[ i] autorelease];
-   
+
    _storage[ i] = object;
    _mutationCount++;
 }
@@ -390,14 +380,14 @@ static NSUInteger  indexOfObject( NSMutableArray *self, id obj, NSRange range, i
 {
    NSUInteger   n;
    assert_index( self, i);
-   
+
    [_storage[ i] autorelease];
-   
+
    n = _count - (i + 1);
    if( n)
       memcpy( &_storage[ i], &_storage[ i + 1], n * sizeof( id));
    --_count;
-   
+
    _mutationCount++;
 }
 
@@ -405,20 +395,20 @@ static NSUInteger  indexOfObject( NSMutableArray *self, id obj, NSRange range, i
 - (void) removeObjectsInRange:(NSRange) range
 {
    NSUInteger   n;
-   
+
    if( ! range.length)
       return;
-      
+
    assert_index( self, range.location);
    assert_index( self, range.location + range.length - 1);
-   
+
    n = _count - (range.location + range.length - 1);
    if( n)
    {
       _MulleObjCAutoreleaseObjects( &_storage[ range.location], range.length);
 
-      memcpy( &_storage[ range.location], 
-              &_storage[ range.location + range.length], 
+      memcpy( &_storage[ range.location],
+              &_storage[ range.location + range.length],
               n * sizeof( id));
    }
    _count -= range.length;
@@ -430,9 +420,9 @@ static NSUInteger  indexOfObject( NSMutableArray *self, id obj, NSRange range, i
 {
    if( ! _count)
       MulleObjCThrowInvalidRangeException( NSMakeRange( 0, 0));
-   
+
    [_storage[ --_count] autorelease];
-   
+
    if( _count < (_size >> 1) && _size > 8)
    {
       _size >>= 1;
@@ -459,18 +449,18 @@ static NSUInteger  indexOfObject( NSMutableArray *self, id obj, NSRange range, i
 - (void) removeObjectIdenticalTo:(id) obj
 {
    NSUInteger   i;
-   
+
    i = indexOfObjectIdenticalTo( self, obj, NSMakeRange( 0, self->_count));
    if( i != NSNotFound)
       [self removeObjectAtIndex:i];
 }
 
 
-- (void) removeObjectIdenticalTo:(id) obj 
+- (void) removeObjectIdenticalTo:(id) obj
                          inRange:(NSRange) range
 {
    NSUInteger   i;
-   
+
    i = indexOfObjectIdenticalTo( self, obj, range);
    if( i != NSNotFound)
       [self removeObjectAtIndex:i];
@@ -480,7 +470,7 @@ static NSUInteger  indexOfObject( NSMutableArray *self, id obj, NSRange range, i
 - (void) removeObjectsInArray:(NSArray *) otherArray
 {
    NSUInteger   i, n;
-   
+
    n = [otherArray count];
    for( i = 0; i < n; i++)
       [self removeObjectIdenticalTo:[otherArray objectAtIndex:i]];
@@ -492,7 +482,7 @@ static NSUInteger  indexOfObject( NSMutableArray *self, id obj, NSRange range, i
 
 - (void) getObjects:(id *) aBuffer
 {
-   memcpy( aBuffer, self->_storage, self->_count * sizeof( id)); 
+   memcpy( aBuffer, self->_storage, self->_count * sizeof( id));
   // _mutationCount++;
 }
 
@@ -507,18 +497,18 @@ static NSUInteger  indexOfObject( NSMutableArray *self, id obj, NSRange range, i
 
 //
 // coded by example from http://cocoawithlove.com/2008/05/implementing-countbyenumeratingwithstat.html
-// 
+//
 - (NSUInteger) countByEnumeratingWithState:(NSFastEnumerationState *) state
-                                   objects:(id *) stackbuf 
+                                   objects:(id *) stackbuf
                                      count:(NSUInteger) len
 {
    if( state->state)
       return( 0);
-   
+
    state->state        = 1;
    state->itemsPtr     = self->_storage;
    state->mutationsPtr = &_mutationCount;
-   
+
    return( self->_count);
 }
 
@@ -527,16 +517,16 @@ static NSUInteger  indexOfObject( NSMutableArray *self, id obj, NSRange range, i
 - (void) addObjectsFromArray:(NSArray *) array
 {
    size_t   length;
-   
+
    length = [array count];
    reserve( self, length);
-   
+
    [array getObjects:&self->_storage[ self->_count]];
-   
+
    MulleObjCMakeObjectsPerformRetain( &self->_storage[ self->_count], length);
-   
+
    self->_count += length;
-   
+
    _mutationCount++;
 }
 
@@ -548,29 +538,29 @@ static NSUInteger  indexOfObject( NSMutableArray *self, id obj, NSRange range, i
 {
    NSUInteger  i;
    NSUInteger  j;
-   
+
    assert( range.length == n);
    assert( objects);
-   
+
    if( range.length + range.location > _count || range.length > _count)
       MulleObjCThrowInvalidRangeException( range);
 
    _MulleObjCAutoreleaseObjects( &_storage[ range.location], range.length);
-   
+
    n  = range.length + range.location;
    for( j = 0, i = range.location; i < n; i++, j++)
       self->_storage[ i] = [objects[ i] retain];
-   
+
    _mutationCount++;
 }
 
 
-- (void) replaceObjectsInRange:(NSRange) aRange 
+- (void) replaceObjectsInRange:(NSRange) aRange
           withObjectsFromArray:(NSArray *) otherArray
 {
    id           *tmp;
    NSUInteger   n;
-   
+
    n   = [otherArray count];
    tmp = mulle_malloc( sizeof( id) * n);
 
@@ -578,17 +568,17 @@ static NSUInteger  indexOfObject( NSMutableArray *self, id obj, NSRange range, i
    [self replaceObjectsInRange:aRange
                    withObjects:tmp
                          count:n];
-   
+
    mulle_free( tmp);
 }
 
 
-- (void) replaceObjectsInRange:(NSRange) aRange 
-          withObjectsFromArray:(NSArray *) otherArray 
+- (void) replaceObjectsInRange:(NSRange) aRange
+          withObjectsFromArray:(NSArray *) otherArray
                          range:(NSRange) otherRange
 {
    id   *tmp;
-   
+
    tmp = mulle_malloc( sizeof( id) * otherRange.length);
    [otherArray getObjects:tmp
                     range:otherRange];
@@ -611,18 +601,18 @@ static NSUInteger  indexOfObject( NSMutableArray *self, id obj, NSRange range, i
 }
 
 
-- (void) insertObject:(id) obj 
+- (void) insertObject:(id) obj
               atIndex:(NSUInteger) i
 {
    NSUInteger   n;
-   
+
    assert_index_1( self, i);
    if( i == self->_count)
    {
       add_object( self, obj);
       return;
    }
-   
+
    if( _count >= _size)
    {
       self->_size += self->_size;
@@ -630,7 +620,7 @@ static NSUInteger  indexOfObject( NSMutableArray *self, id obj, NSRange range, i
          self->_size = 8;
       _storage = MulleObjCObjectReallocateNonZeroedMemory( self, _storage, sizeof( id) * _size);
    }
-         
+
    n = self->_count - i;
    memcpy( &_storage[ i + 1], &_storage[ i], n * sizeof( id));
 
@@ -647,10 +637,10 @@ static NSUInteger  indexOfObject( NSMutableArray *self, id obj, NSRange range, i
              withObjectAtIndex:(NSUInteger) index2
 {
    id   tmp;
-   
+
    assert_index( self, index1);
    assert_index( self, index2);
-   
+
    tmp             = _storage[ index1];
    _storage[ index1] = _storage[ index2];
    _storage[ index2] = tmp;
@@ -661,7 +651,7 @@ static NSUInteger  indexOfObject( NSMutableArray *self, id obj, NSRange range, i
 
 static int   bouncyBounceSel( void *a, void *b, void *ctxt)
 {
-   return( (int) mulle_objc_object_call( (id) a, (mulle_objc_methodid_t) ctxt, b));
+   return( (int) MulleObjCPerformSelector( (id) a, (SEL) ctxt, b));
 }
 
 
@@ -682,20 +672,20 @@ typedef struct
 static int   bouncyBounce( void *a, void *b, void *_ctxt)
 {
    bouncy  *ctxt;
-   
+
    ctxt = _ctxt;
    return( (int) (ctxt->f)( (id) a, (id) b, ctxt->ctxt));
 }
 
 
-- (void) sortUsingFunction:(NSInteger (*)(id, id, void *)) f 
+- (void) sortUsingFunction:(NSInteger (*)(id, id, void *)) f
                    context:(void *) context
 {
    bouncy  bounce;
-   
+
    bounce.ctxt = context;
    bounce.f    = f;
-   
+
    mulle_qsort_pointers( (void **) _storage, _count, bouncyBounce, &bounce);
    _mutationCount++;
 }

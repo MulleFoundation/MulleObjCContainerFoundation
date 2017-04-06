@@ -54,7 +54,7 @@
 + (instancetype) newWithCapacity:(NSUInteger) count
 {
    id   obj;
-   
+
    obj = _MulleObjCNewSetWithCapacity( self, count);
    return( obj);
 }

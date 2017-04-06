@@ -35,7 +35,6 @@
 //
 
 // export everything with NS
-
 #import "NSArray.h"
 #import "NSDictionary.h"
 #import "NSEnumerator.h"
@@ -43,8 +42,10 @@
 #import "NSMutableDictionary.h"
 #import "NSMutableSet.h"
 #import "NSSet.h"
+#import "NSSortDescriptor.h"
 
 #import "NSArray+NSString.h"
+#import "NSArray+NSSortDescriptor.h"
 #import "NSEnumerator+NSArray.h"
 #import "NSDictionary+NSArray.h"
 #import "NSHashTable+NSArray+NSString.h"

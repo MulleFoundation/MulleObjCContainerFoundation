@@ -49,7 +49,7 @@
 @end
 
 
-@implementation NSObject( _NSString)
+@implementation NSObject( _NSDictionary)
 
 - (BOOL) __isNSDictionary
 {
@@ -59,7 +59,7 @@
 @end
 
 
-@implementation NSDictionary 
+@implementation NSDictionary
 
 
 - (BOOL) __isNSDictionary
@@ -95,7 +95,7 @@
    mulle_vararg_list   args;
 
    mulle_vararg_start( args, object);
-   
+
    dictionary = [[[self alloc] initWithObject:object
                                     arguments:args] autorelease];
    mulle_vararg_end( args);
@@ -169,93 +169,12 @@
 {
    mulle_vararg_list   args;
    id                  dictionary;
-   
+
    mulle_vararg_start( args, obj);
    dictionary = [self initWithObject:obj
                            arguments:args];
    mulle_vararg_end( args);
    return( dictionary);
-}
-
-
-#pragma mark -
-#pragma mark NSCoding
-
-- (Class) classForCoder
-{
-   return( [NSDictionary class]);
-}
-
-
-- (id) initWithCoder:(NSCoder *) coder
-{
-   NSUInteger   count;
-
-   [coder decodeValueOfObjCType:@encode( NSUInteger)
-                             at:&count];
-   [self release];
-   return( [_MulleObjCConcreteDictionary _allocWithCapacity:count]);
-}
-
-
-- (void) decodeWithCoder:(NSCoder *) coder
-{
-   NSUInteger   count;
-   id           *keys;
-   id           *values;
-   id           *p;
-   id           *q;
-   id           *sentinel;
-   size_t       size;
-   
-   [coder decodeValueOfObjCType:@encode( NSUInteger)
-                             at:&count];
-   
-   size   = count * sizeof( id) * 2;
-   keys   = MulleObjCObjectAllocateNonZeroedMemory( self, size);
-   values = &keys[ count];
-
-   p        = keys;
-   q        = values;
-   sentinel = &p[ count];
-   while( p < sentinel)
-   {
-      [coder decodeValueOfObjCType:@encode( id)
-                                at:p];
-      [coder decodeValueOfObjCType:@encode( id)
-                                at:q];
-      ++p;
-      ++q;
-   }
-   
-   // ugliness
-   [(id <_MulleObjCDictionary>) self  _setObjects:values
-                                             keys:keys
-                                            count:count];
-
-   MulleObjCMakeObjectsPerformRelease( keys, count * 2);
-   MulleObjCObjectDeallocateMemory( self, keys);
-}
-
-
-- (void) encodeWithCoder:(NSCoder *) coder
-{
-   NSUInteger     count;
-   NSEnumerator   *rover;
-   id             key;
-   id             value;
-   
-   count = (NSUInteger) [self count];
-   [coder encodeValueOfObjCType:@encode( NSUInteger)
-                             at:&count];
-
-   rover = [self keyEnumerator];
-   while( key = [rover nextObject])
-   {
-      value = [self objectForKey:key];
-      [coder encodeObject:key];
-      [coder encodeObject:value];
-   }
 }
 
 
@@ -273,14 +192,14 @@
 {
    return( [[self keyEnumerator] nextObject]);
 }
- 
- 
+
+
 - (id) anyObject
 {
    return( [[self objectEnumerator] nextObject]);
 }
 
- 
+
 - (NSUInteger) hash
 {
    return( [[self anyObject] hash]);
@@ -304,28 +223,28 @@
    id               key;
    id               value;
    id               other_value;
-   
+
    if( other == self)
       return( YES);
-      
+
    count = [self count];
    if( count != [other count])
       return( NO);
-      
+
    if( ! count)
       return( YES);
-      
+
    rover = [self keyEnumerator];
    while( key = [rover nextObject])
    {
       other_value = [other objectForKey:key];
       if( ! other_value)
          return( NO);
-      
+
       value = [self objectForKey:key];
       if( other_value == value)
          continue;
-      
+
       if( [other_value hash] != [value hash])
          return( NO);
       if( ! [other_value isEqual:value])

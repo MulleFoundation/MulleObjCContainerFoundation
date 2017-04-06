@@ -48,6 +48,6 @@
 - (NSArray *) allObjects;
 
 - (void) makeObjectsPerformSelector:(SEL) sel;
-- (void) makeObjectsPerformSelector:(SEL) sel 
+- (void) makeObjectsPerformSelector:(SEL) sel
                          withObject:(id) object;
 @end

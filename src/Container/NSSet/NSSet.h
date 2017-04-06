@@ -33,13 +33,13 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
-#import <MulleObjC/MulleObjC.h>
+#import "MulleObjCFoundationBase.h"
 
 
 @class NSEnumerator;
 
 
-@interface NSSet : NSObject < MulleObjCClassCluster, NSCoding, NSCopying>
+@interface NSSet : NSObject < MulleObjCClassCluster, NSCopying>
 {
 }
 

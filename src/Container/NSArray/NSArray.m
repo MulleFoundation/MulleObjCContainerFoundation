@@ -86,7 +86,7 @@
 
    if( ! range.length)
       return( [[_MulleObjCEmptyArray sharedInstance] retain]);
-   
+
    return( [_MulleObjCConcreteArray newWithArray:other
                                            range:range]);
 }
@@ -96,7 +96,7 @@
                      copyItems:(BOOL) flag
 {
    [self release];
-   
+
    return( [_MulleObjCConcreteArray newWithArray:other
                                        copyItems:flag]);
 }
@@ -118,26 +118,26 @@
                                         arguments:args]);
 }
 
-           
+
 - (instancetype) initWithObjects:(id) firstObject, ...
 {
    NSArray            *array;
    mulle_vararg_list   args;
 
    [self release];
-   
+
    //
    // subclass check falls on its face, because there is no defined
    // ..V method
    //
    if( ! firstObject)
       return( [[_MulleObjCEmptyArray sharedInstance] retain]);
-   
+
    mulle_vararg_start( args, firstObject);
    array = [_MulleObjCConcreteArray newWithObject:firstObject
                                         arguments:args];
    mulle_vararg_end( args);
-   
+
    return( array);
 }
 
@@ -146,7 +146,7 @@
                            count:(NSUInteger) count
 {
    [self release];
-   
+
    if( ! count)
       return( [[_MulleObjCEmptyArray sharedInstance] retain]);
 
@@ -159,7 +159,7 @@
                                     count:(NSUInteger) count
 {
    [self release];
-   
+
    if( ! count)
       return( [[_MulleObjCEmptyArray sharedInstance] retain]);
 
@@ -172,7 +172,7 @@
                      andObject:(id) obj
 {
    [self release];
-   
+
    return( [[_MulleObjCConcreteArray newWithArray:other
                                         andObject:obj] autorelease]);
 }
@@ -182,7 +182,7 @@
                       andArray:(NSArray *) other2
 {
    [self release];
-   
+
    return( [[_MulleObjCConcreteArray newWithArray:other
                                          andArray:other2] autorelease]);
 }
@@ -193,50 +193,6 @@
 
 
 // done by returning self in protocol already, NSMutableArray must override
-
-
-#pragma mark -
-#pragma mark NSCoding
-
-- (Class) classForCoder
-{
-   return( [NSArray class]);
-}
-
-
-- (id) initWithCoder:(NSCoder *) coder
-{
-   NSUInteger   count;
-   
-   [coder decodeValueOfObjCType:@encode( NSUInteger)
-                             at:&count];
-   
-   [self release];
-   if( ! count)
-      return( [[_MulleObjCEmptyArray sharedInstance] retain]);
-      
-   return( [_MulleObjCConcreteArray _allocWithCapacity:count]);
-}
-
-
-
-- (void) encodeWithCoder:(NSCoder *) coder
-{
-   NSUInteger   count;
-   id           obj;
-   
-   count = (uint32_t) [self count];
-   [coder encodeValueOfObjCType:@encode( NSUInteger)
-                             at:&count];
-   for( obj in self)
-      [coder encodeObject:obj];
-}
-
-
-- (void) decodeWithCoder:(NSCoder *) coder
-{
-}
-
 
 
 # pragma mark -
@@ -274,17 +230,17 @@
 {
    mulle_vararg_list   args;
    NSArray             *array;
-   
+
    mulle_vararg_start( args, firstObject);
    array = [[[self alloc] initWithObject:firstObject
                                arguments:args] autorelease];
    mulle_vararg_end( args);
-   
+
    return( array);
 }
 
 
-+ (id) arrayWithObjects:(id *) objects 
++ (id) arrayWithObjects:(id *) objects
                   count:(NSUInteger) count
 {
    return( [[[self alloc] initWithObjects:objects
@@ -356,7 +312,7 @@ static NSUInteger  findIndexWithRangeForEquality( NSArray *self, NSRange range, 
    id           *sentinel;
    BOOL         (*impEqual)( id, SEL, id);
    SEL          selEqual;
-   
+
    selEqual = @selector( isEqual:);
    impEqual = (BOOL (*)()) [obj methodForSelector:selEqual];
 
@@ -365,15 +321,15 @@ static NSUInteger  findIndexWithRangeForEquality( NSArray *self, NSRange range, 
       len = range.length > sizeof( buf) / sizeof( id)  ? sizeof( buf) / sizeof( id) : range.length;
       if( ! len)
          break;
-      
+
       [self getObjects:buf
                  range:NSMakeRange( range.location, len)];
       sentinel = &buf[ len];
-      
+
       for( p = buf; p < sentinel; p++, range.location++)
          if( (*impEqual)( obj, selEqual, *p))
             return( range.location);
-            
+
       range.length -= len;
    }
    return( NSNotFound);
@@ -386,21 +342,21 @@ static NSUInteger  findIndexWithRange( NSArray *self, NSRange range, id obj)
    id           buf[ 64];
    id           *p;
    id           *sentinel;
-   
+
    for(;;)
    {
       len = range.length > sizeof( buf) / sizeof( id)  ? sizeof( buf) / sizeof( id) : range.length;
       if( ! len)
          break;
-      
+
       [self getObjects:buf
                  range:NSMakeRange( range.location, len)];
       sentinel = &buf[ len];
-      
+
       for( p = buf; p < sentinel; p++, range.location++)
          if( *p == obj)
             return( range.location);
-            
+
       range.length -= len;
    }
    return( NSNotFound);
@@ -419,35 +375,35 @@ static NSUInteger  findIndexWithRange( NSArray *self, NSRange range, id obj)
 }
 
 
-- (NSUInteger) indexOfObject:(id) obj 
+- (NSUInteger) indexOfObject:(id) obj
                      inRange:(NSRange) range
 {
    NSUInteger   count;
-   
+
    count = [self count];
    MulleObjCGetMaxRangeLengthAndRaiseOnInvalidRange( range, count);
-   
+
    return( findIndexWithRangeForEquality( self, range, obj));
 }
 
-                     
+
 - (NSUInteger) indexOfObjectIdenticalTo:(id) obj
 {
    return( findIndexWithRange( self, NSMakeRange( 0, [self count]), obj));
 }
 
 
-- (NSUInteger) indexOfObjectIdenticalTo:(id) obj 
+- (NSUInteger) indexOfObjectIdenticalTo:(id) obj
                                 inRange:(NSRange) range
 {
    NSUInteger   count;
-   
+
    count = [self count];
    MulleObjCGetMaxRangeLengthAndRaiseOnInvalidRange( range, count);
-   
+
    return( findIndexWithRange( self, range, obj));
 }
-                                
+
 
 - (BOOL) isEqual:(id) other
 {
@@ -467,30 +423,30 @@ static NSUInteger  findIndexWithRange( NSArray *self, NSRange range, id obj)
    id             *p;
    id             *q;
    NSRange        range;
-   
+
    range.length = [self count];
    otherCount   = [other count];
-   
+
    if( range.length != otherCount)
       return( NO);
-   
+
    range.location = 0;
    for(;;)
    {
       len = range.length > sizeof( buf1) / sizeof( id) ? sizeof( buf1) / sizeof( id) : range.length;
       if( ! len)
          break;
-      
+
       [self getObjects:buf1
                  range:NSMakeRange( range.location, len)];
       [self getObjects:buf2
                  range:NSMakeRange( range.location, len)];
-                 
+
       sentinel = &buf1[ len];
       for( q = buf2, p = buf1; p < sentinel; p++, q++)
          if( ! [*p isEqual:*q])
             return( NO);
-            
+
       range.location += len;
       range.length   -= len;
    }
@@ -513,11 +469,11 @@ static NSUInteger  findIndexWithRange( NSArray *self, NSRange range, id obj)
 - (id) lastObject
 {
    NSUInteger   i;
-   
+
    i = [self count];
    if( ! i)
       return( nil);
-      
+
    return( [self objectAtIndex:i - 1]);
 }
 
@@ -528,16 +484,16 @@ static void   perform( NSArray *self, NSRange range, SEL sel, id obj)
    id           buf[ 64];
 
    assert( range.location + range.length <= [self count]);
-   
+
    for(;;)
    {
       len = range.length > sizeof( buf) / sizeof( id)  ? sizeof( buf) / sizeof( id) : range.length;
       if( ! len)
          break;
-      
+
       [self getObjects:buf
                  range:NSMakeRange( range.location, len)];
-                 
+
       MulleObjCMakeObjectsPerformSelector( buf, len, sel, obj);
       range.location += len;
       range.length   -= len;
@@ -552,14 +508,14 @@ static void   perform( NSArray *self, NSRange range, SEL sel, id obj)
 }
 
 
-- (void) makeObjectsPerformSelector:(SEL) sel 
+- (void) makeObjectsPerformSelector:(SEL) sel
                          withObject:(id) obj;
 {
    perform( self, NSMakeRange( 0, [self count]), sel, obj);
 }
 
 
-- (void) _makeObjectsPerformSelector:(SEL) sel 
+- (void) _makeObjectsPerformSelector:(SEL) sel
                                range:(NSRange) range;
 {
    perform( self, range, sel, nil);

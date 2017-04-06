@@ -42,14 +42,14 @@
 @interface NSDictionary( NSArray)
 
 // naming is weird here, should be ObjectArray imo
-+ (id) dictionaryWithObjects:(NSArray *)objects 
++ (id) dictionaryWithObjects:(NSArray *)objects
                      forKeys:(NSArray *)keys;
 
-- (id) initWithObjects:(NSArray *) objects 
+- (id) initWithObjects:(NSArray *) objects
                forKeys:(NSArray *) keys;
 
 - (NSArray *) keysSortedByValueUsingSelector:(SEL) comparator;
-- (NSArray *) objectsForKeys:(NSArray *) keys 
+- (NSArray *) objectsForKeys:(NSArray *) keys
               notFoundMarker:(id) anObject;
 
 - (NSArray *) allKeys;

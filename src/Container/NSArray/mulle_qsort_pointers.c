@@ -53,26 +53,26 @@ void   mulle_qsort_pointers( mulle_qsorttype_t *v,
 static void swap( mulle_qsorttype_t *a, mulle_qsorttype_t *b)
 {
    register mulle_qsorttype_t   t;
-   
+
    t  = *a;
    *a = *b;
    *b = t;
 }
 
 
-static inline int  isDescending( int result)
+static inline int  is_descending( int result)
 {
    return( result > 0);
 }
 
 
-static inline int  isAscending( int result)
+static inline int  is_ascending( int result)
 {
    return( result < 0);
 }
 
 
-//static inline int  isSame( int result)
+//static inline int  is_same( int result)
 //{
 //   return( result == 0);
 //}
@@ -84,11 +84,11 @@ void   mulle_qsort_pointers( mulle_qsorttype_t *v,
                              void *userinfo)
 {
    size_t   i, j, ln, rn;
-   
+
    while( n > 1)
    {
       swap( &v[ 0], &v[ n / 2]);
-   
+
       i = 0;
       j = n;
 
@@ -96,11 +96,11 @@ void   mulle_qsort_pointers( mulle_qsorttype_t *v,
       {
          do
             --j;
-         while( isDescending( (*cmp)( v[ j], v[ 0], userinfo)));
+         while( is_descending( (*cmp)( v[ j], v[ 0], userinfo)));
 
          do
             ++i;
-         while( i < j && isAscending( (*cmp)( v[ i], v[ 0], userinfo)));
+         while( i < j && is_ascending( (*cmp)( v[ i], v[ 0], userinfo)));
 
          if( i >= j)
             break;
@@ -108,7 +108,7 @@ void   mulle_qsort_pointers( mulle_qsorttype_t *v,
          swap( &v[ i], &v[ j]);
       }
       swap( &v[ j], &v[ 0]);
-      
+
       ln = j;
       rn = n - ++j;
 
