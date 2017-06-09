@@ -172,7 +172,7 @@ static inline void    NSEndMapTableEnumeration( NSMapEnumerator *rover)
    _mulle_mapenumerator_done( rover);
 }
 
-# pragma mark - harmless hacks 
+# pragma mark - harmless hacks
 
 // since the callbacks are copied into NSMapTable, we can
 // do this:

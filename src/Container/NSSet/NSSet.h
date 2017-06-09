@@ -50,13 +50,14 @@
 + (instancetype) setWithObjects:(id *) objects
                           count:(NSUInteger) count;
 + (instancetype) setWithSet:(NSSet *) set;
-- (instancetype) setByAddingObject:(id) object;
-- (instancetype) setByAddingObjectsFromSet:(NSSet *) set ;
 - (instancetype) initWithObjects:(id) object, ...;
 - (instancetype) initWithObjects:(id *) objects
                            count:(NSUInteger) count;
 - (instancetype) initWithSet:(NSSet *) set
                    copyItems:(BOOL) flag;
+
+- (NSSet *) setByAddingObject:(id) object;
+- (NSSet *) setByAddingObjectsFromSet:(NSSet *) set;
 
 - (id) anyObject;
 - (BOOL) containsObject:(id) object;
@@ -75,7 +76,7 @@
                        copyItems:(BOOL) flag;
 
 - (instancetype) initWithObject:(id) object
-                      arguments:(mulle_vararg_list) args;
+                      mulleVarargList:(mulle_vararg_list) args;
 
 /* subclasses need to override those */
 - (NSUInteger) count;

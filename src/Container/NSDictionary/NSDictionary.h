@@ -41,25 +41,24 @@
 
 @interface NSDictionary : NSObject < MulleObjCClassCluster, NSCopying >
 
-+ (id) dictionary;
-+ (id) dictionaryWithDictionary:(NSDictionary *) dictionary;
-+ (id) dictionaryWithObject:(id) anObject
++ (instancetype) dictionary;
++ (instancetype) dictionaryWithDictionary:(NSDictionary *) dictionary;
++ (instancetype) dictionaryWithObject:(id) anObject
                      forKey:(id) aKey;
-+ (id) dictionaryWithObjects:(id *) objects
++ (instancetype) dictionaryWithObjects:(id *) objects
                      forKeys:(id *) keys
                        count:(NSUInteger) count;
-+ (id) dictionaryWithObjectsAndKeys:(id) firstObject , ...;
++ (instancetype) dictionaryWithObjectsAndKeys:(id) firstObject , ...;
 
-- (id) initWithDictionary:(NSDictionary *) otherDictionary;
-- (id) initWithDictionary:(NSDictionary *) otherDictionary
+- (instancetype) initWithDictionary:(NSDictionary *) otherDictionary;
+- (instancetype) initWithDictionary:(NSDictionary *) otherDictionary
                 copyItems:(BOOL) flag;
-- (id) initWithObjects:(id *) objects
+- (instancetype) initWithObjects:(id *) objects
                forKeys:(id *) keys
                  count:(NSUInteger) count;
-- (id) initWithObjectsAndKeys:(id)firstObject , ...;
-- (id) initWithObject:(id) object
-            arguments:(mulle_vararg_list) args;
-
+- (instancetype) initWithObjectsAndKeys:(id)firstObject , ...;
+- (instancetype) initWithObject:(id) object
+      mulleVarargList:(mulle_vararg_list) args;
 
 - (BOOL) isEqualToDictionary:(NSDictionary *) other;
 
@@ -73,6 +72,7 @@
 - (void) getObjects:(id *) objects
             andKeys:(id *) keys;
 
+- (id) :(id) key;  // short for objectForKey:
 - (id) objectForKey:(id) key;
 - (NSEnumerator *) keyEnumerator;
 - (NSEnumerator *) objectEnumerator;

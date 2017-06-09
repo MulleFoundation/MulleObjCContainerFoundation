@@ -49,14 +49,14 @@
 
 @implementation NSDictionary( NSArray)
 
-+ (id) dictionaryWithObjects:(NSArray *) objects
++ (instancetype) dictionaryWithObjects:(NSArray *) objects
                      forKeys:(NSArray *) keys
 {
    return( [[[self alloc] initWithObjects:objects
                                   forKeys:keys] autorelease]);
 }
 
-- (id) initWithObjects:(NSArray *) objects
+- (instancetype) initWithObjects:(NSArray *) objects
                forKeys:(NSArray *) keys
 {
    NSUInteger     count;

@@ -66,9 +66,7 @@
    return( YES);
 }
 
-
-
-+ (id) dictionaryWithCapacity:(NSUInteger) capacity
++ (instancetype) dictionaryWithCapacity:(NSUInteger) capacity
 {
    return( [[[self alloc] initWithCapacity:capacity] autorelease]);
 }
@@ -76,6 +74,21 @@
 
 # pragma mark -
 # pragma mark classcluster inits
+
+// as we are "breaking out" of the class cluster, use standard
+// allocation
+
++ (instancetype) alloc
+{
+   return( NSAllocateObject( self, 0, NULL));
+}
+
+
++ (instancetype) allocWithZone:(NSZone *) zone
+{
+   return( NSAllocateObject( self, 0, NULL));
+}
+
 
 - (instancetype) init
 {
@@ -119,19 +132,11 @@
 
 
 - (instancetype) initWithObject:(id) obj
-                      arguments:(mulle_vararg_list) args
+                      mulleVarargList:(mulle_vararg_list) args
 {
    [self release];
    return( [_MulleObjCConcreteMutableDictionary newWithObject:obj
-                                                   arguments:args]);
-}
-
-#pragma mark -
-#pragma mark NSCoding
-
-- (Class) classForCoder
-{
-   return( [NSDictionary class]);
+                                              mulleVarargList:args]);
 }
 
 

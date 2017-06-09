@@ -41,11 +41,12 @@
 
 @interface NSSet( NSArray)
 
-+ (id) setWithArray:(NSArray *) array;
-- (id) setByAddingObjectsFromArray:(NSArray *) array;
++ (instancetype) setWithArray:(NSArray *) array;
 
-- (id) initWithArray:(NSArray *) array;
+- (instancetype) initWithArray:(NSArray *) array;
 - (NSArray *) allObjects;
+
+- (NSSet *) setByAddingObjectsFromArray:(NSArray *) array;
 
 - (void) makeObjectsPerformSelector:(SEL) sel;
 - (void) makeObjectsPerformSelector:(SEL) sel

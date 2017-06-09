@@ -36,11 +36,11 @@
 @interface NSArray( _Private)
 
 
-- (id) _initWithArray:(NSArray *) other
-                range:(NSRange) range;
++ (instancetype) _arrayWithArray:(NSArray *) other
+                           range:(NSRange) range;
+- (instancetype) _initWithArray:(NSArray *) other
+                          range:(NSRange) range;
 - (void) _makeObjectsPerformSelector:(SEL) sel
                                range:(NSRange) range;
-+ (id) _arrayWithArray:(NSArray *) other
-                 range:(NSRange) range;
 
 @end

@@ -25,7 +25,6 @@ src/Container/NSDictionary
 src/Container/NSSet
 src/Data
 src/Exception
-src/KVC
 src/Locale
 src/PropertyList
 src/Notification
@@ -42,7 +41,6 @@ src/Value
 ##       mulle-xcode-to-cmake -t MulleObjCFoundation \
 ##                            -t MulleObjCArchiver \
 ##                            -t MulleObjCCore \
-##                            -t MulleObjCKVC \
 ##                            -t MulleObjCLocale \
 ##                            -t MulleObjCNotification \
 ##                            -t MulleObjCPropertyList \
@@ -58,8 +56,6 @@ set( HEADERS
 ${MULLE_OBJC_FOUNDATION_PUBLIC_HEADERS}
 ${MULLE_OBJC_ARCHIVER_PUBLIC_HEADERS}
 ${MULLE_OBJC_CORE_PUBLIC_HEADERS}
-${MULLE_OBJC_CORE_PUBLIC_HEADERS}
-${MULLE_OBJC_KVC_PUBLIC_HEADERS}
 ${MULLE_OBJC_LOCALE_PUBLIC_HEADERS}
 ${MULLE_OBJC_NOTIFICATION_PUBLIC_HEADERS}
 ${MULLE_OBJC_PROPERTY_LIST_PUBLIC_HEADERS}
@@ -69,8 +65,6 @@ set( PRIVATE_HEADERS
 ${MULLE_OBJC_FOUNDATION_PRIVATE_HEADERS}
 ${MULLE_OBJC_ARCHIVER_PRIVATE_HEADERS}
 ${MULLE_OBJC_CORE_PRIVATE_HEADERS}
-${MULLE_OBJC_CORE_PRIVATE_HEADERS}
-${MULLE_OBJC_KVC_PRIVATE_HEADERS}
 ${MULLE_OBJC_LOCALE_PRIVATE_HEADERS}
 ${MULLE_OBJC_NOTIFICATION_PRIVATE_HEADERS}
 ${MULLE_OBJC_PROPERTY_LIST_PRIVATE_HEADERS}
@@ -80,15 +74,13 @@ set( SOURCES
 ${MULLE_OBJC_FOUNDATION_SOURCES}
 ${MULLE_OBJC_ARCHIVER_SOURCES}
 ${MULLE_OBJC_CORE_SOURCES}
-${MULLE_OBJC_CORE_SOURCES}
-${MULLE_OBJC_KVC_SOURCES}
 ${MULLE_OBJC_LOCALE_SOURCES}
 ${MULLE_OBJC_NOTIFICATION_SOURCES}
 ${MULLE_OBJC_PROPERTY_LIST_SOURCES}
 )
 
 
-add_library(MulleObjCFoundation STATIC
+add_library( MulleObjCFoundation STATIC
 ${SOURCES}
 # for IDEs
 ${HEADERS}
@@ -148,5 +140,5 @@ ${END_ALL_LOAD}
 
 INSTALL( TARGETS MulleObjCFoundation MulleObjCFoundationStandalone DESTINATION "lib")
 INSTALL( FILES ${HEADERS} DESTINATION "include/MulleObjCFoundation")
-INSTALL( FILES ${PRIVATE_HEADERS} DESTINATION "include/MulleObjCFoundation/private")
+INSTALL( FILES ${PRIVATE_HEADERS} DESTINATION "include/MulleObjCFoundation/Private")
 

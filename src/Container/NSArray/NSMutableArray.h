@@ -46,7 +46,7 @@
    unsigned long   _mutationCount;      // for ObjC 2.0
 }
 
-- (id) initWithCapacity:(NSUInteger) capacity;
+- (instancetype) initWithCapacity:(NSUInteger) capacity;
 
 - (void) addObjectsFromArray:(NSArray *) otherArray;
 
@@ -56,6 +56,7 @@
 - (void) replaceObjectAtIndex:(NSUInteger) index
                    withObject:(id) obj;
 - (void) removeLastObject;
+- (void) removeObject:(id) obj;
 - (void) removeObjectAtIndex:(NSUInteger) index;
 - (void) removeObjectsInRange:(NSRange) range;
 - (void) removeObjectIdenticalTo:(id) obj;
@@ -78,16 +79,16 @@
 - (void) sortUsingSelector:(SEL)comparator;
 - (void) sortUsingFunction:(NSInteger (*)(id, id, void *)) compare
                    context:(void *) context;
-+ (id) arrayWithCapacity:(NSUInteger) capacity;
++ (instancetype) arrayWithCapacity:(NSUInteger) capacity;
 
-- (id) initWithArray:(NSArray *) other;
-- (id) initWithArray:(NSArray *) other
+- (instancetype) initWithArray:(NSArray *) other;
+- (instancetype) initWithArray:(NSArray *) other
                range:(NSRange) range;
-- (id) initWithObjects:(id *) objects
+- (instancetype) initWithObjects:(id *) objects
                  count:(NSUInteger) n;
-- (id) initWithObject:(id) object
-            arguments:(mulle_vararg_list) args;
-- (id) initWithObjects:(id) object, ...;
+- (instancetype) initWithObject:(id) object
+            mulleVarargList:(mulle_vararg_list) args;
+- (instancetype) initWithObjects:(id) object, ...;
 
 @end
 

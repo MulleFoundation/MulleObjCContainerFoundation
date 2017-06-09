@@ -7,12 +7,14 @@
 set( MULLE_OBJC_FOUNDATION_SOURCES
 src/MulleObjCFoundation.c
 src/MulleObjCFoundationSetup.m
+src/MulleObjCLoader+Foundation.m
 )
 
 set( MULLE_OBJC_FOUNDATION_PUBLIC_HEADERS
 src/MulleObjCFoundation.h
 src/MulleObjCFoundationParent.h
 src/MulleObjCFoundationSetup.h
+src/MulleObjCLoader+Foundation.h
 )
 
 
@@ -31,6 +33,7 @@ src/Archiver/NSDate+NSCoder.m
 src/Archiver/NSDictionary+NSCoder.m
 src/Archiver/NSKeyedArchiver.m
 src/Archiver/NSKeyedUnarchiver.m
+src/Archiver/NSObject+NSCoder.m
 src/Archiver/NSNumber+NSCoder.m
 src/Archiver/NSSet+NSCoder.m
 src/Archiver/NSSortDescriptor+NSCoder.m
@@ -49,6 +52,16 @@ src/Archiver/NSKeyedArchiver.h
 src/Archiver/NSKeyedUnarchiver.h
 src/Archiver/NSUnarchiver.h
 src/Archiver/mulle_buffer_archiver.h
+src/Archiver/NSArray+NSCoder.h
+src/Archiver/NSData+NSCoder.h
+src/Archiver/NSDate+NSCoder.h
+src/Archiver/NSDictionary+NSCoder.h
+src/Archiver/NSObject+NSCoder.h
+src/Archiver/NSNumber+NSCoder.h
+src/Archiver/NSSet+NSCoder.h
+src/Archiver/NSString+NSCoder.h
+src/Archiver/NSSortDescriptor+NSCoder.h
+src/Archiver/NSValue+NSCoder.h
 )
 
 
@@ -91,7 +104,6 @@ src/Container/NSSet/_MulleObjCConcreteSet.m
 src/Container/NSSet/_MulleObjCSet.m
 src/Container/NSSet/ns_hash_table.c
 src/Container/NSSortDescriptor.m
-src/Data/NSData+NSString.m
 src/Data/NSData.m
 src/Data/NSMutableData.m
 src/Data/_MulleObjCConcreteMutableData.m
@@ -100,10 +112,9 @@ src/Exception/NSAssertionHandler.m
 src/Exception/NSError.m
 src/Exception/NSException+String.m
 src/Exception/NSException.m
-src/KVC/NSArray+MulleObjCKVCArithmetic.m
-src/KVC/NSNumber+MulleObjCKVCArithmetic.m
 src/String/NSCharacterSet.m
 src/String/NSConstantString.m
+src/String/NSData+NSString.m
 src/String/NSFormatter.m
 src/String/NSMethodSignature+NSString.m
 src/String/NSMutableString+NSData.m
@@ -149,6 +160,7 @@ src/Base/MulleObjCCExceptionFunctions.h
 src/Base/MulleObjCExceptionFunctions.h
 src/Base/MulleObjCFoundationBase.h
 src/Base/NSMutableCopying.h
+src/Base/MulleObjCHashFunctions.h
 src/Base/ns_foundationconfiguration.h
 src/Container/MulleObjCContainerCallback.h
 src/Container/MulleObjCFoundationContainer.h
@@ -186,6 +198,7 @@ src/String/NSCharacterSet.h
 src/String/NSConstantString.h
 src/String/NSFormatter.h
 src/String/NSMutableString.h
+src/String/NSObject+NSString.h
 src/String/NSScanner.h
 src/String/NSString+ClassCluster.h
 src/String/NSString+Components.h
@@ -209,27 +222,6 @@ src/Value/NSValue.h
 )
 
 
-##
-## MulleObjCKVC Files
-##
-
-set( MULLE_OBJC_KVC_SOURCES
-src/KVC/NSArray+KeyValueCoding.m
-src/KVC/NSDictionary+KeyValueCoding.m
-src/KVC/NSMutableDictionary+KeyValueCoding.m
-src/KVC/NSObject+KeyValueCoding.m
-src/KVC/NSObject+_MulleObjCKVCInformation.m
-src/KVC/NSProxy+_MulleObjCKVCInformation.m
-src/KVC/NSSortDescriptor+NSKeyValueCoding.m
-src/KVC/_MulleObjCInstanceVariableAccess.m
-src/KVC/_MulleObjCKVCInformation.m
-)
-
-set( MULLE_OBJC_KVC_PUBLIC_HEADERS
-src/KVC/MulleObjCFoundationKVC.h
-src/KVC/NSObject+KeyValueCoding.h
-)
-
 
 ##
 ## MulleObjCLocale Files
@@ -248,6 +240,7 @@ src/Locale/NSNumber+NSLocale.m
 src/Locale/NSNumberFormatter.m
 src/Locale/NSString+NSLocale.m
 src/Locale/NSTimeZone.m
+src/Locale/_NSGMTTimeZone.m
 )
 
 set( MULLE_OBJC_LOCALE_PUBLIC_HEADERS
@@ -268,6 +261,11 @@ src/Locale/NSTimeZone.h
 )
 
 
+set( MULLE_OBJC_LOCALE_PRIVATE_HEADERS
+src/Locale/_NSGMTTimeZone.h
+)
+
+
 ##
 ## MulleObjCNotification Files
 ##
@@ -275,12 +273,14 @@ src/Locale/NSTimeZone.h
 set( MULLE_OBJC_NOTIFICATION_SOURCES
 src/Notification/NSNotification.m
 src/Notification/NSNotificationCenter.m
+src/Notification/NSThread+NSNotification.m
 )
 
 set( MULLE_OBJC_NOTIFICATION_PUBLIC_HEADERS
 src/Notification/MulleObjCFoundationNotification.h
 src/Notification/NSNotification.h
 src/Notification/NSNotificationCenter.h
+src/Notification/NSThread+NSNotification.h
 )
 
 

@@ -68,19 +68,19 @@
 }
 
 
-+ (id) dictionary
++ (instancetype) dictionary
 {
    return( [[[self alloc] init] autorelease]);
 }
 
 
-+ (id) dictionaryWithDictionary:(NSDictionary *) other
++ (instancetype) dictionaryWithDictionary:(NSDictionary *) other
 {
    return( [[[self alloc] initWithDictionary:other] autorelease]);
 }
 
 
-+ (id) dictionaryWithObject:(id) obj
++ (instancetype) dictionaryWithObject:(id) obj
                      forKey:(id) key
 {
    return( [[[self alloc] initWithObjects:&obj
@@ -89,7 +89,7 @@
 }
 
 
-+ (id) dictionaryWithObjectsAndKeys:(id) object, ...
++ (instancetype) dictionaryWithObjectsAndKeys:(id) object, ...
 {
    NSDictionary        *dictionary;
    mulle_vararg_list   args;
@@ -97,7 +97,7 @@
    mulle_vararg_start( args, object);
 
    dictionary = [[[self alloc] initWithObject:object
-                                    arguments:args] autorelease];
+                              mulleVarargList:args] autorelease];
    mulle_vararg_end( args);
    return( dictionary);
 }
@@ -106,7 +106,7 @@
 //
 // should also work for NSMutableArray
 //
-+ (id) dictionaryWithObjects:(id *) objects
++ (instancetype) dictionaryWithObjects:(id *) objects
                      forKeys:(id *) keys
                        count:(NSUInteger) count
 {
@@ -154,11 +154,11 @@
 
 
 - (instancetype) initWithObject:(id) obj
-                      arguments:(mulle_vararg_list) args
+                 mulleVarargList:(mulle_vararg_list) args
 {
    [self release];
    return( [_MulleObjCConcreteDictionary newWithObject:obj
-                                             arguments:args]);
+                                             mulleVarargList:args]);
 }
 
 
@@ -172,7 +172,7 @@
 
    mulle_vararg_start( args, obj);
    dictionary = [self initWithObject:obj
-                           arguments:args];
+                     mulleVarargList:args];
    mulle_vararg_end( args);
    return( dictionary);
 }
@@ -200,12 +200,6 @@
 }
 
 
-- (NSUInteger) hash
-{
-   return( [[self anyObject] hash]);
-}
-
-
 // need @alias for this
 - (id) :(id) key
 {
@@ -213,8 +207,18 @@
 }
 
 
-#pragma mark -
-#pragma mark operations
+
+#pragma mark - hash and equality
+
+//
+// hard to pick anything off a NSDictionary, since the implementation
+// is free to order them as they like
+//
+- (NSUInteger) hash
+{
+   return( mulle_hash_avalanche( [self count]));
+}
+
 
 - (BOOL) isEqualToDictionary:(NSDictionary *) other
 {

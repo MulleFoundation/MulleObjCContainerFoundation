@@ -110,7 +110,7 @@ static id    initWithObjects( _MulleObjCSet *self, id *objects, NSUInteger count
 
 
 + (instancetype) newWithObject:(id) firstObject
-                     arguments:(mulle_vararg_list) arguments
+               mulleVarargList:(mulle_vararg_list) arguments
 {
    NSUInteger           count;
    _MulleObjCSet        *obj;
@@ -131,7 +131,7 @@ static id    initWithObjects( _MulleObjCSet *self, id *objects, NSUInteger count
 }
 
 
-+ (id) _allocWithCapacity:(NSUInteger) count
++ (instancetype) _allocWithCapacity:(NSUInteger) count
 {
    id   obj;
 
