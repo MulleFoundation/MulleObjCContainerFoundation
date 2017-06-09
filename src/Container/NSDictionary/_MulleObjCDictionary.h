@@ -51,6 +51,7 @@ typedef struct
 #define NSDictionaryCopyValueCallback  ((struct mulle_container_keyvaluecallback *) &_MulleObjCContainerObjectKeyCopyValueCopyCallback)
 
 
+@class _MulleObjCDictionary;
 @protocol _MulleObjCDictionary
 
 + (instancetype) new;
@@ -61,7 +62,7 @@ typedef struct
 + (instancetype) newWithDictionary:(id) other
                          copyItems:(BOOL) copy;
 + (instancetype) newWithObject:(id) object
-                     arguments:(mulle_vararg_list) args;
+               mulleVarargList:(mulle_vararg_list) args;
 
 // NSCoder support
 + (instancetype) _allocWithCapacity:(NSUInteger) count;

@@ -53,11 +53,12 @@ typedef struct
 
 
 
+@class _MulleObjCSet;
 @protocol _MulleObjCSet
 
 + (instancetype) newWithCapacity:(NSUInteger) capacity;
 + (instancetype) newWithObject:(id) firstObject
-                     arguments:(mulle_vararg_list) arguments;
+                     mulleVarargList:(mulle_vararg_list) arguments;
 
 + (instancetype) newWithObjects:(id *) objects
                           count:(NSUInteger) count

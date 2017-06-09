@@ -51,6 +51,20 @@
    return( [[[self alloc] initWithCapacity:capacity] autorelease]);
 }
 
+// as we are "breaking out" of the class cluster, use standard
+// allocation
+
++ (instancetype) alloc
+{
+   return( NSAllocateObject( self, 0, NULL));
+}
+
+
++ (instancetype) allocWithZone:(NSZone *) zone
+{
+   return( NSAllocateObject( self, 0, NULL));
+}
+
 
 - (instancetype) initWithCapacity:(NSUInteger) numItems
 {
@@ -71,12 +85,14 @@
 
 
 - (instancetype) initWithObject:(id) firstObject
-                      arguments:(mulle_vararg_list) arguments
+                      mulleVarargList:(mulle_vararg_list) arguments
 {
    [self release];
    return( (id) [_MulleObjCConcreteMutableSet newWithObject:firstObject
-                                                  arguments:arguments]);
+                                            mulleVarargList:arguments]);
 }
+
+
 + (instancetype ) _allocWithCapacity:(NSUInteger) count
 {
    return( (id) [_MulleObjCConcreteMutableSet newWithCapacity:count]);

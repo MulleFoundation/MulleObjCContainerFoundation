@@ -108,6 +108,7 @@
 @interface NSArray( Subclasses) < NSFastEnumeration>
 
 - (NSUInteger) count;
+- (id) :(NSUInteger) index; // same as objectAtIndex, just a shortcut
 - (id) objectAtIndex:(NSUInteger) index;
 - (void) getObjects:(id *) objects
               range:(NSRange) range;

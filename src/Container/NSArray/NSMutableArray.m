@@ -49,7 +49,7 @@
 #pragma mark -
 #pragma mark construction conveniences
 
-+ (id) arrayWithCapacity:(NSUInteger) capacity
++ (instancetype) arrayWithCapacity:(NSUInteger) capacity
 {
    return( [[[self alloc] initWithCapacity:capacity] autorelease]);
 }
@@ -57,6 +57,21 @@
 
 
 static void   add_object( NSMutableArray *self, id other);
+
+
+// as we are "breaking out" of the class cluster, use standard
+// allocation
+
++ (instancetype) alloc
+{
+   return( NSAllocateObject( self, 0, NULL));
+}
+
+
++ (instancetype) allocWithZone:(NSZone *) zone
+{
+   return( NSAllocateObject( self, 0, NULL));
+}
 
 
 - (void) dealloc
@@ -124,7 +139,7 @@ static id  initWithObjects( NSMutableArray *self,
 }
 
 
-- (id) initWithArray:(NSArray *) other
+- (instancetype) initWithArray:(NSArray *) other
 {
    NSRange  range;
 
@@ -134,22 +149,22 @@ static id  initWithObjects( NSMutableArray *self,
 }
 
 
-- (id) initWithArray:(NSArray *) other
+- (instancetype) initWithArray:(NSArray *) other
                range:(NSRange) range
 {
    return( initWithArrayAndRange( self, other, range));
 }
 
 
-- (id) initWithObjects:(id *) objects
+- (instancetype) initWithObjects:(id *) objects
                  count:(NSUInteger) n
 {
    return( initWithObjects( self, objects, n));
 }
 
 
-- (id) initWithObject:(id) object
-            arguments:(mulle_vararg_list) args
+- (instancetype) initWithObject:(id) object
+            mulleVarargList:(mulle_vararg_list) args
 {
    NSUInteger   count;
    id           p;
@@ -176,20 +191,20 @@ static id  initWithObjects( NSMutableArray *self,
 }
 
 
-- (id) initWithObjects:(id) object, ...
+- (instancetype) initWithObjects:(id) object, ...
 {
    mulle_vararg_list   args;
 
    mulle_vararg_start( args, object);
    self = [self initWithObject:object
-                     arguments:args];
+               mulleVarargList:args];
    mulle_vararg_end( args);
 
    return( self);
 }
 
 
-- (id) initWithCapacity:(NSUInteger) capacity
+- (instancetype) initWithCapacity:(NSUInteger) capacity
 {
    if( capacity)
    {
@@ -269,6 +284,7 @@ static void  assert_index_1( NSMutableArray *self, NSUInteger i)
    assert_index( self, i);
    return( _storage[ i]);
 }
+
 
 - (id) objectAtIndex:(NSUInteger) i
 {
@@ -376,17 +392,48 @@ static NSUInteger  indexOfObject( NSMutableArray *self, id obj, NSRange range, i
 }
 
 
-- (void) removeObjectAtIndex:(NSUInteger) i
+static void   removeObjectAtIndex( NSMutableArray *self,
+                                   NSUInteger i)
 {
    NSUInteger   n;
+
    assert_index( self, i);
 
-   [_storage[ i] autorelease];
+   [self->_storage[ i] autorelease];
 
-   n = _count - (i + 1);
+   n = self->_count - (i + 1);
    if( n)
-      memcpy( &_storage[ i], &_storage[ i + 1], n * sizeof( id));
-   --_count;
+      memcpy( &self->_storage[ i], &self->_storage[ i + 1], n * sizeof( id));
+   --self->_count;
+}
+
+
+- (void) removeObjectAtIndex:(NSUInteger) i
+{
+   removeObjectAtIndex( self, i);
+
+   _mutationCount++;
+}
+
+
+- (void) removeObject:(id) obj
+{
+   id           *p;
+   id           *sentinel;
+   SEL          sel;
+   BOOL        (*imp)( id, SEL, id);
+
+   sel = @selector( isEqual:);
+   imp = (BOOL (*)( id, SEL, id)) [[obj self] methodForSelector:sel];  // resolve EOFault here
+
+   p        = &_storage[ _count];
+   sentinel = &_storage[ 0];
+   while( p > sentinel)
+   {
+      --p;
+      if( *p == obj || (*imp)( obj, sel, *p))
+         removeObjectAtIndex( self, p - _storage);
+   }
 
    _mutationCount++;
 }

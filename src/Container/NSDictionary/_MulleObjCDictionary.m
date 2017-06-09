@@ -161,7 +161,7 @@ static void   setObjectsAndKeys( _MulleObjCDictionary *self, id *objects, id *ke
 
 
 + (instancetype) newWithObject:(id) object
-                     arguments:(mulle_vararg_list) args
+               mulleVarargList:(mulle_vararg_list) args
 {
    _MulleObjCDictionary   *dictionary;
    id                     *buf;
@@ -237,6 +237,15 @@ static void   setObjectsAndKeys( _MulleObjCDictionary *self, id *objects, id *ke
 
 #pragma mark -
 #pragma mark operations
+
+
+- (id) :(id) key
+{
+   _MulleObjCDictionaryIvars   *ivars;
+
+   ivars = getDictionaryIvars( self);
+   return( _mulle_map_get( &ivars->_table, key, NSDictionaryCallback));
+}
 
 
 - (id) objectForKey:(id) key

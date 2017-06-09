@@ -119,11 +119,11 @@
 
 
 - (instancetype) initWithObject:(id) firstObject
-                      arguments:(mulle_vararg_list) arguments
+                      mulleVarargList:(mulle_vararg_list) arguments
 {
    [self release];
    return( [_MulleObjCConcreteSet newWithObject:firstObject
-                                      arguments:arguments]);
+                                mulleVarargList:arguments]);
 }
 
 
@@ -214,7 +214,7 @@
    mulle_vararg_start( args, firstObject);
 
    self = [self initWithObject:firstObject
-                     arguments:args];
+               mulleVarargList:args];
 
    mulle_vararg_end( args);
    return( self);
@@ -228,27 +228,21 @@
 //           can  be shared
 
 
-+ (id) set
++ (instancetype) set
 {
    return( [[[self alloc] initWithObjects:NULL
                                     count:0] autorelease]);
 }
 
 
-- (NSUInteger) hash
-{
-   return( [[self anyObject] hash]);
-}
-
-
-+ (id) setWithSet:(NSSet *) other
++ (instancetype) setWithSet:(NSSet *) other
 {
    return( [[[self alloc] initWithSet:other
                             copyItems:NO] autorelease]);
 }
 
 
-+ (id) setWithObject:(id) object
++ (instancetype) setWithObject:(id) object
 {
    return( [[[self alloc] initWithObjects:&object
                                     count:1] autorelease]);
@@ -262,14 +256,14 @@
    mulle_vararg_start( args, firstObject);
 
    set = [[[self alloc] initWithObject:firstObject
-                             arguments:args] autorelease];
+                       mulleVarargList:args] autorelease];
    mulle_vararg_end( args);
 
    return( set);
 }
 
 
-+ (id) setWithObjects:(id *) objects
++ (instancetype) setWithObjects:(id *) objects
                 count:(NSUInteger) count
 {
    return( [[[self alloc] initWithObjects:objects
@@ -336,6 +330,26 @@ static BOOL   run_member_on_set_until( NSSet *self, NSSet *other, BOOL expect)
    return( run_member_on_set_until( self, other, YES));
 }
 
+//
+// hard to pick anything off a NSet, since the implementation
+// is free to order them as they like
+//
+
+#pragma mark - hash and equality
+
+- (NSUInteger) hash
+{
+   return( mulle_hash_avalanche( [self count]));
+}
+
+
+- (BOOL) isEqual:(id) other
+{
+   if( ! [other __isNSSet])
+      return( NO);
+   return( [self isEqualToSet:other]);
+}
+
 
 //
 // is [NSSet set] equal to nil ? good question
@@ -368,7 +382,7 @@ static BOOL   run_member_on_set_until( NSSet *self, NSSet *other, BOOL expect)
 }
 
 
-- (id) setByAddingObject:(id) obj
+- (NSSet *) setByAddingObject:(id) obj
 {
    NSSet        *set;
    NSUInteger   count;
@@ -394,9 +408,10 @@ static BOOL   run_member_on_set_until( NSSet *self, NSSet *other, BOOL expect)
       [self getObjects:buf
                  count:count];
       buf[ count] = obj;
-      set         = [self initWithObjects:buf
-                                    count:newCount
-                                copyItems:NO];
+
+      set = [[[NSSet alloc] initWithObjects:buf
+                                      count:newCount
+                                  copyItems:NO] autorelease];
 
       mulle_free( tofree);
    }
@@ -404,7 +419,7 @@ static BOOL   run_member_on_set_until( NSSet *self, NSSet *other, BOOL expect)
 }
 
 
-- (id) setByAddingObjectsFromSet:(NSSet *) other
+- (NSSet *) setByAddingObjectsFromSet:(NSSet *) other
 {
    NSSet        *set;
    NSUInteger   count;
@@ -436,9 +451,9 @@ static BOOL   run_member_on_set_until( NSSet *self, NSSet *other, BOOL expect)
       [other getObjects:&buf[ count]
                   count:otherCount];
 
-      set = [self initWithObjects:buf
-                            count:newCount
-                        copyItems:NO];
+      set = [[[NSSet alloc] initWithObjects:buf
+                                      count:newCount
+                                  copyItems:NO] autorelease];
 
       mulle_free( tofree);
    }

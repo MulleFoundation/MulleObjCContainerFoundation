@@ -82,7 +82,7 @@ static id   initWithRetainedObjects( _MulleObjCConcreteArray *self,
 
 }
 
-+ (id) newWithObjects:(id *) objects
++ (instancetype) newWithObjects:(id *) objects
                 count:(NSUInteger) count
 {
    _MulleObjCConcreteArray   *array;
@@ -94,7 +94,7 @@ static id   initWithRetainedObjects( _MulleObjCConcreteArray *self,
 }
 
 
-+ (id) newWithRetainedObjects:(id *) objects
++ (instancetype) newWithRetainedObjects:(id *) objects
                         count:(NSUInteger) count
 {
    _MulleObjCConcreteArray   *array;
@@ -104,7 +104,7 @@ static id   initWithRetainedObjects( _MulleObjCConcreteArray *self,
 }
 
 
-+ (id) newWithArray:(NSArray *) other
++ (instancetype) newWithArray:(NSArray *) other
               range:(NSRange) range
           copyItems:(BOOL) flag
 {
@@ -123,7 +123,7 @@ static id   initWithRetainedObjects( _MulleObjCConcreteArray *self,
 }
 
 
-+ (id) newWithArray:(NSArray *) other
++ (instancetype) newWithArray:(NSArray *) other
           copyItems:(BOOL) flag
 {
    _MulleObjCConcreteArray   *array;
@@ -143,8 +143,8 @@ static id   initWithRetainedObjects( _MulleObjCConcreteArray *self,
 }
 
 
-+ (id) newWithObject:(id) firstObject
-           arguments:(mulle_vararg_list) args
++ (instancetype) newWithObject:(id) firstObject
+     mulleVarargList:(mulle_vararg_list) args
 {
    _MulleObjCConcreteArray   *array;
    id                        value;
@@ -170,7 +170,45 @@ static id   initWithRetainedObjects( _MulleObjCConcreteArray *self,
 }
 
 
-+ (id) newWithArray:(NSArray *) other
++ (instancetype) newWithObject:(id) firstObject
+          varargList:(va_list) args
+{
+   _MulleObjCConcreteArray   *array;
+   id                        value;
+   NSUInteger                count;
+   id                        *objects;
+   id                        *p;
+   va_list                   copy;
+
+   va_copy( copy, args);
+
+   count = 0;
+   value   = firstObject;
+   while( value)
+   {
+      ++count;
+      value = va_arg( copy, id);
+   }
+
+   va_end( copy);
+
+   array = _MulleObjCNewConcreteArrayWithCapacity( self, count);
+
+   objects = p = _MulleObjCConcreteArrayGetObjects( array);
+   value   = firstObject;
+   while( value)
+   {
+      *p++  = value;
+      value = va_arg( copy, id);
+   }
+
+   MulleObjCMakeObjectsPerformRetain( objects, count);
+
+   return( array);
+}
+
+
++ (instancetype) newWithArray:(NSArray *) other
           andObject:(id) obj
 {
    _MulleObjCConcreteArray   *array;
@@ -192,7 +230,7 @@ static id   initWithRetainedObjects( _MulleObjCConcreteArray *self,
 }
 
 
-+ (id) newWithArray:(NSArray *) other
++ (instancetype) newWithArray:(NSArray *) other
            andArray:(NSArray *) other2
 {
    _MulleObjCConcreteArray    *array;
@@ -215,7 +253,7 @@ static id   initWithRetainedObjects( _MulleObjCConcreteArray *self,
 }
 
 
-+ (id) newWithArray:(NSArray *) other
++ (instancetype) newWithArray:(NSArray *) other
               range:(NSRange) range
 {
    _MulleObjCConcreteArray   *array;
@@ -249,7 +287,7 @@ static int   bouncyBounce( void *a, void *b, void *_ctxt)
 }
 
 
-+ (id) newWithArray:(NSArray *) other
++ (instancetype) newWithArray:(NSArray *) other
        sortFunction:(NSInteger (*)( id, id, void *)) f
             context:(void *) context
 {
@@ -274,7 +312,7 @@ static int   bouncyBounceSel( void *a, void *b, void *ctxt)
 }
 
 
-+ (id) newWithArray:(NSArray *) other
++ (instancetype) newWithArray:(NSArray *) other
     sortedBySelector:(SEL) sel
 {
    _MulleObjCConcreteArray    *array;
@@ -300,7 +338,7 @@ static int   bouncyBounceSel( void *a, void *b, void *ctxt)
 
 
 
-+ (id) _allocWithCapacity:(NSUInteger) count
++ (instancetype) _allocWithCapacity:(NSUInteger) count
 {
    return( _MulleObjCNewConcreteArrayWithCapacity( self, count));
 }
@@ -496,13 +534,13 @@ static NSUInteger   findObjectWithRange( _MulleObjCConcreteArray *self,
 
 #if DEBUG
 
-- (id) retain
+- (instancetype) retain
 {
    return( [super retain]);
 }
 
 
-- (id) autorelease
+- (instancetype) autorelease
 {
    return( [super autorelease]);
 }

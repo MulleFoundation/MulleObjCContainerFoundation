@@ -103,7 +103,7 @@
 
 
 - (instancetype) initWithObject:(id) firstObject
-                      arguments:(mulle_vararg_list) args
+                     varargList:(va_list) args
 {
    [self release];
 
@@ -115,7 +115,23 @@
       return( [[_MulleObjCEmptyArray sharedInstance] retain]);
 
    return( [_MulleObjCConcreteArray newWithObject:firstObject
-                                        arguments:args]);
+                                       varargList:args]);
+}
+
+- (instancetype) initWithObject:(id) firstObject
+                mulleVarargList:(mulle_vararg_list) args
+{
+   [self release];
+
+   //
+   // subclass check falls on its face, because there is no defined
+   // ..V method
+   //
+   if( ! firstObject)
+      return( [[_MulleObjCEmptyArray sharedInstance] retain]);
+
+   return( [_MulleObjCConcreteArray newWithObject:firstObject
+                                 mulleVarargList:args]);
 }
 
 
@@ -135,7 +151,7 @@
 
    mulle_vararg_start( args, firstObject);
    array = [_MulleObjCConcreteArray newWithObject:firstObject
-                                        arguments:args];
+                                        mulleVarargList:args];
    mulle_vararg_end( args);
 
    return( array);
@@ -233,14 +249,14 @@
 
    mulle_vararg_start( args, firstObject);
    array = [[[self alloc] initWithObject:firstObject
-                               arguments:args] autorelease];
+                         mulleVarargList:args] autorelease];
    mulle_vararg_end( args);
 
    return( array);
 }
 
 
-+ (id) arrayWithObjects:(id *) objects
++ (instancetype) arrayWithObjects:(id *) objects
                   count:(NSUInteger) count
 {
    return( [[[self alloc] initWithObjects:objects
@@ -248,7 +264,7 @@
 }
 
 
-+ (id) arrayWithRetainedObjects:(id *) objects
++ (instancetype) arrayWithRetainedObjects:(id *) objects
                           count:(NSUInteger) count
 {
    return( [[[self alloc] _initWithRetainedObjects:objects
@@ -405,6 +421,15 @@ static NSUInteger  findIndexWithRange( NSArray *self, NSRange range, id obj)
 }
 
 
+
+#pragma mark - hash and equality
+
+- (NSUInteger) hash
+{
+   return( [[self lastObject] hash]);
+}
+
+
 - (BOOL) isEqual:(id) other
 {
    if( ! [other __isNSArray])
@@ -454,10 +479,7 @@ static NSUInteger  findIndexWithRange( NSArray *self, NSRange range, id obj)
 }
 
 
-- (NSUInteger) hash
-{
-   return( [[self lastObject] hash]);
-}
+#pragma mark - accessors
 
 // need @alias for this
 - (id) :(NSUInteger) i
@@ -577,13 +599,13 @@ static void   perform( NSArray *self, NSRange range, SEL sel, id obj)
 
 #if DEBUG
 
-- (id) retain
+- (instancetype) retain
 {
    return( [super retain]);
 }
 
 
-- (id) autorelease
+- (instancetype) autorelease
 {
    return( [super autorelease]);
 }

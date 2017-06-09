@@ -1,27 +1,4 @@
-## MulleObjCFoundation should not directly depend on `mulle_objc_runtime` but only on MulleObjC
-
-* KVC breaks this in a big way unsaveable
-* _MulleObjCCheatingASCIIStringStorage storage does too
-* MulleObjCArchiver/MulleObjCUnrchiver could be corrected I guess
-* MulleObjCArchiver can be saved I guess
-* Interfaces with MulleObjC runtime via "ns_foundationconfiguration"
-* otherwise it is `mulle_objc_runtime` agnostic, which means no `mulle_objc` 
-function calls or structure access.
-
-## MulleObjCFoundation should not define MulleObjC symbols but _NS instead
-
-* this is broken all over
-
-
-## Why are there so many little internal libraries ?
-
-The sub-libraries are there to structure the project. The "Core" libraries
-Container, Data, Exception, String, Value are interdependent. 
-
-Whereas Locale, KVC, Archiver can be taken out and stuff should still compile.
-
-
-## Dependencies
+# Dependencies
 
 MulleObjCFoundation depends on
 
@@ -41,4 +18,28 @@ through `MulleObjC`.
 # TODO
 
 * KVC doesn't cache yet
+
+
+## MulleObjCFoundation should not directly depend on `mulle_objc_runtime` but only on MulleObjC
+
+* KVC breaks this in a big way, unsaveable
+* _MulleObjCCheatingASCIIStringStorage storage does too
+* MulleObjCArchiver/MulleObjCUnrchiver could be corrected I guess
+* MulleObjCArchiver can be saved I guess
+* interface with MulleObjC runtime via "ns_foundationconfiguration"
+* otherwise it is `mulle_objc_runtime` agnostic, which means no `mulle_objc` 
+function calls or structure access.
+
+## MulleObjCFoundation should not define MulleObjC symbols but _NS instead
+
+* this is broken all over and keeps breaking. Think this through again.
+
+
+## Why are there so many little internal libraries ?
+
+The sub-libraries are there to structure the project. The "Core" libraries
+Container, Data, Exception, String, Value are interdependent. 
+
+Whereas Locale, KVC, Archiver can be taken out and stuff should still compile.
+Possibly they will even move to different libraries in the future.
 

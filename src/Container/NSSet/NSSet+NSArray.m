@@ -48,13 +48,13 @@
 
 @implementation NSSet( NSArray)
 
-+ (id) setWithArray:(NSArray *) array
++ (instancetype) setWithArray:(NSArray *) array
 {
    return( [[[self alloc] initWithArray:array] autorelease]);
 }
 
 
-- (id) initWithArray:(NSArray *) array
+- (instancetype) initWithArray:(NSArray *) array
 {
    NSMutableData   *data;
    NSUInteger      count;
@@ -101,7 +101,7 @@
 }
 
 
-- (id) setByAddingObjectsFromArray:(NSArray *) array
+- (NSSet *) setByAddingObjectsFromArray:(NSArray *) array
 {
    NSSet  *set;
 

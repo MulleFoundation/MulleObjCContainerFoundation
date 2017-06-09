@@ -45,14 +45,14 @@
    struct mulle_map  _table;
 }
 
-+ (id) dictionaryWithCapacity:(NSUInteger) capacity;
++ (instancetype) dictionaryWithCapacity:(NSUInteger) capacity;
 
 @end
 
 
 @interface NSMutableDictionary( _Subclasses)
 
-- (id) initWithCapacity:(NSUInteger) capacity;
+- (instancetype) initWithCapacity:(NSUInteger) capacity;
 
 - (void) addEntriesFromDictionary:(NSDictionary *) other;
 
