@@ -24,3 +24,5 @@ src.old/
 tests/
 tmp/
 xcuserdata/
+bin/tap-info.sh
+tap-info.sh
