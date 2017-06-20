@@ -1,6 +1,7 @@
-# The MulleObjCFoundation
+# The MulleObjCStandardFoundation
 
-These are all Objective-C classes that run with the standard C libraries only.
+These are all Objective-C classes that run with the standard C libraries only
+and stand on top of MulleObjC, but do not call the runtime directly.
 
 General rule: if it makes a system call it doesn't belong here.
 

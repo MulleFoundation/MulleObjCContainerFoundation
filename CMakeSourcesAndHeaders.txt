@@ -1,20 +1,40 @@
-
-
-##
-## MulleObjCFoundation Files
-##
-
-set( MULLE_OBJC_FOUNDATION_SOURCES
-src/MulleObjCFoundation.c
-src/MulleObjCFoundationSetup.m
-src/MulleObjCLoader+Foundation.m
+include_directories(
+src
+src/Archiver
+src/Base
+src/Container
+src/Container/NSArray
+src/Container/NSDictionary
+src/Container/NSSet
+src/Data
+src/Exception
+src/Locale
+src/PropertyList
+src/Notification
+src/PropertyList
+src/PropertyList/Parsing
+src/PropertyList/Printing
+src/PropertyList/Stream
+src/String
+src/Value
 )
 
-set( MULLE_OBJC_FOUNDATION_PUBLIC_HEADERS
-src/MulleObjCFoundation.h
-src/MulleObjCFoundationParent.h
+
+##
+## MulleObjCStandardFoundation Files
+##
+
+set( MULLE_OBJC_STANDARD_FOUNDATION_SOURCES
+src/MulleObjCFoundationSetup.m
+src/MulleObjCLoader+MulleObjCStandardFoundation.m
+)
+
+set( MULLE_OBJC_STANDARD_FOUNDATION_PUBLIC_HEADERS
+src/MulleObjCStandardFoundation.h
+src/MulleObjCStandardFoundationParent.h
 src/MulleObjCFoundationSetup.h
-src/MulleObjCLoader+Foundation.h
+src/MulleObjCFoundationStandalone.inc
+src/MulleObjCLoader+MulleObjCStandardFoundation.h
 )
 
 
@@ -221,7 +241,11 @@ src/Value/NSThread+NSDate.h
 src/Value/NSValue.h
 )
 
-
+# for KVC
+set( MULLE_OBJC_CORE_PRIVATE_HEADERS
+src/String/_MulleObjCASCIIString.h
+src/String/_MulleObjCCheatingASCIIString.h
+)
 
 ##
 ## MulleObjCLocale Files
@@ -314,3 +338,9 @@ set( MULLE_OBJC_PROPERTY_LIST_PUBLIC_HEADERS
 src/PropertyList/MulleObjCFoundationPropertyList.h
 src/PropertyList/NSPropertyListSerialization.h
 )
+
+
+set( MULLE_OBJC_STANDARD_FOUNDATION_STANDALONE_SOURCES
+src/MulleObjCStandardFoundationStandalone.m
+)
+

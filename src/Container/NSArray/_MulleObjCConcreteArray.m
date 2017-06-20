@@ -1,6 +1,6 @@
 //
 //  _MulleObjCConcreteArray.m
-//  MulleObjCFoundation
+//  MulleObjCStandardFoundation
 //
 //  Copyright (c) 2011 Nat! - Mulle kybernetiK.
 //  Copyright (c) 2011 Codeon GmbH.
@@ -39,7 +39,7 @@
 #include "mulle_qsort_pointers.h"
 #import "_MulleObjCConcreteArray+Private.h"
 
-// other libraries of MulleObjCFoundation
+// other libraries of MulleObjCStandardFoundation
 
 // std-c and dependencies
 #include <stdlib.h>

@@ -1,6 +1,6 @@
 //
 //  NSSet+NSArray.m
-//  MulleObjCFoundation
+//  MulleObjCStandardFoundation
 //
 //  Copyright (c) 2011 Nat! - Mulle kybernetiK.
 //  Copyright (c) 2011 Codeon GmbH.
@@ -40,7 +40,7 @@
 #import "NSEnumerator.h"
 #import "NSMutableArray.h"
 
-// other libraries of MulleObjCFoundation
+// other libraries of MulleObjCStandardFoundation
 #import "MulleObjCFoundationData.h"
 
 // std-c and dependencies

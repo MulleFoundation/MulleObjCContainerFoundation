@@ -5,7 +5,7 @@ If you subclass either one of them, you are probably going to write your own
 storage mechanism. Not because it makes sense, but because Foundation compatibility
 forces you to do it.
 
-In MulleObjCFoundation, subclassing NSSet inherits all the internal NSHashTable mechanisms,
+In MulleObjCStandardFoundation, subclassing NSSet inherits all the internal NSHashTable mechanisms,
 which means, you must override all methods in NSSet, otherwise there will be problems.
 To conserve memory, you also must subclass allocWithZone: which will otherwise allocate some
 extra memory for a NSHashTable. You also need to create your own NSEnumerator subclass.
