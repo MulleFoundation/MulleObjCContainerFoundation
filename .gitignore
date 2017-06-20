@@ -2,6 +2,7 @@
 
 *.debug
 *.dSYM/
+*.bak
 *.exe
 *.exe.debug
 *~.*

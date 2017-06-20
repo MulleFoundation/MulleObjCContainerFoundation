@@ -1,6 +1,6 @@
 //
 //  NSArray.m
-//  MulleObjCFoundation
+//  MulleObjCStandardFoundation
 //
 //  Copyright (c) 2011 Nat! - Mulle kybernetiK.
 //  Copyright (c) 2011 Codeon GmbH.
@@ -41,7 +41,7 @@
 #import "_MulleObjCEmptyArray.h"
 #import "_MulleObjCConcreteArray.h"
 
-// other libraries of MulleObjCFoundation
+// other libraries of MulleObjCStandardFoundation
 #import "MulleObjCFoundationException.h"
 
 // std-c and dependencies

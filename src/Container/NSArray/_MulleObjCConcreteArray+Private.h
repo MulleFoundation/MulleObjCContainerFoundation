@@ -1,6 +1,6 @@
 //
 //  _MulleObjCConcreteArray+Private.h
-//  MulleObjCFoundation
+//  MulleObjCStandardFoundation
 //
 //  Created by Nat! on 28.03.17.
 //  Copyright © 2017 Mulle kybernetiK. All rights reserved.

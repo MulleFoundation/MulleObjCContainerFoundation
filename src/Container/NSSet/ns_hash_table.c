@@ -1,6 +1,6 @@
 //
 //  ns_hash_table.c
-//  MulleObjCFoundation
+//  MulleObjCStandardFoundation
 //
 //  Copyright (c) 2011 Nat! - Mulle kybernetiK.
 //  Copyright (c) 2011 Codeon GmbH.
@@ -38,7 +38,7 @@
 // other files in this library
 #include "MulleObjCCExceptionFunctions.h"
 
-// other libraries of MulleObjCFoundation
+// other libraries of MulleObjCStandardFoundation
 
 // std-c and dependencies
 
