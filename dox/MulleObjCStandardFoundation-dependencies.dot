@@ -1,0 +1,26 @@
+digraph settings
+{
+   node [shape="record"];
+
+
+   { rank = same; "mulle-buffer", "mulle-objc-runtime", "mulle-utf", "mulle-sprintf", "mulle-container" };
+
+   MulleObjC                         [ fontcolor = "purple"];
+   MulleObjCStandardFoundation       [ color = "purple" fontcolor = "purple" ];
+
+   MulleObjC                   -> "mulle-container"
+   MulleObjC                   -> "mulle-objc-runtime"
+   MulleObjCStandardFoundation -> MulleObjC;
+   MulleObjCStandardFoundation -> "mulle-container";
+ 	MulleObjCStandardFoundation -> "mulle-utf";
+   MulleObjCStandardFoundation -> "mulle-sprintf";
+   MulleObjCStandardFoundation -> "mulle-buffer";
+
+ 	subgraph legend {
+    label = "Legend";
+    key [label=<<table border="0" cellpadding="2" cellspacing="0" cellborder="0">
+			       <tr><td align="right"><font color="#000000">black text:</font></td><td>C</td></tr>
+			       <tr><td align="right"><font color="#a020f0">purple text:</font></td><td>Objective C</td></tr>
+			      </table>>]
+ 	}
+}

@@ -15,6 +15,20 @@ Fork      |  Build Status | Release Version
 <!--
 [Community](https://github.com/mulle-objc/MulleObjCStandardFoundation/tree/release) | [![Build Status](https://travis-ci.org/mulle-objc/MulleObjCStandardFoundation.svg)](https://travis-ci.org/mulle-objc/MulleObjCStandardFoundation) | ![Community tag](https://img.shields.io/github/tag/mulle-objc/MulleObjCStandardFoundation.svg) [![Build Status](https://travis-ci.org/mulle-objc/MulleObjCStandardFoundation.svg?branch=release)](https://travis-ci.org/mulle-objc/MulleObjCStandardFoundation) -->
 
+## Constituent Libraries
+
+![Libraries](https://raw.githubusercontent.com/mulle-nat/MulleObjCStandardFoundation/0.9.1/dox/MulleObjCStandardFoundation-dependencies.png)
+
+
+  Name         | Build Status | Release Version
+---------------|--------------|---------------------------------
+[MulleObjC](//github.com/mulle-nat/MulleObjC) | [![Build Status](https://travis-ci.org/mulle-nat/MulleObjC.svg?branch=release)](https://travis-ci.org/mulle-nat/MulleObjC) | ![Mulle kybernetiK tag](https://img.shields.io/github/tag/mulle-nat/MulleObjC.svg) [![Build Status](https://travis-ci.org/mulle-nat/MulleObjC.svg?branch=release)](https://travis-ci.org/mulle-nat/MulleObjC)
+[mulle-buffer](//github.com/mulle-nat/mulle-buffer) | [![Build Status](https://travis-ci.org/mulle-nat/mulle-buffer.svg?branch=release)](https://travis-ci.org/mulle-nat/mulle-buffer) | ![Mulle kybernetiK tag](https://img.shields.io/github/tag/mulle-nat/mulle-buffer.svg) [![Build Status](https://travis-ci.org/mulle-nat/mulle-buffer.svg?branch=release)](https://travis-ci.org/mulle-nat/mulle-buffer)
+[mulle-container](//github.com/mulle-nat/mulle-container) | [![Build Status](https://travis-ci.org/mulle-nat/mulle-container.svg?branch=release)](https://travis-ci.org/mulle-nat/mulle-container) | ![Mulle kybernetiK tag](https://img.shields.io/github/tag/mulle-nat/mulle-container.svg) [![Build Status](https://travis-ci.org/mulle-nat/mulle-container.svg?branch=release)](https://travis-ci.org/mulle-nat/mulle-container)
+[mulle-objc-runtime](//github.com/mulle-nat/mulle-objc-runtime) | [![Build Status](https://travis-ci.org/mulle-nat/mulle-objc-runtime.svg?branch=release)](https://travis-ci.org/mulle-nat/mulle-objc-runtime) | ![Mulle kybernetiK tag](https://img.shields.io/github/tag/mulle-nat/mulle-objc-runtime.svg) [![Build Status](https://travis-ci.org/mulle-nat/mulle-objc-runtime.svg?branch=release)](https://travis-ci.org/mulle-nat/mulle-objc-runtime)
+[mulle-sprintf](//github.com/mulle-nat/mulle-sprintf)  | [![Build Status](https://travis-ci.org/mulle-nat/mulle-sprintf.svg?branch=release)](https://travis-ci.org/mulle-nat/mulle-sprintf) | ![Mulle kybernetiK tag](https://img.shields.io/github/tag/mulle-nat/mulle-sprintf.svg) [![Build Status](https://travis-ci.org/mulle-nat/mulle-sprintf.svg?branch=release)](https://travis-ci.org/mulle-nat/mulle-sprintf)
+[mulle-utf](//github.com/mulle-nat/mulle-utf) | [![Build Status](https://travis-ci.org/mulle-nat/mulle-utf.svg?branch=release)](https://travis-ci.org/mulle-nat/mulle-utf) | ![Mulle kybernetiK tag](https://img.shields.io/github/tag/mulle-nat/mulle-utf.svg) [![Build Status](https://travis-ci.org/mulle-nat/mulle-utf.svg?branch=release)](https://travis-ci.org/mulle-nat/mulle-utf)
+
 
 ## Acknowledgements
 
