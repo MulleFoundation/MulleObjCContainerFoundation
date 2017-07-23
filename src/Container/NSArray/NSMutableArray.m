@@ -346,7 +346,7 @@ static NSUInteger  indexOfObject( NSMutableArray *self, id obj, NSRange range, i
             return( i);
 
    sel = @selector( isEqual:);
-   imp = (BOOL (*)()) [[obj self] methodForSelector:sel];  // resolve EOFault here
+   imp = (BOOL (*)( id, SEL, id)) [[obj self] methodForSelector:sel];  // resolve EOFault here
 
    n  = range.length + range.location;
    for( i = range.location; i < n; i++)
@@ -418,10 +418,10 @@ static void   removeObjectAtIndex( NSMutableArray *self,
 
 - (void) removeObject:(id) obj
 {
-   id           *p;
-   id           *sentinel;
-   SEL          sel;
-   BOOL        (*imp)( id, SEL, id);
+   id     *p;
+   id     *sentinel;
+   SEL    sel;
+   BOOL   (*imp)( id, SEL, id);
 
    sel = @selector( isEqual:);
    imp = (BOOL (*)( id, SEL, id)) [[obj self] methodForSelector:sel];  // resolve EOFault here

@@ -155,7 +155,6 @@ src/String/_MulleObjCCheatingASCIIString.m
 src/String/_MulleObjCConcreteBitmapCharacterSet.m
 src/String/_MulleObjCConcreteCharacterSet.m
 src/String/_MulleObjCConcreteRangeCharacterSet.m
-src/String/_MulleObjCEmptyString.m
 src/String/_MulleObjCTaggedPointerChar5String.m
 src/String/_MulleObjCTaggedPointerChar7String.m
 src/String/_MulleObjCUTF16String.m
