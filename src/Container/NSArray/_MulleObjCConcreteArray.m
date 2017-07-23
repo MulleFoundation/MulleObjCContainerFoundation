@@ -420,7 +420,7 @@ static NSUInteger   findObjectWithRange( _MulleObjCConcreteArray *self,
    BOOL   (*impEqual)( id, SEL, id);
 
    selEqual = @selector( isEqual:);
-   impEqual = (BOOL (*)()) [obj methodForSelector:selEqual];
+   impEqual = (BOOL (*)( id, SEL, id)) [obj methodForSelector:selEqual];
    return( findObject( self, obj, impEqual, selEqual));
 }
 
@@ -432,7 +432,7 @@ static NSUInteger   findObjectWithRange( _MulleObjCConcreteArray *self,
    BOOL    (*impEqual)( id, SEL, id);
 
    selEqual = @selector( isEqual:);
-   impEqual = (BOOL (*)()) [obj methodForSelector:selEqual];
+   impEqual = (BOOL (*)( id, SEL, id)) [obj methodForSelector:selEqual];
    return( findObjectWithRange( self, range, obj, impEqual, selEqual));
 }
 

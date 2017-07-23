@@ -330,7 +330,7 @@ static NSUInteger  findIndexWithRangeForEquality( NSArray *self, NSRange range, 
    SEL          selEqual;
 
    selEqual = @selector( isEqual:);
-   impEqual = (BOOL (*)()) [obj methodForSelector:selEqual];
+   impEqual = (BOOL (*)(id, SEL, id)) [obj methodForSelector:selEqual];
 
    for(;;)
    {
