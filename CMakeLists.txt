@@ -2,6 +2,7 @@ cmake_minimum_required (VERSION 3.0)
 
 project( MulleObjCStandardFoundation C)
 
+
 set( CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/mulle-configuration/cmake)
 message(STATUS "CMAKE_MODULE_PATH is ${CMAKE_MODULE_PATH}")
 message(STATUS "CMAKE_BUILD_TYPE is ${CMAKE_BUILD_TYPE}")
@@ -28,8 +29,10 @@ endif()
 ##                            MulleObjCStandardFoundation.xcodeproj > CMakeSourcesAndHeaders.txt
 ##### CMakeSourcesAndHeaders.txt GENERATED FROM XCODE PROJECT
 
-include( CMakeSourcesAndHeaders.txt)
+set( MULLE_OBJC_STANDARD_FOUNDATION_LIBRARY ON)
 include( CMakeDependencies.txt)
+
+include( CMakeSourcesAndHeaders.txt)
 
 
 set( PUBLIC_HEADERS
