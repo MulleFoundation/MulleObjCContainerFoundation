@@ -83,6 +83,21 @@ ${MULLE_OBJC_STANDARD_FOUNDATION_STANDALONE_SOURCES}
 add_dependencies( MulleObjCStandardFoundationStandalone MulleObjCStandardFoundation)
 
 
+set( TARGET_ALL_LOAD_LIBRARIES
+$<TARGET_FILE:MulleObjCStandardFoundation>
+${OBJC_DEPENDENCY_LIBRARIES}
+${C_DEPENDENCY_LIBRARIES}
+)
+
+if( FORCE_LOAD)
+   set( TMP)
+   foreach( library ${TARGET_ALL_LOAD_LIBRARIES})
+      list( APPEND TMP "${FORCE_LOAD} ${library}")
+   endforeach( library)
+   set( TARGET_ALL_LOAD_LIBRARIES ${TMP})
+endif()
+
+
 #
 # If you add DEPENDENCY_LIBRARIES to the static, adding them again to
 # MulleObjCStandardFoundationStandalone confuses cmake it seems. But they are
@@ -90,9 +105,7 @@ add_dependencies( MulleObjCStandardFoundationStandalone MulleObjCStandardFoundat
 #
 target_link_libraries( MulleObjCStandardFoundationStandalone
 ${BEGIN_ALL_LOAD}
-MulleObjCStandardFoundation
-${OBJC_DEPENDENCY_LIBRARIES}
-${C_DEPENDENCY_LIBRARIES}
+${TARGET_ALL_LOAD_LIBRARIES}
 ${END_ALL_LOAD}
 ${OS_SPECIFIC_LIBRARIES}
 )
