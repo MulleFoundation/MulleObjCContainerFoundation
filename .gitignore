@@ -6,7 +6,11 @@
 *.exe
 *.exe.debug
 *~.*
+*.old
+tmp.*
 
+build/
+build-*.d/
 /.bootstrap.auto
 /.bootstrap.local
 /.repos
@@ -19,7 +23,6 @@
 /tests/include/
 /tests/lib/
 /tests/mulle-tests
-build/
 old/
 src.old/
 tests/
