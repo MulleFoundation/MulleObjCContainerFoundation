@@ -25,15 +25,15 @@ src/Value
 ##
 
 set( MULLE_OBJC_STANDARD_FOUNDATION_SOURCES
-src/MulleObjCFoundationSetup.m
+src/MulleObjCStandardFoundationSetup.m
 src/MulleObjCLoader+MulleObjCStandardFoundation.m
 )
 
 set( MULLE_OBJC_STANDARD_FOUNDATION_PUBLIC_HEADERS
 src/MulleObjCStandardFoundation.h
 src/MulleObjCStandardFoundationParent.h
-src/MulleObjCFoundationSetup.h
-src/MulleObjCFoundationStandalone.inc
+src/MulleObjCStandardFoundationSetup.h
+src/MulleObjCStandardFoundationStartup.inc
 src/MulleObjCLoader+MulleObjCStandardFoundation.h
 )
 
@@ -338,6 +338,9 @@ src/PropertyList/MulleObjCFoundationPropertyList.h
 src/PropertyList/NSPropertyListSerialization.h
 )
 
+set( MULLE_OBJC_STANDARD_FOUNDATION_STARTUP_SOURCES
+src/MulleObjCStandardFoundationStartup.m
+)
 
 set( MULLE_OBJC_STANDARD_FOUNDATION_STANDALONE_SOURCES
 src/MulleObjCStandardFoundationStandalone.m
