@@ -77,6 +77,17 @@ ${PRIVATE_HEADERS}
 CMakeSourcesAndHeaders.txt
 )
 
+
+#
+# This library contains the missing setup function
+# usually the MulleFoundation will override it with
+# its own
+#
+add_library( MulleObjCStandardFoundationStartup STATIC
+${MULLE_OBJC_STANDARD_FOUNDATION_STARTUP_SOURCES}
+)
+
+
 set( OBJC_LIBRARY_NAME "MulleObjCStandardFoundation")
 
 include( DependenciesIncObjC)
@@ -93,13 +104,13 @@ set( STANDALONE_DEFINITIONS ${MULLE_OBJC_STANDARD_FOUNDATION_DEFINITIONS})
 set( STANDALONE_ALL_LOAD_LIBRARIES
     $<TARGET_FILE:${STANDALONE_BASE_NAME}>
     ${OBJC_DEPENDENCY_LIBRARIES}
-    ${OBJC_STARTUP_LIBRARY}
+    $<TARGET_FILE:MulleObjCStandardFoundationStartup>
     ${C_DEPENDENCY_LIBRARIES}
 )
 
 include( Standalone)
 
-install( TARGETS MulleObjCStandardFoundation MulleObjCStandardFoundationStandalone DESTINATION "lib")
+install( TARGETS MulleObjCStandardFoundation MulleObjCStandardFoundationStartup MulleObjCStandardFoundationStandalone DESTINATION "lib")
 install( FILES ${PUBLIC_HEADERS} DESTINATION "include/MulleObjCStandardFoundation")
 install( FILES ${PRIVATE_HEADERS} DESTINATION "include/MulleObjCStandardFoundation/private")
 

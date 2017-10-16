@@ -150,21 +150,21 @@ static id  initWithObjects( NSMutableArray *self,
 
 
 - (instancetype) initWithArray:(NSArray *) other
-               range:(NSRange) range
+                         range:(NSRange) range
 {
    return( initWithArrayAndRange( self, other, range));
 }
 
 
 - (instancetype) initWithObjects:(id *) objects
-                 count:(NSUInteger) n
+                           count:(NSUInteger) n
 {
    return( initWithObjects( self, objects, n));
 }
 
 
 - (instancetype) initWithObject:(id) object
-            mulleVarargList:(mulle_vararg_list) args
+                mulleVarargList:(mulle_vararg_list) args
 {
    NSUInteger   count;
    id           p;
@@ -248,9 +248,6 @@ static void   add_object( NSMutableArray *self, id other)
    self->_storage[ self->_count++] = [other retain];
    self->_mutationCount++;
 }
-
-
-
 
 
 - (void) addObject:(id) other
