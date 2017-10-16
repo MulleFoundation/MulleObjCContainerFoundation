@@ -97,9 +97,11 @@ include( DependenciesIncObjC)
 # though testing could go static at some point in time
 # (shared is more frugal though)
 #
-set( STANDALONE_SOURCES ${MULLE_OBJC_STANDARD_FOUNDATION_STANDALONE_SOURCES})
 set( STANDALONE_BASE_NAME "MulleObjCStandardFoundation")
 set( STANDALONE_NAME "MulleObjCStandardFoundationStandalone")
+set( STANDALONE_STARTUP "MulleObjCStandardFoundationStartup")
+
+set( STANDALONE_SOURCES ${MULLE_OBJC_STANDARD_FOUNDATION_STANDALONE_SOURCES})
 set( STANDALONE_DEFINITIONS ${MULLE_OBJC_STANDARD_FOUNDATION_DEFINITIONS})
 set( STANDALONE_ALL_LOAD_LIBRARIES
     $<TARGET_FILE:${STANDALONE_BASE_NAME}>
