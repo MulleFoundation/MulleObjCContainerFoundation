@@ -37,7 +37,7 @@
 
 #import "NSMutableCopying.h"
 
-#import <mulle_container/mulle_container.h>
+#import <mulle-container/mulle-container.h>
 
 
 @interface NSMutableDictionary : NSDictionary < MulleObjCClassCluster>

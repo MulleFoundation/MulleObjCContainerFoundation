@@ -36,12 +36,12 @@
 #ifndef ns_hash_table_h__
 #define ns_hash_table_h__
 
-#include <mulle_container/mulle_container.h>
+#include <mulle-container/mulle-container.h>
 #include <MulleObjC/ns_int_type.h>
 #include <MulleObjC/ns_zone.h>
 
 
-typedef struct mulle_container_keycallback        NSHashTableCallBacks;
+typedef struct mulle_container_keycallback   NSHashTableCallBacks;
 
 //
 // NSHashTable is pretty much mulle_set with a copy of the callbacks
@@ -54,7 +54,7 @@ typedef struct
    struct mulle_set       _set;
 } NSHashTable;
 
-typedef struct mulle_setenumerator    NSHashEnumerator;
+typedef struct mulle_setenumerator   NSHashEnumerator;
 
 
 NSHashTable   *NSCreateHashTable( NSHashTableCallBacks callBacks, NSUInteger capacity);

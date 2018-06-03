@@ -39,7 +39,7 @@
 //#include <MulleObjC/ns_objc.h>
 #include <MulleObjC/ns_exception.h>
 #include <MulleObjC/ns_zone.h>
-#include <mulle_container/mulle_container.h>
+#include <mulle-container/mulle-container.h>
 
 
 //
