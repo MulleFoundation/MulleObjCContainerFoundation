@@ -37,7 +37,7 @@
 
 // other files in this library
 #include "mulle_qsort_pointers.h"
-#import "_MulleObjCConcreteArray+Private.h"
+#import "_MulleObjCConcreteArray-Private.h"
 
 // other libraries of MulleObjCStandardFoundation
 

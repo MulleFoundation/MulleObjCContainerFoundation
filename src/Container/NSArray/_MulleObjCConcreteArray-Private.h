@@ -1,5 +1,5 @@
 //
-//  _MulleObjCConcreteArray+Private.h
+//  _MulleObjCConcreteArray-Private.h
 //  MulleObjCStandardFoundation
 //
 //  Created by Nat! on 28.03.17.

@@ -1,5 +1,5 @@
 //
-//  NSArray+Private.h
+//  NSArray-Private.h
 //  MulleObjCStandardFoundation
 //
 //  Copyright (c) 2011 Nat! - Mulle kybernetiK.
