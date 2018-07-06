@@ -91,7 +91,10 @@ add_library( "MulleObjCStandardFoundation"
 
 include( Library OPTIONAL)
 
-set( INSTALL_LIBRARY_TARGETS "MulleObjCStandardFoundation")
+set( INSTALL_LIBRARY_TARGETS
+   "MulleObjCStandardFoundation"
+   ${INSTALL_LIBRARY_TARGETS}
+)
 
 include( PostLibrary OPTIONAL)
 
