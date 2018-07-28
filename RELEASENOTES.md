@@ -1,3 +1,7 @@
+### 0.13.2
+
+* fix for mingw
+
 ### 0.13.1
 
 * fix tests
