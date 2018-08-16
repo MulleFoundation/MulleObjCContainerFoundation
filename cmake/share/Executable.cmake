@@ -1,19 +1,21 @@
-if( NOT __EXECUTABLE__CMAKE__)
-   set( __EXECUTABLE__CMAKE__ ON)
+# can be included multiple times
 
-   if( MULLE_TRACE_INCLUDE)
-      message( STATUS "# Include \"${CMAKE_CURRENT_LIST_FILE}\"" )
-   endif()
-
-   include( AllLoadC)
-
-   CreateForceAllLoadList( ALL_LOAD_DEPENDENCY_LIBRARIES FORCE_ALL_LOAD_DEPENDENCY_LIBRARIES)
-
-   set( EXECUTABLE_LIBRARY_LIST
-      ${FORCE_ALL_LOAD_DEPENDENCY_LIBRARIES}
-      ${EXECUTABLE_LIBRARY_LIST}
-   )
-
-   include( ExecutableCAux OPTIONAL)
-
+if( MULLE_TRACE_INCLUDE)
+   message( STATUS "# Include \"${CMAKE_CURRENT_LIST_FILE}\"" )
 endif()
+
+#
+# must be ahead of AllLoadC
+#
+include( ExecutableCAux OPTIONAL)
+
+include( AllLoadC)
+
+CreateForceAllLoadList( ALL_LOAD_DEPENDENCY_LIBRARIES FORCE_ALL_LOAD_DEPENDENCY_LIBRARIES)
+
+set( EXECUTABLE_LIBRARY_LIST
+   ${FORCE_ALL_LOAD_DEPENDENCY_LIBRARIES}
+   ${DEPENDENCY_LIBRARIES}
+   ${OPTIONAL_DEPENDENCY_LIBRARIES}
+   ${OS_SPECIFIC_LIBRARIES}
+)
