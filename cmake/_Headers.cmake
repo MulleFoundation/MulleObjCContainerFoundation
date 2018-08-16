@@ -139,7 +139,6 @@ src/Locale/NSString+NSLocale.h
 src/Locale/NSTimeZone.h
 src/MulleObjCFoundationCore.h
 src/MulleObjCLoader+MulleObjCStandardFoundation.h
-src/MulleObjCStandardFoundationParent.h
 src/MulleObjCStandardFoundationSetup.h
 src/MulleObjCStandardFoundation.h
 src/MulleObjCStandardFoundation-startup.inc

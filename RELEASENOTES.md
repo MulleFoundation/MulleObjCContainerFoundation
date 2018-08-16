@@ -1,3 +1,7 @@
+### 0.13.3
+
+* modernize mulle-sde, remove obsolete file
+
 ### 0.13.2
 
 * fix for mingw
