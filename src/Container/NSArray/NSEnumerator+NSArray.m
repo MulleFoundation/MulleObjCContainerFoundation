@@ -33,6 +33,8 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
+#pragma clang diagnostic ignored "-Wparentheses"
+
 #import "NSEnumerator+NSArray.h"
 
 #import "NSArray.h"
@@ -93,6 +95,19 @@
    while( obj = (*impNext)( self, selNext, NULL))
       [obj performSelector:sel
                 withObject:argument];
+}
+
+
+- (void) mulleMakeObjectsPerformSelector:(SEL) sel
+                              withObject:(id) argument
+                              withObject:(id) argument2
+{
+   id   obj;
+
+   while( obj = [self nextObject])
+      [obj performSelector:sel
+                withObject:argument
+                withObject:argument2];
 }
 
 @end

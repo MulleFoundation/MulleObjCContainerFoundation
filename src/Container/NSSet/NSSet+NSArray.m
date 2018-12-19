@@ -101,6 +101,16 @@
 }
 
 
+- (void) mulleMakeObjectsPerformSelector:(SEL) sel
+                              withObject:(id) obj
+                              withObject:(id) obj2
+{
+   [[self objectEnumerator] mulleMakeObjectsPerformSelector:sel
+                                                  withObject:obj
+                                                 withObject:obj2];
+}
+
+
 - (NSSet *) setByAddingObjectsFromArray:(NSArray *) array
 {
    NSSet  *set;

@@ -38,7 +38,6 @@
 
 // other files in this library
 #import "NSEnumerator.h"
-#import "MulleObjCContainerCallback.h"
 
 // other libraries of MulleObjCStandardFoundation
 

@@ -46,12 +46,3 @@
 
 @end
 
-
-
-@interface NSEnumerator( Perform)
-
-- (void) makeObjectsPerformSelector:(SEL) sel;
-- (void) makeObjectsPerformSelector:(SEL) sel
-                         withObject:(id) obj;
-
-@end

@@ -1,5 +1,5 @@
 //
-//  ns_map_table.h
+//  ns-map-table.h
 //  MulleObjCStandardFoundation
 //
 //  Copyright (c) 2011 Nat! - Mulle kybernetiK.
@@ -36,11 +36,7 @@
 #ifndef ns_map_table_h__
 #define ns_map_table_h__
 
-//#include <MulleObjC/ns_objc.h>
-#include <MulleObjC/ns_exception.h>
-#include <MulleObjC/ns_zone.h>
-#include <mulle-container/mulle-container.h>
-
+#import "import.h"
 
 //
 // NSMapTable is pretty much mulle_map, but the callbacks are a local copy
@@ -101,20 +97,7 @@ static inline void   NSMapRemove( NSMapTable *table, void *key)
 }
 
 
-static inline void   NSMapInsert( NSMapTable *table, void *key, void *value)
-{
-   struct mulle_pointerpair   pair;
-
-   if( key == table->_callback.keycallback.notakey)
-      mulle_objc_throw_invalid_argument_exception( "key is not a key marker (%p)", key);
-
-   pair._key   = key;
-   pair._value = value;
-
-   _mulle_map_insert( &table->_map, &pair, &table->_callback, table->_allocator);
-}
-
-
+void   NSMapInsert( NSMapTable *table, void *key, void *value);
 void   NSMapInsertKnownAbsent( NSMapTable *table, void *key, void *value);
 void   *NSMapInsertIfAbsent( NSMapTable *table, void *key, void *value);
 

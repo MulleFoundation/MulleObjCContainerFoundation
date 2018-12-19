@@ -33,13 +33,13 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
+#pragma clang diagnostic ignored "-Wparentheses"
+
 #import "NSSet.h"
 
 // other files in this library
 #import "NSEnumerator.h"
 #import "_MulleObjCConcreteSet.h"
-#import "MulleObjCContainerCallback.h"
-#include "ns_foundationconfiguration.h"
 
 // other libraries of MulleObjCStandardFoundation
 
@@ -109,21 +109,30 @@
                            count:(NSUInteger) count
                        copyItems:(BOOL) copyItems
 {
-   [self release];
+   id   old;
+
+   old  = self;
    if( ! count)
-      return( [_MulleObjCEmptySet new]);
-   return( [_MulleObjCConcreteSet newWithObjects:objects
-                                           count:count
-                                       copyItems:copyItems]);
+      self = [_MulleObjCEmptySet new];
+   else
+      self = [_MulleObjCConcreteSet newWithObjects:objects
+                                             count:count
+                                         copyItems:copyItems];
+   [old release];
+   return( self);
 }
 
 
 - (instancetype) initWithObject:(id) firstObject
                       mulleVarargList:(mulle_vararg_list) arguments
 {
-   [self release];
-   return( [_MulleObjCConcreteSet newWithObject:firstObject
-                                mulleVarargList:arguments]);
+   id   old;
+
+   old  = self;
+   self = [_MulleObjCConcreteSet newWithObject:firstObject
+                                mulleVarargList:arguments];
+   [old release];
+   return( self);
 }
 
 

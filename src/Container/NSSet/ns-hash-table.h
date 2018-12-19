@@ -1,5 +1,5 @@
 //
-//  ns_hash_table.h
+//  ns-hash-table.h
 //  MulleObjCStandardFoundation
 //
 //  Copyright (c) 2011 Nat! - Mulle kybernetiK.
@@ -36,9 +36,8 @@
 #ifndef ns_hash_table_h__
 #define ns_hash_table_h__
 
-#include <mulle-container/mulle-container.h>
-#include <MulleObjC/ns_int_type.h>
-#include <MulleObjC/ns_zone.h>
+#import "import.h"
+
 
 
 typedef struct mulle_container_keycallback   NSHashTableCallBacks;
@@ -57,16 +56,25 @@ typedef struct
 typedef struct mulle_setenumerator   NSHashEnumerator;
 
 
-NSHashTable   *NSCreateHashTable( NSHashTableCallBacks callBacks, NSUInteger capacity);
+NSHashTable *
+   NSCreateHashTable( NSHashTableCallBacks callBacks, NSUInteger capacity);
 
-static inline void   NSInitHashTable( NSHashTable *table, NSHashTableCallBacks *callBacks, NSUInteger capacity)
+static inline void   NSInitHashTable( NSHashTable *table,
+                                      NSHashTableCallBacks *callBacks,
+                                      NSUInteger capacity)
 {
    table->_callback = *callBacks;
-   mulle_set_init( &table->_set, (unsigned int) capacity, &table->_callback, &mulle_default_allocator);
+   mulle_set_init( &table->_set,
+                  (unsigned int) capacity,
+                  &table->_callback,
+                  &mulle_default_allocator);
 }
 
 
-static inline NSHashTable   *NSCreateHashTableWithZone( NSHashTableCallBacks callBacks, NSUInteger capacity, NSZone *zone)
+static inline NSHashTable   *
+   NSCreateHashTableWithZone( NSHashTableCallBacks callBacks,
+                              NSUInteger capacity,
+                              NSZone *zone)
 {
    return( NSCreateHashTable( callBacks, capacity));
 }
@@ -111,7 +119,8 @@ static inline NSUInteger   NSCountHashTable( NSHashTable *table)
 NSHashTable   *NSCopyHashTable( NSHashTable *table);
 
 
-static inline NSHashTable   *NSCopyHashTableWithZone( NSHashTable *table, NSZone *zone)
+static inline NSHashTable   *NSCopyHashTableWithZone( NSHashTable *table,
+                                                      NSZone *zone)
 {
    return( NSCopyHashTable( table));
 }

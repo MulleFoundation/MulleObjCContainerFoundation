@@ -40,7 +40,6 @@
       { @selector( NSDictionary), @selector( PropertyListPrinting) },      // 8b2abcad;NSDictionary;91aeee11;PropertyListPrinting
       { @selector( NSDictionary), MULLE_OBJC_NO_CATEGORYID },      // 8b2abcad;NSDictionary;;
       { @selector( NSEnumerator), @selector( NSArray) },      // e631d30d;NSEnumerator;233490fe;NSArray
-      { @selector( NSEnumerator), @selector( Perform) },      // e631d30d;NSEnumerator;836b3627;Perform
       { @selector( NSEnumerator), MULLE_OBJC_NO_CATEGORYID },      // e631d30d;NSEnumerator;;
       { @selector( NSError), MULLE_OBJC_NO_CATEGORYID },      // 17836f0e;NSError;;
       { @selector( NSException), @selector( String) },      // 332ec6f9;NSException;04f48586;String

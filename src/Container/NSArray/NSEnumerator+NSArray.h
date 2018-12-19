@@ -45,5 +45,8 @@
 - (void) makeObjectsPerformSelector:(SEL) sel;
 - (void) makeObjectsPerformSelector:(SEL) sel
                          withObject:(id) obj;
+- (void) mulleMakeObjectsPerformSelector:(SEL) sel
+                              withObject:(id) obj
+                              withObject:(id) obj2;
 
 @end

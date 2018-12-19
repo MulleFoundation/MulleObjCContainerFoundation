@@ -36,10 +36,11 @@
 #import "_MulleObjCConcreteArray.h"
 
 // other files in this library
-#include "mulle_qsort_pointers.h"
+#include "mulle-qsort-pointers.h"
 #import "_MulleObjCConcreteArray-Private.h"
 
 // other libraries of MulleObjCStandardFoundation
+#import "NSException.h"
 
 // std-c and dependencies
 #include <stdlib.h>
@@ -105,8 +106,8 @@ static id   initWithRetainedObjects( _MulleObjCConcreteArray *self,
 
 
 + (instancetype) newWithArray:(NSArray *) other
-              range:(NSRange) range
-          copyItems:(BOOL) flag
+                        range:(NSRange) range
+                    copyItems:(BOOL) flag
 {
    _MulleObjCConcreteArray   *array;
    id                        *objects;
@@ -461,14 +462,52 @@ static NSUInteger   findObjectWithRange( _MulleObjCConcreteArray *self,
 
 - (void) makeObjectsPerformSelector:(SEL) sel
 {
-   MulleObjCMakeObjectsPerformSelector( _MulleObjCConcreteArrayGetObjects( self), _count, sel, nil);
+   id   *objects;
+
+   objects = _MulleObjCConcreteArrayGetObjects( self);
+   MulleObjCMakeObjectsPerformSelector0( objects, _count, sel);
 }
 
 
 - (void) makeObjectsPerformSelector:(SEL) sel
                          withObject:(id) obj
 {
-   MulleObjCMakeObjectsPerformSelector( _MulleObjCConcreteArrayGetObjects( self), _count, sel, obj);
+   id   *objects;
+
+   objects = _MulleObjCConcreteArrayGetObjects( self);
+   MulleObjCMakeObjectsPerformSelector( objects, _count, sel, obj);
+}
+
+
+- (void) mulleMakeObjectsPerformSelector:(SEL) sel
+                              withObject:(id) obj
+                              withObject:(id) obj2
+{
+   id   *objects;
+
+   objects = _MulleObjCConcreteArrayGetObjects( self);
+   MulleObjCMakeObjectsPerformSelector2( objects, _count, sel, obj, obj2);
+}
+
+
+
+- (BOOL) mulleForEachObjectCallFunction:(BOOL (*)( id, void *)) f
+                               argument:(void *) userInfo
+                          isPreemptable:(BOOL) isPreemptable
+{
+   id   *objects;
+   id   *sentinel;
+
+   objects = _MulleObjCConcreteArrayGetObjects( self);
+   sentinel = &objects[ _count];
+   if( isPreemptable)
+      while( objects < sentinel)
+         if( ! (*f)( *objects++, userInfo))
+            return( NO);
+   else
+      while( objects < sentinel)
+         (*f)( *objects++, userInfo);
+   return( YES);
 }
 
 

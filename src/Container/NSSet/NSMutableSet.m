@@ -33,6 +33,8 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
+#pragma clang diagnostic ignored "-Wparentheses"
+
 
 #import "NSMutableSet.h"
 
@@ -66,10 +68,20 @@
 }
 
 
++ (instancetype ) _allocWithCapacity:(NSUInteger) count
+{
+   return( (id) [_MulleObjCConcreteMutableSet newWithCapacity:count]);
+}
+
+
 - (instancetype) initWithCapacity:(NSUInteger) numItems
 {
-   [self release];
-   return( (id) [_MulleObjCConcreteMutableSet newWithCapacity:numItems]);
+   id   old;
+
+   old  = self;
+   self = [_MulleObjCConcreteMutableSet newWithCapacity:numItems];
+   [old release];
+   return( self);
 }
 
 
@@ -77,25 +89,27 @@
                            count:(NSUInteger) count
                        copyItems:(BOOL) copyItems
 {
-   [self release];
-   return( (id) [_MulleObjCConcreteMutableSet newWithObjects:objects
-                                                       count:count
-                                                   copyItems:copyItems]);
+   id   old;
+
+   old  = self;
+   self = [_MulleObjCConcreteMutableSet newWithObjects:objects
+                                                 count:count
+                                             copyItems:copyItems];
+   [old release];
+   return( self);
 }
 
 
 - (instancetype) initWithObject:(id) firstObject
                       mulleVarargList:(mulle_vararg_list) arguments
 {
-   [self release];
-   return( (id) [_MulleObjCConcreteMutableSet newWithObject:firstObject
-                                            mulleVarargList:arguments]);
-}
+   id   old;
 
-
-+ (instancetype ) _allocWithCapacity:(NSUInteger) count
-{
-   return( (id) [_MulleObjCConcreteMutableSet newWithCapacity:count]);
+   old  = self;
+   self = [_MulleObjCConcreteMutableSet newWithObject:firstObject
+                                      mulleVarargList:arguments];
+   [old release];
+   return( self);
 }
 
 
