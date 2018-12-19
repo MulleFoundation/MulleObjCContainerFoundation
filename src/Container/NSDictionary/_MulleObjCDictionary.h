@@ -35,10 +35,6 @@
 //
 #import "NSDictionary.h"
 
-#import "MulleObjCContainerCallback.h"
-
-#import <mulle-container/mulle-container.h>
-
 
 typedef struct
 {
@@ -69,6 +65,11 @@ typedef struct
 - (void) _setObjects:(id *) objects
                 keys:(id *) keys
                count:(NSUInteger) count;
+
+// mulle addition:
+- (BOOL) mulleForEachObjectAndKeyCallFunction:(BOOL (*)( id, id, void *)) f
+                                     argument:(void *) userInfo
+                                isPreemptable:(BOOL) isPreemptable;
 @end
 
 

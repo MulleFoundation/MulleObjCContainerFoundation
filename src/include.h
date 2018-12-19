@@ -23,4 +23,19 @@
 
 /* You can add some more include statements here */
 
+/* add some C headers from MulleObjC, for the benefit of C code
+   But avoid that, when compiling ObjC (it would be too early)
+ */
+
+#ifndef __MULLE_OBJC__
+
+//
+// minimal makes no sense here, all our .c files are linked to
+// the runtime via exceptions
+//
+# include <MulleObjC/mulle-objc.h>
+#endif
+
+#include <mulle-container/mulle-container.h>
+
 #endif

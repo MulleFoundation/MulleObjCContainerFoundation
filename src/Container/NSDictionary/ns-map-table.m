@@ -33,14 +33,30 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
-#include "ns_map_table.h"
+#import "ns-map-table.h"
 
 // other files in this library
 
 // other libraries of MulleObjCStandardFoundation
-#include "MulleObjCCExceptionFunctions.h"
+#import "NSException.h"
 
 // std-c and dependencies
+
+
+
+void   NSMapInsert( NSMapTable *table, void *key, void *value)
+{
+   struct mulle_pointerpair   pair;
+
+   if( key == table->_callback.keycallback.notakey)
+      MulleObjCThrowInvalidArgumentException( @"key is not a key marker (%p)", key);
+
+   pair._key   = key;
+   pair._value = value;
+
+   _mulle_map_insert( &table->_map, &pair, &table->_callback, table->_allocator);
+}
+
 
 
 #pragma mark -
@@ -108,10 +124,10 @@ void   NSMapInsertKnownAbsent( NSMapTable *table, void *key, void *value)
    struct mulle_pointerpair   pair;
 
    if( key == table->_callback.keycallback.notakey)
-      MulleObjCThrowCInvalidArgumentException( "key is not a key marker (%p)", key);
+      MulleObjCThrowInvalidArgumentException( @"key is not a key marker (%p)", key);
 
    if(  _mulle_map_get( &table->_map, key, &table->_callback))
-      MulleObjCThrowCInvalidArgumentException( "key is already present (%p)", key);
+      MulleObjCThrowInvalidArgumentException( @"key is already present (%p)", key);
 
    pair._key   = key;
    pair._value = value;
@@ -123,7 +139,7 @@ void   NSMapInsertKnownAbsent( NSMapTable *table, void *key, void *value)
 void   *NSMapInsertIfAbsent( NSMapTable *table, void *key, void *value)
 {
    struct mulle_pointerpair   pair;
-   void                         *old;
+   void                       *old;
 
    old =  _mulle_map_get( &table->_map, key, &table->_callback);
    if( old)

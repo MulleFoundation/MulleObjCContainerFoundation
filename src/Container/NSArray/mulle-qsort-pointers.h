@@ -1,9 +1,9 @@
 //
-//  ns_hash_table.c
+//  mulle-qsort-pointers.h
 //  MulleObjCStandardFoundation
 //
-//  Copyright (c) 2011 Nat! - Mulle kybernetiK.
-//  Copyright (c) 2011 Codeon GmbH.
+//  Copyright (c) 2016 Nat! - Mulle kybernetiK.
+//  Copyright (c) 2016 Codeon GmbH.
 //  All rights reserved.
 //
 //
@@ -33,65 +33,23 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
-#include "ns_hash_table.h"
 
-// other files in this library
-#include "MulleObjCCExceptionFunctions.h"
+#ifndef mulle_qsort_pointers_h__
+#define mulle_qsort_pointers_h__
 
-// other libraries of MulleObjCStandardFoundation
+#include <stddef.h>
 
-// std-c and dependencies
+//
+// needed, because qsort_t is not portable
+// since it's incompatible anyway, mulle_qsort_pointers is even less compatible
+//
+// a) different callback parameters (no indirection, userinfo in the back)
+// b) no element size
+// c) different order of cmp and userinfo (with regards to BSD)
+//
+void   mulle_qsort_pointers( void **pointers,
+                             size_t n,
+                             int (*cmp)( void *a, void *b, void *userinfo),
+                             void *userinfo);
 
-
-NSHashTable   *NSCreateHashTable( NSHashTableCallBacks callBacks, NSUInteger capacity)
-{
-   NSHashTable   *table;
-
-   table  = mulle_malloc( sizeof( NSHashTable));
-   NSInitHashTable( table, &callBacks, capacity);
-   return( table);
-}
-
-
-NSHashTable   *NSCopyHashTable( NSHashTable *table)
-{
-   NSHashTable   *clone;
-
-   clone = NSCreateHashTable( table->_callback, mulle_set_get_count( &table->_set));
-   mulle_set_copy_items( &clone->_set, &table->_set);
-
-   return( clone);
-}
-
-
-void   NSHashInsert( NSHashTable *table, void *p)
-{
-   if( p == table->_callback.notakey)
-      MulleObjCThrowCInvalidArgumentException( "key is not a key marker (%p)", p);
-   mulle_set_set( &table->_set, p);
-}
-
-
-void   NSHashInsertKnownAbsent( NSHashTable *table, void *p)
-{
-   if( p == table->_callback.notakey)
-      MulleObjCThrowCInvalidArgumentException( "key is not a key marker (%p)", p);
-
-   if( mulle_set_get( &table->_set, p))
-      MulleObjCThrowCInvalidArgumentException( "key is already present (%p)", p);
-
-   mulle_set_set( &table->_set, p);
-}
-
-
-void   *NSHashInsertIfAbsent( NSHashTable *table, void *p)
-{
-   void  *old;
-
-   old = mulle_set_get( &table->_set, p);
-   if( old)
-      return( old);
-
-   mulle_set_set( &table->_set, p);
-   return( NULL);
-}
+#endif

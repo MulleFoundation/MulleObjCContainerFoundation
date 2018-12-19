@@ -88,6 +88,19 @@
                 inRange:(NSRange) range;
 - (void) getObjects:(id *) objects;
 
+// mulle addition:
+//
+// userinfo will be passed to function. If the function returns NO and
+// isPreemptable is YES then the iteration will stop and the function will
+// return NO. In all other cases YES is returned.
+//
+- (BOOL) mulleForEachObjectCallFunction:(BOOL (*)( id, void *)) f
+                               argument:(void *) userInfo
+                          isPreemptable:(BOOL) isPreemptable;
+- (void) mulleMakeObjectsPerformSelector:(SEL) sel
+                              withObject:(id) obj
+                            withObject:(id) obj2;
+
 @end
 
 

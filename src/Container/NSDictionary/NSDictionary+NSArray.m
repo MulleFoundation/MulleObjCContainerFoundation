@@ -42,6 +42,7 @@
 #import "NSMutableArray.h"
 
 // other libraries of MulleObjCStandardFoundation
+#import "NSException.h"
 
 // std-c and dependencies
 

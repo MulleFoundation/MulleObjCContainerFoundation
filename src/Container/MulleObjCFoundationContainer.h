@@ -54,16 +54,13 @@
 #import "NSSet+NSArray.h"
 #import "NSThread+NSMutableDictionary.h"
 
-// export everything with MulleObjC
-#import "MulleObjCContainerCallback.h"
-
 // export nothing with _MulleObjC
 
 
 // export everything with ns_
 
-#import "ns_map_table.h"
-#import "ns_hash_table.h"
+#import "ns-map-table.h"
+#import "ns-hash-table.h"
 
 
 #if MULLE_CONTAINER_VERSION < ((0 << 20) | (8 << 8) | 0)

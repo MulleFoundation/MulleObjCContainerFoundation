@@ -33,6 +33,8 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
+#pragma clang diagnostic ignored "-Wparentheses"
+
 #import "NSArray.h"
 
 #import "_MulleObjCArrayEnumerator.h"
@@ -72,135 +74,167 @@
 
 - (instancetype) initWithArray:(NSArray *) other
 {
-   [self release];
+   id   old;
 
-   return( [_MulleObjCConcreteArray newWithArray:other
-                                       copyItems:NO]);
+   old  = self;
+   self = [_MulleObjCConcreteArray newWithArray:other
+                                       copyItems:NO];
+   [old release];
+   return( self);
 }
 
 
 - (instancetype) initWithArray:(NSArray *) other
                          range:(NSRange) range
 {
-   [self release];
+   id   old;
 
+   old  = self;
    if( ! range.length)
-      return( [[_MulleObjCEmptyArray sharedInstance] retain]);
-
-   return( [_MulleObjCConcreteArray newWithArray:other
-                                           range:range]);
+      self = [[_MulleObjCEmptyArray sharedInstance] retain];
+   else
+      self = [_MulleObjCConcreteArray newWithArray:other
+                                           range:range];
+   [old release];
+   return( self);
 }
 
 
 - (instancetype) initWithArray:(NSArray *) other
                      copyItems:(BOOL) flag
 {
-   [self release];
+   id   old;
 
-   return( [_MulleObjCConcreteArray newWithArray:other
-                                       copyItems:flag]);
+   old  = self;
+   self = [_MulleObjCConcreteArray newWithArray:other
+                                       copyItems:flag];
+   [old release];
+   return( self);
 }
 
 
 - (instancetype) initWithObject:(id) firstObject
                      varargList:(va_list) args
 {
-   [self release];
+   id   old;
 
+   old = self;
    //
    // subclass check falls on its face, because there is no defined
    // ..V method
    //
    if( ! firstObject)
-      return( [[_MulleObjCEmptyArray sharedInstance] retain]);
-
-   return( [_MulleObjCConcreteArray newWithObject:firstObject
-                                       varargList:args]);
+      self = [[_MulleObjCEmptyArray sharedInstance] retain];
+   else
+      self = [_MulleObjCConcreteArray newWithObject:firstObject
+                                       varargList:args];
+   [old release];
+   return( self);
 }
 
 - (instancetype) initWithObject:(id) firstObject
                 mulleVarargList:(mulle_vararg_list) args
 {
-   [self release];
+   id   old;
+
+   old = self;
 
    //
    // subclass check falls on its face, because there is no defined
    // ..V method
    //
    if( ! firstObject)
-      return( [[_MulleObjCEmptyArray sharedInstance] retain]);
-
-   return( [_MulleObjCConcreteArray newWithObject:firstObject
-                                 mulleVarargList:args]);
+      self = [[_MulleObjCEmptyArray sharedInstance] retain];
+   else
+      self = [_MulleObjCConcreteArray newWithObject:firstObject
+                                 mulleVarargList:args];
+   [old release];
+   return( self);
 }
 
 
 - (instancetype) initWithObjects:(id) firstObject, ...
 {
-   NSArray            *array;
+   NSArray             *array;
    mulle_vararg_list   args;
+   id                  old;
 
-   [self release];
+   old = self;
 
    //
    // subclass check falls on its face, because there is no defined
    // ..V method
    //
    if( ! firstObject)
-      return( [[_MulleObjCEmptyArray sharedInstance] retain]);
+      self = [[_MulleObjCEmptyArray sharedInstance] retain];
+   else
+   {
+      mulle_vararg_start( args, firstObject);
+      self = [_MulleObjCConcreteArray newWithObject:firstObject
+                                     mulleVarargList:args];
+      mulle_vararg_end( args);
+   }
 
-   mulle_vararg_start( args, firstObject);
-   array = [_MulleObjCConcreteArray newWithObject:firstObject
-                                        mulleVarargList:args];
-   mulle_vararg_end( args);
-
-   return( array);
+   [old release];
+   return( self);
 }
 
 
 - (instancetype) initWithObjects:(id *) objects
                            count:(NSUInteger) count
 {
-   [self release];
+   id   old;
 
+   old = self;
    if( ! count)
-      return( [[_MulleObjCEmptyArray sharedInstance] retain]);
-
-   return( [_MulleObjCConcreteArray newWithObjects:objects
-                                             count:count]);
+      self = [[_MulleObjCEmptyArray sharedInstance] retain];
+   else
+      self = [_MulleObjCConcreteArray newWithObjects:objects
+                                               count:count];
+   [old release];
+   return( self);
 }
 
 
 - (instancetype) _initWithRetainedObjects:(id *) objects
                                     count:(NSUInteger) count
 {
-   [self release];
+   id   old;
 
+   old = self;
    if( ! count)
-      return( [[_MulleObjCEmptyArray sharedInstance] retain]);
-
-   return( [_MulleObjCConcreteArray newWithRetainedObjects:objects
-                                                     count:count]);
+      self = [[_MulleObjCEmptyArray sharedInstance] retain];
+   else
+      self = [_MulleObjCConcreteArray newWithRetainedObjects:objects
+                                                       count:count];
+   [old release];
+   return( self);
 }
 
 
 - (instancetype) initWithArray:(NSArray *) other
                      andObject:(id) obj
 {
-   [self release];
+   id   old;
 
-   return( [[_MulleObjCConcreteArray newWithArray:other
-                                        andObject:obj] autorelease]);
+   old  = self;
+   self = [_MulleObjCConcreteArray newWithArray:other
+                                      andObject:obj];
+   [old release];
+   return( self);
 }
 
 
 - (instancetype) initWithArray:(NSArray *) other
                       andArray:(NSArray *) other2
 {
-   [self release];
+   id   old;
 
-   return( [[_MulleObjCConcreteArray newWithArray:other
-                                         andArray:other2] autorelease]);
+   old  = self;
+   self = [_MulleObjCConcreteArray newWithArray:other
+                                       andArray:other2];
+   [old release];
+   return( self);
 }
 
 
@@ -509,7 +543,9 @@ static void   perform( NSArray *self, NSRange range, SEL sel, id obj)
 
    for(;;)
    {
-      len = range.length > sizeof( buf) / sizeof( id)  ? sizeof( buf) / sizeof( id) : range.length;
+      len = range.length > sizeof( buf) / sizeof( id)
+               ? sizeof( buf) / sizeof( id)
+               : range.length;
       if( ! len)
          break;
 
@@ -517,6 +553,30 @@ static void   perform( NSArray *self, NSRange range, SEL sel, id obj)
                  range:NSMakeRange( range.location, len)];
 
       MulleObjCMakeObjectsPerformSelector( buf, len, sel, obj);
+      range.location += len;
+      range.length   -= len;
+   }
+}
+
+static void   perform2( NSArray *self, NSRange range, SEL sel, id obj, id obj2)
+{
+   NSUInteger   len;
+   id           buf[ 64];
+
+   assert( range.location + range.length <= [self count]);
+
+   for(;;)
+   {
+      len = range.length > sizeof( buf) / sizeof( id)
+               ? sizeof( buf) / sizeof( id)
+               : range.length;
+      if( ! len)
+         break;
+
+      [self getObjects:buf
+                 range:NSMakeRange( range.location, len)];
+
+      MulleObjCMakeObjectsPerformSelector2( buf, len, sel, obj, obj2);
       range.location += len;
       range.length   -= len;
    }
@@ -534,6 +594,14 @@ static void   perform( NSArray *self, NSRange range, SEL sel, id obj)
                          withObject:(id) obj;
 {
    perform( self, NSMakeRange( 0, [self count]), sel, obj);
+}
+
+
+- (void) mulleMakeObjectsPerformSelector:(SEL) sel
+                              withObject:(id) obj
+                              withObject:(id) obj2
+{
+   perform2( self, NSMakeRange( 0, [self count]), sel, obj, obj2);
 }
 
 

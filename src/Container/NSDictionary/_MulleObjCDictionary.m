@@ -33,6 +33,7 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
+#pragma clang diagnostic ignored "-Wparentheses"
 
 #import "_MulleObjCDictionary.h"
 
@@ -282,6 +283,39 @@ static void   setObjectsAndKeys( _MulleObjCDictionary *self, id *objects, id *ke
 
    ivars = getDictionaryIvars( self);
    return( _mulle_map_get_count( &ivars->_table));
+}
+
+
+- (BOOL) mulleForEachObjectAndKeyCallFunction:(BOOL (*)( id, id, void *)) f
+                                     argument:(void *) userInfo
+                                isPreemptable:(BOOL) isPreemptable
+{
+   id                             key;
+   id                             value;
+   _MulleObjCDictionaryIvars      *ivars;
+   struct _mulle_mapenumerator    rover;
+   struct mulle_pointerpair       *pair;
+
+   ivars = getDictionaryIvars( self);
+   rover = _mulle_map_enumerate( &ivars->_table, NSDictionaryCallback);
+   if( isPreemptable)
+   {
+      while( pair = _mulle_mapenumerator_next( &rover))
+         if( ! (*f)( mulle_pointerpair_get_value( pair),
+                     mulle_pointerpair_get_key( pair),
+                     userInfo))
+         {
+            return( NO);
+         }
+   }
+   else
+      while( pair = _mulle_mapenumerator_next( &rover))
+         (*f)( mulle_pointerpair_get_value( pair),
+               mulle_pointerpair_get_key( pair),
+               userInfo);
+
+   _mulle_mapenumerator_done( &rover);
+   return( YES);
 }
 
 

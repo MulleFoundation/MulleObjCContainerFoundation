@@ -36,9 +36,10 @@
 #import "NSMutableArray.h"
 
 // other files in this library
-#include "mulle_qsort_pointers.h"
+#include "mulle-qsort-pointers.h"
 
 // other libraries of MulleObjCStandardFoundation
+#import "NSException.h"
 
 // std-c and dependencies
 
@@ -449,7 +450,9 @@ static void   removeObjectAtIndex( NSMutableArray *self,
    n = _count - (range.location + range.length - 1);
    if( n)
    {
-      _MulleObjCAutoreleaseObjects( &_storage[ range.location], range.length);
+      _MulleObjCAutoreleaseObjects( &_storage[ range.location],
+                                    range.length,
+                                    MulleObjCObjectGetUniverse( self));
 
       memcpy( &_storage[ range.location],
               &_storage[ range.location + range.length],
@@ -483,8 +486,9 @@ static void   removeObjectAtIndex( NSMutableArray *self,
 //
 - (void) removeAllObjects
 {
-   _MulleObjCAutoreleaseObjects( &_storage[ 0], _count);
-
+   _MulleObjCAutoreleaseObjects( &_storage[ 0],
+                                 _count,
+                                 MulleObjCObjectGetUniverse( self));
    _count = 0;
    _mutationCount++;
 }
@@ -589,7 +593,9 @@ static void   removeObjectAtIndex( NSMutableArray *self,
    if( range.length + range.location > _count || range.length > _count)
       MulleObjCThrowInvalidRangeException( range);
 
-   _MulleObjCAutoreleaseObjects( &_storage[ range.location], range.length);
+   _MulleObjCAutoreleaseObjects( &_storage[ range.location],
+                                 range.length,
+                                 MulleObjCObjectGetUniverse( self));
 
    n  = range.length + range.location;
    for( j = 0, i = range.location; i < n; i++, j++)
@@ -635,7 +641,46 @@ static void   removeObjectAtIndex( NSMutableArray *self,
 
 - (void) makeObjectsPerformSelector:(SEL) sel
 {
-   MulleObjCMakeObjectsPerformSelector( _storage, _count, sel, nil);
+   MulleObjCMakeObjectsPerformSelector0( _storage, _count, sel);
+}
+
+
+- (void) makeObjectsPerformSelector:(SEL) sel
+                         withObject:(id) obj
+{
+   MulleObjCMakeObjectsPerformSelector( _storage, _count, sel, obj);
+}
+
+
+- (void) mulleMakeObjectsPerformSelector:(SEL) sel
+                              withObject:(id) obj
+                              withObject:(id) obj2
+{
+   MulleObjCMakeObjectsPerformSelector2( _storage, _count, sel, obj, obj2);
+}
+
+
+- (BOOL) mulleForEachObjectCallFunction:(BOOL (*)( id, void *)) f
+                               argument:(void *) userInfo
+                          isPreemptable:(BOOL) isPreemptable
+{
+   id   *objects;
+   id   *sentinel;
+
+   objects = _storage;
+   sentinel = &objects[ _count];
+   if( isPreemptable)
+   {
+      while( objects < sentinel)
+         if( ! (*f)( *objects++, userInfo))
+            return( NO);
+   }
+   else
+   {
+      while( objects < sentinel)
+         (*f)( *objects++, userInfo);
+   }
+   return( YES);
 }
 
 

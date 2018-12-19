@@ -33,6 +33,8 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
+#pragma clang diagnostic ignored "-Wparentheses"
+
 #import "NSDictionary.h"
 
 // other files in this library
@@ -121,15 +123,23 @@
 
 - (instancetype) init
 {
-   [self release];
-   return( [_MulleObjCConcreteDictionary new]);
+   id   old;
+
+   old  = self;
+   self = [_MulleObjCConcreteDictionary new];
+   [old release];
+   return( self);
 }
 
 
 - (instancetype) initWithDictionary:(id) other
 {
-   [self release];
-   return( [_MulleObjCConcreteDictionary newWithDictionary:other]);
+   id   old;
+
+   old  = self;
+   self = [_MulleObjCConcreteDictionary newWithDictionary:other];
+   [old release];
+   return( self);
 }
 
 
@@ -137,28 +147,40 @@
                          forKeys:(id *) key
                            count:(NSUInteger) count
 {
-   [self release];
-   return( [_MulleObjCConcreteDictionary newWithObjects:obj
-                                                forKeys:key
-                                                  count:count]);
+   id   old;
+
+   old  = self;
+   self = [_MulleObjCConcreteDictionary newWithObjects:obj
+                                               forKeys:key
+                                                 count:count];
+   [old release];
+   return( self);
 }
 
 
 - (instancetype) initWithDictionary:(id) other
                           copyItems:(BOOL) copy
 {
-   [self release];
-   return( [_MulleObjCConcreteDictionary newWithDictionary:other
-                                                 copyItems:copy]);
+   id   old;
+
+   old  = self;
+   self = [_MulleObjCConcreteDictionary newWithDictionary:other
+                                                copyItems:copy];
+   [old release];
+   return( self);
 }
 
 
 - (instancetype) initWithObject:(id) obj
                  mulleVarargList:(mulle_vararg_list) args
 {
-   [self release];
-   return( [_MulleObjCConcreteDictionary newWithObject:obj
-                                             mulleVarargList:args]);
+   id   old;
+
+   old  = self;
+   self = [_MulleObjCConcreteDictionary newWithObject:obj
+                                      mulleVarargList:args];
+   [old release];
+   return( self);
 }
 
 

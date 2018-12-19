@@ -36,10 +36,6 @@
 
 #import "NSSet.h"
 
-#import "MulleObjCContainerCallback.h"
-
-#import <mulle-container/mulle-container.h>
-
 
 typedef struct
 {

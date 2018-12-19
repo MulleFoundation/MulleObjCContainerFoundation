@@ -37,7 +37,6 @@
 
 // other files in this library
 #import "_MulleObjCConcreteMutableDictionary.h"
-#import "MulleObjCContainerCallback.h"
 #import "NSEnumerator.h"
 
 // other libraries of MulleObjCStandardFoundation
@@ -92,22 +91,34 @@
 
 - (instancetype) init
 {
-   [self release];
-   return( [_MulleObjCConcreteMutableDictionary new]);
+   id   old;
+
+   old  = self;
+   self = [_MulleObjCConcreteMutableDictionary new];
+   [old release];
+   return( self);
 }
 
 
 - (instancetype) initWithCapacity:(NSUInteger) capacity
 {
-   [self release];
-   return( [_MulleObjCConcreteMutableDictionary newWithCapacity:capacity]);
+   id   old;
+
+   old  = self;
+   self = [_MulleObjCConcreteMutableDictionary newWithCapacity:capacity];
+   [old release];
+   return( self);
 }
 
 
 - (instancetype) initWithDictionary:(id) other
 {
-   [self release];
-   return( [_MulleObjCConcreteMutableDictionary newWithDictionary:other]);
+   id   old;
+
+   old  = self;
+   self = [_MulleObjCConcreteMutableDictionary newWithDictionary:other];
+   [old release];
+   return( self);
 }
 
 
@@ -115,28 +126,40 @@
                          forKeys:(id *) key
                            count:(NSUInteger) count
 {
-   [self release];
-   return( [_MulleObjCConcreteMutableDictionary newWithObjects:obj
+   id   old;
+
+   old  = self;
+   self = [_MulleObjCConcreteMutableDictionary newWithObjects:obj
                                                        forKeys:key
-                                                         count:count]);
+                                                         count:count];
+   [old release];
+   return( self);
 }
 
 
 - (instancetype) initWithDictionary:(id) other
                           copyItems:(BOOL) copy
 {
-   [self release];
-   return( [_MulleObjCConcreteMutableDictionary newWithDictionary:other
-                                                        copyItems:copy]);
+   id   old;
+
+   old  = self;
+   self = [_MulleObjCConcreteMutableDictionary newWithDictionary:other
+                                                        copyItems:copy];
+   [old release];
+   return( self);
 }
 
 
 - (instancetype) initWithObject:(id) obj
                       mulleVarargList:(mulle_vararg_list) args
 {
-   [self release];
-   return( [_MulleObjCConcreteMutableDictionary newWithObject:obj
-                                              mulleVarargList:args]);
+   id   old;
+
+   old  = self;
+   self = [_MulleObjCConcreteMutableDictionary newWithObject:obj
+                                              mulleVarargList:args];
+   [old release];
+   return( self);
 }
 
 
