@@ -501,12 +501,16 @@ static NSUInteger   findObjectWithRange( _MulleObjCConcreteArray *self,
    objects = _MulleObjCConcreteArrayGetObjects( self);
    sentinel = &objects[ _count];
    if( isPreemptable)
+   {
       while( objects < sentinel)
          if( ! (*f)( *objects++, userInfo))
             return( NO);
+   }
    else
+   {
       while( objects < sentinel)
          (*f)( *objects++, userInfo);
+   }
    return( YES);
 }
 

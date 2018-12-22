@@ -39,6 +39,7 @@
 #import "NSArray.h"
 #import "NSEnumerator.h"
 #import "NSMutableArray.h"
+#import "NSEnumerator+NSArray.h"
 
 // other libraries of MulleObjCStandardFoundation
 #import "MulleObjCFoundationData.h"
