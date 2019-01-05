@@ -68,7 +68,7 @@ if( NOT MULLE_OBJC_LIBRARY)
       #
       if( NOT NO_INHERIT_OBJC_LOADERS)
          foreach( _TMP_MULLE_OBJC_NAME "MulleObjC")
-            set( _TMP_MULLE_OBJC_FILE "${_TMP_MULLE_OBJC_ROOT}/include/${_TMP_MULLE_OBJC_NAME}/objc-loader.inc")
+            set( _TMP_MULLE_OBJC_FILE "${_TMP_MULLE_OBJC_ROOT}/include/${_TMP_MULLE_OBJC_NAME}/MulleObjCLoader+${_TMP_MULLE_OBJC_NAME}.h")
             if( EXISTS "${_TMP_MULLE_OBJC_FILE}")
                set( INHERITED_OBJC_LOADERS
                   ${INHERITED_OBJC_LOADERS}
@@ -274,7 +274,7 @@ if( NOT MULLE_SPRINTF_LIBRARY)
       #
       if( NOT NO_INHERIT_OBJC_LOADERS)
          foreach( _TMP_MULLE_SPRINTF_NAME "mulle-sprintf")
-            set( _TMP_MULLE_SPRINTF_FILE "${_TMP_MULLE_SPRINTF_ROOT}/include/${_TMP_MULLE_SPRINTF_NAME}/objc-loader.inc")
+            set( _TMP_MULLE_SPRINTF_FILE "${_TMP_MULLE_SPRINTF_ROOT}/include/${_TMP_MULLE_SPRINTF_NAME}/MulleObjCLoader+${_TMP_MULLE_SPRINTF_NAME}.h")
             if( EXISTS "${_TMP_MULLE_SPRINTF_FILE}")
                set( INHERITED_OBJC_LOADERS
                   ${INHERITED_OBJC_LOADERS}

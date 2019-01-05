@@ -401,7 +401,7 @@ static void   removeObjectAtIndex( NSMutableArray *self,
 
    n = self->_count - (i + 1);
    if( n)
-      memcpy( &self->_storage[ i], &self->_storage[ i + 1], n * sizeof( id));
+      memmove( &self->_storage[ i], &self->_storage[ i + 1], n * sizeof( id));
    --self->_count;
 }
 
@@ -454,9 +454,9 @@ static void   removeObjectAtIndex( NSMutableArray *self,
                                     range.length,
                                     MulleObjCObjectGetUniverse( self));
 
-      memcpy( &_storage[ range.location],
-              &_storage[ range.location + range.length],
-              n * sizeof( id));
+      memmove( &_storage[ range.location],
+               &_storage[ range.location + range.length],
+               n * sizeof( id));
    }
    _count -= range.length;
    _mutationCount++;
@@ -711,7 +711,7 @@ static void   removeObjectAtIndex( NSMutableArray *self,
    }
 
    n = self->_count - i;
-   memcpy( &_storage[ i + 1], &_storage[ i], n * sizeof( id));
+   memmove( &_storage[ i + 1], &_storage[ i], n * sizeof( id));
 
    _storage[ i] = [obj retain];
    self->_count++;

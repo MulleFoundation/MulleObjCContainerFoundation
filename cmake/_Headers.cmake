@@ -23,7 +23,7 @@ src/PropertyList/Printing
 src/PropertyList/Stream
 src/String
 src/Value
-) 
+)
 
 set( PRIVATE_HEADERS
 src/Archiver/MulleObjCArchiver-Private.h
@@ -41,6 +41,10 @@ src/Container/NSSet/_MulleObjCSet.h
 src/Data/_MulleObjCConcreteMutableData.h
 src/Data/_MulleObjCDataSubclasses.h
 src/Locale/_NSGMTTimeZone-Private.h
+src/_MulleObjCStandardFoundation-import.h
+src/_MulleObjCStandardFoundation-import-private.h
+src/_MulleObjCStandardFoundation-include.h
+src/_MulleObjCStandardFoundation-include-private.h
 src/PropertyList/Stream/_MulleObjCBufferedDataInputStream+InlineAccessors.h
 src/PropertyList/Stream/_MulleObjCBufferedDataInputStream.h
 src/PropertyList/Stream/_MulleObjCBufferedDataOutputStream+InlineAccessors.h
@@ -186,5 +190,6 @@ src/Value/NSThread+NSDate.h
 src/Value/NSValue.h
 src/import.h
 src/include.h
-) 
+src/objc-loader.inc
+)
 

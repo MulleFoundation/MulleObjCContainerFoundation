@@ -1,17 +1,26 @@
 # MulleObjCStandardFoundation
 
-This is a [mulle-sde](https://mulle-sde.github.io/) project.
+🚤  Platform-independent Objective-C classes, like NSString, NSArray, NSNotificationCenter
 
-It has it's own virtual environment, that will be automatically setup for you
-once you enter it with:
+These classes build on **MulleObjC** and **mulle-core** to provide the usual
+classes expected in a Foundation library, that require no more than the
+standard C libraries.
 
-```
-mulle-sde MulleObjCStandardFoundation
-```
 
-Now you can let **mulle-sde** fetch the required dependencies and build the 
-project for you:
 
-```
-mulle-sde craft
-```
+Build Status | Release Version
+-------------|-----------------------------------
+[![Build Status](https://travis-ci.org/MulleFoundation/MulleObjCStandardFoundation.svg?branch=release)](https://travis-ci.org/MulleFoundation/MulleObjCStandardFoundation) | ![Mulle kybernetiK tag](https://img.shields.io/github/tag/MulleFoundation/MulleObjCStandardFoundation.svg) [![Build Status](https://travis-ci.org/MulleFoundation/MulleObjCStandardFoundation.svg?branch=release)](https://travis-ci.org/MulleFoundation/MulleObjCStandardFoundation)
+
+
+## Install
+
+See [foundation-developer](//github.com//foundation-developer) for
+installation instructions.
+
+
+## Author
+
+[Nat!](//www.mulle-kybernetik.com/weblog) for
+[Mulle kybernetiK](//www.mulle-kybernetik.com) and
+[Codeon GmbH](//www.codeon.de)
