@@ -5,6 +5,7 @@ if( MULLE_TRACE_INCLUDE)
    message( STATUS "# Include \"${CMAKE_CURRENT_LIST_FILE}\"" )
 endif()
 
+# sourcetree: MULLE_OBJC;;
 if( NOT MULLE_OBJC_LIBRARY)
    find_library( MULLE_OBJC_LIBRARY NAMES ${CMAKE_STATIC_LIBRARY_PREFIX}MulleObjC${CMAKE_STATIC_LIBRARY_SUFFIX} MulleObjC)
    message( STATUS "MULLE_OBJC_LIBRARY is ${MULLE_OBJC_LIBRARY}")
@@ -85,6 +86,7 @@ if( NOT MULLE_OBJC_LIBRARY)
 endif()
 
 
+# sourcetree: MULLE_BUFFER;no-all-load,no-import,no-singlephase;
 if( NOT MULLE_BUFFER_LIBRARY)
    find_library( MULLE_BUFFER_LIBRARY NAMES ${CMAKE_STATIC_LIBRARY_PREFIX}mulle-buffer${CMAKE_STATIC_LIBRARY_SUFFIX} mulle-buffer)
    message( STATUS "MULLE_BUFFER_LIBRARY is ${MULLE_BUFFER_LIBRARY}")
@@ -148,6 +150,7 @@ if( NOT MULLE_BUFFER_LIBRARY)
 endif()
 
 
+# sourcetree: MULLE_UTF;no-all-load,no-import,no-singlephase;
 if( NOT MULLE_UTF_LIBRARY)
    find_library( MULLE_UTF_LIBRARY NAMES ${CMAKE_STATIC_LIBRARY_PREFIX}mulle-utf${CMAKE_STATIC_LIBRARY_SUFFIX} mulle-utf)
    message( STATUS "MULLE_UTF_LIBRARY is ${MULLE_UTF_LIBRARY}")
@@ -211,6 +214,7 @@ if( NOT MULLE_UTF_LIBRARY)
 endif()
 
 
+# sourcetree: MULLE_SPRINTF;no-import,no-singlephase;
 if( NOT MULLE_SPRINTF_LIBRARY)
    find_library( MULLE_SPRINTF_LIBRARY NAMES ${CMAKE_STATIC_LIBRARY_PREFIX}mulle-sprintf${CMAKE_STATIC_LIBRARY_SUFFIX} mulle-sprintf)
    message( STATUS "MULLE_SPRINTF_LIBRARY is ${MULLE_SPRINTF_LIBRARY}")
