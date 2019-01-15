@@ -62,11 +62,6 @@
 
 - (BOOL) isEqualToDictionary:(NSDictionary *) other;
 
-// mulle addition:
-- (BOOL) mulleForEachObjectAndKeyCallFunction:(BOOL (*)( id, id, void *)) f
-                                     argument:(void *) userInfo
-                                isPreemptable:(BOOL) isPreemptable;
-
 @end
 
 
@@ -82,4 +77,8 @@
 - (NSEnumerator *) keyEnumerator;
 - (NSEnumerator *) objectEnumerator;
 
+// mulle addition:
+- (BOOL) mulleForEachObjectAndKeyCallFunction:(BOOL (*)( id, id, void *)) f
+                                     argument:(void *) userInfo
+                                isPreemptable:(BOOL) isPreemptable;
 @end
