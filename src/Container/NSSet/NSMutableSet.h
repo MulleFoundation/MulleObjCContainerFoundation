@@ -37,10 +37,9 @@
 #import "NSSet.h"
 
 
-@interface NSMutableSet : NSSet < MulleObjCClassCluster>
+@interface NSMutableSet : NSSet < NSMutableSet, MulleObjCClassCluster>
 
 + (instancetype) setWithCapacity:(NSUInteger) numItems;
-- (instancetype) initWithCapacity:(NSUInteger) numItems;
 
 - (void) intersectSet:(NSSet *) other;
 - (void) minusSet:(NSSet *) other;
@@ -52,8 +51,22 @@
 
 @interface NSMutableSet( Subclasses)
 
+- (instancetype) initWithCapacity:(NSUInteger) numItems;
 - (void) addObject:(id) object;
 - (void) removeObject:(id) object;
 - (void) removeAllObjects;
 
+@end
+
+@interface NSMutableSet( _NSMutableSetPlaceholder)
+
+// not instancetype here
+- (id) init;
+- (id) initWithCapacity:(NSUInteger) count;
+- (id) mulleInitWithCapacity:(NSUInteger) count;
+- (id) mulleInitWithRetainedObjectStorage:(id *) objects
+                                    count:(NSUInteger) count
+                                     size:(NSUInteger) size;
+- (id) mulleInitWithRetainedObjects:(id *) objects
+                               count:(NSUInteger) count;
 @end

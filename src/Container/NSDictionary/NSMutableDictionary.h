@@ -40,10 +40,10 @@
 #import <mulle-container/mulle-container.h>
 
 
-@interface NSMutableDictionary : NSDictionary < MulleObjCClassCluster>
-{
-   struct mulle_map  _table;
-}
+//
+// NSMutableDictionary starts its own classcluster
+//
+@interface NSMutableDictionary : NSDictionary < NSMutableDictionary, MulleObjCClassCluster>
 
 + (instancetype) dictionaryWithCapacity:(NSUInteger) capacity;
 
@@ -69,4 +69,19 @@
 
 - (id) mutableCopy;
 
+@end
+
+
+@interface NSMutableDictionary( _NSMutableDictionaryPlaceholder)
+// not instancetype here
+- (id) init;
+
+- (id) mulleInitWithCapacity:(NSUInteger) count;
+
+- (id) mulleInitWithRetainedObjectKeyStorage:(id *) objects
+                                       count:(NSUInteger) count
+                                        size:(NSUInteger) size;
+- (id) mulleInitWithRetainedObjects:(id *) objects
+                         copiedKeys:(id *) keys
+                              count:(NSUInteger) count;
 @end

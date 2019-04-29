@@ -40,67 +40,19 @@
 typedef struct
 {
    struct _mulle_set        _table;
-   struct mulle_allocator   *_allocator;
 } _MulleObjCSetIvars;
 
 
-#define NSSetCallback      MulleObjCContainerObjectKeyRetainCallback
-#define NSSetCopyCallback  MulleObjCContainerObjectKeyCopyCallback
+#define NSSetCallback         MulleObjCContainerKeyRetainCallback
+#define NSSetCopyCallback     MulleObjCContainerKeyCopyCallback
+#define NSSetAssignCallback   ((struct mulle_container_keycallback *) &_MulleObjCContainerKeyAssignCallback)
 
 
 
-@class _MulleObjCSet;
-@protocol _MulleObjCSet
+PROTOCOLCLASS_INTERFACE( _MulleObjCSet, NSFastEnumeration)
 
-+ (instancetype) newWithCapacity:(NSUInteger) capacity;
-+ (instancetype) newWithObject:(id) firstObject
-                     mulleVarargList:(mulle_vararg_list) arguments;
+- (instancetype) mulleInitWithCapacity:(NSUInteger) count;
 
-+ (instancetype) newWithObjects:(id *) objects
-                          count:(NSUInteger) count
-                      copyItems:(BOOL) copyItems;
-
-// NSCoder support
-+ (instancetype) _allocWithCapacity:(NSUInteger) count;
-- (void) _setObjects:(id *) objects
-                keys:(id *) keys
-               count:(NSUInteger) count;
-
-+ (instancetype) _allocWithCapacity:(NSUInteger) count;
-- (instancetype) _initWithObjects:(id *) objects
-                            count:(NSUInteger) count;
-@end
+PROTOCOLCLASS_END()
 
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wobjc-root-class"
-
-@interface _MulleObjCSet < _MulleObjCSet>
-@end
-
-#pragma clang diagnostic pop
-
-
-static inline _MulleObjCSetIvars  *getSetIvars( id self)
-{
-   return( (_MulleObjCSetIvars *)  self);
-}
-
-
-__attribute__((ns_returns_retained))
-static inline _MulleObjCSet  *_MulleObjCNewSetWithCapacity( Class self, NSUInteger count)
-{
-   _MulleObjCSet        *set;
-   _MulleObjCSetIvars   *ivars;
-
-   set = NSAllocateObject( self, 0, NULL);
-
-   ivars = getSetIvars( set);
-   ivars->_allocator = MulleObjCObjectGetAllocator( set);
-   _mulle_set_init( &ivars->_table,
-                    (unsigned int)( count + (count >> 2)), // leave 25% spare room
-                    NSSetCallback,
-                    ivars->_allocator);
-
-   return( set);
-}

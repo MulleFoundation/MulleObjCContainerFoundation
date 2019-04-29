@@ -43,3 +43,5 @@
    _MulleObjCSetIvars   _ivars;
 }
 @end
+
+extern Class   _MulleObjCConcreteSetClass;

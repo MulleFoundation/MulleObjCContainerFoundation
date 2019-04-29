@@ -48,7 +48,7 @@
 
 - (void) addObjectsFromArray:(NSArray *) array
 {
-   id   obj;
+   id    obj;
    IMP   addObjectIMP;
    SEL   addObjectSEL;
 
@@ -57,7 +57,6 @@
 
    for( obj in array)
       (*addObjectIMP)( self, addObjectSEL, obj);
-
 }
 
 @end

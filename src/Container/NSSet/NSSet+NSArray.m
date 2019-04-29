@@ -114,10 +114,7 @@
 
 - (NSSet *) setByAddingObjectsFromArray:(NSArray *) array
 {
-   NSSet  *set;
-
-   set = [NSSet setWithObjects:array];
-   return( [self setByAddingObjectsFromSet:set]);
+   return( [self mulleSetByAddingObjectsFromContainer:array]);
 }
 
 @end

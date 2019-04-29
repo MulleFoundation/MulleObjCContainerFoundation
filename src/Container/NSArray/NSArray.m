@@ -37,16 +37,18 @@
 
 #import "NSArray.h"
 
-#import "_MulleObjCArrayEnumerator.h"
-
 // other files in this library
-#import "_MulleObjCEmptyArray.h"
-#import "_MulleObjCConcreteArray.h"
+#import "_MulleObjCArrayEnumerator.h"
+#import "_NSArrayPlaceholder.h"
+#include "mulle-qsort-pointers.h"
 
 // other libraries of MulleObjCStandardFoundation
-#import "MulleObjCFoundationException.h"
+#import "NSException.h"
 
 // std-c and dependencies
+
+// private headers in this library
+
 
 #pragma clang diagnostic ignored "-Wprotocol"
 
@@ -69,113 +71,191 @@
 }
 
 
+static Class   NSArrayClass;
+
++ (void) load
+{
+   NSArrayClass = self;
+}
+
+
++ (Class) __placeholderClass
+{
+   return( [_NSArrayPlaceholder class]);
+}
+
+
+- (id) mulleImmutableInstance
+{
+   return( self);
+}
+
+
 # pragma mark -
 # pragma mark class cluster
 
 - (instancetype) initWithArray:(NSArray *) other
 {
-   id   old;
+   NSUInteger   count;
+   id           *objects;
 
-   old  = self;
-   self = [_MulleObjCConcreteArray newWithArray:other
-                                       copyItems:NO];
-   [old release];
-   return( self);
+   count     = [other count];
+   if( ! count)
+   {
+      self = [self init];
+      return( self);
+   }
+
+   objects   = MulleObjCObjectAllocateNonZeroedMemory( self, sizeof( id) * count);
+   [other getObjects:objects];
+
+   MulleObjCMakeObjectsPerformRetain( objects, count);
+
+   return( [self mulleInitWithRetainedObjectStorage:objects
+                                               count:count
+                                                size:count]);
 }
 
 
-- (instancetype) initWithArray:(NSArray *) other
-                         range:(NSRange) range
+- (instancetype) mulleInitWithArray:(NSArray *) other
+                              range:(NSRange) range
 {
-   id   old;
+   NSUInteger               count;
+   id                       *objects;
 
-   old  = self;
-   if( ! range.length)
-      self = [[_MulleObjCEmptyArray sharedInstance] retain];
-   else
-      self = [_MulleObjCConcreteArray newWithArray:other
-                                           range:range];
-   [old release];
-   return( self);
+   MulleObjCValidateRangeWithLength( range, [other count]);
+
+   count = range.length;
+   if( ! count)
+   {
+      self = [self init];
+      return( self);
+   }
+
+   objects   = MulleObjCObjectAllocateNonZeroedMemory( self, sizeof( id) * count);
+   [other getObjects:objects
+               range:range];
+
+   MulleObjCMakeObjectsPerformRetain( objects, count);
+
+   return( [self mulleInitWithRetainedObjectStorage:objects
+                                               count:count
+                                                size:count]);
 }
 
 
 - (instancetype) initWithArray:(NSArray *) other
                      copyItems:(BOOL) flag
 {
-   id   old;
+   NSUInteger   count;
+   id           *objects;
 
-   old  = self;
-   self = [_MulleObjCConcreteArray newWithArray:other
-                                       copyItems:flag];
-   [old release];
-   return( self);
+   count = [other count];
+   if( ! count)
+   {
+      self = [self init];
+      return( self);
+   }
+
+   objects   = MulleObjCObjectAllocateNonZeroedMemory( self, sizeof( id) * count);
+   [other getObjects:objects];
+
+   if( flag)
+      MulleObjCMakeObjectsPerformSelector( objects, count, @selector( copy), NULL);
+   else
+      MulleObjCMakeObjectsPerformRetain( objects, count);
+
+   return( [self mulleInitWithRetainedObjectStorage:objects
+                                               count:count
+                                                size:count]);
 }
 
 
 - (instancetype) initWithObject:(id) firstObject
                      varargList:(va_list) args
 {
-   id   old;
+   va_list      copy;
+   NSUInteger   count;
+   id           *objects;
+   id           *p;
+   id           value;
 
-   old = self;
-   //
-   // subclass check falls on its face, because there is no defined
-   // ..V method
-   //
    if( ! firstObject)
-      self = [[_MulleObjCEmptyArray sharedInstance] retain];
-   else
-      self = [_MulleObjCConcreteArray newWithObject:firstObject
-                                       varargList:args];
-   [old release];
-   return( self);
+   {
+      self = [self init];
+      return( self);
+   }
+
+   va_copy( copy, args);
+
+   count = 0;
+   value = firstObject;
+   while( value)
+   {
+      ++count;
+      value = va_arg( copy, id);
+   }
+   va_end( copy);
+
+   objects   = MulleObjCObjectAllocateNonZeroedMemory( self, sizeof( id) * count);
+   p         = objects;
+
+   value = firstObject;
+   while( value)
+   {
+      *p++  = value;
+      value = va_arg( args, id);
+   }
+
+   MulleObjCMakeObjectsPerformRetain( objects, count);
+
+   return( [self mulleInitWithRetainedObjectStorage:objects
+                                               count:count
+                                                size:count]);
 }
+
 
 - (instancetype) initWithObject:(id) firstObject
                 mulleVarargList:(mulle_vararg_list) args
 {
-   id   old;
+   NSUInteger   count;
+   id           *objects;
+   id           *p;
+   id           value;
 
-   old = self;
-
-   //
-   // subclass check falls on its face, because there is no defined
-   // ..V method
-   //
    if( ! firstObject)
-      self = [[_MulleObjCEmptyArray sharedInstance] retain];
-   else
-      self = [_MulleObjCConcreteArray newWithObject:firstObject
-                                 mulleVarargList:args];
-   [old release];
-   return( self);
+   {
+      self = [self init];
+      return( self);
+   }
+
+   count     = mulle_vararg_count_objects( args, firstObject);
+   objects   = MulleObjCObjectAllocateNonZeroedMemory( self, sizeof( id) * count);
+   p         = objects;
+
+   value = firstObject;
+   while( value)
+   {
+      *p++  = value;
+      value = mulle_vararg_next_id( args);
+   }
+
+   MulleObjCMakeObjectsPerformRetain( objects, count);
+
+   return( [self mulleInitWithRetainedObjectStorage:objects
+                                               count:count
+                                                size:count]);
 }
 
 
 - (instancetype) initWithObjects:(id) firstObject, ...
 {
-   NSArray             *array;
    mulle_vararg_list   args;
-   id                  old;
 
-   old = self;
-
-   //
-   // subclass check falls on its face, because there is no defined
-   // ..V method
-   //
-   if( ! firstObject)
-      self = [[_MulleObjCEmptyArray sharedInstance] retain];
-   else
-   {
-      mulle_vararg_start( args, firstObject);
-      self = [_MulleObjCConcreteArray newWithObject:firstObject
-                                     mulleVarargList:args];
-      mulle_vararg_end( args);
-   }
-
-   [old release];
+   mulle_vararg_start( args, firstObject);
+   self = [self initWithObject:firstObject
+               mulleVarargList:args];
+   mulle_vararg_end( args);
    return( self);
 }
 
@@ -183,70 +263,144 @@
 - (instancetype) initWithObjects:(id *) objects
                            count:(NSUInteger) count
 {
-   id   old;
-
-   old = self;
    if( ! count)
-      self = [[_MulleObjCEmptyArray sharedInstance] retain];
-   else
-      self = [_MulleObjCConcreteArray newWithObjects:objects
-                                               count:count];
-   [old release];
-   return( self);
+   {
+      self = [self init];
+      return( self);
+   }
+
+   if( count && ! objects)
+      MulleObjCThrowInvalidArgumentException( @"emty objects with non-null count");
+   MulleObjCMakeObjectsPerformRetain( objects, count);
+   return( [self mulleInitWithRetainedObjects:objects
+                                       count:count]);
 }
 
 
-- (instancetype) _initWithRetainedObjects:(id *) objects
-                                    count:(NSUInteger) count
+- (instancetype) mulleInitWithArray:(NSArray *) other
+                          andObject:(id) obj
 {
-   id   old;
+   NSUInteger   count;
+   id           *objects;
 
-   old = self;
+   count = [other count] + (obj != nil);
    if( ! count)
-      self = [[_MulleObjCEmptyArray sharedInstance] retain];
-   else
-      self = [_MulleObjCConcreteArray newWithRetainedObjects:objects
-                                                       count:count];
-   [old release];
-   return( self);
+   {
+      self = [self init];
+      return( self);
+   }
+
+   objects = MulleObjCObjectAllocateNonZeroedMemory( self, sizeof( id) * count);
+   [other getObjects:objects];
+   if( obj)
+      objects[ count - 1] = obj;
+
+   MulleObjCMakeObjectsPerformRetain( objects, count);
+
+   return( [self mulleInitWithRetainedObjectStorage:objects
+                                               count:count
+                                                size:count]);
 }
 
 
-- (instancetype) initWithArray:(NSArray *) other
-                     andObject:(id) obj
+- (instancetype) mulleInitWithArray:(NSArray *) other
+                           andArray:(NSArray *) other2
 {
-   id   old;
+   NSUInteger   count;
+   NSUInteger   size;
+   id           *objects;
 
-   old  = self;
-   self = [_MulleObjCConcreteArray newWithArray:other
-                                      andObject:obj];
-   [old release];
-   return( self);
+   count = [other count];
+   size  = [other2 count] + count;
+   if( ! size)
+      return( [self init]);
+
+   objects = MulleObjCObjectAllocateNonZeroedMemory( self, sizeof( id) * size);
+   [other getObjects:objects];
+   [other2 getObjects:&objects[ count]];
+
+   MulleObjCMakeObjectsPerformRetain( objects, size);
+
+   return( [self mulleInitWithRetainedObjectStorage:objects
+                                              count:size
+                                               size:size]);
 }
 
 
-- (instancetype) initWithArray:(NSArray *) other
-                      andArray:(NSArray *) other2
+typedef struct
 {
-   id   old;
+   NSInteger   (*f)( id, id, void *);
+   void        *ctxt;
+} bouncy;
 
-   old  = self;
-   self = [_MulleObjCConcreteArray newWithArray:other
-                                       andArray:other2];
-   [old release];
-   return( self);
+
+static int   bouncyBounce( void *a, void *b, void *_ctxt)
+{
+   bouncy  *ctxt;
+
+   ctxt = _ctxt;
+   return( (int) (ctxt->f)( (id) a, (id) b, ctxt->ctxt));
 }
 
 
-#pragma mark -
-#pragma mark NSCopying
+- (instancetype) mulleInitWithArray:(NSArray *) other
+                       sortFunction:(NSInteger (*)( id, id, void *)) f
+                            context:(void *) context
+{
+   NSUInteger   count;
+   id           *objects;
+   bouncy       bounce;
+
+   count     = [other count];
+   objects   = MulleObjCObjectAllocateNonZeroedMemory( self, sizeof( id) * count);
+   [other getObjects:objects];
+
+   bounce.f    = f;
+   bounce.ctxt = context;
+   mulle_qsort_pointers( (void **) objects, count, bouncyBounce, &bounce);
+
+   MulleObjCMakeObjectsPerformRetain( objects, count);
+
+   return( [self mulleInitWithRetainedObjectStorage:objects
+                                               count:count
+                                                size:count]);
+}
 
 
-// done by returning self in protocol already, NSMutableArray must override
+static int   bouncyBounceSel( void *a, void *b, void *ctxt)
+{
+   return( (int) MulleObjCPerformSelector( (id) a, (SEL) ctxt, (id) b));
+}
 
 
-# pragma mark -
-# pragma mark construction conveniences
+- (instancetype) mulleInitWithArray:(NSArray *) other
+                   sortedBySelector:(SEL) sel
+{
+   NSUInteger   count;
+   id           *objects;
+
+   count = [other count];
+   if( ! count)
+   {
+      self = [self init];
+      return( self);
+   }
+
+   objects   = MulleObjCObjectAllocateNonZeroedMemory( self, sizeof( id) * count);
+   [other getObjects:objects];
+
+   mulle_qsort_pointers( (void **) objects, count, bouncyBounceSel, (void *) (intptr_t) sel);
+
+   MulleObjCMakeObjectsPerformRetain( objects, count);
+
+   return( [self mulleInitWithRetainedObjectStorage:objects
+                                               count:count
+                                                size:count]);
+}
+
+
+# pragma mark - construction conveniences
+
 
 + (instancetype) array
 {
@@ -256,16 +410,15 @@
 
 + (instancetype) arrayWithArray:(NSArray *) other
 {
-   return( [[[self alloc] initWithArray:other
-                                  range:NSMakeRange( 0, [other count])] autorelease]);
+   return( [[[self alloc] initWithArray:other] autorelease]);
 }
 
 
-+ (instancetype) arrayWithArray:(NSArray *) other
-                          range:(NSRange) range
++ (instancetype) mulleArrayWithArray:(NSArray *) other
+                               range:(NSRange) range
 {
-   return( [[[self alloc] initWithArray:other
-                                  range:range] autorelease]);
+   return( [[[self alloc] mulleInitWithArray:other
+                                        range:range] autorelease]);
 }
 
 
@@ -291,21 +444,22 @@
 
 
 + (instancetype) arrayWithObjects:(id *) objects
-                  count:(NSUInteger) count
+                            count:(NSUInteger) count
 {
    return( [[[self alloc] initWithObjects:objects
                                     count:count] autorelease]);
 }
 
 
-+ (instancetype) arrayWithRetainedObjects:(id *) objects
-                          count:(NSUInteger) count
++ (instancetype) mulleArrayWithRetainedObjects:(id *) objects
+                                         count:(NSUInteger) count
 {
-   return( [[[self alloc] _initWithRetainedObjects:objects
-                                             count:count] autorelease]);
+   return( [[[self alloc] mulleInitWithRetainedObjects:objects
+                                                 count:count] autorelease]);
 }
 
 
+# pragma mark - methods requiring construction
 
 //
 // could optimize the next two, by a subclass that just "stacks" arrays
@@ -313,17 +467,51 @@
 //
 - (NSArray *) arrayByAddingObject:(id) obj
 {
-   return( [[_MulleObjCConcreteArray newWithArray:self
-                                        andObject:obj] autorelease]);
+   return( [[[NSArrayClass alloc] mulleInitWithArray:self
+                                           andObject:obj] autorelease]);
 }
 
 
 - (NSArray *) arrayByAddingObjectsFromArray:(NSArray *) other
 {
-   return( [[_MulleObjCConcreteArray newWithArray:self
-                                         andArray:other] autorelease]);
+   return( [[[NSArrayClass alloc] mulleInitWithArray:self
+                                           andArray:other] autorelease]);
 }
 
+
+- (NSArray *) sortedArrayUsingFunction:(NSInteger (*)(id, id, void *)) f
+                               context:(void *) context
+{
+   if( ! f)
+      MulleObjCThrowInvalidArgumentException( @"function is 0");
+
+   return( [[[NSArrayClass alloc] mulleInitWithArray:self
+                                        sortFunction:f
+                                             context:context] autorelease]);
+}
+
+
+- (NSArray *) sortedArrayUsingSelector:(SEL) comparator
+{
+   if( ! comparator)
+      MulleObjCThrowInvalidArgumentException( @"selector is 0");
+
+   return( [[[NSArrayClass alloc] mulleInitWithArray:self
+                                    sortedBySelector:comparator] autorelease]);
+}
+
+
+- (NSArray *) subarrayWithRange:(NSRange) range
+{
+   return( [[[NSArrayClass alloc] mulleInitWithArray:self
+                                               range:range] autorelease]);
+}
+
+
+#pragma mark - NSCopying
+
+
+// done by returning self in protocol already, NSMutableArray must override
 
 
 # pragma mark -
@@ -431,7 +619,7 @@ static NSUInteger  findIndexWithRange( NSArray *self, NSRange range, id obj)
    NSUInteger   count;
 
    count = [self count];
-   MulleObjCGetMaxRangeLengthAndRaiseOnInvalidRange( range, count);
+   MulleObjCValidateRangeWithLength( range, count);
 
    return( findIndexWithRangeForEquality( self, range, obj));
 }
@@ -449,11 +637,10 @@ static NSUInteger  findIndexWithRange( NSArray *self, NSRange range, id obj)
    NSUInteger   count;
 
    count = [self count];
-   MulleObjCGetMaxRangeLengthAndRaiseOnInvalidRange( range, count);
+   MulleObjCValidateRangeWithLength( range, count);
 
    return( findIndexWithRange( self, range, obj));
 }
-
 
 
 #pragma mark - hash and equality
@@ -510,6 +697,75 @@ static NSUInteger  findIndexWithRange( NSArray *self, NSRange range, id obj)
       range.length   -= len;
    }
    return( YES);
+}
+
+
+id   MulleForEachObjectCallFunction( id *objects,
+                                     NSUInteger n,
+                                     BOOL (*f)( id, void *),
+                                     void *userInfo,
+                                     enum MullePreempt preempt)
+{
+   id   *sentinel;
+
+   sentinel = &objects[ n];
+   switch( preempt)
+   {
+   case MullePreemptIfNotMatches :
+         while( objects < sentinel)
+         {
+            if( ! (*f)( *objects, userInfo))
+               return( *objects);
+            ++objects;
+         }
+      break;
+
+   case MullePreemptIfMatches :
+      while( objects < sentinel)
+         {
+            if( (*f)( *objects, userInfo))
+               return( *objects);
+            ++objects;
+         }
+      break;
+
+   default :
+      while( objects < sentinel)
+         (*f)( *objects++, userInfo);
+   }
+   return( nil);
+}
+
+
+//
+// generic implementation
+//
+- (id) mulleForEachObjectCallFunction:(BOOL (*)( id, void *)) f
+                             argument:(void *) argument
+                              preempt:(enum MullePreempt) preempt
+{
+   id          buf[ 64];
+   NSUInteger  n;
+   NSUInteger  offset;
+   NSUInteger  length;
+   id          obj;
+
+   offset = 0;
+   length = [self count];
+   while( length)
+   {
+      n = length >= 64 ? 64 : length;
+      [self getObjects:buf
+                 range:NSMakeRange( offset, n)];
+
+      obj = MulleForEachObjectCallFunction( buf, n, f, argument, preempt);
+      if( obj)
+         return( obj);
+
+      offset += n;
+      length -= n;
+   }
+   return( nil);
 }
 
 
@@ -612,8 +868,7 @@ static void   perform2( NSArray *self, NSRange range, SEL sel, id obj, id obj2)
 }
 
 
-#pragma mark -
-#pragma mark enumeration
+#pragma mark - enumeration
 
 - (NSEnumerator *) objectEnumerator
 {
@@ -627,27 +882,7 @@ static void   perform2( NSArray *self, NSRange range, SEL sel, id obj, id obj2)
 }
 
 
-- (NSArray *) sortedArrayUsingFunction:(NSInteger (*)(id, id, void *)) f
-                               context:(void *) context
-{
-   return( [[_MulleObjCConcreteArray newWithArray:self
-                                     sortFunction:f
-                                          context:context] autorelease]);
-}
-
-
-- (NSArray *) sortedArrayUsingSelector:(SEL) comparator
-{
-   return( [[_MulleObjCConcreteArray newWithArray:self
-                                 sortedBySelector:comparator] autorelease]);
-}
-
-
-- (NSArray *) subarrayWithRange:(NSRange) range
-{
-   return( [[[_MulleObjCConcreteArray alloc] initWithArray:self
-                                                     range:range] autorelease]);
-}
+# pragma mark - misc
 
 
 - (BOOL) containsObject:(id) other
@@ -658,7 +893,7 @@ static void   perform2( NSArray *self, NSRange range, SEL sel, id obj, id obj2)
 }
 
 
-- (void) getObjects:(id *)objects
+- (void) getObjects:(id *) objects
 {
    [self getObjects:objects
               range:NSMakeRange( 0, [self count])];

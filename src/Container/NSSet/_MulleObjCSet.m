@@ -41,11 +41,12 @@
 #import "NSEnumerator.h"
 
 // other libraries of MulleObjCStandardFoundation
+#import "NSCoder.h"
 
 // std-c and dependencies
 
-
-#pragma clang diagnostic ignored "-Wprotocol"
+// private files
+#import "_MulleObjCSet-Private.h"
 
 
 @interface _MulleObjCSetEnumerator : NSEnumerator
@@ -70,6 +71,7 @@
    return( self);
 }
 
+
 - (void) dealloc
 
 {
@@ -87,124 +89,126 @@
 
 @end
 
+#pragma clang diagnostic ignored "-Wobjc-root-class"
+#pragma clang diagnostic ignored "-Wprotocol"
 
-@implementation _MulleObjCSet
 
-static id    initWithObjects( _MulleObjCSet *self, id *objects, NSUInteger count, BOOL copyItems)
+PROTOCOLCLASS_IMPLEMENTATION( _MulleObjCSet)
+
+- (void) decodeWithCoder:(NSCoder *) coder
 {
-   _MulleObjCSetIvars   *ivars;
+   NSUInteger               count;
+   id                       *objects;
+   id                       obj;
+   struct mulle_allocator   *allocator;
+   _MulleObjCSetIvars       *ivars;
 
-   ivars = getSetIvars( self);
-   _mulle_set_init( &ivars->_table,
-                  (unsigned int) count,
-                  copyItems ? MulleObjCContainerObjectKeyCopyCallback
-                  : MulleObjCContainerObjectKeyRetainCallback,
-                  ivars->_allocator);
-
+   ivars     = _MulleObjCSetGetIvars( self);
+   allocator = MulleObjCObjectGetAllocator( self);
+   [coder decodeValueOfObjCType:@encode( NSUInteger)
+                             at:&count];
    while( count)
    {
-      _mulle_set_set( &ivars->_table, *objects++, NSSetCallback, ivars->_allocator);
+      [coder decodeValueOfObjCType:@encode( id)
+                                at:obj];
+      _mulle_set_set( &ivars->_table, obj, NSSetAssignCallback, allocator);
       --count;
    }
-   return( self);
 }
 
-
-+ (instancetype) newWithObject:(id) firstObject
-               mulleVarargList:(mulle_vararg_list) arguments
-{
-   NSUInteger           count;
-   _MulleObjCSet        *obj;
-   _MulleObjCSetIvars   *ivars;
-   id                   nextObject;
-
-   assert( firstObject);
-
-   count = mulle_vararg_count_objects( arguments, firstObject);
-   obj   = _MulleObjCNewSetWithCapacity( self, count);
-   ivars = getSetIvars( obj);
-
-   _mulle_set_set( &ivars->_table, firstObject, NSSetCallback, ivars->_allocator);
-   while( nextObject = mulle_vararg_next_id( arguments))
-      _mulle_set_set( &ivars->_table, nextObject, NSSetCallback, ivars->_allocator);
-
-   return( obj);
-}
-
-
-+ (instancetype) _allocWithCapacity:(NSUInteger) count
-{
-   id   obj;
-
-   obj = _MulleObjCNewSetWithCapacity( self, count);
-   return( obj);
-}
-
-
-+ (instancetype) newWithObjects:(id *) objects
-                          count:(NSUInteger) count
-                      copyItems:(BOOL) copyItems
-{
-   id   obj;
-
-   obj   = _MulleObjCNewSetWithCapacity( self, count);
-   initWithObjects( obj, objects, count, copyItems);
-   return( obj);
-}
-
-
-- (instancetype) _initWithObjects:(id *) objects
-                            count:(NSUInteger) count
-{
-   return( initWithObjects( self, objects, count, NO));
-}
 
 
 - (void) dealloc
 {
-   _MulleObjCSetIvars *ivars;
-
-   ivars = getSetIvars( self);
-   _mulle_set_done( &ivars->_table, NSSetCallback, ivars->_allocator);
-
-   NSDeallocateObject( self);
+   _MulleObjCSetFree( self);
 }
 
 
 - (NSEnumerator *) objectEnumerator
 {
-   _MulleObjCSetIvars *ivars;
+   _MulleObjCSetIvars   *ivars;
 
-   ivars = getSetIvars( self);
+   ivars = _MulleObjCSetGetIvars( self);
    return( [[_MulleObjCSetEnumerator instantiate] initWithSet:(id) self
-                                                    _mulle_set:&ivars->_table]);
+                                                   _mulle_set:&ivars->_table]);
 }
 
 
 - (BOOL) containsObject:(id) obj
 {
-   _MulleObjCSetIvars *ivars;
+   _MulleObjCSetIvars   *ivars;
 
-   ivars = getSetIvars( self);
+   ivars = _MulleObjCSetGetIvars( self);
    return( _mulle_set_get( &ivars->_table, obj, NSSetCallback) != NULL);
 }
 
 
 - (id) member:(id) obj
 {
-   _MulleObjCSetIvars *ivars;
+   _MulleObjCSetIvars   *ivars;
 
-   ivars = getSetIvars( self);
+   ivars = _MulleObjCSetGetIvars( self);
    return( _mulle_set_get( &ivars->_table, obj, NSSetCallback));
 }
 
 
 - (NSUInteger) count
 {
-   _MulleObjCSetIvars *ivars;
+   _MulleObjCSetIvars   *ivars;
 
-   ivars = getSetIvars( self);
+   ivars = _MulleObjCSetGetIvars( self);
    return( _mulle_set_get_count( &ivars->_table));
 }
 
-@end
+
+struct _MulleObjCSetFastEnumerationState
+{
+   struct _mulle_setenumerator   _rover;
+};
+
+
+- (NSUInteger) countByEnumeratingWithState:(NSFastEnumerationState *) rover
+                                   objects:(id *) buffer
+                                     count:(NSUInteger) len
+{
+   struct _MulleObjCSetFastEnumerationState   *dstate;
+   id                                         obj;
+   id                                         *sentinel;
+
+   assert( sizeof( struct _MulleObjCSetFastEnumerationState) <= sizeof( long) * 5);
+   assert( alignof( struct _MulleObjCSetFastEnumerationState) <= alignof( long));
+
+   if( rover->state == -1)
+      return( 0);
+
+   // get our stat and init if its the first run
+   dstate = (struct _MulleObjCSetFastEnumerationState *) rover->extra;
+   if( ! rover->state)
+   {
+      _MulleObjCSetIvars   *ivars;
+
+      ivars          = _MulleObjCSetGetIvars( self);
+      dstate->_rover = _mulle_set_enumerate( &ivars->_table, NSSetCallback);
+      rover->state   = 1;
+   }
+
+   rover->itemsPtr  = buffer;
+
+   sentinel = &buffer[ len];
+   while( buffer < sentinel)
+   {
+      obj = _mulle_setenumerator_next( &dstate->_rover);
+      if( ! obj)
+      {
+         rover->state = -1;
+         break;
+      }
+      *buffer++ = obj;
+   }
+
+   rover->mutationsPtr = &rover->extra[ 4];
+
+   return( len - (sentinel - buffer));
+}
+
+PROTOCOLCLASS_END()

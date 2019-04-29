@@ -42,3 +42,6 @@
    _MulleObjCDictionaryIvars   _ivars;
 }
 @end
+
+
+extern Class  _MulleObjCConcreteDictionaryClass;

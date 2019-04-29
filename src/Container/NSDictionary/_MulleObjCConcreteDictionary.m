@@ -48,6 +48,16 @@
 
 @implementation _MulleObjCConcreteDictionary
 
+
+Class  _MulleObjCConcreteDictionaryClass;
+
++ (void) load
+{
+   _MulleObjCConcreteDictionaryClass = self;
+}
+
+
+
 // the protocol implements it all
 
 @end

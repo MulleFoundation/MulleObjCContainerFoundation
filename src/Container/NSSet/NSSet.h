@@ -39,9 +39,7 @@
 @class NSEnumerator;
 
 
-@interface NSSet : NSObject < MulleObjCClassCluster, NSCopying>
-{
-}
+@interface NSSet : NSObject < NSSet, MulleObjCClassCluster, NSCopying>
 
 + (instancetype) set;
 
@@ -53,6 +51,7 @@
 - (instancetype) initWithObjects:(id) object, ...;
 - (instancetype) initWithObjects:(id *) objects
                            count:(NSUInteger) count;
+- (instancetype) initWithSet:(NSSet *) set;
 - (instancetype) initWithSet:(NSSet *) set
                    copyItems:(BOOL) flag;
 
@@ -66,9 +65,13 @@
 - (BOOL) intersectsSet:(NSSet *) set;
 - (BOOL) isEqualToSet:(NSSet *) set;
 
+// mulle additions
+- (NSSet *) mulleSetByAddingObjectsFromContainer:(id) other;
+
 @end
 
-@interface NSSet( Subclass)
+
+@interface NSSet( Subclasses) < NSFastEnumeration>
 
 // designated initializer
 - (instancetype) initWithObjects:(id *) objects
@@ -83,6 +86,22 @@
 - (id) member:(id) object;
 - (NSEnumerator *) objectEnumerator;
 
+- (NSUInteger) countByEnumeratingWithState:(NSFastEnumerationState *) rover
+                                   objects:(id *) buffer
+                                     count:(NSUInteger) len;
 @end
 
+
+@interface NSSet( _NSSetPlaceholder)
+
+- (id) mulleInitWithCapacity:(NSUInteger) count;
+
+- (id) mulleInitWithRetainedObjectStorage:(id *) objects
+                                    count:(NSUInteger) count
+                                     size:(NSUInteger) size;
+
+- (id) mulleInitWithRetainedObjects:(id *) objects
+                              count:(NSUInteger) count;
+
+@end
 

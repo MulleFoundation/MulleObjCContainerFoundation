@@ -21,4 +21,4 @@ include( _Libraries OPTIONAL)
 # Add OS specific dependencies to OS_SPECIFIC_LIBRARIES
 # Add all other dependencies (rest) to DEPENDENCY_LIBRARIES
 #
-set( STARTUP_LIBRARY_NAME "MulleStandardFoundation-startup")
+set( STARTUP_LIBRARY_NAME "MulleObjCStandardFoundation-startup")

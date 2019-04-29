@@ -53,6 +53,13 @@ NSHashTable   *NSCreateHashTable( NSHashTableCallBacks callBacks, NSUInteger cap
 }
 
 
+void   NSFreeHashTable( NSHashTable *table)
+{
+   mulle_set_done( &table->_set);
+   mulle_free( table);
+}
+
+
 NSHashTable   *NSCopyHashTable( NSHashTable *table)
 {
    NSHashTable   *clone;

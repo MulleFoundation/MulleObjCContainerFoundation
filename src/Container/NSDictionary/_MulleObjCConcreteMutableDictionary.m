@@ -41,6 +41,7 @@
 // other libraries of MulleObjCStandardFoundation
 
 // std-c and dependencies
+#import "_MulleObjCDictionary-Private.h"
 
 
 #pragma clang diagnostic ignored "-Wobjc-missing-super-calls"
@@ -50,45 +51,53 @@
 @implementation _MulleObjCConcreteMutableDictionary
 
 
-+ (instancetype) newWithCapacity:(NSUInteger) capacity
+Class  _MulleObjCConcreteMutableDictionaryClass;
+
++ (void) load
 {
-   return( (id) _MulleObjCNewDictionaryWithCapacity( self, capacity));
+   _MulleObjCConcreteMutableDictionaryClass = self;
 }
 
 
 - (void) setObject:(id) obj
             forKey:(NSObject <NSCopying> *) key
 {
-   _MulleObjCDictionaryIvars    *ivars;
+   _MulleObjCDictionaryIvars   *ivars;
    struct mulle_pointerpair    pair;
+   struct mulle_allocator      *allocator;
 
    assert( [key respondsToSelector:@selector( copy)]);
    assert( [key respondsToSelector:@selector( hash)]);
    assert( [key respondsToSelector:@selector( isEqual:)]);
    assert( [obj respondsToSelector:@selector( retain)]);
 
-   ivars = getDictionaryIvars( self);
+   allocator = MulleObjCObjectGetAllocator( self);
+   ivars     = _MulleObjCDictionaryGetIvars( self);
    pair._key   = key;
    pair._value = obj;
-   _mulle_map_set( &ivars->_table, &pair, NSDictionaryCallback, ivars->_allocator);
+   _mulle_map_set( &ivars->_table, &pair, NSDictionaryCallback, allocator);
 }
 
 
 - (void) removeObjectForKey:(id) key
 {
    _MulleObjCDictionaryIvars    *ivars;
+   struct mulle_allocator       *allocator;
 
-   ivars = getDictionaryIvars( self);
-   _mulle_map_remove( &ivars->_table, key, NSDictionaryCallback, ivars->_allocator);
+   allocator = MulleObjCObjectGetAllocator( self);
+   ivars     = _MulleObjCDictionaryGetIvars( self);
+   _mulle_map_remove( &ivars->_table, key, NSDictionaryCallback, allocator);
 }
 
 
 - (void) removeAllObjects
 {
    _MulleObjCDictionaryIvars    *ivars;
+   struct mulle_allocator       *allocator;
 
-   ivars = getDictionaryIvars( self);
-   _mulle_map_reset( &ivars->_table, NSDictionaryCallback, ivars->_allocator);
+   allocator = MulleObjCObjectGetAllocator( self);
+   ivars     = _MulleObjCDictionaryGetIvars( self);
+   _mulle_map_reset( &ivars->_table, NSDictionaryCallback, allocator);
 }
 
 @end

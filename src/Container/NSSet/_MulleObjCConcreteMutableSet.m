@@ -43,46 +43,53 @@
 
 // std-c and dependencies
 
+// private headers
+#import "_MulleObjCSet-Private.h"
+
 
 #pragma clang diagnostic ignored "-Wprotocol"
 
 
 @implementation _MulleObjCConcreteMutableSet
 
+Class  _MulleObjCConcreteMutableSetClass;
 
-+ (instancetype) newWithCapacity:(NSUInteger) count
++ (void) load
 {
-   id   obj;
-
-   obj = _MulleObjCNewSetWithCapacity( self, count);
-   return( obj);
+   _MulleObjCConcreteMutableSetClass = self;
 }
 
 
 - (void) addObject:(id) obj
 {
-   _MulleObjCSetIvars *ivars;
+   _MulleObjCSetIvars       *ivars;
+   struct mulle_allocator   *allocator;
 
-   ivars = getSetIvars( self);
-   _mulle_set_set( &ivars->_table, obj, NSSetCallback, ivars->_allocator);
+   ivars     = _MulleObjCSetGetIvars( self);
+   allocator = MulleObjCObjectGetAllocator( self);
+   _mulle_set_set( &ivars->_table, obj, NSSetCallback, allocator);
 }
 
 
 - (void) removeObject:(id) obj
 {
-   _MulleObjCSetIvars *ivars;
+   _MulleObjCSetIvars       *ivars;
+   struct mulle_allocator   *allocator;
 
-   ivars = getSetIvars( self);
-   _mulle_set_remove( &ivars->_table, obj, NSSetCallback, ivars->_allocator);
+   allocator = MulleObjCObjectGetAllocator( self);
+   ivars     = _MulleObjCSetGetIvars( self);
+   _mulle_set_remove( &ivars->_table, obj, NSSetCallback, allocator);
 }
 
 
 - (void) removeAllObjects
 {
-   _MulleObjCSetIvars *ivars;
+   _MulleObjCSetIvars       *ivars;
+   struct mulle_allocator   *allocator;
 
-   ivars = getSetIvars( self);
-   _mulle_set_reset( &ivars->_table, NSSetCallback, ivars->_allocator);
+   allocator = MulleObjCObjectGetAllocator( self);
+   ivars     = _MulleObjCSetGetIvars( self);
+   _mulle_set_reset( &ivars->_table, NSSetCallback, allocator);
 }
 
 @end

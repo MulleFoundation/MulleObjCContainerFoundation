@@ -51,14 +51,14 @@
 @implementation NSDictionary( NSArray)
 
 + (instancetype) dictionaryWithObjects:(NSArray *) objects
-                     forKeys:(NSArray *) keys
+                               forKeys:(NSArray *) keys
 {
    return( [[[self alloc] initWithObjects:objects
                                   forKeys:keys] autorelease]);
 }
 
 - (instancetype) initWithObjects:(NSArray *) objects
-               forKeys:(NSArray *) keys
+                         forKeys:(NSArray *) keys
 {
    NSUInteger     count;
    id             *buf;
@@ -68,15 +68,15 @@
 
    count = [objects count];
    if( count != [keys count])
-      MulleObjCThrowInvalidArgumentException( @"mismatched keys lengths");
+      MulleObjCThrowInvalidArgumentException( @"mismatched keys/objects lengths");
 
-   size   = 2 * count;
+   size = 2 * count;
    {
-      id   tmp[ 0x100];
+      id   tmp[ 0x20];
 
       tofree = NULL;
       buf    = tmp;
-      if( size > 0x100)
+      if( size > 0x20)
          tofree = buf = mulle_malloc( size * sizeof( id));
 
       [objects getObjects:buf];
@@ -131,15 +131,13 @@
 
 - (NSArray *) allKeysForObject:(id) anObject
 {
-   NSEnumerator    *rover;
-   NSMutableArray  *array;
-   id              value;
-   id              key;
+   NSMutableArray   *array;
+   id               value;
+   id               key;
 
    array = [NSMutableArray array];
 
-   rover = [self keyEnumerator];
-   while( key = [rover nextObject])
+   for( key in self)
    {
       value = [self objectForKey:key];
       if( [value isEqual:anObject])

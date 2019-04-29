@@ -46,6 +46,20 @@
 
 @implementation _MulleObjCEmptyArray
 
+Class  _MulleObjCEmptyArrayClass;
+
++ (void) load
+{
+   _MulleObjCEmptyArrayClass = self;
+}
+
+
+- (id) __initSingleton
+{
+   return( self);
+}
+
+
 - (id) lastObject
 {
    return( nil);
@@ -55,6 +69,12 @@
 - (NSUInteger) count
 {
    return( 0);
+}
+
+- (void) getObjects:(id *) buf
+              range:(NSRange) range
+{
+   MulleObjCValidateRangeWithLength( range, 0);
 }
 
 
@@ -70,6 +90,10 @@
 {
    MulleObjCThrowInvalidIndexException( i);
    return( nil);
+}
+
+- (void) decodeWithCoder:(NSCoder *) coder
+{
 }
 
 

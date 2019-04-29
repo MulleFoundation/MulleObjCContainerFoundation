@@ -34,6 +34,10 @@
 //  POSSIBILITY OF SUCH DAMAGE.
 //
 
+// export everything with Mulle
+
+#import "MullePreempt.h"
+
 // export everything with NS
 #import "NSArray.h"
 #import "NSDictionary.h"
@@ -53,6 +57,11 @@
 #import "NSMutableSet+NSArray.h"
 #import "NSSet+NSArray.h"
 #import "NSThread+NSMutableDictionary.h"
+
+#import "NSArray+NSCoder.h"
+#import "NSDictionary+NSCoder.h"
+#import "NSSet+NSCoder.h"
+#import "NSSortDescriptor+NSCoder.h"
 
 // export nothing with _MulleObjC
 

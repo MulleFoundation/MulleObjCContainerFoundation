@@ -40,28 +40,48 @@
 
 // other libraries of MulleObjCStandardFoundation
 #import "NSException.h"
+#import "NSCoder.h"
 
 // std-c and dependencies
 
 
 
-@implementation NSMutableArray
+@implementation NSObject( _NSMutableArray)
 
-#pragma mark -
-#pragma mark construction conveniences
-
-+ (instancetype) arrayWithCapacity:(NSUInteger) capacity
+- (BOOL) __isNSMutableArray
 {
-   return( [[[self alloc] initWithCapacity:capacity] autorelease]);
+   return( NO);
 }
 
+@end
 
+
+@implementation NSMutableArray
 
 static void   add_object( NSMutableArray *self, id other);
+
+- (BOOL) __isNSMutableArray
+{
+   return( YES);
+}
 
 
 // as we are "breaking out" of the class cluster, use standard
 // allocation
+
+#ifdef DEBUG
++ (Class) __placeholderClass
+{
+   abort();
+}
+#endif
+
+
+- (id) mulleImmutableInstance
+{
+   return( [NSArray arrayWithArray:self]);
+}
+
 
 + (instancetype) alloc
 {
@@ -72,6 +92,41 @@ static void   add_object( NSMutableArray *self, id other);
 + (instancetype) allocWithZone:(NSZone *) zone
 {
    return( NSAllocateObject( self, 0, NULL));
+}
+
+// we could inherit new from NSArray safely, but while we are here
++ (instancetype) new
+{
+   return( [NSAllocateObject( self, 0, NULL) init]);
+}
+
+
+- (instancetype) mulleInitWithCapacity:(NSUInteger) capacity
+{
+   self->_size    = capacity;
+   self->_storage = MulleObjCObjectAllocateNonZeroedMemory( self, sizeof( id) * capacity);
+   return( self);
+}
+
+
+- (void) decodeWithCoder:(NSCoder *) coder
+{
+   NSUInteger   count;
+   id           *sentinel;
+   id           *p;
+
+   [coder decodeValueOfObjCType:@encode( NSUInteger)
+                             at:&count];
+
+   assert( count == _size);
+
+   p        = _storage;
+   sentinel = &p[ count];
+   while( p < sentinel)
+      [coder decodeValueOfObjCType:@encode( id)
+                                at:p++];
+   _count = count;
+   _mutationCount++;
 }
 
 
@@ -87,80 +142,77 @@ static void   add_object( NSMutableArray *self, id other);
 #pragma mark -
 #pragma mark init
 
-static id   initWithArrayAndRange( NSMutableArray *self, NSArray *other, NSRange range)
+
+- (instancetype) initWithCapacity:(NSUInteger) capacity
 {
-   assert( [other count] >= range.location + range.length);
-
-   self->_count = range.length;
-   self->_size  = self->_count;
-   if( self->_size < 8)
-      self->_size = 8;
-
-   self->_storage = MulleObjCObjectReallocateNonZeroedMemory( self, self->_storage, sizeof( id) * self->_size);
-   [other getObjects:self->_storage
-               range:range];
-
-   MulleObjCMakeObjectsPerformRetain( self->_storage, range.length);
-
-   self->_mutationCount++;
+   if( capacity > self->_size)
+   {
+      self->_size    = capacity;
+      self->_storage = MulleObjCObjectReallocateNonZeroedMemory( self,
+                                                                 self->_storage,
+                                                                 sizeof( id) * self->_size);
+   }
    return( self);
 }
 
 
-static id  initWithRetainedObjects( NSMutableArray *self,
-                                    id *objects,
-                                    NSUInteger n)
+- (instancetype) mulleInitWithRetainedObjectStorage:(id *) storage
+                                              count:(NSUInteger) count
+                                               size:(NSUInteger) size
 {
 #ifndef NDEBUG
    {
-      unsigned int   i;
+      id  *p;
+      id  *sentinel;
 
-      for( i = 0; i < n; i++)
-         assert( objects[ i]);
+      p        = storage;
+      sentinel = &p[ count];
+      while( p < sentinel)
+         assert( *p++);
    }
 #endif
-   self->_size  = n;
-   self->_count = n;
-   if( n < 8)
+
+   self->_size    = size;
+   self->_count   = count;
+   self->_storage = storage;
+   self->_mutationCount++;
+
+   return( self);
+}
+
+
+static NSMutableArray  *initWithRetainedObjects( NSMutableArray *self,
+                                                 id *objects,
+                                                 NSUInteger count)
+{
+#ifndef NDEBUG
+   {
+      id  *p;
+      id  *sentinel;
+
+      p        = objects;
+      sentinel = &p[ count];
+      while( p < sentinel)
+         assert( *p++);
+   }
+#endif
+
+   self->_size  = count;
+   self->_count = count;
+   if( count < 8)
       self->_size = 8;
    self->_storage = MulleObjCObjectAllocateNonZeroedMemory( self, sizeof( id) * self->_size);
+   self->_mutationCount++;
 
-   memcpy( self->_storage, objects, n * sizeof( id));
+   memcpy( self->_storage, objects, count * sizeof( id));
    return( self);
 }
 
 
-static id  initWithObjects( NSMutableArray *self,
-                            id *objects,
-                            NSUInteger n)
+- (instancetype) mulleInitWithRetainedObjects:(id *) objects
+                                        count:(NSUInteger) count
 {
-   self = initWithRetainedObjects( self, objects, n);
-   MulleObjCMakeObjectsPerformRetain( objects, n);
-   return( self);
-}
-
-
-- (instancetype) initWithArray:(NSArray *) other
-{
-   NSRange  range;
-
-   range = NSMakeRange( 0, [other count]);
-   initWithArrayAndRange( self, other, range);
-   return( self);
-}
-
-
-- (instancetype) initWithArray:(NSArray *) other
-                         range:(NSRange) range
-{
-   return( initWithArrayAndRange( self, other, range));
-}
-
-
-- (instancetype) initWithObjects:(id *) objects
-                           count:(NSUInteger) n
-{
-   return( initWithObjects( self, objects, n));
+   return( initWithRetainedObjects( self, objects, count));
 }
 
 
@@ -171,8 +223,7 @@ static id  initWithObjects( NSMutableArray *self,
    id           p;
 
    count = mulle_vararg_count_ids( args, object);
-
-   self = [self initWithCapacity:count];
+   self  = [self initWithCapacity:count];
 
    p = object;
    while( p)
@@ -180,40 +231,28 @@ static id  initWithObjects( NSMutableArray *self,
       add_object( self, p);
       p = mulle_vararg_next_id( args);
    }
+   self->_mutationCount++;
 
    return( self);
 }
 
 
-- (instancetype) _initWithRetainedObjects:(id *) objects
-                                    count:(NSUInteger) count
+- (instancetype) initWithObjects:(id *) objects
+                           count:(NSUInteger) n
 {
-   return( initWithRetainedObjects( self, objects, count));
+   MulleObjCMakeObjectsPerformRetain( objects, n);
+   return( initWithRetainedObjects( self, objects, n));
 }
 
 
-- (instancetype) initWithObjects:(id) object, ...
+#pragma mark -
+#pragma mark construction conveniences
+
++ (instancetype) arrayWithCapacity:(NSUInteger) capacity
 {
-   mulle_vararg_list   args;
-
-   mulle_vararg_start( args, object);
-   self = [self initWithObject:object
-               mulleVarargList:args];
-   mulle_vararg_end( args);
-
-   return( self);
+   return( [[[self alloc] initWithCapacity:capacity] autorelease]);
 }
 
-
-- (instancetype) initWithCapacity:(NSUInteger) capacity
-{
-   if( capacity)
-   {
-      self->_size    = capacity;
-      self->_storage = MulleObjCObjectAllocateNonZeroedMemory( self, sizeof( id) * self->_size);
-   }
-   return( self);
-}
 
 
 #pragma mark -
@@ -313,8 +352,7 @@ static NSUInteger  indexOfObjectIdenticalTo( NSMutableArray *self, id obj, NSRan
 - (NSUInteger) indexOfObjectIdenticalTo:(id) obj
                                 inRange:(NSRange) range
 {
-   if( range.length + range.location > _count || range.length > _count)
-      MulleObjCThrowInvalidRangeException( range);
+   MulleObjCValidateRangeWithLength( range, _count);
 
    return( indexOfObjectIdenticalTo( self, obj, range));
 }
@@ -370,8 +408,7 @@ static NSUInteger  indexOfObject( NSMutableArray *self, id obj, NSRange range, i
 - (NSUInteger) indexOfObject:(id) obj
                        inRange:(NSRange) range
 {
-   if( range.length + range.location > _count || range.length > _count)
-      MulleObjCThrowInvalidRangeException( range);
+   MulleObjCValidateRangeWithLength( range, _count);
 
    return( indexOfObject( self, obj, range, 1));
 }
@@ -538,8 +575,8 @@ static void   removeObjectAtIndex( NSMutableArray *self,
 - (void) getObjects:(id *) aBuffer
               range:(NSRange) range
 {
-   if( range.length + range.location > _count || range.length > _count)
-      MulleObjCThrowInvalidRangeException( range);
+   MulleObjCValidateRangeWithLength( range, _count);
+
    memcpy( aBuffer, &self->_storage[ range.location], range.length * sizeof( id));
 }
 
@@ -559,7 +596,6 @@ static void   removeObjectAtIndex( NSMutableArray *self,
 
    return( self->_count);
 }
-
 
 
 - (void) addObjectsFromArray:(NSArray *) array
@@ -590,8 +626,7 @@ static void   removeObjectAtIndex( NSMutableArray *self,
    assert( range.length == n);
    assert( objects);
 
-   if( range.length + range.location > _count || range.length > _count)
-      MulleObjCThrowInvalidRangeException( range);
+   MulleObjCValidateRangeWithLength( range, _count);
 
    _MulleObjCAutoreleaseObjects( &_storage[ range.location],
                                  range.length,
@@ -660,33 +695,18 @@ static void   removeObjectAtIndex( NSMutableArray *self,
 }
 
 
-- (BOOL) mulleForEachObjectCallFunction:(BOOL (*)( id, void *)) f
-                               argument:(void *) userInfo
-                          isPreemptable:(BOOL) isPreemptable
+- (id) mulleForEachObjectCallFunction:(BOOL (*)( id, void *)) f
+                             argument:(void *) userInfo
+                              preempt:(enum MullePreempt) preempt
 {
-   id   *objects;
-   id   *sentinel;
-
-   objects = _storage;
-   sentinel = &objects[ _count];
-   if( isPreemptable)
-   {
-      while( objects < sentinel)
-         if( ! (*f)( *objects++, userInfo))
-            return( NO);
-   }
-   else
-   {
-      while( objects < sentinel)
-         (*f)( *objects++, userInfo);
-   }
-   return( YES);
+   return( MulleForEachObjectCallFunction( _storage, _count, f, userInfo, preempt));
 }
 
 
 - (void) setArray:(NSArray *) other
 {
-   initWithArrayAndRange( self, other, NSMakeRange( 0, [other count]));
+   [self removeAllObjects];
+   [self addObjectsFromArray:other];
 }
 
 
@@ -770,7 +790,7 @@ static int   bouncyBounce( void *a, void *b, void *_ctxt)
 - (void) sortUsingFunction:(NSInteger (*)(id, id, void *)) f
                    context:(void *) context
 {
-   bouncy  bounce;
+   bouncy   bounce;
 
    bounce.ctxt = context;
    bounce.f    = f;
