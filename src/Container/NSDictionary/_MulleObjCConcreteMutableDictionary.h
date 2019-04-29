@@ -44,8 +44,4 @@
    _MulleObjCDictionaryIvars   _ivars;
 }
 
-
-+ (instancetype) newWithCapacity:(NSUInteger) capacity;
-+ (instancetype) new;
-
 @end

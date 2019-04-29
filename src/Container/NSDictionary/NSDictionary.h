@@ -35,50 +35,76 @@
 //
 #import "MulleObjCFoundationBase.h"
 
+#import "MullePreempt.h"
+
 
 @class NSEnumerator;
 
 
-@interface NSDictionary : NSObject < MulleObjCClassCluster, NSCopying >
+@interface NSDictionary : NSObject < NSDictionary, MulleObjCClassCluster, NSCopying >
 
 + (instancetype) dictionary;
 + (instancetype) dictionaryWithDictionary:(NSDictionary *) dictionary;
 + (instancetype) dictionaryWithObject:(id) anObject
-                     forKey:(id) aKey;
+                               forKey:(id<NSCopying>) aKey;
 + (instancetype) dictionaryWithObjects:(id *) objects
-                     forKeys:(id *) keys
-                       count:(NSUInteger) count;
+                               forKeys:(id *) keys
+                                 count:(NSUInteger) count;
 + (instancetype) dictionaryWithObjectsAndKeys:(id) firstObject , ...;
 
 - (instancetype) initWithDictionary:(NSDictionary *) otherDictionary;
 - (instancetype) initWithDictionary:(NSDictionary *) otherDictionary
-                copyItems:(BOOL) flag;
+                          copyItems:(BOOL) flag;
 - (instancetype) initWithObjects:(id *) objects
-               forKeys:(id *) keys
-                 count:(NSUInteger) count;
+                         forKeys:(id *) keys
+                           count:(NSUInteger) count;
 - (instancetype) initWithObjectsAndKeys:(id)firstObject , ...;
 - (instancetype) initWithObject:(id) object
-      mulleVarargList:(mulle_vararg_list) args;
+                mulleVarargList:(mulle_vararg_list) args;
 
 - (BOOL) isEqualToDictionary:(NSDictionary *) other;
+
+// mulle addition:
+- (id) mulleForEachObjectAndKeyCallFunction:(BOOL (*)( id, id, void *)) f
+                                   argument:(void *) userInfo
+                                    preempt:(enum MullePreempt) preempt;
+
 
 @end
 
 
 
-@interface NSDictionary( Subclasses)
+@interface NSDictionary( Subclasses) < NSFastEnumeration>
 
 - (NSUInteger) count;
 - (void) getObjects:(id *) objects
-            andKeys:(id *) keys;
+            andKeys:(id *) keys
+              count:(NSUInteger) count;
 
 - (id) :(id) key;  // short for objectForKey:
 - (id) objectForKey:(id) key;
 - (NSEnumerator *) keyEnumerator;
 - (NSEnumerator *) objectEnumerator;
 
-// mulle addition:
-- (BOOL) mulleForEachObjectAndKeyCallFunction:(BOOL (*)( id, id, void *)) f
-                                     argument:(void *) userInfo
-                                isPreemptable:(BOOL) isPreemptable;
+- (NSUInteger) countByEnumeratingWithState:(NSFastEnumerationState *) rover
+                                   objects:(id *) buffer
+                                     count:(NSUInteger) len;
+
+
 @end
+
+
+@interface NSDictionary( _NSDictionaryPlaceholder)
+
+- (id) mulleInitWithCapacity:(NSUInteger) count;
+
+- (id) mulleInitWithRetainedObjectKeyStorage:(id *) objects
+                                       count:(NSUInteger) count
+                                        size:(NSUInteger) size;
+
+- (id) mulleInitWithRetainedObjects:(id *) objects
+                         copiedKeys:(id *) keys
+                              count:(NSUInteger) count;
+
+@end
+

@@ -47,6 +47,14 @@
 
 @implementation _MulleObjCConcreteSet
 
+Class  _MulleObjCConcreteSetClass;
+
++ (void) load
+{
+   _MulleObjCConcreteSetClass = self;
+}
+
+
 // all done in the protocol
 
 @end

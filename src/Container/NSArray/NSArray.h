@@ -35,11 +35,13 @@
 //
 #import "MulleObjCFoundationBase.h"
 
+#import "MullePreempt.h"
+
 
 @class NSEnumerator;
 
 
-@interface NSArray : NSObject < MulleObjCClassCluster, NSCopying>
+@interface NSArray : NSObject < NSArray, MulleObjCClassCluster, NSCopying>
 
 + (instancetype) array;
 + (instancetype) arrayWithArray:(NSArray *) other;
@@ -54,7 +56,8 @@
 - (instancetype) initWithObjects:(id) firstObject, ...;
 - (instancetype) initWithObjects:(id *) objects
                            count:(NSUInteger) count;
-
+- (instancetype) initWithObject:(id) firstObject
+                     varargList:(va_list) args;
 - (NSArray *) arrayByAddingObject:(id) obj;
 - (NSArray *) arrayByAddingObjectsFromArray:(NSArray *) other;
 
@@ -91,33 +94,58 @@
 @end
 
 
+
 @interface NSArray( MulleAdditions)
 
-- (instancetype) _initWithRetainedObjects:(id *) objects
-                                    count:(NSUInteger) count;
+// conveniences
++ (instancetype) mulleArrayWithArray:(NSArray *) other
+                               range:(NSRange) range;
 
-+ (instancetype) arrayWithArray:(NSArray *) other
-                          range:(NSRange) range;
++ (instancetype) mulleArrayWithObjects:(id *) objects
+                                 count:(NSUInteger) count;
 
-- (instancetype) initWithArray:(NSArray *) other
-                         range:(NSRange) range;
++ (instancetype) mulleArrayWithRetainedObjects:(id *) objects
+                                         count:(NSUInteger) count;
+
+- (instancetype) mulleInitWithArray:(NSArray *) other
+                              range:(NSRange) range;
+
+- (instancetype) mulleInitWithArray:(NSArray *) other
+                          andObject:(id) obj;
+
+- (instancetype) mulleInitWithArray:(NSArray *) other
+                           andArray:(NSArray *) other2;
+
+- (instancetype) mulleInitWithObject:(id) firstObject
+                          varargList:(va_list) argsM;
+
+- (instancetype) initWithObject:(id) firstObject
+                mulleVarargList:(mulle_vararg_list) args;
 
 // mulle addition:
 //
-// userinfo will be passed to function. If the function returns NO and
-// isPreemptable is YES then the iteration will stop and the function will
-// return NO. In all other cases YES is returned.
+// userinfo will be passed to function. If the function preempts according to
+// preempt (e.g. returns YES and preempt==MullePreemptIfMatches) then the
+// object is returned. Otherwise nil is retuned.
 //
-- (BOOL) mulleForEachObjectCallFunction:(BOOL (*)( id, void *)) f
-                               argument:(void *) userInfo
-                          isPreemptable:(BOOL) isPreemptable;
+- (id) mulleForEachObjectCallFunction:(BOOL (*)( id, void *)) f
+                             argument:(void *) userInfo
+                              preempt:(enum MullePreempt) preempt;
 - (void) mulleMakeObjectsPerformSelector:(SEL) sel
                               withObject:(id) obj
-                            withObject:(id) obj2;
+                              withObject:(id) obj2;
 
 @end
 
 
+id   MulleForEachObjectCallFunction( id *objects,
+                                     NSUInteger n,
+                                     BOOL (*f)( id, void *),
+                                     void *userInfo,
+                                     enum MullePreempt preempt);
+
+
+// minimum to implement
 @interface NSArray( Subclasses) < NSFastEnumeration>
 
 - (NSUInteger) count;
@@ -130,4 +158,16 @@
                                    objects:(id *) objects
                                      count:(NSUInteger) count;
 
+@end
+
+
+@interface NSArray( _NSArrayPlaceholder)
+
+- (instancetype) mulleInitWithCapacity:(NSUInteger) count;
+// these two are the designated initializers basically
+- (instancetype) mulleInitWithRetainedObjects:(id *) objects
+                                       count:(NSUInteger) count;
+- (instancetype) mulleInitWithRetainedObjectStorage:(id *) objects
+                                              count:(NSUInteger) count
+                                               size:(NSUInteger) size;
 @end

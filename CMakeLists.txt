@@ -2,6 +2,7 @@ cmake_minimum_required( VERSION 3.1)
 
 project( MulleObjCStandardFoundation C)
 
+set( CMAKE_C_DEBUG_FLAGS "${CMAKE_C_DEBUG_FLAGS} -Wuninitialized")
 
 ### mulle-sde environment
 

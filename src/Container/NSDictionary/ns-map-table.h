@@ -130,6 +130,8 @@ static inline NSMapTable   *NSCopyMapTableWithZone( NSMapTable *table, NSZone *z
 
 static inline NSMapEnumerator   NSEnumerateMapTable( NSMapTable *table)
 {
+   if( ! table)
+      return( * (NSMapEnumerator *) &mulle_mapenumerator_empty);
    return( _mulle_map_enumerate( &table->_map, &table->_callback));
 }
 

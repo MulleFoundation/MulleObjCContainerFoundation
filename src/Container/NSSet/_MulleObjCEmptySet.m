@@ -1,5 +1,5 @@
 //
-//  NSMutableSet.h
+//  _MulleObjCConcreteSet.m
 //  MulleObjCStandardFoundation
 //
 //  Copyright (c) 2016 Nat! - Mulle kybernetiK.
@@ -34,39 +34,61 @@
 //  POSSIBILITY OF SUCH DAMAGE.
 //
 
-#import "NSSet.h"
+#import "_MulleObjCEmptySet.h"
+
+// other files in this library
+
+// other libraries of MulleObjCStandardFoundation
+
+// std-c and dependencies
 
 
-@interface NSMutableSet : NSSet < NSMutableSet, MulleObjCClassCluster>
+#pragma clang diagnostic ignored "-Wprotocol"
 
-+ (instancetype) setWithCapacity:(NSUInteger) numItems;
 
-- (void) intersectSet:(NSSet *) other;
-- (void) minusSet:(NSSet *) other;
-- (void) unionSet:(NSSet *) other;
-- (void) setSet:(NSSet *) other;
+@implementation _MulleObjCEmptySet
+
+
+Class  _MulleObjCEmptySetClass;
+
++ (void) load
+{
+   _MulleObjCEmptySetClass = self;
+}
+
+
+- (instancetype) __initSingleton
+{
+   return( self);
+}
+
+
+- (NSEnumerator *) objectEnumerator
+{
+   return( nil);
+}
+
+
+- (NSUInteger) count
+{
+   return( 0);
+}
+
+
+- (BOOL) containsObject:(id) obj
+{
+   return( NO);
+}
+
+
+- (id) member:(id) obj
+{
+   return( nil);
+}
+
+- (void) decodeWithCoder:(NSCoder *) coder
+{
+}
 
 @end
 
-
-@interface NSMutableSet( Subclasses)
-
-- (instancetype) initWithCapacity:(NSUInteger) numItems;
-- (void) addObject:(id) object;
-- (void) removeObject:(id) object;
-- (void) removeAllObjects;
-
-@end
-
-@interface NSMutableSet( _NSMutableSetPlaceholder)
-
-// not instancetype here
-- (id) init;
-- (id) initWithCapacity:(NSUInteger) count;
-- (id) mulleInitWithCapacity:(NSUInteger) count;
-- (id) mulleInitWithRetainedObjectStorage:(id *) objects
-                                    count:(NSUInteger) count
-                                     size:(NSUInteger) size;
-- (id) mulleInitWithRetainedObjects:(id *) objects
-                               count:(NSUInteger) count;
-@end

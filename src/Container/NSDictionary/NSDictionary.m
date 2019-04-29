@@ -38,17 +38,15 @@
 #import "NSDictionary.h"
 
 // other files in this library
+#import "_NSDictionaryPlaceholder.h"
 #import "NSEnumerator.h"
-#import "_MulleObjCDictionary.h"
-#import "_MulleObjCConcreteDictionary.h"
 
 // other libraries of MulleObjCStandardFoundation
+#import "NSException.h"
+#import "NSAssertionHandler.h"
+
 
 // std-c and dependencies
-
-@interface NSDictionary( NSCoder)
-
-@end
 
 
 @implementation NSObject( _NSDictionary)
@@ -70,6 +68,156 @@
 }
 
 
+- (id) mulleImmutableInstance
+{
+   return( self);
+}
+
+
+#pragma mark -
+#pragma mark class cluster
+
+
++ (Class) __placeholderClass
+{
+   return( [_NSDictionaryPlaceholder class]);
+}
+
+
+static id   initWithObjectKeyStorage( id self, id *storage, NSUInteger count, BOOL copyItems)
+{
+   // copy keys
+   MulleObjCMakeObjectsPerformSelector( &storage[ count], count, @selector( copy), NULL);
+   // retain or copy values
+   if( copyItems)
+      MulleObjCMakeObjectsPerformSelector( storage, count, @selector( copy), NULL);
+   else
+      MulleObjCMakeObjectsPerformRetain( storage, count);
+
+   return( [self mulleInitWithRetainedObjectKeyStorage:storage
+                                                 count:count
+                                                  size:count]);
+}
+
+
+static id   initWithObjectsForKeys( id self, id *objects, id *keys, NSUInteger count, BOOL copyItems)
+{
+   // copy keys
+   MulleObjCMakeObjectsPerformSelector( keys, count, @selector( copy), NULL);
+   // retain or copy values
+   if( copyItems)
+      MulleObjCMakeObjectsPerformSelector( objects, count, @selector( copy), NULL);
+   else
+      MulleObjCMakeObjectsPerformRetain( objects, count);
+
+   return( [self mulleInitWithRetainedObjects:objects
+                                   copiedKeys:keys
+                                        count:count]);
+}
+
+
+
+- (instancetype) initWithDictionary:(NSDictionary *) other
+                          copyItems:(BOOL) copy
+{
+   NSUInteger   count;
+   id           *storage;
+   id           *objects;
+   id           *keys;
+
+   count = [other count];
+   if( ! count)
+      return( [self init]);
+
+   storage = MulleObjCObjectAllocateNonZeroedMemory( self, sizeof( id) * 2 * count);
+   objects = storage;
+   keys    = &storage[ count];
+
+   [other getObjects:objects
+             andKeys:keys
+               count:count];
+
+   return( initWithObjectKeyStorage( self, objects, count, copy));
+}
+
+
+- (instancetype) initWithDictionary:(NSDictionary *) other
+{
+   NSParameterAssert( ! other || [other __isNSDictionary]);
+
+   self = [self initWithDictionary:other
+                         copyItems:NO];
+   return( self);
+}
+
+
+
+- (instancetype) initWithObject:(id) obj
+                mulleVarargList:(mulle_vararg_list) args
+{
+   NSUInteger               count;
+   NSUInteger               size;
+   id                       *storage;
+   id                       *values;
+   id                       *keys;
+   id                       key;
+   id                       value;
+
+   if( ! obj)
+      return( [self init]);
+
+   size = mulle_vararg_count_objects( args, obj);
+   if( size & 1)
+      MulleObjCThrowInvalidArgumentException( @"not even arguments");
+   count   = size / 2;
+   storage = MulleObjCObjectAllocateNonZeroedMemory( self, sizeof( id) * size);
+   values  = storage;
+   keys    = &storage[ count];
+
+   value = obj;
+   while( value)
+   {
+      *values++  = value;
+      *keys++    = mulle_vararg_next_id( args);
+      value      = mulle_vararg_next_id( args);
+   }
+
+   return( initWithObjectKeyStorage( self, storage, count, NO));
+}
+
+
+- (instancetype) initWithObjectsAndKeys:(id) firstObject, ...
+{
+   mulle_vararg_list   args;
+
+   mulle_vararg_start( args, firstObject);
+   self = [self initWithObject:firstObject
+               mulleVarargList:args];
+   mulle_vararg_end( args);
+
+   return( self);
+}
+
+
+- (instancetype) initWithObjects:(id *) objects
+                         forKeys:(id *) keys
+                           count:(NSUInteger) count
+{
+   if( ! count)
+   {
+      self = [self init];
+      return( self);
+   }
+
+   if( ! objects || ! keys)
+      MulleObjCThrowInvalidArgumentException( @"NULL objects");
+
+   return( initWithObjectsForKeys( self, objects, keys, count, NO));
+}
+
+
+#pragma mark - creation conveniences
+
 + (instancetype) dictionary
 {
    return( [[[self alloc] init] autorelease]);
@@ -78,12 +226,13 @@
 
 + (instancetype) dictionaryWithDictionary:(NSDictionary *) other
 {
-   return( [[[self alloc] initWithDictionary:other] autorelease]);
+   return( [[[self alloc] initWithDictionary:other
+                                   copyItems:NO] autorelease]);
 }
 
 
 + (instancetype) dictionaryWithObject:(id) obj
-                     forKey:(id) key
+                               forKey:(id) key
 {
    return( [[[self alloc] initWithObjects:&obj
                                   forKeys:&key
@@ -109,8 +258,8 @@
 // should also work for NSMutableArray
 //
 + (instancetype) dictionaryWithObjects:(id *) objects
-                     forKeys:(id *) keys
-                       count:(NSUInteger) count
+                               forKeys:(id *) keys
+                                count:(NSUInteger) count
 {
    return( [[[self alloc] initWithObjects:objects
                                   forKeys:keys
@@ -118,87 +267,7 @@
 }
 
 
-#pragma mark -
-#pragma mark class cluster inits
-
-- (instancetype) init
-{
-   id   old;
-
-   old  = self;
-   self = [_MulleObjCConcreteDictionary new];
-   [old release];
-   return( self);
-}
-
-
-- (instancetype) initWithDictionary:(id) other
-{
-   id   old;
-
-   old  = self;
-   self = [_MulleObjCConcreteDictionary newWithDictionary:other];
-   [old release];
-   return( self);
-}
-
-
-- (instancetype) initWithObjects:(id *) obj
-                         forKeys:(id *) key
-                           count:(NSUInteger) count
-{
-   id   old;
-
-   old  = self;
-   self = [_MulleObjCConcreteDictionary newWithObjects:obj
-                                               forKeys:key
-                                                 count:count];
-   [old release];
-   return( self);
-}
-
-
-- (instancetype) initWithDictionary:(id) other
-                          copyItems:(BOOL) copy
-{
-   id   old;
-
-   old  = self;
-   self = [_MulleObjCConcreteDictionary newWithDictionary:other
-                                                copyItems:copy];
-   [old release];
-   return( self);
-}
-
-
-- (instancetype) initWithObject:(id) obj
-                 mulleVarargList:(mulle_vararg_list) args
-{
-   id   old;
-
-   old  = self;
-   self = [_MulleObjCConcreteDictionary newWithObject:obj
-                                      mulleVarargList:args];
-   [old release];
-   return( self);
-}
-
-
-#pragma mark -
-#pragma mark generic inits
-
-- (instancetype) initWithObjectsAndKeys:(id) obj, ...
-{
-   mulle_vararg_list   args;
-   id                  dictionary;
-
-   mulle_vararg_start( args, obj);
-   dictionary = [self initWithObject:obj
-                     mulleVarargList:args];
-   mulle_vararg_end( args);
-   return( dictionary);
-}
-
+#pragma mark - NSCopying
 
 - (id) copy
 {
@@ -206,8 +275,7 @@
 }
 
 
-#pragma mark -
-#pragma mark accessors
+#pragma mark - generic accessors
 
 
 - (id) anyKey
@@ -219,6 +287,47 @@
 - (id) anyObject
 {
    return( [[self objectEnumerator] nextObject]);
+}
+
+
+
+- (id) mulleForEachObjectAndKeyCallFunction:(BOOL (*)( id, id, void *)) f
+                                   argument:(void *) userInfo
+                                    preempt:(enum MullePreempt) preempt
+{
+   IMP   get;
+   id    key;
+   id    value;
+
+   get = [self methodForSelector:@selector( objectForKey:)];
+   switch( preempt)
+   {
+   case MullePreemptIfNotMatches :
+         for( key in self)
+         {
+            value = MulleObjCCallIMP( get, self, @selector( objectForKey:), key);
+            if( ! (*f)( value, key, userInfo))
+               return( key);
+         }
+      break;
+
+   case MullePreemptIfMatches :
+         for( key in self)
+         {
+            value = MulleObjCCallIMP( get, self, @selector( objectForKey:), key);
+            if( (*f)( value, key, userInfo))
+               return( key);
+         }
+      break;
+
+   default :
+      for( key in self)
+      {
+         value = MulleObjCCallIMP( get, self, @selector( objectForKey:), key);
+          (*f)( value, key, userInfo);
+      }
+   }
+   return( nil);
 }
 
 
@@ -244,11 +353,10 @@
 
 - (BOOL) isEqualToDictionary:(NSDictionary *) other
 {
-   NSUInteger       count;
-   NSEnumerator     *rover;
-   id               key;
-   id               value;
-   id               other_value;
+   NSUInteger   count;
+   id           key;
+   id           value;
+   id           other_value;
 
    if( other == self)
       return( YES);
@@ -260,8 +368,7 @@
    if( ! count)
       return( YES);
 
-   rover = [self keyEnumerator];
-   while( key = [rover nextObject])
+   for( key in self)
    {
       other_value = [other objectForKey:key];
       if( ! other_value)
@@ -285,6 +392,14 @@
    if( ! [other __isNSDictionary])
       return( NO);
    return( [self isEqualToDictionary:other]);
+}
+
+
+- (NSUInteger) countByEnumeratingWithState:(NSFastEnumerationState *) rover
+                                   objects:(id *) buffer
+                                     count:(NSUInteger) len;
+{
+   abort();  // subclass must do this
 }
 
 @end

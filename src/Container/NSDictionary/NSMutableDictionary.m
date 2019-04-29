@@ -36,16 +36,12 @@
 #import "NSMutableDictionary.h"
 
 // other files in this library
-#import "_MulleObjCConcreteMutableDictionary.h"
-#import "NSEnumerator.h"
+#import "_NSMutableDictionaryPlaceholder.h"
 
 // other libraries of MulleObjCStandardFoundation
+#import "NSEnumerator.h"
 
 // std-c and dependencies
-
-
-#define NSDictionaryCallback           ((struct mulle_container_keyvaluecallback *) &_MulleObjCContainerObjectKeyCopyValueRetainCallback)
-#define NSDictionaryCopyValueCallback  ((struct mulle_container_keyvaluecallback *) &_MulleObjCContainerObjectKeyCopyValueCopyCallback)
 
 
 @implementation NSObject( _NSMutableDictionary)
@@ -65,106 +61,29 @@
    return( YES);
 }
 
+
 + (instancetype) dictionaryWithCapacity:(NSUInteger) capacity
 {
    return( [[[self alloc] initWithCapacity:capacity] autorelease]);
 }
 
 
-# pragma mark -
-# pragma mark classcluster inits
-
-// as we are "breaking out" of the class cluster, use standard
-// allocation
-
-+ (instancetype) alloc
+- (id) mulleImmutableInstance
 {
-   return( NSAllocateObject( self, 0, NULL));
+   return( [NSDictionary dictionaryWithDictionary:self]);
 }
 
 
-+ (instancetype) allocWithZone:(NSZone *) zone
+#pragma mark - class cluster
+
+
++ (Class) __placeholderClass
 {
-   return( NSAllocateObject( self, 0, NULL));
+   return( [_NSMutableDictionaryPlaceholder class]);
 }
 
 
-- (instancetype) init
-{
-   id   old;
-
-   old  = self;
-   self = [_MulleObjCConcreteMutableDictionary new];
-   [old release];
-   return( self);
-}
-
-
-- (instancetype) initWithCapacity:(NSUInteger) capacity
-{
-   id   old;
-
-   old  = self;
-   self = [_MulleObjCConcreteMutableDictionary newWithCapacity:capacity];
-   [old release];
-   return( self);
-}
-
-
-- (instancetype) initWithDictionary:(id) other
-{
-   id   old;
-
-   old  = self;
-   self = [_MulleObjCConcreteMutableDictionary newWithDictionary:other];
-   [old release];
-   return( self);
-}
-
-
-- (instancetype) initWithObjects:(id *) obj
-                         forKeys:(id *) key
-                           count:(NSUInteger) count
-{
-   id   old;
-
-   old  = self;
-   self = [_MulleObjCConcreteMutableDictionary newWithObjects:obj
-                                                       forKeys:key
-                                                         count:count];
-   [old release];
-   return( self);
-}
-
-
-- (instancetype) initWithDictionary:(id) other
-                          copyItems:(BOOL) copy
-{
-   id   old;
-
-   old  = self;
-   self = [_MulleObjCConcreteMutableDictionary newWithDictionary:other
-                                                        copyItems:copy];
-   [old release];
-   return( self);
-}
-
-
-- (instancetype) initWithObject:(id) obj
-                      mulleVarargList:(mulle_vararg_list) args
-{
-   id   old;
-
-   old  = self;
-   self = [_MulleObjCConcreteMutableDictionary newWithObject:obj
-                                              mulleVarargList:args];
-   [old release];
-   return( self);
-}
-
-
-#pragma mark -
-#pragma mark generic operations
+#pragma mark - generic operations
 
 - (void) addEntriesFromDictionary:(NSDictionary *) other
 {
@@ -177,7 +96,7 @@
    {
       value = [other objectForKey:key];
       [self setObject:value
-      forKey:key];
+               forKey:key];
    }
 }
 

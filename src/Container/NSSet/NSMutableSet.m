@@ -40,6 +40,7 @@
 
 // other files in this library
 #import "_MulleObjCConcreteMutableSet.h"
+#import "_NSMutableSetPlaceholder.h"
 
 // other libraries of MulleObjCStandardFoundation
 
@@ -56,6 +57,18 @@
 // as we are "breaking out" of the class cluster, use standard
 // allocation
 
++ (Class) __placeholderClass
+{
+   return( [_NSMutableSetPlaceholder class]);
+}
+
+
+- (id) mulleImmutableInstance
+{
+   return( [NSSet setWithSet:self]);
+}
+
+
 + (instancetype) alloc
 {
    return( NSAllocateObject( self, 0, NULL));
@@ -68,48 +81,9 @@
 }
 
 
-+ (instancetype ) _allocWithCapacity:(NSUInteger) count
++ (instancetype ) mulleInitWithCapacity:(NSUInteger) count
 {
-   return( (id) [_MulleObjCConcreteMutableSet newWithCapacity:count]);
-}
-
-
-- (instancetype) initWithCapacity:(NSUInteger) numItems
-{
-   id   old;
-
-   old  = self;
-   self = [_MulleObjCConcreteMutableSet newWithCapacity:numItems];
-   [old release];
-   return( self);
-}
-
-
-- (instancetype) initWithObjects:(id *) objects
-                           count:(NSUInteger) count
-                       copyItems:(BOOL) copyItems
-{
-   id   old;
-
-   old  = self;
-   self = [_MulleObjCConcreteMutableSet newWithObjects:objects
-                                                 count:count
-                                             copyItems:copyItems];
-   [old release];
-   return( self);
-}
-
-
-- (instancetype) initWithObject:(id) firstObject
-                      mulleVarargList:(mulle_vararg_list) arguments
-{
-   id   old;
-
-   old  = self;
-   self = [_MulleObjCConcreteMutableSet newWithObject:firstObject
-                                      mulleVarargList:arguments];
-   [old release];
-   return( self);
+   return( (id) [[self alloc] initWithCapacity:count]);
 }
 
 
@@ -127,7 +101,7 @@
    IMP            memberObjectIMP;
    SEL            memberObjectSEL;
 
-   rover = [self objectEnumerator];
+   rover         = [self objectEnumerator];
 
    nextObjectSEL = @selector( methodForSelector:);
    nextObjectIMP = [rover methodForSelector:nextObjectSEL];
@@ -209,7 +183,7 @@
 - (id) mutableCopy
 {
    return( [[NSMutableSet alloc] initWithSet:self
-                                  copyItems:NO]);
+                                   copyItems:NO]);
 }
 
 @end

@@ -1,5 +1,5 @@
 //
-//  NSMutableSet.h
+//  _MulleObjCEmptyArray.m
 //  MulleObjCStandardFoundation
 //
 //  Copyright (c) 2016 Nat! - Mulle kybernetiK.
@@ -34,39 +34,69 @@
 //  POSSIBILITY OF SUCH DAMAGE.
 //
 
-#import "NSSet.h"
+#import "_MulleObjCEmptyDictionary.h"
+
+// other files in this library
+
+// other libraries of MulleObjCStandardFoundation
+#import "NSException.h"
+
+// std-c and dependencies
 
 
-@interface NSMutableSet : NSSet < NSMutableSet, MulleObjCClassCluster>
+@implementation _MulleObjCEmptyDictionary
 
-+ (instancetype) setWithCapacity:(NSUInteger) numItems;
+Class  _MulleObjCEmptyDictionaryClass;
 
-- (void) intersectSet:(NSSet *) other;
-- (void) minusSet:(NSSet *) other;
-- (void) unionSet:(NSSet *) other;
-- (void) setSet:(NSSet *) other;
-
-@end
++ (void) load
+{
+   _MulleObjCEmptyDictionaryClass = self;
+}
 
 
-@interface NSMutableSet( Subclasses)
+- (id) __initSingleton
+{
+   return( self);
+}
 
-- (instancetype) initWithCapacity:(NSUInteger) numItems;
-- (void) addObject:(id) object;
-- (void) removeObject:(id) object;
-- (void) removeAllObjects;
 
-@end
+- (id) anyObject
+{
+   return( nil);
+}
 
-@interface NSMutableSet( _NSMutableSetPlaceholder)
 
-// not instancetype here
-- (id) init;
-- (id) initWithCapacity:(NSUInteger) count;
-- (id) mulleInitWithCapacity:(NSUInteger) count;
-- (id) mulleInitWithRetainedObjectStorage:(id *) objects
-                                    count:(NSUInteger) count
-                                     size:(NSUInteger) size;
-- (id) mulleInitWithRetainedObjects:(id *) objects
-                               count:(NSUInteger) count;
+- (NSUInteger) count
+{
+   return( 0);
+}
+
+- (void) getObjects:(id *) buf
+            andKeys:(id *) keys
+              count:(NSUInteger) count
+{
+   if( count)
+      MulleObjCThrowInvalidArgumentException( @"out of bounds");
+}
+
+
+// need @alias for this
+- (id) :(id) key
+{
+   return( nil);
+}
+
+
+- (void) decodeWithCoder:(NSCoder *) coder
+{
+}
+
+
+- (NSUInteger) countByEnumeratingWithState:(NSFastEnumerationState *) state
+                                   objects:(id *) stackbuf
+                                     count:(NSUInteger) len
+{
+   return( 0);
+}
+
 @end

@@ -38,7 +38,8 @@
 #import "NSMutableCopying.h"
 
 
-@interface NSMutableArray : NSArray
+// NSMutableArray is not part of the NSArray classcluster
+@interface NSMutableArray : NSArray < NSMutableArray>
 {
    id              *_storage;
    NSUInteger      _count;
@@ -79,16 +80,8 @@
 - (void) sortUsingSelector:(SEL)comparator;
 - (void) sortUsingFunction:(NSInteger (*)(id, id, void *)) compare
                    context:(void *) context;
-+ (instancetype) arrayWithCapacity:(NSUInteger) capacity;
 
-- (instancetype) initWithArray:(NSArray *) other;
-- (instancetype) initWithArray:(NSArray *) other
-               range:(NSRange) range;
-- (instancetype) initWithObjects:(id *) objects
-                 count:(NSUInteger) n;
-- (instancetype) initWithObject:(id) object
-            mulleVarargList:(mulle_vararg_list) args;
-- (instancetype) initWithObjects:(id) object, ...;
++ (instancetype) arrayWithCapacity:(NSUInteger) capacity;
 
 @end
 

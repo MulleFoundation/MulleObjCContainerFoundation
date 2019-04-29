@@ -41,15 +41,19 @@
 #import "NSEnumerator.h"
 
 // other libraries of MulleObjCStandardFoundation
+#import "NSException.h"
+#import "NSCoder.h"
 
 // std-c and dependencies
+
+// private files
+#import "_MulleObjCDictionary-Private.h"
 
 
 #pragma clang diagnostic ignored "-Wobjc-missing-super-calls"
 #pragma clang diagnostic ignored "-Wprotocol"
+#pragma clang diagnostic ignored "-Wobjc-root-class"
 
-
-@class _MulleObjCDictionary;
 
 @interface _MulleObjCDictionaryKeyEnumerator : NSEnumerator
 {
@@ -67,154 +71,16 @@
 @end
 
 
-
-
-@implementation _MulleObjCDictionary
-
-static void   _addEntriesFromDictionary( NSDictionary *other,
-                                         struct _mulle_map *table,
-                                         BOOL copyItems,
-                                         struct mulle_allocator *allocator)
-{
-   NSEnumerator                              *rover;
-   struct mulle_pointerpair                  *pair;
-   struct mulle_pointerpair                  *(*impNext)( id, SEL, id);
-   SEL                                       selNext;
-   struct mulle_container_keyvaluecallback   *callback;
-
-   callback = copyItems ? NSDictionaryCopyValueCallback
-                        : NSDictionaryCallback;
-
-   rover  = [other keyEnumerator];
-   selNext = @selector( _nextKeyValuePair:);
-   impNext = (struct mulle_pointerpair *(*)( id, SEL, id)) [rover methodForSelector:selNext];
-
-   while( pair = (*impNext)( rover, selNext, other))
-      _mulle_map_set( table, pair, callback, allocator);
-}
-
-
-+ (instancetype) new
-{
-   return( (id) _MulleObjCNewDictionaryWithCapacity( self, 0));
-}
-
-
-+ (instancetype) newWithDictionary:(id) other
-{
-   _MulleObjCDictionary        *dictionary;
-   _MulleObjCDictionaryIvars   *ivars;
-
-   dictionary = _MulleObjCNewDictionaryWithCapacity( self, [other count]);
-   ivars      = getDictionaryIvars( dictionary);
-   _addEntriesFromDictionary( other, &ivars->_table, NO, ivars->_allocator);
-
-   return( dictionary);
-}
-
-
-static void   setObjectsAndKeys( _MulleObjCDictionary *self, id *objects, id *keys, NSUInteger count)
-{
-   _MulleObjCDictionaryIvars   *ivars;
-   struct mulle_pointerpair    pair;
-   id                          *sentinel;
-
-   ivars = getDictionaryIvars( self);
-
-   sentinel = &keys[ count];
-   while( keys < sentinel)
-   {
-      pair._key   = *keys++;
-      pair._value = *objects++;
-
-      _mulle_map_set( &ivars->_table,
-                      &pair,
-                      NSDictionaryCallback,
-                     ivars->_allocator);
-   }
-}
-
-
-+ (instancetype) newWithObjects:(id *) objects
-                        forKeys:(id *) keys
-                          count:(NSUInteger) count
-{
-   _MulleObjCDictionary   *dictionary;
-
-   dictionary = _MulleObjCNewDictionaryWithCapacity( self, count);
-   setObjectsAndKeys( dictionary, objects, keys, count);
-   return( dictionary);
-}
-
-
-+ (instancetype) newWithDictionary:(id) other
-                         copyItems:(BOOL) copy
-{
-   _MulleObjCDictionary        *dictionary;
-   _MulleObjCDictionaryIvars   *ivars;
-
-   dictionary = _MulleObjCNewDictionaryWithCapacity( self, [other count]);
-   ivars      = getDictionaryIvars( dictionary);
-   _addEntriesFromDictionary( other, &ivars->_table, copy, ivars->_allocator);
-
-   return( dictionary);
-}
-
-
-+ (instancetype) newWithObject:(id) object
-               mulleVarargList:(mulle_vararg_list) args
-{
-   _MulleObjCDictionary   *dictionary;
-   id                     *buf;
-   id                     *keys;
-   id                     *sentinel;
-   id                     *tofree;
-   id                     *values;
-   id                     p;
-   size_t                 count;
-   size_t                 size;
-
-   count = mulle_vararg_count_objects( args, object);
-
-   buf = tofree = NULL;
-   if( count)
-   {
-      id   _tmp[ 0x400];
-
-      size = sizeof( id) * 2 * count;
-      buf  = size <= 0x400 ? _tmp : (tofree = mulle_malloc( size));
-
-      values   = buf;
-      keys     = &buf[ count];
-      sentinel = keys;
-
-      p = object;
-      do
-      {
-         *values++ = p;
-         *keys++   = mulle_vararg_next_id( args);
-         p         = mulle_vararg_next_id( args);
-      }
-      while( values < sentinel);
-   }
-
-   dictionary = [self newWithObjects:buf
-                             forKeys:&buf[ count]
-                               count:count];
-   mulle_free( tofree);
-
-   return( dictionary);
-}
-
+PROTOCOLCLASS_IMPLEMENTATION( _MulleObjCDictionary)
 
 - (void) dealloc
 {
    _MulleObjCDictionaryIvars   *ivars;
 
-   ivars = getDictionaryIvars( self);
+   ivars = _MulleObjCDictionaryGetIvars( self);
    _mulle_map_done( &ivars->_table,
                     NSDictionaryCallback,
-                    ivars->_allocator);
+                    MulleObjCObjectGetAllocator( self));
    NSDeallocateObject( self);
 }
 
@@ -222,17 +88,29 @@ static void   setObjectsAndKeys( _MulleObjCDictionary *self, id *objects, id *ke
 #pragma mark -
 #pragma mark NSCoder
 
-+ (instancetype) _allocWithCapacity:(NSUInteger) count
+- (void) decodeWithCoder:(NSCoder *) coder
 {
-   return( _MulleObjCNewDictionaryWithCapacity( self, count));
-}
+   NSUInteger                  count;
+   struct mulle_pointerpair    pair;
+   struct mulle_allocator      *allocator;
+   _MulleObjCDictionaryIvars   *ivars;
 
+   ivars     = _MulleObjCDictionaryGetIvars( self);
+   allocator = MulleObjCObjectGetAllocator( self);
+   [coder decodeValueOfObjCType:@encode( NSUInteger)
+                             at:&count];
+   while( count)
+   {
+      [coder decodeValueOfObjCType:@encode( id)
+                                at:&pair._value];
+      [coder decodeValueOfObjCType:@encode( id)
+                                at:&pair._key];
+      if( ! pair._key || ! pair._value)
+         MulleObjCThrowInvalidArgumentException( @"nil value");
 
-- (void) _setObjects:(id *) objects
-                keys:(id *) keys
-               count:(NSUInteger) count
-{
-   setObjectsAndKeys( self, objects, keys, count);
+      _mulle_map_set( &ivars->_table, &pair, NSDictionaryAssignCallback, allocator);
+      --count;
+   }
 }
 
 
@@ -244,7 +122,7 @@ static void   setObjectsAndKeys( _MulleObjCDictionary *self, id *objects, id *ke
 {
    _MulleObjCDictionaryIvars   *ivars;
 
-   ivars = getDictionaryIvars( self);
+   ivars = _MulleObjCDictionaryGetIvars( self);
    return( _mulle_map_get( &ivars->_table, key, NSDictionaryCallback));
 }
 
@@ -253,7 +131,7 @@ static void   setObjectsAndKeys( _MulleObjCDictionary *self, id *objects, id *ke
 {
    _MulleObjCDictionaryIvars   *ivars;
 
-   ivars = getDictionaryIvars( self);
+   ivars = _MulleObjCDictionaryGetIvars( self);
    return( _mulle_map_get( &ivars->_table, key, NSDictionaryCallback));
 }
 
@@ -262,7 +140,7 @@ static void   setObjectsAndKeys( _MulleObjCDictionary *self, id *objects, id *ke
 {
    _MulleObjCDictionaryIvars   *ivars;
 
-   ivars = getDictionaryIvars( self);
+   ivars = _MulleObjCDictionaryGetIvars( self);
    return( [_MulleObjCDictionaryKeyEnumerator enumeratorWithDictionary:self
                                                                  table:&ivars->_table]);
 }
@@ -272,54 +150,142 @@ static void   setObjectsAndKeys( _MulleObjCDictionary *self, id *objects, id *ke
 {
    _MulleObjCDictionaryIvars   *ivars;
 
-   ivars = getDictionaryIvars( self);
+   ivars = _MulleObjCDictionaryGetIvars( self);
    return( [_MulleObjCDictionaryObjectEnumerator enumeratorWithDictionary:self
                                                                     table:&ivars->_table]);
 }
+
 
 - (NSUInteger) count
 {
    _MulleObjCDictionaryIvars   *ivars;
 
-   ivars = getDictionaryIvars( self);
+   ivars = _MulleObjCDictionaryGetIvars( self);
    return( _mulle_map_get_count( &ivars->_table));
 }
 
 
-- (BOOL) mulleForEachObjectAndKeyCallFunction:(BOOL (*)( id, id, void *)) f
-                                     argument:(void *) userInfo
-                                isPreemptable:(BOOL) isPreemptable
+- (void) getObjects:(id *) objects
+            andKeys:(id *) keys
+              count:(NSUInteger) count
 {
-   id                             key;
-   id                             value;
+   id                             *sentinel;
    _MulleObjCDictionaryIvars      *ivars;
    struct _mulle_mapenumerator    rover;
    struct mulle_pointerpair       *pair;
 
-   ivars = getDictionaryIvars( self);
-   rover = _mulle_map_enumerate( &ivars->_table, NSDictionaryCallback);
-   if( isPreemptable)
+   ivars    = _MulleObjCDictionaryGetIvars( self);
+   sentinel = &objects[ count];
+   rover    = _mulle_map_enumerate( &ivars->_table, NSDictionaryCallback);
+   while( pair = _mulle_mapenumerator_next( &rover))
    {
+      if( objects >= sentinel)
+         break;
+
+      *objects++ = mulle_pointerpair_get_value( pair);
+      *keys++    = mulle_pointerpair_get_key( pair);
+   }
+}
+
+
+- (id) mulleForEachObjectAndKeyCallFunction:(BOOL (*)( id, id, void *)) f
+                                   argument:(void *) userInfo
+                                    preempt:(enum MullePreempt) preempt
+{
+   _MulleObjCDictionaryIvars      *ivars;
+   struct _mulle_mapenumerator    rover;
+   struct mulle_pointerpair       *pair;
+   id                             key;
+   id                             value;
+
+   ivars = _MulleObjCDictionaryGetIvars( self);
+   rover = _mulle_map_enumerate( &ivars->_table, NSDictionaryCallback);
+
+   switch( preempt)
+   {
+   case MullePreemptIfNotMatches :
       while( pair = _mulle_mapenumerator_next( &rover))
          if( ! (*f)( mulle_pointerpair_get_value( pair),
                      mulle_pointerpair_get_key( pair),
                      userInfo))
-         {
-            return( NO);
-         }
-   }
-   else
+         break;
+      break;
+
+   case MullePreemptIfMatches :
+      while( pair = _mulle_mapenumerator_next( &rover))
+         if( (*f)( mulle_pointerpair_get_value( pair),
+                   mulle_pointerpair_get_key( pair),
+                   userInfo))
+            break;
+      break;
+
+   default :
       while( pair = _mulle_mapenumerator_next( &rover))
          (*f)( mulle_pointerpair_get_value( pair),
                mulle_pointerpair_get_key( pair),
                userInfo);
+      break;
+   }
 
    _mulle_mapenumerator_done( &rover);
-   return( YES);
+   return( key);
 }
 
 
-@end
+
+struct _MulleObjCDictionaryFastEnumerationState
+{
+   struct _mulle_mapenumerator   _rover;
+};
+
+
+- (NSUInteger) countByEnumeratingWithState:(NSFastEnumerationState *) rover
+                                   objects:(id *) buffer
+                                     count:(NSUInteger) len
+{
+   struct _MulleObjCDictionaryFastEnumerationState   *dstate;
+   struct mulle_pointerpair                          *pair;
+   id                                                *sentinel;
+
+   assert( sizeof( struct _MulleObjCDictionaryFastEnumerationState) <= sizeof( long) * 5);
+   assert( alignof( struct _MulleObjCDictionaryFastEnumerationState) <= alignof( long));
+
+   if( rover->state == -1)
+      return( 0);
+
+   // get our stat and init if its the first run
+   dstate = (struct _MulleObjCDictionaryFastEnumerationState *) rover->extra;
+   if( ! rover->state)
+   {
+      _MulleObjCDictionaryIvars   *ivars;
+
+      ivars = _MulleObjCDictionaryGetIvars( self);
+      dstate->_rover = _mulle_map_enumerate( &ivars->_table, NSDictionaryCallback);
+      rover->state   = 1;
+   }
+
+   rover->itemsPtr  = buffer;
+
+   sentinel = &buffer[ len];
+   while( buffer < sentinel)
+   {
+      pair = _mulle_mapenumerator_next( &dstate->_rover);
+      if( ! pair)
+      {
+         rover->state = -1;
+         break;
+      }
+      *buffer++ = pair->_key;
+   }
+
+   rover->mutationsPtr = &rover->extra[ 4];
+
+   return( len - (sentinel - buffer));
+}
+
+
+PROTOCOLCLASS_END()
+
 
 
 @implementation _MulleObjCDictionaryKeyEnumerator
@@ -330,8 +296,7 @@ static void   setObjectsAndKeys( _MulleObjCDictionary *self, id *objects, id *ke
 {
    _MulleObjCDictionaryKeyEnumerator   *obj;
 
-   obj = NSAllocateObject( self, 0, NULL);
-
+   obj         = NSAllocateObject( self, 0, NULL);
    obj->_rover = _mulle_map_enumerate( table, NSDictionaryCallback);
    obj->_owner = [owner retain];
 
@@ -376,3 +341,4 @@ static void   setObjectsAndKeys( _MulleObjCDictionary *self, id *objects, id *ke
 }
 
 @end
+

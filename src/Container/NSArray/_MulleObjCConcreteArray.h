@@ -38,45 +38,15 @@
 
 //
 // you should not subclass _MulleObjCConcreteArray
-// because there is extra data behind _count
+// because there can be extra data behind _objects
 //
 @interface _MulleObjCConcreteArray : NSArray
 {
    size_t   _count;
+   id       *_objects;
 }
 
-+ (instancetype) newWithObjects:(id *) objects
-                count:(NSUInteger) count;
-
-+ (instancetype) newWithRetainedObjects:(id *) objects
-                        count:(NSUInteger) count;
-
-+ (instancetype) newWithArray:(NSArray *) other
-           copyItems:(BOOL) flag;
-
-+ (instancetype) newWithObject:(id) firstObject
-     mulleVarargList:(mulle_vararg_list) args;
-
-+ (instancetype) newWithObject:(id) firstObject
-          varargList:(va_list) args;
-
-+ (instancetype) newWithArray:(NSArray *) other
-          andObject:(id) obj              __attribute__(( ns_returns_retained));
-
-+ (instancetype) newWithArray:(NSArray *) other
-           andArray:(NSArray *) other2;
-
-+ (instancetype) newWithArray:(NSArray *) other
-              range:(NSRange) range;
-
-+ (instancetype) newWithArray:(NSArray *) other
-   sortedBySelector:(SEL) sel;
-
-+ (instancetype) newWithArray:(NSArray *) other
-       sortFunction:(NSInteger (*)( id, id, void *)) f
-            context:(void *) context;
-
-// used for NSCoder
-+ (instancetype) _allocWithCapacity:(NSUInteger) count;
+// NSCoder support
+- (instancetype) mulleInitWithCapacity:(NSUInteger) count;
 
 @end

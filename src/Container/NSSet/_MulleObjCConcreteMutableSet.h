@@ -43,6 +43,6 @@
    _MulleObjCSetIvars   _ivars;
 }
 
-+ (instancetype) newWithCapacity:(NSUInteger) count;
-
 @end
+
+extern Class   _MulleObjCConcreteMutableSetClass;

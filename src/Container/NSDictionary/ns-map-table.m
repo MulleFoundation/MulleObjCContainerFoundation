@@ -110,7 +110,8 @@ NSMapTable   *_NSCreateMapTableWithAllocator( NSMapTableKeyCallBacks keyCallBack
 
 void   NSFreeMapTable( NSMapTable *table)
 {
-   _mulle_map_destroy( &table->_map, &table->_callback, table->_allocator);
+   if( table)
+      _mulle_map_destroy( &table->_map, &table->_callback, table->_allocator);
 }
 
 

@@ -1,5 +1,5 @@
 //
-//  NSSet+NSArray.m
+//  _NSSetPlaceholder.m
 //  MulleObjCStandardFoundation
 //
 //  Copyright (c) 2011 Nat! - Mulle kybernetiK.
@@ -33,88 +33,90 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
-#import "NSSet+NSArray.h"
+#pragma clang diagnostic ignored "-Wparentheses"
+
+#import "_NSSetPlaceholder.h"
 
 // other files in this library
-#import "NSArray.h"
-#import "NSEnumerator.h"
-#import "NSMutableArray.h"
-#import "NSEnumerator+NSArray.h"
+#import "_MulleObjCEmptySet.h"
+#import "_MulleObjCConcreteSet.h"
 
 // other libraries of MulleObjCStandardFoundation
-#import "MulleObjCFoundationData.h"
+#import "NSException.h"
 
 // std-c and dependencies
 
+// private headers in this library
+#import "_MulleObjCSet-Private.h"
 
-@implementation NSSet( NSArray)
 
-+ (instancetype) setWithArray:(NSArray *) array
+//
+// this is coupling the subclasses of _MulleObjCEmptyArray
+// and _MulleObjCConcreteArray into the classcluster
+// NSMutableArray should never use he _NSArrayPlaceholder
+//
+@implementation _NSSetPlaceholder
+
+
+# pragma mark -
+# pragma mark class cluster
+
+
+- (id) init
 {
-   return( [[[self alloc] initWithArray:array] autorelease]);
+   self = [[_MulleObjCEmptySetClass sharedInstance] retain];
+   return( self);
 }
 
 
-- (instancetype) initWithArray:(NSArray *) array
+- (id) mulleInitWithCapacity:(NSUInteger) count
 {
-   NSMutableData   *data;
-   NSUInteger      count;
-   id              *buf;
+   _MulleObjCConcreteSet   *set;
 
-   count = [array count];
-   if( ! count)
-      return( [self init]);
+   assert( count);
 
-   data = [NSMutableData dataWithLength:sizeof( id) * count];
-   buf  = (id *) [data mutableBytes];
-   [array getObjects:buf];
-   return( [self initWithObjects:buf
-                           count:count]);
+   set = (id) _MulleObjCSetNewWithCapacity( _MulleObjCConcreteSetClass, count);
+   return( set);
+}
+
+//
+// objects must have been allocated with MulleObjCObjectGetAllocator( self)
+// the size maybe larger but no less than count
+//
+- (id) mulleInitWithRetainedObjectStorage:(id *) objects
+                                    count:(NSUInteger) count
+                                     size:(NSUInteger) size
+{
+   _MulleObjCConcreteSet   *set;
+
+   assert( size >= count);
+   assert( count);
+   assert( objects);
+
+   set = (id) _MulleObjCSetNewWithCapacity( _MulleObjCConcreteSetClass, count);
+   set = (id) _MulleObjCSetInitWithRetainedObjectStorage( set, objects, count);
+   return( set);
 }
 
 
-- (NSArray *) allObjects
+- (id) mulleInitWithRetainedObjects:(id *) objects
+                              count:(NSUInteger) count
 {
-   NSMutableArray   *array;
-   NSEnumerator     *rover;
-   id               obj;
+   _MulleObjCConcreteSet   *set;
 
-   array = [NSMutableArray array];
-   rover = [self objectEnumerator];
-   while( obj = [rover nextObject])
-      [array addObject:obj];
+   assert( count);
+   assert( objects);
 
-   return( array);
+   set = (id) _MulleObjCSetNewWithCapacity( _MulleObjCConcreteSetClass, count);
+   set = (id) _MulleObjCSetInitWithRetainedObjects( set, objects, count);
+   return( set);
 }
 
 
-- (void) makeObjectsPerformSelector:(SEL) sel
+- (NSString *) description
 {
-   [[self objectEnumerator] makeObjectsPerformSelector:sel];
+   return( @"_NSSetPlaceholder");
 }
 
-
-- (void) makeObjectsPerformSelector:(SEL) sel
-                         withObject:(id) obj
-{
-   [[self objectEnumerator] makeObjectsPerformSelector:sel
-                                            withObject:obj];
-}
-
-
-- (void) mulleMakeObjectsPerformSelector:(SEL) sel
-                              withObject:(id) obj
-                              withObject:(id) obj2
-{
-   [[self objectEnumerator] mulleMakeObjectsPerformSelector:sel
-                                                  withObject:obj
-                                                 withObject:obj2];
-}
-
-
-- (NSSet *) setByAddingObjectsFromArray:(NSArray *) array
-{
-   return( [self mulleSetByAddingObjectsFromContainer:array]);
-}
 
 @end

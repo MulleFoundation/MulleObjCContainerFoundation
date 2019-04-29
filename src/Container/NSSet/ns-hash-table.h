@@ -59,6 +59,9 @@ typedef struct mulle_setenumerator   NSHashEnumerator;
 NSHashTable *
    NSCreateHashTable( NSHashTableCallBacks callBacks, NSUInteger capacity);
 
+void   NSFreeHashTable( NSHashTable *table);
+
+
 static inline void   NSInitHashTable( NSHashTable *table,
                                       NSHashTableCallBacks *callBacks,
                                       NSUInteger capacity)
@@ -83,12 +86,6 @@ static inline NSHashTable   *
 static inline void   NSDoneHashTable( NSHashTable *table)
 {
    mulle_set_done( &table->_set);
-}
-
-
-static inline void   NSFreeHashTable( NSHashTable *table)
-{
-   mulle_set_destroy( &table->_set);
 }
 
 
@@ -128,6 +125,8 @@ static inline NSHashTable   *NSCopyHashTableWithZone( NSHashTable *table,
 
 static inline NSHashEnumerator   NSEnumerateHashTable( NSHashTable *table)
 {
+   if( ! table)
+      return( *(NSHashEnumerator *) &mulle_setenumerator_empty);
    return( mulle_set_enumerate( &table->_set));
 }
 
