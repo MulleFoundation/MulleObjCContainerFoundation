@@ -384,7 +384,7 @@ static BOOL   run_member_on_set_until( NSSet *self, NSSet *other, BOOL expect)
    [self getObjects:storage
                count:count];
    storage[ count] = obj;
-   set = [MulleObjCGetIsa( self) setWithObjects:storage
+   set = [MulleObjCObjectGetClass( self) setWithObjects:storage
                                           count:size];
    MulleObjCObjectDeallocateMemory( self, storage);
    return( set);
@@ -411,7 +411,7 @@ static BOOL   run_member_on_set_until( NSSet *self, NSSet *other, BOOL expect)
                count:count];
    [other getObjects:&storage[ count]
                count:otherCount];
-   set = [MulleObjCGetIsa( self) setWithObjects:storage
+   set = [MulleObjCObjectGetClass( self) setWithObjects:storage
                                           count:size];
    MulleObjCObjectDeallocateMemory( self, storage);
    return( set);
