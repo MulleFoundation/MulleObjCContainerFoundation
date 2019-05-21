@@ -1,3 +1,16 @@
+## 0.15.0
+
+* use fast enumeration throughout now
+* improved class cluster behavior, especially when subclassing
+* renamed many but not all `_methods` to mulleMethods to distinguish between private and incompatible
+* improved NSError, NSPropertyListSerialization, NSValue, NSNull, NSString
+* big changes to plug leaks and fix initializers
+* improved propertylist parsing and printing
+* improved -description for containers
+* adapted to changes in MulleObjC especially in regard to placeholders, singletons and deinitialization
+* bug and leak fixed NSNotificationCenter now uses new `_mulle_pointerqueue` now
+
+
 ### 0.14.1
 
 * modernized mulle-sde with .mulle folder
