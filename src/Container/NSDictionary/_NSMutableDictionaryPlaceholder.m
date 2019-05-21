@@ -64,6 +64,8 @@ extern Class   _MulleObjCConcreteMutableDictionaryClass;
 
 - (instancetype) init
 {
+   assert( _MulleObjCConcreteMutableDictionaryClass);
+
    self = _MulleObjCDictionaryNewWithCapacity( _MulleObjCConcreteMutableDictionaryClass, 0);
    return( self);
 }
@@ -71,6 +73,8 @@ extern Class   _MulleObjCConcreteMutableDictionaryClass;
 
 - (instancetype) mulleInitWithCapacity:(NSUInteger) count
 {
+   assert( _MulleObjCConcreteMutableDictionaryClass);
+
    self = _MulleObjCDictionaryNewWithCapacity( _MulleObjCConcreteMutableDictionaryClass, count);
    return( self);
 }
@@ -86,8 +90,7 @@ extern Class   _MulleObjCConcreteMutableDictionaryClass;
    _MulleObjCConcreteMutableDictionary   *dict;
 
    assert( size >= count);
-   assert( count);
-   assert( objects);
+   assert( _MulleObjCConcreteMutableDictionaryClass);
 
    dict = _MulleObjCDictionaryNewWithCapacity( _MulleObjCConcreteMutableDictionaryClass, count);
    dict = (id) _MulleObjCDictionaryInitWithRetainedObjectsAndCopiedKeys( dict, objects, &objects[ count], count);
@@ -103,7 +106,8 @@ extern Class   _MulleObjCConcreteMutableDictionaryClass;
    _MulleObjCConcreteMutableDictionary   *dict;
 
    assert( count);
-   assert( objects);
+   assert( _MulleObjCConcreteMutableDictionaryClass);
+   assert( objects || ! count);
 
    dict = _MulleObjCDictionaryNewWithCapacity( _MulleObjCConcreteMutableDictionaryClass, count);
    dict = (id) _MulleObjCDictionaryInitWithRetainedObjectsAndCopiedKeys( dict, objects, keys, count);

@@ -57,7 +57,7 @@
 - (instancetype) initWithObjects:(id *) objects
                            count:(NSUInteger) count;
 - (instancetype) initWithObject:(id) firstObject
-                     varargList:(va_list) args;
+                      arguments:(va_list) args;
 - (NSArray *) arrayByAddingObject:(id) obj;
 - (NSArray *) arrayByAddingObjectsFromArray:(NSArray *) other;
 
@@ -117,7 +117,7 @@
                            andArray:(NSArray *) other2;
 
 - (instancetype) mulleInitWithObject:(id) firstObject
-                          varargList:(va_list) argsM;
+                           arguments:(va_list) argsM;
 
 - (instancetype) initWithObject:(id) firstObject
                 mulleVarargList:(mulle_vararg_list) args;

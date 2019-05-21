@@ -48,11 +48,9 @@
 
 - (void) removeObjectsForKeys:(NSArray *) array
 {
-   NSEnumerator   *rover;
-   id             key;
+   id   key;
 
-   rover = [array objectEnumerator];
-   while( key = [rover nextObject])
+   for( key in array)
       [self removeObjectForKey:key];
 }
 

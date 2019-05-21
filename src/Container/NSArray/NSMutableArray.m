@@ -134,7 +134,6 @@ static void   add_object( NSMutableArray *self, id other);
 {
    MulleObjCMakeObjectsPerformRelease( _storage, _count);
    MulleObjCObjectDeallocateMemory( self, _storage);
-
    [super dealloc];
 }
 

@@ -33,6 +33,8 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
+#pragma clang diagnostic ignored "-Wprotocol"
+
 #import "NSMutableDictionary.h"
 
 // other files in this library
@@ -87,16 +89,22 @@
 
 - (void) addEntriesFromDictionary:(NSDictionary *) other
 {
-   NSEnumerator   *rover;
-   id             key;
-   id             value;
+   id    key;
+   id    value;
+   SEL   selObjectForKey;
+   IMP   impObjectForKey;
+   SEL   selSetObjectForKey;
+   IMP   impSetObjectForKey;
 
-   rover = [other keyEnumerator];
-   while( key = [rover nextObject])
+   selObjectForKey    = @selector( objectForKey:);
+   impObjectForKey    = [other methodForSelector:selObjectForKey];
+   selSetObjectForKey = @selector( setObject:forKey:);
+   impSetObjectForKey = [other methodForSelector:selSetObjectForKey];
+
+   for( key in other)
    {
-      value = [other objectForKey:key];
-      [self setObject:value
-               forKey:key];
+      value = MulleObjCCallIMP( impObjectForKey, other, selObjectForKey, key);
+      MulleObjCCallIMP2( impSetObjectForKey, self, selSetObjectForKey, value, key);
    }
 }
 

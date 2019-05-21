@@ -43,6 +43,8 @@
 // std-c and dependencies
 #import "_MulleObjCDictionary-Private.h"
 
+#include <assert.h>
+
 
 #pragma clang diagnostic ignored "-Wobjc-missing-super-calls"
 #pragma clang diagnostic ignored "-Wprotocol"

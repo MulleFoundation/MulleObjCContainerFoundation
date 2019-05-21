@@ -104,15 +104,12 @@
 - (NSArray *) objectsForKeys:(NSArray *) keys
               notFoundMarker:(id) anObject
 {
-   NSEnumerator    *rover;
    NSMutableArray  *array;
    id              value;
    id              key;
 
    array = [NSMutableArray array];
-
-   rover = [keys objectEnumerator];
-   while( key = [rover nextObject])
+   for( key in keys)
    {
       value = [self objectForKey:key];
       if( value)
