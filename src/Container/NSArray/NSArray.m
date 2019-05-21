@@ -172,7 +172,7 @@ static Class   NSArrayClass;
 
 
 - (instancetype) initWithObject:(id) firstObject
-                     varargList:(va_list) args
+                      arguments:(va_list) args
 {
    va_list      copy;
    NSUInteger   count;
@@ -519,22 +519,14 @@ static int   bouncyBounceSel( void *a, void *b, void *ctxt)
 
 - (id) firstObjectCommonWithArray:(NSArray *) other
 {
-   NSEnumerator   *rover;
-   SEL             selNext;
-   IMP             impNext;
-   SEL             selContains;
-   IMP             impContains;
-   id              p;
-
-   rover   = [self objectEnumerator];
-
-   selNext = @selector( nextObject);
-   impNext = [rover methodForSelector:selNext];
+   SEL   selContains;
+   IMP   impContains;
+   id    p;
 
    selContains = @selector( isEqual:);
    impContains = [other methodForSelector:selContains];
 
-   while( p = (*impNext)( rover, selNext, NULL))
+   for( p in self)
       if( (*impContains)( other, selContains, p))
          break;
 
@@ -685,8 +677,8 @@ static NSUInteger  findIndexWithRange( NSArray *self, NSRange range, id obj)
 
       [self getObjects:buf1
                  range:NSMakeRange( range.location, len)];
-      [self getObjects:buf2
-                 range:NSMakeRange( range.location, len)];
+      [other getObjects:buf2
+                  range:NSMakeRange( range.location, len)];
 
       sentinel = &buf1[ len];
       for( q = buf2, p = buf1; p < sentinel; p++, q++)

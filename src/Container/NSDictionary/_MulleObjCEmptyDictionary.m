@@ -71,12 +71,19 @@ Class  _MulleObjCEmptyDictionaryClass;
    return( 0);
 }
 
+
 - (void) getObjects:(id *) buf
             andKeys:(id *) keys
               count:(NSUInteger) count
 {
    if( count)
       MulleObjCThrowInvalidArgumentException( @"out of bounds");
+}
+
+
+- (id) objectForKey:(id) key
+{
+   return( nil);
 }
 
 
@@ -97,6 +104,12 @@ Class  _MulleObjCEmptyDictionaryClass;
                                      count:(NSUInteger) len
 {
    return( 0);
+}
+
+
+- (NSEnumerator *) keyEnumerator
+{
+   return( nil);
 }
 
 @end

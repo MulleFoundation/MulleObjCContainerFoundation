@@ -88,8 +88,12 @@
    _MulleObjCConcreteDictionary   *dict;
 
    assert( size >= count);
-   assert( count);
-   assert( objects);
+   assert( objects || ! count);
+
+   if( ! count)
+      return( [[_MulleObjCEmptyDictionaryClass sharedInstance] retain]);
+   if( ! objects)
+      MulleObjCThrowInvalidArgumentException( @"NULL objects");
 
    dict = _MulleObjCDictionaryNewWithCapacity( _MulleObjCConcreteDictionaryClass, count);
    dict = (id) _MulleObjCDictionaryInitWithRetainedObjectsAndCopiedKeys( dict, objects, &objects[ count], count);
@@ -104,8 +108,12 @@
 {
    _MulleObjCConcreteDictionary   *dict;
 
-   assert( count);
-   assert( objects);
+   assert( objects || ! count);
+
+   if( ! count)
+      return( [[_MulleObjCEmptyDictionaryClass sharedInstance] retain]);
+   if( ! objects || ! keys)
+      MulleObjCThrowInvalidArgumentException( @"NULL objects or keys");
 
    dict = _MulleObjCDictionaryNewWithCapacity( _MulleObjCConcreteDictionaryClass, count);
    dict = (id) _MulleObjCDictionaryInitWithRetainedObjectsAndCopiedKeys( dict, objects, keys, count);

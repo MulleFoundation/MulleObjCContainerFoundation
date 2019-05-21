@@ -76,12 +76,10 @@
 - (NSArray *) allObjects
 {
    NSMutableArray   *array;
-   NSEnumerator     *rover;
    id               obj;
 
    array = [NSMutableArray array];
-   rover = [self objectEnumerator];
-   while( obj = [rover nextObject])
+   for( obj in self)
       [array addObject:obj];
 
    return( array);

@@ -34,6 +34,7 @@
 //  POSSIBILITY OF SUCH DAMAGE.
 //
 #pragma clang diagnostic ignored "-Wparentheses"
+#pragma clang diagnostic ignored "-Wprotocol"
 
 #import "NSDictionary.h"
 

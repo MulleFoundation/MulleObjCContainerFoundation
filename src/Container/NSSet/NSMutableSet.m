@@ -34,6 +34,7 @@
 //  POSSIBILITY OF SUCH DAMAGE.
 //
 #pragma clang diagnostic ignored "-Wparentheses"
+#pragma clang diagnostic ignored "-Wprotocol"
 
 
 #import "NSMutableSet.h"
@@ -66,18 +67,6 @@
 - (id) mulleImmutableInstance
 {
    return( [NSSet setWithSet:self]);
-}
-
-
-+ (instancetype) alloc
-{
-   return( NSAllocateObject( self, 0, NULL));
-}
-
-
-+ (instancetype) allocWithZone:(NSZone *) zone
-{
-   return( NSAllocateObject( self, 0, NULL));
 }
 
 

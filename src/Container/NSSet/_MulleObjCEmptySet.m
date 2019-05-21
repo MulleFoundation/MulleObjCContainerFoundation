@@ -63,12 +63,6 @@ Class  _MulleObjCEmptySetClass;
 }
 
 
-- (NSEnumerator *) objectEnumerator
-{
-   return( nil);
-}
-
-
 - (NSUInteger) count
 {
    return( 0);
@@ -89,6 +83,21 @@ Class  _MulleObjCEmptySetClass;
 - (void) decodeWithCoder:(NSCoder *) coder
 {
 }
+
+
+- (NSEnumerator *) objectEnumerator
+{
+   return( nil);
+}
+
+
+- (NSUInteger) countByEnumeratingWithState:(NSFastEnumerationState *) rover
+                                   objects:(id *) buffer
+                                     count:(NSUInteger) len;
+{
+   return( 0);
+}
+
 
 @end
 
