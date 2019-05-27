@@ -16,4 +16,4 @@ mulle-lldb;optional
 mulle-match-to-cmake;optional
 mulle-sourcetree-to-cmake;optional
 cmake
-subl
+subl;optional
