@@ -99,7 +99,7 @@
    selObjectForKey    = @selector( objectForKey:);
    impObjectForKey    = [other methodForSelector:selObjectForKey];
    selSetObjectForKey = @selector( setObject:forKey:);
-   impSetObjectForKey = [other methodForSelector:selSetObjectForKey];
+   impSetObjectForKey = [self methodForSelector:selSetObjectForKey];
 
    for( key in other)
    {
