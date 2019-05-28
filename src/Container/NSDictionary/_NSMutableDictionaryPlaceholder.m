@@ -71,6 +71,15 @@ extern Class   _MulleObjCConcreteMutableDictionaryClass;
 }
 
 
+- (instancetype) initWithCapacity:(NSUInteger) count
+{
+   assert( _MulleObjCConcreteMutableDictionaryClass);
+
+   self = _MulleObjCDictionaryNewWithCapacity( _MulleObjCConcreteMutableDictionaryClass, count);
+   return( self);
+}
+
+
 - (instancetype) mulleInitWithCapacity:(NSUInteger) count
 {
    assert( _MulleObjCConcreteMutableDictionaryClass);
