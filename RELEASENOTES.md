@@ -1,3 +1,7 @@
+### 0.15.2
+
+* adapt to readonly properties not being cleared anymore
+
 ### 0.15.1
 
 * fix leaks in `_GMTTimeZone` and cheatingASCIIstring UTF8String
