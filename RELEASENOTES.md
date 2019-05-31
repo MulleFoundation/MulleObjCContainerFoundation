@@ -1,3 +1,7 @@
+### 0.15.1
+
+* fix leaks in `_GMTTimeZone` and cheatingASCIIstring UTF8String
+
 ## 0.15.0
 
 * use fast enumeration throughout now
