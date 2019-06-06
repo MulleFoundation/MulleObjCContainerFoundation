@@ -195,8 +195,6 @@ PROTOCOLCLASS_IMPLEMENTATION( _MulleObjCDictionary)
    _MulleObjCDictionaryIvars      *ivars;
    struct _mulle_mapenumerator    rover;
    struct mulle_pointerpair       *pair;
-   id                             key;
-   id                             value;
 
    ivars = _MulleObjCDictionaryGetIvars( self);
    rover = _mulle_map_enumerate( &ivars->_table, NSDictionaryCallback);
@@ -228,7 +226,7 @@ PROTOCOLCLASS_IMPLEMENTATION( _MulleObjCDictionary)
    }
 
    _mulle_mapenumerator_done( &rover);
-   return( key);
+   return( pair ? mulle_pointerpair_get_key( pair) : nil);
 }
 
 

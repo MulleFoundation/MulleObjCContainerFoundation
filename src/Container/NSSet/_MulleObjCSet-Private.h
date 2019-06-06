@@ -6,22 +6,20 @@
 //  Copyright © 2017 Mulle kybernetiK. All rights reserved.
 //
 
-
-
 static inline _MulleObjCSetIvars  *_MulleObjCSetGetIvars( id self)
 {
-   return( (_MulleObjCSetIvars *)  self);
+   return( (_MulleObjCSetIvars *) self);
 }
 
 
 __attribute__((ns_returns_retained))
-static inline _MulleObjCSet  *_MulleObjCSetNewWithCapacity( Class self, NSUInteger count)
+static inline _MulleObjCSet  *_MulleObjCSetNewWithCapacity( Class cls, NSUInteger count)
 {
    _MulleObjCSet            *set;
    _MulleObjCSetIvars       *ivars;
    struct mulle_allocator   *allocator;
 
-   set       = NSAllocateObject( self, 0, NULL);
+   set       = NSAllocateObject( cls, 0, NULL);
    ivars     = _MulleObjCSetGetIvars( set);
    allocator = MulleObjCObjectGetAllocator( set);
    _mulle_set_init( &ivars->_table,
