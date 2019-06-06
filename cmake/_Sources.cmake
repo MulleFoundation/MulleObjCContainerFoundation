@@ -104,9 +104,11 @@ src/PropertyList/Stream/_MulleObjCDataStream.m
 src/PropertyList/Stream/_MulleObjCPropertyListReader.m
 src/PropertyList/Stream/_MulleObjCUTF8StreamReader.m
 src/String/_MulleObjCASCIIString.m
+src/String/MulleObjCCharacterBitmap.m
 src/String/_MulleObjCCheatingASCIIString.m
 src/String/_MulleObjCConcreteBitmapCharacterSet.m
 src/String/_MulleObjCConcreteCharacterSet.m
+src/String/_MulleObjCConcreteInvertedCharacterSet.m
 src/String/_MulleObjCConcreteRangeCharacterSet.m
 src/String/_MulleObjCTaggedPointerChar5String.m
 src/String/_MulleObjCTaggedPointerChar7String.m
@@ -117,6 +119,7 @@ src/String/NSConstantString.m
 src/String/NSData+NSString.m
 src/String/NSFormatter.m
 src/String/NSMethodSignature+NSString.m
+src/String/NSMutableCharacterSet.m
 src/String/NSMutableString+NSData.m
 src/String/NSMutableString.m
 src/String/NSObject+NSString.m

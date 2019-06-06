@@ -110,7 +110,7 @@ PROTOCOLCLASS_IMPLEMENTATION( _MulleObjCSet)
    while( count)
    {
       [coder decodeValueOfObjCType:@encode( id)
-                                at:obj];
+                                at:&obj];
       _mulle_set_set( &ivars->_table, obj, NSSetAssignCallback, allocator);
       --count;
    }

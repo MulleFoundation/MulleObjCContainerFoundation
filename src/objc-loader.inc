@@ -16,6 +16,7 @@
       { @selector( NSAssertionHandler), MULLE_OBJC_NO_CATEGORYID },      // a1951b2b;NSAssertionHandler;;
       { @selector( NSCalendarDate), @selector( NSDateFormatter) },      // b8742fcb;NSCalendarDate;6d2cd542;NSDateFormatter
       { @selector( NSCalendarDate), MULLE_OBJC_NO_CATEGORYID },      // b8742fcb;NSCalendarDate;;
+      { @selector( NSCharacterSet), @selector( MutableCopy) },      // bb258d72;NSCharacterSet;78d7050b;MutableCopy
       { @selector( NSCharacterSet), MULLE_OBJC_NO_CATEGORYID },      // bb258d72;NSCharacterSet;;
       { @selector( NSCoder), MULLE_OBJC_NO_CATEGORYID },      // 100c54ba;NSCoder;;
       { @selector( NSConstantString), MULLE_OBJC_NO_CATEGORYID },      // 02cf74f7;NSConstantString;;
@@ -54,6 +55,7 @@
       { @selector( NSMutableArray), @selector( NSCoder) },      // f5e6dbdd;NSMutableArray;100c54ba;NSCoder
       { @selector( NSMutableArray), @selector( NSSortDescriptor) },      // f5e6dbdd;NSMutableArray;38a79ab2;NSSortDescriptor
       { @selector( NSMutableArray), MULLE_OBJC_NO_CATEGORYID },      // f5e6dbdd;NSMutableArray;;
+      { @selector( NSMutableCharacterSet), MULLE_OBJC_NO_CATEGORYID },      // a5cef654;NSMutableCharacterSet;;
       { @selector( NSMutableData), @selector( NSCoder) },      // 5d7fdc81;NSMutableData;100c54ba;NSCoder
       { @selector( NSMutableData), @selector( _MulleObjCOutputDataStream) },      // 5d7fdc81;NSMutableData;2ac26786;_MulleObjCOutputDataStream
       { @selector( NSMutableData), MULLE_OBJC_NO_CATEGORYID },      // 5d7fdc81;NSMutableData;;
@@ -139,6 +141,7 @@
       { @selector( _MulleObjCConcreteCharacterSet), MULLE_OBJC_NO_CATEGORYID },      // ba1004b2;_MulleObjCConcreteCharacterSet;;
       { @selector( _MulleObjCConcreteData), MULLE_OBJC_NO_CATEGORYID },      // 9971ffa3;_MulleObjCConcreteData;;
       { @selector( _MulleObjCConcreteDictionary), MULLE_OBJC_NO_CATEGORYID },      // aa37b8ec;_MulleObjCConcreteDictionary;;
+      { @selector( _MulleObjCConcreteInvertedCharacterSet), MULLE_OBJC_NO_CATEGORYID },      // 91ba9925;_MulleObjCConcreteInvertedCharacterSet;;
       { @selector( _MulleObjCConcreteMutableData), MULLE_OBJC_NO_CATEGORYID },      // 55d549c0;_MulleObjCConcreteMutableData;;
       { @selector( _MulleObjCConcreteMutableDictionary), MULLE_OBJC_NO_CATEGORYID },      // 2ce9638f;_MulleObjCConcreteMutableDictionary;;
       { @selector( _MulleObjCConcreteMutableSet), MULLE_OBJC_NO_CATEGORYID },      // b7eb37c0;_MulleObjCConcreteMutableSet;;

@@ -63,6 +63,7 @@ src/String/_MulleObjCASCIIString.h
 src/String/_MulleObjCCheatingASCIIString.h
 src/String/_MulleObjCConcreteBitmapCharacterSet.h
 src/String/_MulleObjCConcreteCharacterSet.h
+src/String/_MulleObjCConcreteInvertedCharacterSet.h
 src/String/_MulleObjCConcreteRangeCharacterSet.h
 src/String/_MulleObjCTaggedPointerChar5String.h
 src/String/_MulleObjCTaggedPointerChar7String.h
@@ -168,10 +169,12 @@ src/PropertyList/Printing/NSDate+PropertyListPrinting.h
 src/PropertyList/Printing/NSDictionary+PropertyListPrinting.h
 src/PropertyList/Printing/NSNumber+PropertyListPrinting.h
 src/PropertyList/Printing/NSString+PropertyListPrinting.h
+src/String/MulleObjCCharacterBitmap.h
 src/String/MulleObjCFoundationString.h
 src/String/NSCharacterSet.h
 src/String/NSConstantString.h
 src/String/NSFormatter.h
+src/String/NSMutableCharacterSet.h
 src/String/NSMutableString.h
 src/String/NSObject+NSString.h
 src/String/NSScanner.h
