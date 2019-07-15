@@ -39,6 +39,7 @@
       { @selector( NSDictionary), @selector( NSMutableDictionary) },      // 8b2abcad;NSDictionary;2f2fa84a;NSMutableDictionary
       { @selector( NSDictionary), @selector( NSPropertyListParsing) },      // 8b2abcad;NSDictionary;060a8c9c;NSPropertyListParsing
       { @selector( NSDictionary), @selector( NSString) },      // 8b2abcad;NSDictionary;1994a171;NSString
+      { @selector( NSDictionary), @selector( PropertyList) },      // 8b2abcad;NSDictionary;827edd0f;PropertyList
       { @selector( NSDictionary), @selector( PropertyListPrinting) },      // 8b2abcad;NSDictionary;91aeee11;PropertyListPrinting
       { @selector( NSDictionary), MULLE_OBJC_NO_CATEGORYID },      // 8b2abcad;NSDictionary;;
       { @selector( NSEnumerator), @selector( NSArray) },      // e631d30d;NSEnumerator;233490fe;NSArray
