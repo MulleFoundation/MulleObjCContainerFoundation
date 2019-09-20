@@ -62,6 +62,7 @@ Class  _MulleObjCConcreteArrayClass;
    _MulleObjCConcreteArrayClass = self;
 }
 
+
 - (void) dealloc
 {
    MulleObjCMakeObjectsPerformRelease( _objects, _count);
@@ -76,6 +77,7 @@ Class  _MulleObjCConcreteArrayClass;
 {
    return( _MulleObjCConcreteArrayNewWithCapacity( _MulleObjCConcreteArrayClass, count));
 }
+
 
 - (void) decodeWithCoder:(NSCoder *) coder
 {
@@ -106,6 +108,9 @@ static NSUInteger   findObject( _MulleObjCConcreteArray *self,
    id           *p;
    NSUInteger   i;
 
+   if( ! obj)
+      return( NSNotFound);
+
    sentinel = &self->_objects[ self->_count];
 
    i = 0;
@@ -135,6 +140,9 @@ static NSUInteger   findObjectWithRange( _MulleObjCConcreteArray *self,
    id           *sentinel;
    id           *p;
    NSUInteger   i;
+
+   if( ! obj)
+      return( NSNotFound);
 
    MulleObjCValidateRangeWithLength( range, self->_count);
    sentinelLength = range.location + range.length;
@@ -174,6 +182,7 @@ static NSUInteger   findObjectWithRange( _MulleObjCConcreteArray *self,
 {
    SEL     selEqual;
    BOOL    (*impEqual)( id, SEL, id);
+
 
    selEqual = @selector( isEqual:);
    impEqual = (BOOL (*)( id, SEL, id)) [obj methodForSelector:selEqual];

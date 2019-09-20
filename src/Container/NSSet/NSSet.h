@@ -60,7 +60,6 @@
 
 - (id) anyObject;
 - (BOOL) containsObject:(id) object;
-
 - (BOOL) isSubsetOfSet:(NSSet *) set;
 - (BOOL) intersectsSet:(NSSet *) set;
 - (BOOL) isEqualToSet:(NSSet *) set;

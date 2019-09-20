@@ -126,6 +126,18 @@
 
 @implementation NSDictionary ( NSMutableDictionary)
 
+- (instancetype) mulleDictionaryByRemovingObjectForKey:(id <NSCopying>) key
+{
+   NSMutableDictionary   *copy;
+
+   if( ! [self objectForKey:key])
+      return( self);
+
+   copy = [NSMutableDictionary dictionaryWithDictionary:self];
+   [copy removeObjectForKey:key];
+   return( copy);
+}
+
 - (id) mutableCopy
 {
    return( [[NSMutableDictionary alloc] initWithDictionary:self]);

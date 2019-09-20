@@ -120,8 +120,8 @@ static Class   NSArrayClass;
 - (instancetype) mulleInitWithArray:(NSArray *) other
                               range:(NSRange) range
 {
-   NSUInteger               count;
-   id                       *objects;
+   NSUInteger   count;
+   id           *objects;
 
    MulleObjCValidateRangeWithLength( range, [other count]);
 
@@ -511,7 +511,11 @@ static int   bouncyBounceSel( void *a, void *b, void *ctxt)
 #pragma mark - NSCopying
 
 
-// done by returning self in protocol already, NSMutableArray must override
+// NSMutableArray must override
+- (id) copy
+{
+   return( [self retain]);
+}
 
 
 # pragma mark -
@@ -522,6 +526,9 @@ static int   bouncyBounceSel( void *a, void *b, void *ctxt)
    SEL   selContains;
    IMP   impContains;
    id    p;
+
+   if( ! other)
+      return( nil);
 
    selContains = @selector( isEqual:);
    impContains = [other methodForSelector:selContains];
@@ -542,6 +549,9 @@ static NSUInteger  findIndexWithRangeForEquality( NSArray *self, NSRange range, 
    id           *sentinel;
    BOOL         (*impEqual)( id, SEL, id);
    SEL          selEqual;
+
+   if( ! obj)
+      return( NSNotFound);
 
    selEqual = @selector( isEqual:);
    impEqual = (BOOL (*)(id, SEL, id)) [obj methodForSelector:selEqual];
@@ -639,7 +649,7 @@ static NSUInteger  findIndexWithRange( NSArray *self, NSRange range, id obj)
 
 - (NSUInteger) hash
 {
-   return( [[self lastObject] hash]);
+   return( [[self mulleFirstObject] hash]);
 }
 
 
@@ -736,11 +746,11 @@ id   MulleForEachObjectCallFunction( id *objects,
                              argument:(void *) argument
                               preempt:(enum MullePreempt) preempt
 {
-   id          buf[ 64];
-   NSUInteger  n;
-   NSUInteger  offset;
-   NSUInteger  length;
-   id          obj;
+   id           buf[ 64];
+   id           obj;
+   NSUInteger   length;
+   NSUInteger   n;
+   NSUInteger   offset;
 
    offset = 0;
    length = [self count];
@@ -782,6 +792,18 @@ id   MulleForEachObjectCallFunction( id *objects,
 }
 
 
+- (id) mulleFirstObject
+{
+   NSUInteger   i;
+
+   i = [self count];
+   if( ! i)
+      return( nil);
+
+   return( [self objectAtIndex:0]);
+}
+
+
 static void   perform( NSArray *self, NSRange range, SEL sel, id obj)
 {
    NSUInteger   len;
@@ -805,6 +827,7 @@ static void   perform( NSArray *self, NSRange range, SEL sel, id obj)
       range.length   -= len;
    }
 }
+
 
 static void   perform2( NSArray *self, NSRange range, SEL sel, id obj, id obj2)
 {

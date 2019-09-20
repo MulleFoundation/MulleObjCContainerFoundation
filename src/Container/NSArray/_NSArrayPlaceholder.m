@@ -95,7 +95,6 @@
 
 //
 // objects must have been allocated with MulleObjCObjectGetAllocator( self)
-// the size maybe larger but no less than count
 //
 - (id) mulleInitWithRetainedObjectStorage:(id *) objects
                                     count:(NSUInteger) count
@@ -117,6 +116,10 @@
    if( ! objects)
       MulleObjCThrowInvalidArgumentException( @"NULL objects");
 
+   //
+   // we will place out "storage" directly into array, so the co is 0
+   // initially. size isn't used as this is immutable
+   //
    array = _MulleObjCConcreteArrayNewWithCapacity( _MulleObjCConcreteArrayClass, 0);
    array = (id) _MulleObjCConcreteArrayInitWithRetainedObjectStorage( array, objects, count);
    return( (id) array);

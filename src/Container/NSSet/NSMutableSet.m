@@ -81,19 +81,14 @@
 
 - (void) intersectSet:(NSSet *) other
 {
-   id             obj;
-   NSEnumerator   *rover;
-   IMP            nextObjectIMP;
-   SEL            nextObjectSEL;
-   IMP            removeObjectIMP;
-   SEL            removeObjectSEL;
-   IMP            memberObjectIMP;
-   SEL            memberObjectSEL;
+   id    obj;
+   IMP   removeObjectIMP;
+   SEL   removeObjectSEL;
+   IMP   memberObjectIMP;
+   SEL   memberObjectSEL;
 
-   rover         = [self objectEnumerator];
-
-   nextObjectSEL = @selector( methodForSelector:);
-   nextObjectIMP = [rover methodForSelector:nextObjectSEL];
+   if( ! other)
+      return;
 
    memberObjectSEL = @selector( member:);
    memberObjectIMP = [other methodForSelector:memberObjectSEL];
@@ -101,7 +96,7 @@
    removeObjectSEL = @selector( removeObject:);
    removeObjectIMP = [self methodForSelector:removeObjectSEL];
 
-   while( obj = MulleObjCCallIMP0( nextObjectIMP, rover, nextObjectSEL))
+   for( obj in self)
       if( ! MulleObjCCallIMP( memberObjectIMP, other, memberObjectSEL, obj))
          MulleObjCCallIMP( removeObjectIMP, self, removeObjectSEL, obj);
 }
@@ -109,44 +104,28 @@
 
 - (void) minusSet:(NSSet *) other
 {
-   id             obj;
-   NSEnumerator   *rover;
-   IMP            nextObjectIMP;
-   SEL            nextObjectSEL;
-   IMP            removeObjectIMP;
-   SEL            removeObjectSEL;
-
-   rover = [other objectEnumerator];
-
-   nextObjectSEL = @selector( methodForSelector:);
-   nextObjectIMP = [rover methodForSelector:nextObjectSEL];
+   id    obj;
+   IMP   removeObjectIMP;
+   SEL   removeObjectSEL;
 
    removeObjectSEL = @selector( removeObject:);
    removeObjectIMP = [self methodForSelector:removeObjectSEL];
 
-   while( obj = MulleObjCCallIMP0( nextObjectIMP, rover, nextObjectSEL))
+   for( obj in other)
       MulleObjCCallIMP( removeObjectIMP, self, removeObjectSEL, obj);
 }
 
 
 - (void) unionSet:(NSSet *) other
 {
-   id             obj;
-   NSEnumerator   *rover;
-   IMP            nextObjectIMP;
-   SEL            nextObjectSEL;
-   IMP            addObjectIMP;
-   SEL            addObjectSEL;
-
-   rover = [other objectEnumerator];
-
-   nextObjectSEL = @selector( methodForSelector:);
-   nextObjectIMP = [rover methodForSelector:nextObjectSEL];
+   id    obj;
+   IMP   addObjectIMP;
+   SEL   addObjectSEL;
 
    addObjectSEL = @selector( addObject:);
    addObjectIMP = [self methodForSelector:addObjectSEL];
 
-   while( obj = MulleObjCCallIMP0( nextObjectIMP, rover, nextObjectSEL))
+   for( obj in other)
       MulleObjCCallIMP( addObjectIMP, self, addObjectSEL, obj);
 }
 

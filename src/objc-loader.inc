@@ -5,6 +5,7 @@
       { @selector( MulleObjCUnkeyedArchiver), MULLE_OBJC_NO_CATEGORYID },      // f57df630;MulleObjCUnkeyedArchiver;;
       { @selector( MulleObjCUnkeyedUnarchiver), MULLE_OBJC_NO_CATEGORYID },      // 2b124a0f;MulleObjCUnkeyedUnarchiver;;
       { @selector( NSArchiver), MULLE_OBJC_NO_CATEGORYID },      // 2a2e712f;NSArchiver;;
+      { @selector( NSArray), @selector( MulleMutableArrayAdditions) },      // 233490fe;NSArray;06c6446f;MulleMutableArrayAdditions
       { @selector( NSArray), @selector( NSCoder) },      // 233490fe;NSArray;100c54ba;NSCoder
       { @selector( NSArray), @selector( NSLocale) },      // 233490fe;NSArray;22b7d78c;NSLocale
       { @selector( NSArray), @selector( NSMutableCopying) },      // 233490fe;NSArray;4aa86031;NSMutableCopying
@@ -44,6 +45,7 @@
       { @selector( NSDictionary), MULLE_OBJC_NO_CATEGORYID },      // 8b2abcad;NSDictionary;;
       { @selector( NSEnumerator), @selector( NSArray) },      // e631d30d;NSEnumerator;233490fe;NSArray
       { @selector( NSEnumerator), MULLE_OBJC_NO_CATEGORYID },      // e631d30d;NSEnumerator;;
+      { @selector( NSError), @selector( String) },      // 17836f0e;NSError;04f48586;String
       { @selector( NSError), MULLE_OBJC_NO_CATEGORYID },      // 17836f0e;NSError;;
       { @selector( NSException), @selector( String) },      // 332ec6f9;NSException;04f48586;String
       { @selector( NSException), MULLE_OBJC_NO_CATEGORYID },      // 332ec6f9;NSException;;

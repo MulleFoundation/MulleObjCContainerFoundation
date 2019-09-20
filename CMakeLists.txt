@@ -31,6 +31,8 @@ if( LINK_PHASE)
    include( Dependencies OPTIONAL)
 endif()
 
+unset( STARTUP_LIBRARY_NAME)
+
 include( Library)
 include( InstallLibrary)
 include( FinalOutput OPTIONAL)
