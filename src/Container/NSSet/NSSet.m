@@ -270,22 +270,17 @@ static id   initWithObjectStorage( id self, id *storage, NSUInteger count, BOOL 
 
 static BOOL   run_member_on_set_until( NSSet *self, NSSet *other, BOOL expect)
 {
-   NSEnumerator   *rover;
-   IMP            impNext;
-   SEL            selNext;
-   IMP            impMember;
-   SEL            selMember;
-   id             obj;
+   IMP   impMember;
+   SEL   selMember;
+   id    obj;
 
-   rover = [self objectEnumerator];
-
-   selNext = @selector( nextObject);
-   impNext = [rover methodForSelector:selNext];
+   if( ! other)
+      return( NO);
 
    selMember = @selector( member:);
    impMember = [other methodForSelector:selMember];
 
-   while( obj = (*impNext)( rover, selNext, NULL))
+   for( obj in self)
       if( (intptr_t) (*impMember)( other, selMember, obj) == expect)
          return( YES);
 

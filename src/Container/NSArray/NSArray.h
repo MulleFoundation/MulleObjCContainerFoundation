@@ -91,6 +91,7 @@
                 inRange:(NSRange) range;
 - (void) getObjects:(id *) objects;
 
+- (id) mulleFirstObject;
 
 @end
 
@@ -129,6 +130,7 @@
 // preempt (e.g. returns YES and preempt==MullePreemptIfMatches) then the
 // object is returned. Otherwise nil is retuned.
 //
+
 - (id) mulleForEachObjectCallFunction:(BOOL (*)( id, void *)) f
                              argument:(void *) userInfo
                               preempt:(enum MullePreempt) preempt;

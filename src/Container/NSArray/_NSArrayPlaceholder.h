@@ -38,9 +38,16 @@
 
 @interface _NSArrayPlaceholder : NSArray
 
+//
+// objects are retained already
+//
 - (id) mulleInitWithRetainedObjects:(id *) objects
                               count:(NSUInteger) count;
 
+//
+// objects are retained and storage was created by proper allocator
+// and can be freed by the receiver
+//
 - (id) mulleInitWithRetainedObjectStorage:(id *) objects
                                     count:(NSUInteger) count
                                      size:(NSUInteger) size;

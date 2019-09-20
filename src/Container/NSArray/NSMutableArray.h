@@ -83,11 +83,20 @@
 
 + (instancetype) arrayWithCapacity:(NSUInteger) capacity;
 
+- (void) mulleReverseObjects;
+
 @end
 
 
 @interface NSArray( NSMutableCopying) < NSMutableCopying>
 
 - (id) mutableCopy;
+
+@end
+
+
+@interface NSArray( MulleMutableArrayAdditions)
+
+- (NSArray *) mulleArrayByRemovingObject:(id) object;
 
 @end

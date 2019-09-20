@@ -276,6 +276,9 @@ static void   reserve(  NSMutableArray *self, size_t count)
 //
 static void   add_object( NSMutableArray *self, id other)
 {
+   if( ! other)
+      MulleObjCThrowInvalidArgumentException( @"object is nil");
+
    if( self->_count >= self->_size)
    {
       self->_size += self->_size;
@@ -456,6 +459,9 @@ static void   removeObjectAtIndex( NSMutableArray *self,
    id     *sentinel;
    SEL    sel;
    BOOL   (*imp)( id, SEL, id);
+
+   if( ! obj)
+      return;
 
    sel = @selector( isEqual:);
    imp = (BOOL (*)( id, SEL, id)) [[obj self] methodForSelector:sel];  // resolve EOFault here
@@ -799,6 +805,29 @@ static int   bouncyBounce( void *a, void *b, void *_ctxt)
 }
 
 
+// reverses all objects
+- (void) mulleReverseObjects
+{
+   NSUInteger     i, j, n;
+   id             p, q;
+
+   n = self->_count;
+   if( ! n)
+      return;
+
+   for( i = 0, j = n - 1; i < j; i++, j--)
+   {
+      p = _storage[ i];
+      q = _storage[ j];
+
+      _storage[ j] = p;
+      _storage[ i] = q;
+   }
+   _mutationCount++;
+}
+
+
+
 - (id) copy
 {
    return( (id) [[NSArray alloc] initWithArray:self]);
@@ -815,3 +844,18 @@ static int   bouncyBounce( void *a, void *b, void *_ctxt)
 }
 
 @end
+
+
+@implementation NSArray( MulleMutableArrayAdditions)
+
+- (NSArray *) mulleArrayByRemovingObject:(id) object
+{
+   NSMutableArray   *array;
+
+   array = [NSMutableArray arrayWithArray:self];
+   [array removeObject:object];
+   return( array);
+}
+
+@end
+
