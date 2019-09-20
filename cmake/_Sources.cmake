@@ -64,6 +64,7 @@ src/Data/NSData+NSCoder.m
 src/Data/NSData.m
 src/Data/NSMutableData.m
 src/Exception/NSAssertionHandler.m
+src/Exception/NSError+String.m
 src/Exception/NSError.m
 src/Exception/NSException+String.m
 src/Exception/NSException.m
@@ -84,6 +85,7 @@ src/Notification/NSNotificationCenter.m
 src/Notification/NSNotification.m
 src/Notification/NSThread+NSNotification.m
 src/PropertyList/NSData+Unicode.m
+src/PropertyList/NSDictionary+PropertyList.m
 src/PropertyList/NSPropertyListSerialization.m
 src/PropertyList/NSString+PropertyList.m
 src/PropertyList/Parsing/NSArray+PropertyListParsing.m
@@ -159,8 +161,4 @@ src/MulleObjCLoader+MulleObjCStandardFoundation.m
 
 set( STANDALONE_SOURCES
 src/mulle-foundation-standalone.m
-)
-
-set( STARTUP_SOURCES
-src/MulleObjCStandardFoundation-startup.m
 )
