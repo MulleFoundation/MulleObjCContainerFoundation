@@ -155,6 +155,7 @@ src/Notification/NSThread+NSNotification.h
 src/PropertyList/MulleObjCFoundationPropertyList.h
 src/PropertyList/MulleObjCPropertyList.h
 src/PropertyList/NSData+Unicode.h
+src/PropertyList/NSDictionary+PropertyList.h
 src/PropertyList/NSPropertyListSerialization.h
 src/PropertyList/NSString+PropertyList.h
 src/PropertyList/Parsing/NSArray+PropertyListParsing.h
