@@ -153,6 +153,7 @@ void   *NSMapInsertIfAbsent( NSMapTable *table, void *key, void *value)
    return( NULL);
 }
 
+
 #pragma mark -
 #pragma mark copying
 

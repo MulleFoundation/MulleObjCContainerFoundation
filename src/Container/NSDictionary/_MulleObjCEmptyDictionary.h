@@ -37,7 +37,7 @@
 #import "NSDictionary.h"
 
 
-@interface _MulleObjCEmptyDictionary : NSDictionary < MulleObjCSingleton>
+@interface _MulleObjCEmptyDictionary : NSDictionary < MulleObjCSingleton, MulleObjCImmutable>
 @end
 
 

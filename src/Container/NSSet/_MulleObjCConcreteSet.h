@@ -38,7 +38,7 @@
 #import "_MulleObjCSet.h"
 
 
-@interface _MulleObjCConcreteSet : NSSet < _MulleObjCSet>
+@interface _MulleObjCConcreteSet : NSSet < _MulleObjCSet, MulleObjCImmutable>
 {
    _MulleObjCSetIvars   _ivars;
 }

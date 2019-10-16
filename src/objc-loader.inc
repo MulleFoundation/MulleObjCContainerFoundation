@@ -126,6 +126,7 @@
       { @selector( NSThread), @selector( NSNotification) },      // c81b9c22;NSThread;4cf6fadb;NSNotification
       { @selector( NSTimeZone), MULLE_OBJC_NO_CATEGORYID },      // 190d1ade;NSTimeZone;;
       { @selector( NSUnarchiver), MULLE_OBJC_NO_CATEGORYID },      // 2b47ff54;NSUnarchiver;;
+      { @selector( NSUndoManager), MULLE_OBJC_NO_CATEGORYID },      // 0e5330bc;NSUndoManager;;
       { @selector( NSValue), @selector( NSCoder) },      // 96deaa7d;NSValue;100c54ba;NSCoder
       { @selector( NSValue), @selector( NSString) },      // 96deaa7d;NSValue;1994a171;NSString
       { @selector( NSValue), MULLE_OBJC_NO_CATEGORYID },      // 96deaa7d;NSValue;;
