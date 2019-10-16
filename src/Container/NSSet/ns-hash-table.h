@@ -133,7 +133,11 @@ static inline NSHashEnumerator   NSEnumerateHashTable( NSHashTable *table)
 
 static inline void   *NSNextHashEnumeratorItem( NSHashEnumerator *rover)
 {
-   return( mulle_setenumerator_next( rover));
+   void   *value;
+
+   // value can be 0 if not-a-key is set for integers for example
+   mulle_setenumerator_next( rover, &value);
+   return( value);
 }
 
 

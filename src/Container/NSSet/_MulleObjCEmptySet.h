@@ -37,7 +37,7 @@
 #import "NSSet.h"
 
 
-@interface _MulleObjCEmptySet : NSSet < MulleObjCSingleton>
+@interface _MulleObjCEmptySet : NSSet < MulleObjCSingleton, MulleObjCImmutable>
 @end
 
 

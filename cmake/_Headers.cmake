@@ -22,6 +22,7 @@ src/PropertyList/Parsing
 src/PropertyList/Printing
 src/PropertyList/Stream
 src/String
+src/Undo
 src/Value
 )
 
@@ -190,6 +191,8 @@ src/String/NSString+Search.h
 src/String/NSString+Sprintf.h
 src/String/NSString.h
 src/String/mulle_sprintf_object.h
+src/Undo/MulleObjCFoundationUndo.h
+src/Undo/NSUndoManager.h
 src/Value/MulleObjCFoundationValue.h
 src/Value/NSDateFactory.h
 src/Value/NSDate+NSCoder.h

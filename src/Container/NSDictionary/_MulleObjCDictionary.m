@@ -185,6 +185,7 @@ PROTOCOLCLASS_IMPLEMENTATION( _MulleObjCDictionary)
       *objects++ = mulle_pointerpair_get_value( pair);
       *keys++    = mulle_pointerpair_get_key( pair);
    }
+   _mulle_mapenumerator_done( &rover);
 }
 
 
@@ -233,7 +234,7 @@ PROTOCOLCLASS_IMPLEMENTATION( _MulleObjCDictionary)
 
 struct _MulleObjCDictionaryFastEnumerationState
 {
-   struct _mulle_mapenumerator   _rover;
+   struct _mulle_maptinyenumerator   _rover;
 };
 
 
@@ -257,8 +258,8 @@ struct _MulleObjCDictionaryFastEnumerationState
    {
       _MulleObjCDictionaryIvars   *ivars;
 
-      ivars = _MulleObjCDictionaryGetIvars( self);
-      dstate->_rover = _mulle_map_enumerate( &ivars->_table, NSDictionaryCallback);
+      ivars          = _MulleObjCDictionaryGetIvars( self);
+      dstate->_rover = _mulle_map_tinyenumerate_nil( &ivars->_table);
       rover->state   = 1;
    }
 
@@ -267,13 +268,13 @@ struct _MulleObjCDictionaryFastEnumerationState
    sentinel = &buffer[ len];
    while( buffer < sentinel)
    {
-      pair = _mulle_mapenumerator_next( &dstate->_rover);
-      if( ! pair)
+      if( ! _mulle_maptinyenumerator_next( &dstate->_rover, (void **) buffer, NULL))
       {
          rover->state = -1;
+         _mulle_maptinyenumerator_done( &dstate->_rover);
          break;
       }
-      *buffer++ = pair->_key;
+      buffer++;
    }
 
    rover->mutationsPtr = &rover->extra[ 4];

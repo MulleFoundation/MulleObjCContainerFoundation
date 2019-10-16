@@ -137,6 +137,7 @@ src/String/NSString+Search.m
 src/String/NSString+Sprintf.m
 src/String/NSString.m
 src/String/mulle_sprintf_object.m
+src/Undo/NSUndoManager.m
 src/Value/_MulleObjCConcreteNumber+NSString.m
 src/Value/_MulleObjCConcreteNumber.m
 src/Value/_MulleObjCConcreteValue.m
