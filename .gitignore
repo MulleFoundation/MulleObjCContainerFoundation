@@ -9,9 +9,11 @@ var/
 *~.*
 *.old
 tmp.*
+*.apple
 
 build/
 kitchen/
+.vscode/
 build-*.d/
 old/
 src.old/
