@@ -1,5 +1,5 @@
-#ifndef mulle_objc_standard_foundation_import_private_h__
-#define mulle_objc_standard_foundation_import_private_h__
+#ifndef mulle_objc_container_foundation_import_private_h__
+#define mulle_objc_container_foundation_import_private_h__
 
 /* This is a central include file to not expose includes to consumers of
    this library. It must not be imported by .h files, but by .m and
@@ -21,8 +21,9 @@
    Here the prefix is harmless and serves disambiguation. If you have no
    sourcetree, then you don't need it.
  */
-#import "_MulleObjCStandardFoundation-import-private.h"
+#import "_MulleObjCContainerFoundation-import-private.h"
 
 /* You can add some more include statements here */
+
 
 #endif

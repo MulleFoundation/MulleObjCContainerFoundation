@@ -48,10 +48,10 @@ if( CREATE_OBJC_LOADER_INC)
 
    # The preferred way:
    #
-   # _1_MulleObjCStandardFoundation is an object library (a collection of files).
-   # _2_MulleObjCStandardFoundation is the loader with OBJC_LOADER_INC.
+   # _1_MulleObjCContainerFoundation is an object library (a collection of files).
+   # _2_MulleObjCContainerFoundation is the loader with OBJC_LOADER_INC.
    #
-   # Produce a static library _3_MulleObjCStandardFoundation from _1_MulleObjCStandardFoundation
+   # Produce a static library _3_MulleObjCContainerFoundation from _1_MulleObjCContainerFoundation
    # to feed into MULLE_OBJC_LOADER_TOOL.
    #
    # The static library is, so that the commandline doesn't overflow for

@@ -1,7 +1,7 @@
 #
 #
 #
-export PROJECT_NAME="MulleObjCStandardFoundation"
+export PROJECT_NAME="MulleObjCContainerFoundation"
 
 
 #
@@ -37,18 +37,18 @@ export PROJECT_EXTENSIONS="m:aam"
 #
 #
 #
-export PROJECT_IDENTIFIER="MulleObjCStandardFoundation"
+export PROJECT_IDENTIFIER="MulleObjCContainerFoundation"
 
 
 #
 #
 #
-export PROJECT_DOWNCASE_IDENTIFIER="mulle_objc_standard_foundation"
+export PROJECT_DOWNCASE_IDENTIFIER="mulle_objc_container_foundation"
 
 
 #
 #
 #
-export PROJECT_UPCASE_IDENTIFIER="MULLE_OBJC_STANDARD_FOUNDATION"
+export PROJECT_UPCASE_IDENTIFIER="MULLE_OBJC_CONTAINER_FOUNDATION"
 
 
