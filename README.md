@@ -1,16 +1,33 @@
-# MulleObjCStandardFoundation
+# MulleObjCContainerFoundation
 
-🚤  Platform-independent Objective-C classes, like NSString, NSArray, NSNotificationCenter
+🛍 Container classes like NSArray, NSSet, NSDictionary
 
-These classes build on **MulleObjC** and **mulle-core** to provide the usual
-classes expected in a Foundation library, that require no more than the
-standard C libraries.
+These classes build on **MulleObjC** and **mulle-container** to provide the
+usual containeres expected in a Foundation library.
+
+## Immutable Classes
+
+Class         | Description
+--------------|----------------
+`NSArray`     |
+`NSSet`       |
+`NSDicionary` |
+
+
+## Mutable Containers
+
+Class                | Description
+---------------------|----------------
+`NSMutableArray`     |
+`NSMutableSet`       |
+`NSMutableDicionary` |
+
 
 
 
 Build Status | Release Version
 -------------|-----------------------------------
-[![Build Status](https://travis-ci.org/MulleFoundation/MulleObjCStandardFoundation.svg?branch=release)](https://travis-ci.org/MulleFoundation/MulleObjCStandardFoundation) | ![Mulle kybernetiK tag](https://img.shields.io/github/tag/MulleFoundation/MulleObjCStandardFoundation.svg) [![Build Status](https://travis-ci.org/MulleFoundation/MulleObjCStandardFoundation.svg?branch=release)](https://travis-ci.org/MulleFoundation/MulleObjCStandardFoundation)
+[![Build Status](https://travis-ci.org/MulleFoundation/MulleObjCContainerFoundation.svg?branch=release)](https://travis-ci.org/MulleFoundation/MulleObjCContainerFoundation) | ![Mulle kybernetiK tag](https://img.shields.io/github/tag/MulleFoundation/MulleObjCContainerFoundation.svg) [![Build Status](https://travis-ci.org/MulleFoundation/MulleObjCContainerFoundation.svg?branch=release)](https://travis-ci.org/MulleFoundation/MulleObjCContainerFoundation)
 
 
 ## Install

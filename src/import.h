@@ -1,5 +1,5 @@
-#ifndef mulle_objc_standard_foundation_import_h__
-#define mulle_objc_standard_foundation_import_h__
+#ifndef mulle_objc_container_foundation_import_h__
+#define mulle_objc_container_foundation_import_h__
 
 /* This is a central include file to keep dependencies out of the library
    Objective-C files. It is usally imported by Objective-C .h files only.
@@ -16,7 +16,7 @@
    sourcetree, then you don't need it.
  */
 
-#import "_MulleObjCStandardFoundation-import.h"
+#import "_MulleObjCContainerFoundation-import.h"
 
 /* You can add some more import statements here */
 
