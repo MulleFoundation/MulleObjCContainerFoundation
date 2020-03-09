@@ -58,6 +58,7 @@
 @implementation _NSArrayPlaceholder
 
 
+
 # pragma mark -
 # pragma mark class cluster
 
@@ -94,7 +95,7 @@
 
 
 //
-// objects must have been allocated with MulleObjCObjectGetAllocator( self)
+// objects must have been allocated with MulleObjCInstanceGetAllocator( self)
 //
 - (id) mulleInitWithRetainedObjectStorage:(id *) objects
                                     count:(NSUInteger) count
@@ -107,7 +108,7 @@
 
    if( ! count)
    {
-      allocator = MulleObjCObjectGetAllocator( self);
+      allocator = MulleObjCInstanceGetAllocator( self);
       mulle_allocator_free( allocator, objects);
 
       return( (id) [[_MulleObjCEmptyArray sharedInstance] retain]);

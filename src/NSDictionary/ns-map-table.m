@@ -54,7 +54,7 @@ void   NSMapInsert( NSMapTable *table, void *key, void *value)
    pair._key   = key;
    pair._value = value;
 
-   _mulle_map_insert( &table->_map, &pair, &table->_callback, table->_allocator);
+   _mulle__map_insert( &table->_map, &pair, &table->_callback, table->_allocator);
 }
 
 
@@ -72,13 +72,13 @@ static void   _NSMapTableInitWithAllocator( NSMapTable *table,
    table->_callback.valuecallback = *valueCallBacks;
    table->_allocator              = allocator;
 
-   _mulle_map_init( &table->_map, capacity, &table->_callback, table->_allocator);
+   _mulle__map_init( &table->_map, capacity, &table->_callback, table->_allocator);
 }
 
 
 void    NSResetMapTable( NSMapTable *table)
 {
-   _mulle_map_done( &table->_map, &table->_callback, table->_allocator);
+   _mulle__map_done( &table->_map, &table->_callback, table->_allocator);
    _NSMapTableInitWithAllocator( table, &table->_callback.keycallback, &table->_callback.valuecallback, 0, table->_allocator);
 }
 
@@ -111,7 +111,7 @@ NSMapTable   *_NSCreateMapTableWithAllocator( NSMapTableKeyCallBacks keyCallBack
 void   NSFreeMapTable( NSMapTable *table)
 {
    if( table)
-      _mulle_map_destroy( &table->_map, &table->_callback, table->_allocator);
+      _mulle__map_destroy( &table->_map, &table->_callback, table->_allocator);
 }
 
 
@@ -127,13 +127,13 @@ void   NSMapInsertKnownAbsent( NSMapTable *table, void *key, void *value)
    if( key == table->_callback.keycallback.notakey)
       MulleObjCThrowInvalidArgumentExceptionCString( "key is not a key marker (%p)", key);
 
-   if(  _mulle_map_get( &table->_map, key, &table->_callback))
+   if(  _mulle__map_get( &table->_map, key, &table->_callback))
       MulleObjCThrowInvalidArgumentExceptionCString( "key is already present (%p)", key);
 
    pair._key   = key;
    pair._value = value;
 
-   _mulle_map_insert( &table->_map, &pair, &table->_callback, table->_allocator);
+   _mulle__map_insert( &table->_map, &pair, &table->_callback, table->_allocator);
 }
 
 
@@ -142,14 +142,14 @@ void   *NSMapInsertIfAbsent( NSMapTable *table, void *key, void *value)
    struct mulle_pointerpair   pair;
    void                       *old;
 
-   old =  _mulle_map_get( &table->_map, key, &table->_callback);
+   old =  _mulle__map_get( &table->_map, key, &table->_callback);
    if( old)
       return( old);
 
    pair._key   = key;
    pair._value = value;
 
-   _mulle_map_insert( &table->_map, &pair, &table->_callback, table->_allocator);
+   _mulle__map_insert( &table->_map, &pair, &table->_callback, table->_allocator);
    return( NULL);
 }
 
@@ -163,6 +163,6 @@ NSMapTable   *NSCopyMapTable( NSMapTable *table)
 
    other = NSCreateMapTable( table->_callback.keycallback, table->_callback.valuecallback, 0);
    if( other)
-      _mulle_map_copy_items( (struct _mulle_map *) other, &table->_map, &table->_callback, table->_allocator);
+      _mulle__map_copy_items( (struct mulle__map *) other, &table->_map, &table->_callback, table->_allocator);
    return( other);
 }

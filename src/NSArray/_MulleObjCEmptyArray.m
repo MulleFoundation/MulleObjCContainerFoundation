@@ -48,7 +48,7 @@ Class  _MulleObjCEmptyArrayClass;
 
 + (void) load
 {
-   _MulleObjCEmptyArrayClass = self;
+   _MulleObjCEmptyArrayClass = [self class];
 }
 
 

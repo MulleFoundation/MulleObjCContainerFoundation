@@ -58,7 +58,7 @@ Class  _MulleObjCConcreteArrayClass;
 
 + (void) load
 {
-   _MulleObjCConcreteArrayClass = self;
+   _MulleObjCConcreteArrayClass = [self class]; 
 }
 
 
@@ -143,7 +143,7 @@ static NSUInteger   findObjectWithRange( _MulleObjCConcreteArray *self,
    if( ! obj)
       return( NSNotFound);
 
-   MulleObjCValidateRangeAgainstLength( range, self->_count);
+   range          = MulleObjCValidateRangeAgainstLength( range, self->_count);
    sentinelLength = range.location + range.length;
 
    sentinel = &self->_objects[ sentinelLength];

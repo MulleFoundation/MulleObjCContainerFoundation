@@ -42,7 +42,7 @@
 //
 typedef struct
 {
-   struct _mulle_map   _table;
+   struct mulle__map   _table;
 } _MulleObjCDictionaryIvars;
 
 

@@ -89,7 +89,7 @@ extern Class   _MulleObjCConcreteMutableSetClass;
 
 
 //
-// objects must have been allocated with MulleObjCObjectGetAllocator( self)
+// objects must have been allocated with MulleObjCInstanceGetAllocator( self)
 // the size maybe larger but no less than count
 //
 - (id) mulleInitWithRetainedObjectStorage:(id *) objects

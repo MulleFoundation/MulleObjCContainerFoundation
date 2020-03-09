@@ -50,7 +50,7 @@ Class  _MulleObjCEmptyDictionaryClass;
 
 + (void) load
 {
-   _MulleObjCEmptyDictionaryClass = self;
+   _MulleObjCEmptyDictionaryClass = [self class];
 }
 
 

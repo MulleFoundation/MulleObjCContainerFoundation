@@ -71,11 +71,13 @@
 }
 
 
+
 static Class   NSArrayClass;
+
 
 + (void) load
 {
-   NSArrayClass = self;
+   NSArrayClass = self; // only used in ObjC code
 }
 
 
@@ -123,8 +125,7 @@ static Class   NSArrayClass;
    NSUInteger   count;
    id           *objects;
 
-   MulleObjCValidateRangeAgainstLength( range, [other count]);
-
+   range = MulleObjCValidateRangeAgainstLength( range, [other count]);
    count = range.length;
    if( ! count)
    {
@@ -621,7 +622,7 @@ static NSUInteger  findIndexWithRange( NSArray *self, NSRange range, id obj)
    NSUInteger   count;
 
    count = [self count];
-   MulleObjCValidateRangeAgainstLength( range, count);
+   range = MulleObjCValidateRangeAgainstLength( range, count);
 
    return( findIndexWithRangeForEquality( self, range, obj));
 }
@@ -639,7 +640,7 @@ static NSUInteger  findIndexWithRange( NSArray *self, NSRange range, id obj)
    NSUInteger   count;
 
    count = [self count];
-   MulleObjCValidateRangeAgainstLength( range, count);
+   range = MulleObjCValidateRangeAgainstLength( range, count);
 
    return( findIndexWithRange( self, range, obj));
 }

@@ -61,6 +61,8 @@
 # pragma mark -
 # pragma mark class cluster
 
+MULLE_OBJC_DEPENDS_ON_CLASS( _MulleObjCEmptyDictionary);
+
 
 - (id) init
 {
@@ -78,7 +80,7 @@
 }
 
 //
-// objects must have been allocated with MulleObjCObjectGetAllocator( self)
+// objects must have been allocated with MulleObjCInstanceGetAllocator( self)
 // the size maybe larger but no less than count
 //
 - (id) mulleInitWithRetainedObjectKeyStorage:(id *) objects

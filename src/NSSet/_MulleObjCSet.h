@@ -39,7 +39,7 @@
 
 typedef struct
 {
-   struct _mulle_set        _table;
+   struct mulle__set        _table;
 } _MulleObjCSetIvars;
 
 
