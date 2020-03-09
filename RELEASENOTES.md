@@ -31,7 +31,7 @@
 
 ### 0.15.1
 
-* fix leaks in `_GMTTimeZone` and cheatingASCIIstring UTF8String
+* fix leaks in `mulleGMTTimeZone` and cheatingASCIIstring UTF8String
 
 ## 0.15.0
 
@@ -67,7 +67,7 @@
 
 * fix tests
 
-## 0.13.0 
+## 0.13.0
 
 * migrated to mulle-sde
 

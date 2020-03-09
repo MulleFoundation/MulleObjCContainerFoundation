@@ -56,7 +56,7 @@ Class  _MulleObjCConcreteMutableSetClass;
 
 + (void) load
 {
-   _MulleObjCConcreteMutableSetClass = self;
+   _MulleObjCConcreteMutableSetClass = [self class];
 }
 
 
@@ -66,8 +66,8 @@ Class  _MulleObjCConcreteMutableSetClass;
    struct mulle_allocator   *allocator;
 
    ivars     = _MulleObjCSetGetIvars( self);
-   allocator = MulleObjCObjectGetAllocator( self);
-   _mulle_set_set( &ivars->_table, obj, NSSetCallback, allocator);
+   allocator = MulleObjCInstanceGetAllocator( self);
+   _mulle__set_set( &ivars->_table, obj, NSSetCallback, allocator);
 }
 
 
@@ -76,9 +76,9 @@ Class  _MulleObjCConcreteMutableSetClass;
    _MulleObjCSetIvars       *ivars;
    struct mulle_allocator   *allocator;
 
-   allocator = MulleObjCObjectGetAllocator( self);
+   allocator = MulleObjCInstanceGetAllocator( self);
    ivars     = _MulleObjCSetGetIvars( self);
-   _mulle_set_remove( &ivars->_table, obj, NSSetCallback, allocator);
+   _mulle__set_remove( &ivars->_table, obj, NSSetCallback, allocator);
 }
 
 
@@ -87,9 +87,9 @@ Class  _MulleObjCConcreteMutableSetClass;
    _MulleObjCSetIvars       *ivars;
    struct mulle_allocator   *allocator;
 
-   allocator = MulleObjCObjectGetAllocator( self);
+   allocator = MulleObjCInstanceGetAllocator( self);
    ivars     = _MulleObjCSetGetIvars( self);
-   _mulle_set_reset( &ivars->_table, NSSetCallback, allocator);
+   _mulle__set_reset( &ivars->_table, NSSetCallback, allocator);
 }
 
 @end

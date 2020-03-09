@@ -44,12 +44,12 @@
 typedef struct mulle_container_keycallback        NSMapTableKeyCallBacks;
 typedef struct mulle_container_valuecallback      NSMapTableValueCallBacks;
 typedef struct mulle_container_keyvaluecallback   NSMapTableCallBacks;
-typedef struct _mulle_mapenumerator               NSMapEnumerator;
+typedef struct mulle__mapenumerator               NSMapEnumerator;
 
 
 typedef struct
 {
-   struct _mulle_map                         _map;
+   struct mulle__map                         _map;
    struct mulle_container_keyvaluecallback   _callback;
    struct mulle_allocator                    *_allocator;
 } NSMapTable;
@@ -78,7 +78,7 @@ void   NSResetMapTable( NSMapTable *table);
 
 static inline NSUInteger   NSCountMapTable( NSMapTable *table)
 {
-   return( (NSUInteger) _mulle_map_get_count( &table->_map));
+   return( (NSUInteger) _mulle__map_get_count( &table->_map));
 }
 
 
@@ -87,13 +87,13 @@ static inline NSUInteger   NSCountMapTable( NSMapTable *table)
 
 static inline void   *NSMapGet( NSMapTable *table, void *key)
 {
-   return( _mulle_map_get( &table->_map, key, &table->_callback));
+   return( _mulle__map_get( &table->_map, key, &table->_callback));
 }
 
 
 static inline void   NSMapRemove( NSMapTable *table, void *key)
 {
-   _mulle_map_remove( &table->_map, key, &table->_callback, table->_allocator);
+   _mulle__map_remove( &table->_map, key, &table->_callback, table->_allocator);
 }
 
 
@@ -132,7 +132,7 @@ static inline NSMapEnumerator   NSEnumerateMapTable( NSMapTable *table)
 {
    if( ! table)
       return( * (NSMapEnumerator *) &mulle_mapenumerator_empty);
-   return( _mulle_map_enumerate( &table->_map, &table->_callback));
+   return( mulle__map_enumerate( &table->_map, &table->_callback));
 }
 
 
@@ -140,7 +140,7 @@ static inline BOOL    NSNextMapEnumeratorPair( NSMapEnumerator *rover, void **ke
 {
    struct mulle_pointerpair   *pair;
 
-   pair = _mulle_mapenumerator_next( rover);
+   pair = _mulle__mapenumerator_next( rover);
    if( ! pair)
       return( NO);
 
@@ -154,7 +154,7 @@ static inline BOOL    NSNextMapEnumeratorPair( NSMapEnumerator *rover, void **ke
 
 static inline void    NSEndMapTableEnumeration( NSMapEnumerator *rover)
 {
-   _mulle_mapenumerator_done( rover);
+   mulle__mapenumerator_done( rover);
 }
 
 # pragma mark - harmless hacks

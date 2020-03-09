@@ -51,7 +51,7 @@ Class  _MulleObjCConcreteSetClass;
 
 + (void) load
 {
-   _MulleObjCConcreteSetClass = self;
+   _MulleObjCConcreteSetClass = [self class];
 }
 
 

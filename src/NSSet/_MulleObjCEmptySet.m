@@ -53,7 +53,7 @@ Class  _MulleObjCEmptySetClass;
 
 + (void) load
 {
-   _MulleObjCEmptySetClass = self;
+   _MulleObjCEmptySetClass = [self class];
 }
 
 

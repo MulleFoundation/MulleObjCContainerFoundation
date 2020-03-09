@@ -51,11 +51,11 @@
 @interface _MulleObjCSetEnumerator : NSEnumerator
 {
    _MulleObjCSet< NSObject>     *_owner;
-   struct _mulle_setenumerator  _rover;
+   struct mulle__setenumerator  _rover;
 }
 
 - (instancetype) initWithSet:(_MulleObjCSet<NSObject> *) set
-                  _mulle_set:(struct _mulle_set *) _set;
+                  mulle__set:(struct mulle__set *) _set;
 
 @end
 
@@ -63,10 +63,10 @@
 @implementation _MulleObjCSetEnumerator
 
 - (instancetype) initWithSet:(_MulleObjCSet<NSObject> *) set
-                  _mulle_set:(struct _mulle_set *) _set
+                  mulle__set:(struct mulle__set *) _set
 {
    _owner = [set retain];
-   _rover = _mulle_set_enumerate( _set, NSSetCallback);
+   _rover = _mulle__set_enumerate( _set, NSSetCallback);
    return( self);
 }
 
@@ -74,7 +74,7 @@
 - (void) dealloc
 
 {
-   _mulle_setenumerator_done( &_rover);
+   mulle__setenumerator_done( &_rover);
 
    [_owner release];
    [super dealloc];
@@ -83,7 +83,7 @@
 
 - (id) nextObject
 {
-   return( _mulle_setenumerator_next_nil( &_rover));
+   return( _mulle__setenumerator_next_nil( &_rover));
 }
 
 @end
@@ -104,14 +104,14 @@ PROTOCOLCLASS_IMPLEMENTATION( _MulleObjCSet)
    _MulleObjCSetIvars       *ivars;
 
    ivars     = _MulleObjCSetGetIvars( self);
-   allocator = MulleObjCObjectGetAllocator( self);
+   allocator = MulleObjCInstanceGetAllocator( self);
    [coder decodeValueOfObjCType:@encode( NSUInteger)
                              at:&count];
    while( count)
    {
       [coder decodeValueOfObjCType:@encode( id)
                                 at:&obj];
-      _mulle_set_set( &ivars->_table, obj, NSSetAssignCallback, allocator);
+      _mulle__set_set( &ivars->_table, obj, NSSetAssignCallback, allocator);
       --count;
    }
 }
@@ -129,7 +129,7 @@ PROTOCOLCLASS_IMPLEMENTATION( _MulleObjCSet)
 
    ivars = _MulleObjCSetGetIvars( self);
    return( [[_MulleObjCSetEnumerator instantiate] initWithSet:(id) self
-                                                   _mulle_set:&ivars->_table]);
+                                                   mulle__set:&ivars->_table]);
 }
 
 
@@ -138,7 +138,7 @@ PROTOCOLCLASS_IMPLEMENTATION( _MulleObjCSet)
    _MulleObjCSetIvars   *ivars;
 
    ivars = _MulleObjCSetGetIvars( self);
-   return( _mulle_set_get( &ivars->_table, obj, NSSetCallback) != NULL);
+   return( _mulle__set_get( &ivars->_table, obj, NSSetCallback) != NULL);
 }
 
 
@@ -147,7 +147,7 @@ PROTOCOLCLASS_IMPLEMENTATION( _MulleObjCSet)
    _MulleObjCSetIvars   *ivars;
 
    ivars = _MulleObjCSetGetIvars( self);
-   return( _mulle_set_get( &ivars->_table, obj, NSSetCallback));
+   return( _mulle__set_get( &ivars->_table, obj, NSSetCallback));
 }
 
 
@@ -157,7 +157,7 @@ PROTOCOLCLASS_IMPLEMENTATION( _MulleObjCSet)
    _MulleObjCSetIvars   *ivars;
 
    ivars = _MulleObjCSetGetIvars( self);
-   return( _mulle_set_get( &ivars->_table, obj, NSSetCallback));
+   return( _mulle__set_get( &ivars->_table, obj, NSSetCallback));
 }
 
 
@@ -166,13 +166,13 @@ PROTOCOLCLASS_IMPLEMENTATION( _MulleObjCSet)
    _MulleObjCSetIvars   *ivars;
 
    ivars = _MulleObjCSetGetIvars( self);
-   return( _mulle_set_get_count( &ivars->_table));
+   return( _mulle__set_get_count( &ivars->_table));
 }
 
 
 struct _MulleObjCSetFastEnumerationState
 {
-   struct _mulle_setenumerator   _rover;
+   struct mulle__setenumerator   _rover;
 };
 
 
@@ -197,7 +197,7 @@ struct _MulleObjCSetFastEnumerationState
       _MulleObjCSetIvars   *ivars;
 
       ivars          = _MulleObjCSetGetIvars( self);
-      dstate->_rover = _mulle_set_enumerate( &ivars->_table, NSSetCallback);
+      dstate->_rover = _mulle__set_enumerate( &ivars->_table, NSSetCallback);
       rover->state   = 1;
    }
 
@@ -206,7 +206,7 @@ struct _MulleObjCSetFastEnumerationState
    sentinel = &buffer[ len];
    while( buffer < sentinel)
    {
-      obj = _mulle_setenumerator_next_nil( &dstate->_rover);
+      obj = _mulle__setenumerator_next_nil( &dstate->_rover);
       if( ! obj)
       {
          rover->state = -1;

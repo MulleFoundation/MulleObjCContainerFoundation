@@ -55,9 +55,10 @@
 
 Class  _MulleObjCConcreteMutableDictionaryClass;
 
+
 + (void) load
 {
-   _MulleObjCConcreteMutableDictionaryClass = self;
+   _MulleObjCConcreteMutableDictionaryClass = [self class];
 }
 
 
@@ -73,11 +74,11 @@ Class  _MulleObjCConcreteMutableDictionaryClass;
    assert( [key respondsToSelector:@selector( isEqual:)]);
    assert( [obj respondsToSelector:@selector( retain)]);
 
-   allocator   = MulleObjCObjectGetAllocator( self);
+   allocator   = MulleObjCInstanceGetAllocator( self);
    ivars       = _MulleObjCDictionaryGetIvars( self);
    pair._key   = key;
    pair._value = obj;
-   _mulle_map_set( &ivars->_table, &pair, NSDictionaryCallback, allocator);
+   _mulle__map_set( &ivars->_table, &pair, NSDictionaryCallback, allocator);
 }
 
 
@@ -93,12 +94,12 @@ Class  _MulleObjCConcreteMutableDictionaryClass;
    assert( [key respondsToSelector:@selector( isEqual:)]);
    assert( [obj respondsToSelector:@selector( retain)]);
 
-   allocator   = MulleObjCObjectGetAllocator( self);
+   allocator   = MulleObjCInstanceGetAllocator( self);
    ivars       = _MulleObjCDictionaryGetIvars( self);
    pair._key   = [key copy];
    pair._value = obj;
 
-   _mulle_map_set( &ivars->_table, &pair, NSDictionaryAssignCallback, allocator);
+   _mulle__map_set( &ivars->_table, &pair, NSDictionaryAssignCallback, allocator);
 }
 
 
@@ -114,11 +115,11 @@ Class  _MulleObjCConcreteMutableDictionaryClass;
    assert( [key respondsToSelector:@selector( isEqual:)]);
    assert( [obj respondsToSelector:@selector( retain)]);
 
-   allocator   = MulleObjCObjectGetAllocator( self);
+   allocator   = MulleObjCInstanceGetAllocator( self);
    ivars       = _MulleObjCDictionaryGetIvars( self);
    pair._key   = key;
    pair._value = obj;
-   _mulle_map_set( &ivars->_table, &pair, NSDictionaryAssignCallback, allocator);
+   _mulle__map_set( &ivars->_table, &pair, NSDictionaryAssignCallback, allocator);
 }
 
 
@@ -127,9 +128,9 @@ Class  _MulleObjCConcreteMutableDictionaryClass;
    _MulleObjCDictionaryIvars    *ivars;
    struct mulle_allocator       *allocator;
 
-   allocator = MulleObjCObjectGetAllocator( self);
+   allocator = MulleObjCInstanceGetAllocator( self);
    ivars     = _MulleObjCDictionaryGetIvars( self);
-   _mulle_map_remove( &ivars->_table, key, NSDictionaryCallback, allocator);
+   _mulle__map_remove( &ivars->_table, key, NSDictionaryCallback, allocator);
 }
 
 
@@ -138,9 +139,9 @@ Class  _MulleObjCConcreteMutableDictionaryClass;
    _MulleObjCDictionaryIvars    *ivars;
    struct mulle_allocator       *allocator;
 
-   allocator = MulleObjCObjectGetAllocator( self);
+   allocator = MulleObjCInstanceGetAllocator( self);
    ivars     = _MulleObjCDictionaryGetIvars( self);
-   _mulle_map_reset( &ivars->_table, NSDictionaryCallback, allocator);
+   _mulle__map_reset( &ivars->_table, NSDictionaryCallback, allocator);
 }
 
 @end

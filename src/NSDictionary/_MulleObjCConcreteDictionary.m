@@ -53,10 +53,9 @@ Class  _MulleObjCConcreteDictionaryClass;
 
 + (void) load
 {
-   _MulleObjCConcreteDictionaryClass = self;
+   // ensure class is properly set up
+   _MulleObjCConcreteDictionaryClass = [self class];
 }
-
-
 
 // the protocol implements it all
 

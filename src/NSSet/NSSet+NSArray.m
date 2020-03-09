@@ -68,7 +68,7 @@
    if( count <= 32)
       buf = _buf;
    else
-      buf = (id *) MulleObjCAutoreleasedCalloc( 1, count);
+      buf = (id *) MulleObjCCallocAutoreleased( 1, count);
    [array getObjects:buf];
    return( [self initWithObjects:buf
                            count:count]);

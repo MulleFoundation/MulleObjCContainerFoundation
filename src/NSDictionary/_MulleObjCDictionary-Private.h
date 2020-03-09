@@ -22,10 +22,10 @@ static inline id  _MulleObjCDictionaryNewWithCapacity( Class self, NSUInteger co
    struct mulle_allocator      *allocator;
 
    dictionary = NSAllocateObject( self, 0, NULL);
-   allocator  = MulleObjCObjectGetAllocator( dictionary);
+   allocator  = MulleObjCInstanceGetAllocator( dictionary);
 
    ivars = _MulleObjCDictionaryGetIvars( dictionary);
-   _mulle_map_init( &ivars->_table,
+   _mulle__map_init( &ivars->_table,
                     count,
                     NSDictionaryCallback,
                     allocator);
@@ -46,7 +46,7 @@ static inline id
    struct mulle_pointerpair    pair;
    id                          *sentinel;
 
-   allocator = MulleObjCObjectGetAllocator( self);
+   allocator = MulleObjCInstanceGetAllocator( self);
    ivars     = _MulleObjCDictionaryGetIvars( self);
 
    sentinel = &keys[ count];
@@ -57,7 +57,7 @@ static inline id
       assert( pair._value);
       assert( pair._key);
 
-      _mulle_map_set( &ivars->_table, &pair, NSDictionaryAssignCallback, allocator);
+      _mulle__map_set( &ivars->_table, &pair, NSDictionaryAssignCallback, allocator);
    }
 
    return( self);

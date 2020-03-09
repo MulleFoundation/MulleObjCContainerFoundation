@@ -358,7 +358,7 @@ static NSUInteger  indexOfObjectIdenticalTo( NSMutableArray *self, id obj, NSRan
 - (NSUInteger) indexOfObjectIdenticalTo:(id) obj
                                 inRange:(NSRange) range
 {
-   MulleObjCValidateRangeAgainstLength( range, _count);
+   range = MulleObjCValidateRangeAgainstLength( range, _count);
 
    return( indexOfObjectIdenticalTo( self, obj, range));
 }
@@ -412,9 +412,9 @@ static NSUInteger  indexOfObject( NSMutableArray *self, id obj, NSRange range, i
 
 
 - (NSUInteger) indexOfObject:(id) obj
-                       inRange:(NSRange) range
+                     inRange:(NSRange) range
 {
-   MulleObjCValidateRangeAgainstLength( range, _count);
+   range = MulleObjCValidateRangeAgainstLength( range, _count);
 
    return( indexOfObject( self, obj, range, 1));
 }
@@ -584,7 +584,7 @@ static void   removeObjectAtIndex( NSMutableArray *self,
 - (void) getObjects:(id *) aBuffer
               range:(NSRange) range
 {
-   MulleObjCValidateRangeAgainstLength( range, _count);
+   range = MulleObjCValidateRangeAgainstLength( range, _count);
 
    memcpy( aBuffer, &self->_storage[ range.location], range.length * sizeof( id));
 }
@@ -635,7 +635,7 @@ static void   removeObjectAtIndex( NSMutableArray *self,
    assert( range.length == n);
    assert( objects);
 
-   MulleObjCValidateRangeAgainstLength( range, _count);
+   range = MulleObjCValidateRangeAgainstLength( range, _count);
 
    _MulleObjCAutoreleaseObjects( &_storage[ range.location],
                                  range.length,

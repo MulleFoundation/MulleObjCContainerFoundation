@@ -21,8 +21,8 @@ static inline _MulleObjCSet  *_MulleObjCSetNewWithCapacity( Class cls, NSUIntege
 
    set       = NSAllocateObject( cls, 0, NULL);
    ivars     = _MulleObjCSetGetIvars( set);
-   allocator = MulleObjCObjectGetAllocator( set);
-   _mulle_set_init( &ivars->_table,
+   allocator = MulleObjCInstanceGetAllocator( set);
+   _mulle__set_init( &ivars->_table,
                     (unsigned int)( count),
                     NSSetCallback,
                     allocator);
@@ -37,9 +37,9 @@ static inline void   _MulleObjCSetFree( id self)
    _MulleObjCSetIvars       *ivars;
    struct mulle_allocator   *allocator;
 
-   allocator = MulleObjCObjectGetAllocator( self);
+   allocator = MulleObjCInstanceGetAllocator( self);
    ivars     = _MulleObjCSetGetIvars( self);
-   _mulle_set_done( &ivars->_table,
+   _mulle__set_done( &ivars->_table,
                     NSSetCallback,
                     allocator);
    NSDeallocateObject( self);
@@ -55,11 +55,11 @@ static inline id
    struct mulle_allocator      *allocator;
    id                          *sentinel;
 
-   allocator = MulleObjCObjectGetAllocator( self);
+   allocator = MulleObjCInstanceGetAllocator( self);
    ivars     = _MulleObjCSetGetIvars( self);
    sentinel  = &objects[ count];
    while( objects < sentinel)
-      _mulle_set_set( &ivars->_table, *objects++, NSSetAssignCallback, allocator);
+      _mulle__set_set( &ivars->_table, *objects++, NSSetAssignCallback, allocator);
 
    return( self);
 }

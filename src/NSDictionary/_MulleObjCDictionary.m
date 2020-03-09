@@ -56,12 +56,12 @@
 
 @interface _MulleObjCDictionaryKeyEnumerator : NSEnumerator
 {
-   struct _mulle_mapenumerator       _rover;
+   struct mulle__mapenumerator       _rover;
    _MulleObjCDictionary< NSObject>   *_owner;
 }
 
 + (NSEnumerator *) enumeratorWithDictionary:(_MulleObjCDictionary *) owner
-                                      table:(struct _mulle_map *) table;
+                                      table:(struct mulle__map *) table;
 
 @end
 
@@ -77,9 +77,9 @@ PROTOCOLCLASS_IMPLEMENTATION( _MulleObjCDictionary)
    _MulleObjCDictionaryIvars   *ivars;
 
    ivars = _MulleObjCDictionaryGetIvars( self);
-   _mulle_map_done( &ivars->_table,
+   _mulle__map_done( &ivars->_table,
                     NSDictionaryCallback,
-                    MulleObjCObjectGetAllocator( self));
+                    MulleObjCInstanceGetAllocator( self));
    NSDeallocateObject( self);
 }
 
@@ -95,7 +95,7 @@ PROTOCOLCLASS_IMPLEMENTATION( _MulleObjCDictionary)
    _MulleObjCDictionaryIvars   *ivars;
 
    ivars     = _MulleObjCDictionaryGetIvars( self);
-   allocator = MulleObjCObjectGetAllocator( self);
+   allocator = MulleObjCInstanceGetAllocator( self);
    [coder decodeValueOfObjCType:@encode( NSUInteger)
                              at:&count];
    while( count)
@@ -107,7 +107,7 @@ PROTOCOLCLASS_IMPLEMENTATION( _MulleObjCDictionary)
       if( ! pair._key || ! pair._value)
          MulleObjCThrowInvalidArgumentExceptionCString( "nil value");
 
-      _mulle_map_set( &ivars->_table, &pair, NSDictionaryAssignCallback, allocator);
+      _mulle__map_set( &ivars->_table, &pair, NSDictionaryAssignCallback, allocator);
       --count;
    }
 }
@@ -122,7 +122,7 @@ PROTOCOLCLASS_IMPLEMENTATION( _MulleObjCDictionary)
    _MulleObjCDictionaryIvars   *ivars;
 
    ivars = _MulleObjCDictionaryGetIvars( self);
-   return( _mulle_map_get( &ivars->_table, key, NSDictionaryCallback));
+   return( _mulle__map_get( &ivars->_table, key, NSDictionaryCallback));
 }
 
 
@@ -131,7 +131,7 @@ PROTOCOLCLASS_IMPLEMENTATION( _MulleObjCDictionary)
    _MulleObjCDictionaryIvars   *ivars;
 
    ivars = _MulleObjCDictionaryGetIvars( self);
-   return( _mulle_map_get( &ivars->_table, key, NSDictionaryCallback));
+   return( _mulle__map_get( &ivars->_table, key, NSDictionaryCallback));
 }
 
 
@@ -160,7 +160,7 @@ PROTOCOLCLASS_IMPLEMENTATION( _MulleObjCDictionary)
    _MulleObjCDictionaryIvars   *ivars;
 
    ivars = _MulleObjCDictionaryGetIvars( self);
-   return( _mulle_map_get_count( &ivars->_table));
+   return( _mulle__map_get_count( &ivars->_table));
 }
 
 
@@ -170,13 +170,13 @@ PROTOCOLCLASS_IMPLEMENTATION( _MulleObjCDictionary)
 {
    id                             *sentinel;
    _MulleObjCDictionaryIvars      *ivars;
-   struct _mulle_mapenumerator    rover;
+   struct mulle__mapenumerator    rover;
    struct mulle_pointerpair       *pair;
 
    ivars    = _MulleObjCDictionaryGetIvars( self);
    sentinel = &objects[ count];
-   rover    = _mulle_map_enumerate( &ivars->_table, NSDictionaryCallback);
-   while( pair = _mulle_mapenumerator_next( &rover))
+   rover    = mulle__map_enumerate( &ivars->_table, NSDictionaryCallback);
+   while( pair = _mulle__mapenumerator_next( &rover))
    {
       if( objects >= sentinel)
          break;
@@ -184,7 +184,7 @@ PROTOCOLCLASS_IMPLEMENTATION( _MulleObjCDictionary)
       *objects++ = mulle_pointerpair_get_value( pair);
       *keys++    = mulle_pointerpair_get_key( pair);
    }
-   _mulle_mapenumerator_done( &rover);
+   mulle__mapenumerator_done( &rover);
 }
 
 
@@ -193,16 +193,16 @@ PROTOCOLCLASS_IMPLEMENTATION( _MulleObjCDictionary)
                                     preempt:(enum MullePreempt) preempt
 {
    _MulleObjCDictionaryIvars      *ivars;
-   struct _mulle_mapenumerator    rover;
+   struct mulle__mapenumerator    rover;
    struct mulle_pointerpair       *pair;
 
    ivars = _MulleObjCDictionaryGetIvars( self);
-   rover = _mulle_map_enumerate( &ivars->_table, NSDictionaryCallback);
+   rover = mulle__map_enumerate( &ivars->_table, NSDictionaryCallback);
 
    switch( preempt)
    {
    case MullePreemptIfNotMatches :
-      while( pair = _mulle_mapenumerator_next( &rover))
+      while( pair = _mulle__mapenumerator_next( &rover))
          if( ! (*f)( mulle_pointerpair_get_value( pair),
                      mulle_pointerpair_get_key( pair),
                      userInfo))
@@ -210,7 +210,7 @@ PROTOCOLCLASS_IMPLEMENTATION( _MulleObjCDictionary)
       break;
 
    case MullePreemptIfMatches :
-      while( pair = _mulle_mapenumerator_next( &rover))
+      while( pair = _mulle__mapenumerator_next( &rover))
          if( (*f)( mulle_pointerpair_get_value( pair),
                    mulle_pointerpair_get_key( pair),
                    userInfo))
@@ -218,14 +218,14 @@ PROTOCOLCLASS_IMPLEMENTATION( _MulleObjCDictionary)
       break;
 
    default :
-      while( pair = _mulle_mapenumerator_next( &rover))
+      while( pair = _mulle__mapenumerator_next( &rover))
          (*f)( mulle_pointerpair_get_value( pair),
                mulle_pointerpair_get_key( pair),
                userInfo);
       break;
    }
 
-   _mulle_mapenumerator_done( &rover);
+   mulle__mapenumerator_done( &rover);
    return( pair ? mulle_pointerpair_get_key( pair) : nil);
 }
 
@@ -233,7 +233,7 @@ PROTOCOLCLASS_IMPLEMENTATION( _MulleObjCDictionary)
 
 struct _MulleObjCDictionaryFastEnumerationState
 {
-   struct _mulle_maptinyenumerator   _rover;
+   struct mulle__maptinyenumerator   _rover;
 };
 
 
@@ -258,7 +258,7 @@ struct _MulleObjCDictionaryFastEnumerationState
       _MulleObjCDictionaryIvars   *ivars;
 
       ivars          = _MulleObjCDictionaryGetIvars( self);
-      dstate->_rover = _mulle_map_tinyenumerate_nil( &ivars->_table);
+      dstate->_rover = mulle__map_tinyenumerate_nil( &ivars->_table);
       rover->state   = 1;
    }
 
@@ -267,10 +267,10 @@ struct _MulleObjCDictionaryFastEnumerationState
    sentinel = &buffer[ len];
    while( buffer < sentinel)
    {
-      if( ! _mulle_maptinyenumerator_next( &dstate->_rover, (void **) buffer, NULL))
+      if( ! _mulle__maptinyenumerator_next( &dstate->_rover, (void **) buffer, NULL))
       {
          rover->state = -1;
-         _mulle_maptinyenumerator_done( &dstate->_rover);
+         mulle__maptinyenumerator_done( &dstate->_rover);
          break;
       }
       buffer++;
@@ -290,15 +290,15 @@ PROTOCOLCLASS_END()
 
 
 + (NSEnumerator *) enumeratorWithDictionary:(_MulleObjCDictionary< NSObject> *) owner
-                                      table:(struct _mulle_map *) table
+                                      table:(struct mulle__map *) table
 {
    _MulleObjCDictionaryKeyEnumerator   *obj;
    struct mulle_allocator              *allocator;
 
    allocator   = MulleObjCClassGetAllocator( self);
-   _mulle_map_shrink_if_needed( table, NSDictionaryCallback, allocator);
+   _mulle__map_shrink_if_needed( table, NSDictionaryCallback, allocator);
    obj         = NSAllocateObject( self, 0, NULL);
-   obj->_rover = _mulle_map_enumerate( table, NSDictionaryCallback);
+   obj->_rover = mulle__map_enumerate( table, NSDictionaryCallback);
    obj->_owner = [owner retain];
 
    return( [obj autorelease]);
@@ -307,7 +307,7 @@ PROTOCOLCLASS_END()
 
 - (void) dealloc
 {
-   _mulle_mapenumerator_done( &_rover);
+   mulle__mapenumerator_done( &_rover);
    [self->_owner release];
 
    NSDeallocateObject( self);
@@ -316,7 +316,7 @@ PROTOCOLCLASS_END()
 
 - (struct mulle_pointerpair *) _nextKeyValuePair:(id) owner
 {
-   return( _mulle_mapenumerator_next( &_rover));
+   return( _mulle__mapenumerator_next( &_rover));
 }
 
 
@@ -324,7 +324,7 @@ PROTOCOLCLASS_END()
 {
    struct mulle_pointerpair   *pair;
 
-   pair = _mulle_mapenumerator_next( &_rover);
+   pair = _mulle__mapenumerator_next( &_rover);
    return( pair ? pair->_key : nil);
 }
 
@@ -337,7 +337,7 @@ PROTOCOLCLASS_END()
 {
    struct mulle_pointerpair *pair;
 
-   pair = _mulle_mapenumerator_next( &_rover);
+   pair = _mulle__mapenumerator_next( &_rover);
    return( pair ? pair->_value : nil);
 }
 
