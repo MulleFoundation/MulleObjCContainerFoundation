@@ -16,3 +16,4 @@ mulle-sde/vscode-clang;extra
 mulle-sde/vscode;extra
 mulle-objc/travis;extra
 mulle-c/travis;extra
+mulle-sde/travis;extra
