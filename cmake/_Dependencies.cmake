@@ -11,7 +11,7 @@ endif()
 # Disable with: `mulle-sourcetree mark MulleObjC no-link`
 #
 if( NOT MULLE_OBJC_LIBRARY)
-   find_library( MULLE_OBJC_LIBRARY NAMES ${CMAKE_STATIC_LIBRARY_PREFIX}MulleObjC${CMAKE_STATIC_LIBRARY_SUFFIX} MulleObjC NO_CMAKE_SYSTEM_PATH)
+   find_library( MULLE_OBJC_LIBRARY NAMES ${CMAKE_STATIC_LIBRARY_PREFIX}MulleObjC${CMAKE_STATIC_LIBRARY_SUFFIX} MulleObjC NO_CMAKE_SYSTEM_PATH NO_SYSTEM_ENVIRONMENT_PATH)
    message( STATUS "MULLE_OBJC_LIBRARY is ${MULLE_OBJC_LIBRARY}")
    #
    # The order looks ascending, but due to the way this file is read
@@ -69,7 +69,7 @@ if( NOT MULLE_OBJC_LIBRARY)
          endif()
       endforeach()
       #
-      # Search for "objc-loader.inc" in include directory.
+      # Search for "MulleObjCLoader+<name>.h" in include directory.
       # Disable with: `mulle-sourcetree mark MulleObjC no-cmakeloader`
       #
       if( NOT NO_INHERIT_OBJC_LOADERS)
@@ -96,7 +96,7 @@ endif()
 # Disable with: `mulle-sourcetree mark mulle-buffer no-link`
 #
 if( NOT MULLE_BUFFER_LIBRARY)
-   find_library( MULLE_BUFFER_LIBRARY NAMES ${CMAKE_STATIC_LIBRARY_PREFIX}mulle-buffer${CMAKE_STATIC_LIBRARY_SUFFIX} mulle-buffer NO_CMAKE_SYSTEM_PATH)
+   find_library( MULLE_BUFFER_LIBRARY NAMES ${CMAKE_STATIC_LIBRARY_PREFIX}mulle-buffer${CMAKE_STATIC_LIBRARY_SUFFIX} mulle-buffer NO_CMAKE_SYSTEM_PATH NO_SYSTEM_ENVIRONMENT_PATH)
    message( STATUS "MULLE_BUFFER_LIBRARY is ${MULLE_BUFFER_LIBRARY}")
    #
    # The order looks ascending, but due to the way this file is read
@@ -164,7 +164,7 @@ endif()
 # Disable with: `mulle-sourcetree mark mulle-utf no-link`
 #
 if( NOT MULLE_UTF_LIBRARY)
-   find_library( MULLE_UTF_LIBRARY NAMES ${CMAKE_STATIC_LIBRARY_PREFIX}mulle-utf${CMAKE_STATIC_LIBRARY_SUFFIX} mulle-utf NO_CMAKE_SYSTEM_PATH)
+   find_library( MULLE_UTF_LIBRARY NAMES ${CMAKE_STATIC_LIBRARY_PREFIX}mulle-utf${CMAKE_STATIC_LIBRARY_SUFFIX} mulle-utf NO_CMAKE_SYSTEM_PATH NO_SYSTEM_ENVIRONMENT_PATH)
    message( STATUS "MULLE_UTF_LIBRARY is ${MULLE_UTF_LIBRARY}")
    #
    # The order looks ascending, but due to the way this file is read
@@ -232,7 +232,7 @@ endif()
 # Disable with: `mulle-sourcetree mark mulle-sprintf no-link`
 #
 if( NOT MULLE_SPRINTF_LIBRARY)
-   find_library( MULLE_SPRINTF_LIBRARY NAMES ${CMAKE_STATIC_LIBRARY_PREFIX}mulle-sprintf${CMAKE_STATIC_LIBRARY_SUFFIX} mulle-sprintf NO_CMAKE_SYSTEM_PATH)
+   find_library( MULLE_SPRINTF_LIBRARY NAMES ${CMAKE_STATIC_LIBRARY_PREFIX}mulle-sprintf${CMAKE_STATIC_LIBRARY_SUFFIX} mulle-sprintf NO_CMAKE_SYSTEM_PATH NO_SYSTEM_ENVIRONMENT_PATH)
    message( STATUS "MULLE_SPRINTF_LIBRARY is ${MULLE_SPRINTF_LIBRARY}")
    #
    # The order looks ascending, but due to the way this file is read
@@ -290,7 +290,7 @@ if( NOT MULLE_SPRINTF_LIBRARY)
          endif()
       endforeach()
       #
-      # Search for "objc-loader.inc" in include directory.
+      # Search for "MulleObjCLoader+<name>.h" in include directory.
       # Disable with: `mulle-sourcetree mark mulle-sprintf no-cmakeloader`
       #
       if( NOT NO_INHERIT_OBJC_LOADERS)
