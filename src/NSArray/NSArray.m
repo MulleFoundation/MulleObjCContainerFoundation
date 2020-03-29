@@ -390,7 +390,7 @@ static int   bouncyBounceSel( void *a, void *b, void *ctxt)
    objects   = MulleObjCObjectAllocateNonZeroedMemory( self, sizeof( id) * count);
    [other getObjects:objects];
 
-   mulle_qsort_pointers( (void **) objects, count, bouncyBounceSel, (void *) (intptr_t) sel);
+   mulle_qsort_pointers( (void **) objects, count, bouncyBounceSel, (void *) (uintptr_t) sel);
 
    MulleObjCMakeObjectsPerformRetain( objects, count);
 

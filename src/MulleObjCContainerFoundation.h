@@ -34,6 +34,8 @@
 //  POSSIBILITY OF SUCH DAMAGE.
 //
 
+#define MULLE_OBJC_CONTAINER_FOUNDATION_VERSION   ((0 << 20) | (17 << 8) | 0)
+
 // export everything with Mulle
 
 #import "MullePreempt.h"

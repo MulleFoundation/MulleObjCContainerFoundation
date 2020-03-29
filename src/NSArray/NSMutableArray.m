@@ -776,7 +776,7 @@ static int   bouncyBounceSel( void *a, void *b, void *ctxt)
 
 - (void) sortUsingSelector:(SEL) sel
 {
-   mulle_qsort_pointers( (void **) _storage, _count, bouncyBounceSel, (void *) (intptr_t) sel);
+   mulle_qsort_pointers( (void **) _storage, _count, bouncyBounceSel, (void *) (uintptr_t) sel);
    _mutationCount++;
 }
 
