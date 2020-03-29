@@ -7,7 +7,7 @@ if( MULLE_TRACE_INCLUDE)
 endif()
 
 #
-# Generated from sourcetree: MulleObjC;;
+# Generated from sourcetree: MulleObjC;no-singlephase;
 # Disable with: `mulle-sourcetree mark MulleObjC no-link`
 #
 if( NOT MULLE_OBJC_LIBRARY)
@@ -19,7 +19,7 @@ if( NOT MULLE_OBJC_LIBRARY)
    #
    if( MULLE_OBJC_LIBRARY)
       #
-      # Add to MULLE_OBJC_LIBRARY list.
+      # Add MULLE_OBJC_LIBRARY to ALL_LOAD_DEPENDENCY_LIBRARIES list.
       # Disable with: `mulle-sourcetree mark MulleObjC no-cmakeadd`
       #
       set( ALL_LOAD_DEPENDENCY_LIBRARIES
@@ -104,7 +104,7 @@ if( NOT MULLE_BUFFER_LIBRARY)
    #
    if( MULLE_BUFFER_LIBRARY)
       #
-      # Add to MULLE_BUFFER_LIBRARY list.
+      # Add MULLE_BUFFER_LIBRARY to DEPENDENCY_LIBRARIES list.
       # Disable with: `mulle-sourcetree mark mulle-buffer no-cmakeadd`
       #
       set( DEPENDENCY_LIBRARIES
@@ -172,7 +172,7 @@ if( NOT MULLE_UTF_LIBRARY)
    #
    if( MULLE_UTF_LIBRARY)
       #
-      # Add to MULLE_UTF_LIBRARY list.
+      # Add MULLE_UTF_LIBRARY to DEPENDENCY_LIBRARIES list.
       # Disable with: `mulle-sourcetree mark mulle-utf no-cmakeadd`
       #
       set( DEPENDENCY_LIBRARIES
@@ -240,7 +240,7 @@ if( NOT MULLE_SPRINTF_LIBRARY)
    #
    if( MULLE_SPRINTF_LIBRARY)
       #
-      # Add to MULLE_SPRINTF_LIBRARY list.
+      # Add MULLE_SPRINTF_LIBRARY to ALL_LOAD_DEPENDENCY_LIBRARIES list.
       # Disable with: `mulle-sourcetree mark mulle-sprintf no-cmakeadd`
       #
       set( ALL_LOAD_DEPENDENCY_LIBRARIES
