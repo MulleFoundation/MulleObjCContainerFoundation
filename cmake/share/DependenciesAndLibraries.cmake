@@ -1,6 +1,11 @@
+### If you want to edit this, copy it from cmake/share to cmake. It will be
+### picked up in preference over the one in cmake/share. And it will not get
+### clobbered with the next upgrade.
+
 if( MULLE_TRACE_INCLUDE)
    message( STATUS "# Include \"${CMAKE_CURRENT_LIST_FILE}\"" )
 endif()
+
 #
 # The following includes include definitions generated
 # during `mulle-sde update`. Don't edit those files. They are
@@ -21,4 +26,3 @@ include( _Libraries OPTIONAL)
 # Add OS specific dependencies to OS_SPECIFIC_LIBRARIES
 # Add all other dependencies (rest) to DEPENDENCY_LIBRARIES
 #
-set( STARTUP_LIBRARY_NAME "MulleObjCContainerFoundation-startup")
