@@ -34,7 +34,7 @@
 //  POSSIBILITY OF SUCH DAMAGE.
 //
 
-#define MULLE_OBJC_CONTAINER_FOUNDATION_VERSION   ((0 << 20) | (17 << 8) | 1)
+#define MULLE_OBJC_CONTAINER_FOUNDATION_VERSION   ((0 << 20) | (17 << 8) | 2)
 
 // export everything with Mulle
 
