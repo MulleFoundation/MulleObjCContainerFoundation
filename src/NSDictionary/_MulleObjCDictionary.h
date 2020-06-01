@@ -53,7 +53,6 @@ typedef struct
 
 PROTOCOLCLASS_INTERFACE( _MulleObjCDictionary, NSFastEnumeration)
 
-// NSCoder support
 - (instancetype) mulleInitWithCapacity:(NSUInteger) count;
 
 // mulle addition:

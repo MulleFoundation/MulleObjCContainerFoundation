@@ -69,6 +69,7 @@
                                    argument:(void *) userInfo
                                     preempt:(enum MullePreempt) preempt;
 
+- (NSInteger) mulleCountCollisions:(NSInteger *) perfects;
 
 @end
 
