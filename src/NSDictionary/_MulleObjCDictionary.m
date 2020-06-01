@@ -84,8 +84,7 @@ PROTOCOLCLASS_IMPLEMENTATION( _MulleObjCDictionary)
 }
 
 
-#pragma mark -
-#pragma mark NSCoder
+#pragma mark - NSCoder
 
 - (void) decodeWithCoder:(NSCoder *) coder
 {
@@ -113,9 +112,7 @@ PROTOCOLCLASS_IMPLEMENTATION( _MulleObjCDictionary)
 }
 
 
-#pragma mark -
-#pragma mark operations
-
+#pragma mark - operations
 
 - (id) :(id) key
 {
@@ -279,6 +276,22 @@ struct _MulleObjCDictionaryFastEnumerationState
    rover->mutationsPtr = &rover->extra[ 4];
 
    return( len - (sentinel - buffer));
+}
+
+
+- (NSInteger) mulleCountCollisions:(NSInteger *) perfects;
+{
+   _MulleObjCDictionaryIvars      *ivars;
+   size_t                         collisions;
+   size_t                         perfs;
+
+   ivars       = _MulleObjCDictionaryGetIvars( self);
+   collisions =  _mulle__map_count_collisions( &ivars->_table,
+                                               NSDictionaryCallback,
+                                               &perfs);
+   if( perfects)
+      *perfects = perfs;
+   return( collisions);
 }
 
 

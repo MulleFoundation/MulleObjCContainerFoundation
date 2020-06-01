@@ -115,7 +115,6 @@ static id   initWithObjectsForKeys( id self, id *objects, id *keys, NSUInteger c
 }
 
 
-
 - (instancetype) initWithDictionary:(NSDictionary *) other
                           copyItems:(BOOL) copy
 {
@@ -407,6 +406,14 @@ static id   initWithObjectsForKeys( id self, id *objects, id *keys, NSUInteger c
                                      count:(NSUInteger) len;
 {
    abort();  // subclass must do this
+}
+
+
+- (NSInteger) mulleCountCollisions:(NSInteger *) perfects;
+{
+   if( ! perfects)
+      *perfects = -1;
+   return( -1);
 }
 
 @end
