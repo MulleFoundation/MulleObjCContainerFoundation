@@ -63,15 +63,15 @@ Class  _MulleObjCConcreteMutableDictionaryClass;
 
 
 - (void) setObject:(id) obj
-            forKey:(NSObject <NSCopying> *) key
+            forKey:(id <NSCopying>) key
 {
    _MulleObjCDictionaryIvars   *ivars;
    struct mulle_pointerpair    pair;
    struct mulle_allocator      *allocator;
 
-   assert( [key respondsToSelector:@selector( copy)]);
-   assert( [key respondsToSelector:@selector( hash)]);
-   assert( [key respondsToSelector:@selector( isEqual:)]);
+   assert( [(NSObject *) key respondsToSelector:@selector( copy)]);
+   assert( [(NSObject *) key respondsToSelector:@selector( hash)]);
+   assert( [(NSObject *) key respondsToSelector:@selector( isEqual:)]);
    assert( [obj respondsToSelector:@selector( retain)]);
 
    allocator   = MulleObjCInstanceGetAllocator( self);
@@ -83,15 +83,15 @@ Class  _MulleObjCConcreteMutableDictionaryClass;
 
 
 - (void) mulleSetRetainedObject:(id) obj
-                         forKey:(NSObject <NSCopying> *) key
+                         forKey:(id <NSCopying>) key
 {
    _MulleObjCDictionaryIvars   *ivars;
    struct mulle_pointerpair    pair;
    struct mulle_allocator      *allocator;
 
-   assert( [key respondsToSelector:@selector( copy)]);
-   assert( [key respondsToSelector:@selector( hash)]);
-   assert( [key respondsToSelector:@selector( isEqual:)]);
+   assert( [(NSObject *) key respondsToSelector:@selector( copy)]);
+   assert( [(NSObject *) key respondsToSelector:@selector( hash)]);
+   assert( [(NSObject *) key respondsToSelector:@selector( isEqual:)]);
    assert( [obj respondsToSelector:@selector( retain)]);
 
    allocator   = MulleObjCInstanceGetAllocator( self);
@@ -104,15 +104,15 @@ Class  _MulleObjCConcreteMutableDictionaryClass;
 
 
 - (void) mulleSetRetainedObject:(id) obj
-                   forCopiedKey:(NSObject <NSCopying> *) key
+                   forCopiedKey:(id <NSCopying>) key
 {
    _MulleObjCDictionaryIvars   *ivars;
    struct mulle_pointerpair    pair;
    struct mulle_allocator      *allocator;
 
-   assert( [key respondsToSelector:@selector( copy)]);
-   assert( [key respondsToSelector:@selector( hash)]);
-   assert( [key respondsToSelector:@selector( isEqual:)]);
+   assert( [(NSObject *) key respondsToSelector:@selector( copy)]);
+   assert( [(NSObject *) key respondsToSelector:@selector( hash)]);
+   assert( [(NSObject *) key respondsToSelector:@selector( isEqual:)]);
    assert( [obj respondsToSelector:@selector( retain)]);
 
    allocator   = MulleObjCInstanceGetAllocator( self);

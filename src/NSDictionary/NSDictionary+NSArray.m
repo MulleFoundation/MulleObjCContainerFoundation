@@ -148,7 +148,6 @@
    return( [[self objectEnumerator] allObjects]);
 }
 
-#pragma mark -
-#pragma mark non-abstract
+#pragma mark - non-abstract
 
 @end

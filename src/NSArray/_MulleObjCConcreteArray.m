@@ -58,7 +58,7 @@ Class  _MulleObjCConcreteArrayClass;
 
 + (void) load
 {
-   _MulleObjCConcreteArrayClass = [self class]; 
+   _MulleObjCConcreteArrayClass = [self class];
 }
 
 

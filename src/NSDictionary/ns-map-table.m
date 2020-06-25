@@ -59,8 +59,7 @@ void   NSMapInsert( NSMapTable *table, void *key, void *value)
 
 
 
-#pragma mark -
-#pragma mark setup and teardown
+#pragma mark - setup and teardown
 
 static void   _NSMapTableInitWithAllocator( NSMapTable *table,
                                             NSMapTableKeyCallBacks *keyCallBacks,
@@ -116,8 +115,7 @@ void   NSFreeMapTable( NSMapTable *table)
 
 
 
-#pragma mark -
-#pragma mark operations
+#pragma mark - operations
 
 
 void   NSMapInsertKnownAbsent( NSMapTable *table, void *key, void *value)
@@ -154,8 +152,7 @@ void   *NSMapInsertIfAbsent( NSMapTable *table, void *key, void *value)
 }
 
 
-#pragma mark -
-#pragma mark copying
+#pragma mark - copying
 
 NSMapTable   *NSCopyMapTable( NSMapTable *table)
 {

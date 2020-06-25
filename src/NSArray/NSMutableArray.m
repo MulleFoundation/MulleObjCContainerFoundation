@@ -136,8 +136,7 @@ static void   add_retained_object( NSMutableArray *self, id other);
 }
 
 
-#pragma mark -
-#pragma mark init
+#pragma mark - init
 
 
 - (instancetype) initWithCapacity:(NSUInteger) capacity
@@ -242,8 +241,7 @@ static NSMutableArray  *initWithRetainedObjects( NSMutableArray *self,
 }
 
 
-#pragma mark -
-#pragma mark construction conveniences
+#pragma mark - construction conveniences
 
 + (instancetype) arrayWithCapacity:(NSUInteger) capacity
 {
@@ -252,8 +250,7 @@ static NSMutableArray  *initWithRetainedObjects( NSMutableArray *self,
 
 
 
-#pragma mark -
-#pragma mark methods
+#pragma mark - methods
 
 static void   reserve(  NSMutableArray *self, size_t count)
 {
@@ -571,8 +568,7 @@ static void   removeObjectAtIndex( NSMutableArray *self,
 }
 
 
-#pragma mark -
-#pragma mark objects access
+#pragma mark - objects access
 
 - (void) getObjects:(id *) aBuffer
 {

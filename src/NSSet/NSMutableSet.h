@@ -56,6 +56,10 @@
 - (void) removeObject:(id) object;
 - (void) removeAllObjects;
 
+// adds object to set, if not present. If matching an already registered
+// object, will return that instead
+- (id) mulleRegisterObject:(id) object;
+
 @end
 
 @interface NSMutableSet( _NSMutableSetPlaceholder)

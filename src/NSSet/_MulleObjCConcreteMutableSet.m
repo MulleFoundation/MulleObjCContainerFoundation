@@ -71,6 +71,20 @@ Class  _MulleObjCConcreteMutableSetClass;
 }
 
 
+- (id) mulleRegisterObject:(id) obj
+{
+   _MulleObjCSetIvars       *ivars;
+   struct mulle_allocator   *allocator;
+   id                       old;
+
+   ivars     = _MulleObjCSetGetIvars( self);
+   allocator = MulleObjCInstanceGetAllocator( self);
+   old       = _mulle__set_insert( &ivars->_table, obj, NSSetCallback, allocator);
+   return( old == NULL ? obj : old);
+}
+
+
+
 - (void) removeObject:(id) obj
 {
    _MulleObjCSetIvars       *ivars;
