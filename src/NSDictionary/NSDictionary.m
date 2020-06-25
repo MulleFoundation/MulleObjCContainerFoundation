@@ -73,8 +73,7 @@
 }
 
 
-#pragma mark -
-#pragma mark class cluster
+#pragma mark - class cluster
 
 
 + (Class) __placeholderClass

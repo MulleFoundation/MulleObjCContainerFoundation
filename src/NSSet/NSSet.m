@@ -76,8 +76,7 @@
 }
 
 
-#pragma mark -
-#pragma mark common classcluster inits
+#pragma mark - common classcluster inits
 
 
 + (Class) __placeholderClass
@@ -152,8 +151,7 @@ static id   initWithObjectStorage( id self, id *storage, NSUInteger count, BOOL 
 }
 
 
-#pragma mark -
-#pragma mark common initializers
+#pragma mark - common initializers
 
 
 - (instancetype) initWithSet:(NSSet *) other
@@ -204,8 +202,7 @@ static id   initWithObjectStorage( id self, id *storage, NSUInteger count, BOOL 
 }
 
 
-#pragma mark -
-#pragma mark conveniences
+#pragma mark - conveniences
 
 // compiler: need an @alias( alloc, whatever), so that implementations
 //           can  be shared

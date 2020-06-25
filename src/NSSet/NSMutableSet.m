@@ -76,8 +76,7 @@
 }
 
 
-#pragma mark -
-#pragma mark operations
+#pragma mark - operations
 
 - (void) intersectSet:(NSSet *) other
 {
