@@ -100,13 +100,13 @@ PROTOCOLCLASS_IMPLEMENTATION( _MulleObjCDictionary)
    while( count)
    {
       [coder decodeValueOfObjCType:@encode( id)
-                                at:&pair._value];
+                                at:&pair.value];
       [coder decodeValueOfObjCType:@encode( id)
-                                at:&pair._key];
-      if( ! pair._key || ! pair._value)
-         MulleObjCThrowInvalidArgumentExceptionCString( "nil value");
+                                at:&pair.key];
+      if( ! pair.key || ! pair.value)
+         MulleObjCThrowInvalidArgumentExceptionCString( "nil key or value");
 
-      _mulle__map_set( &ivars->_table, &pair, NSDictionaryAssignCallback, allocator);
+      _mulle__map_set_pair( &ivars->_table, &pair, NSDictionaryAssignCallback, allocator);
       --count;
    }
 }
@@ -173,13 +173,13 @@ PROTOCOLCLASS_IMPLEMENTATION( _MulleObjCDictionary)
    ivars    = _MulleObjCDictionaryGetIvars( self);
    sentinel = &objects[ count];
    rover    = mulle__map_enumerate( &ivars->_table, NSDictionaryCallback);
-   while( pair = _mulle__mapenumerator_next( &rover))
+   while( pair = _mulle__mapenumerator_next_pair( &rover))
    {
       if( objects >= sentinel)
          break;
 
-      *objects++ = mulle_pointerpair_get_value( pair);
-      *keys++    = mulle_pointerpair_get_key( pair);
+      *objects++ = pair->value;
+      *keys++    = pair->key;
    }
    mulle__mapenumerator_done( &rover);
 }
@@ -199,31 +199,31 @@ PROTOCOLCLASS_IMPLEMENTATION( _MulleObjCDictionary)
    switch( preempt)
    {
    case MullePreemptIfNotMatches :
-      while( pair = _mulle__mapenumerator_next( &rover))
-         if( ! (*f)( mulle_pointerpair_get_value( pair),
-                     mulle_pointerpair_get_key( pair),
+      while( pair = _mulle__mapenumerator_next_pair( &rover))
+         if( ! (*f)( pair->value,
+                     pair->key,
                      userInfo))
          break;
       break;
 
    case MullePreemptIfMatches :
-      while( pair = _mulle__mapenumerator_next( &rover))
-         if( (*f)( mulle_pointerpair_get_value( pair),
-                   mulle_pointerpair_get_key( pair),
+      while( pair = _mulle__mapenumerator_next_pair( &rover))
+         if( (*f)( pair->value,
+                   pair->key,
                    userInfo))
             break;
       break;
 
    default :
-      while( pair = _mulle__mapenumerator_next( &rover))
-         (*f)( mulle_pointerpair_get_value( pair),
-               mulle_pointerpair_get_key( pair),
+      while( pair = _mulle__mapenumerator_next_pair( &rover))
+         (*f)( pair->value,
+               pair->key,
                userInfo);
       break;
    }
 
    mulle__mapenumerator_done( &rover);
-   return( pair ? mulle_pointerpair_get_key( pair) : nil);
+   return( pair ? pair->key : nil);
 }
 
 
@@ -281,11 +281,11 @@ struct _MulleObjCDictionaryFastEnumerationState
 
 - (NSInteger) mulleCountCollisions:(NSInteger *) perfects;
 {
-   _MulleObjCDictionaryIvars      *ivars;
-   size_t                         collisions;
-   size_t                         perfs;
+   _MulleObjCDictionaryIvars   *ivars;
+   size_t                      collisions;
+   size_t                      perfs;
 
-   ivars       = _MulleObjCDictionaryGetIvars( self);
+   ivars      = _MulleObjCDictionaryGetIvars( self);
    collisions =  _mulle__map_count_collisions( &ivars->_table,
                                                NSDictionaryCallback,
                                                &perfs);
@@ -294,9 +294,7 @@ struct _MulleObjCDictionaryFastEnumerationState
    return( collisions);
 }
 
-
 PROTOCOLCLASS_END()
-
 
 
 @implementation _MulleObjCDictionaryKeyEnumerator
@@ -329,7 +327,7 @@ PROTOCOLCLASS_END()
 
 - (struct mulle_pointerpair *) _nextKeyValuePair:(id) owner
 {
-   return( _mulle__mapenumerator_next( &_rover));
+   return( _mulle__mapenumerator_next_pair( &_rover));
 }
 
 
@@ -337,8 +335,8 @@ PROTOCOLCLASS_END()
 {
    struct mulle_pointerpair   *pair;
 
-   pair = _mulle__mapenumerator_next( &_rover);
-   return( pair ? pair->_key : nil);
+   pair = _mulle__mapenumerator_next_pair( &_rover);
+   return( pair ? pair->key : nil);
 }
 
 @end
@@ -350,8 +348,8 @@ PROTOCOLCLASS_END()
 {
    struct mulle_pointerpair *pair;
 
-   pair = _mulle__mapenumerator_next( &_rover);
-   return( pair ? pair->_value : nil);
+   pair = _mulle__mapenumerator_next_pair( &_rover);
+   return( pair ? pair->value : nil);
 }
 
 @end

@@ -58,22 +58,11 @@
 @implementation _NSArrayPlaceholder
 
 
-
-# pragma mark -
-# pragma mark class cluster
+# pragma mark - class cluster
 
 - (id) init
 {
    return( (id) [[_MulleObjCEmptyArray sharedInstance] retain]);
-}
-
-
-- (id) mulleInitWithCapacity:(NSUInteger) count
-{
-   if( ! count)
-      return( (id) [[_MulleObjCEmptyArray sharedInstance] retain]);
-
-   return( (id) _MulleObjCConcreteArrayNewWithCapacity( _MulleObjCConcreteArrayClass, count));
 }
 
 
@@ -88,8 +77,9 @@
    if( ! objects)
       MulleObjCThrowInvalidArgumentExceptionCString( "NULL objects");
 
-   array = _MulleObjCConcreteArrayNewWithCapacity( _MulleObjCConcreteArrayClass, count);
-   array = (id) _MulleObjCConcreteArrayInitWithRetainedObjects( array, objects, count);
+   array = (id) _MulleObjCConcreteArrayNewWithRetainedObjects( _MulleObjCConcreteArrayClass,
+                                                               objects,
+                                                               count);
    return( (id) array);
 }
 
@@ -121,8 +111,18 @@
    // we will place out "storage" directly into array, so the co is 0
    // initially. size isn't used as this is immutable
    //
-   array = _MulleObjCConcreteArrayNewWithCapacity( _MulleObjCConcreteArrayClass, 0);
-   array = (id) _MulleObjCConcreteArrayInitWithRetainedObjectStorage( array, objects, count);
+   array = (id) _MulleObjCConcreteArrayNewWithRetainedObjectStorage( _MulleObjCConcreteArrayClass,
+                                                                     objects,
+                                                                     count);
+   return( (id) array);
+}
+
+
+- (instancetype) mulleInitWithContainer:(id <NSFastEnumeration>) container
+{
+   _MulleObjCConcreteArray   *array;
+
+   array = _MulleObjCConcreteArrayNewWithContainer( _MulleObjCConcreteArrayClass, container);
    return( (id) array);
 }
 

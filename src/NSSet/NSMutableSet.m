@@ -58,7 +58,7 @@
 // as we are "breaking out" of the class cluster, use standard
 // allocation
 
-+ (Class) __placeholderClass
++ (Class) __classClusterClass
 {
    return( [_NSMutableSetPlaceholder class]);
 }
@@ -69,11 +69,6 @@
    return( [NSSet setWithSet:self]);
 }
 
-
-+ (instancetype ) mulleInitWithCapacity:(NSUInteger) count
-{
-   return( (id) [[self alloc] initWithCapacity:count]);
-}
 
 
 #pragma mark - operations

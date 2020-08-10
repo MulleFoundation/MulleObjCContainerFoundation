@@ -54,7 +54,6 @@ Class  _MulleObjCConcreteSetClass;
    _MulleObjCConcreteSetClass = [self class];
 }
 
-
 // all done in the protocol
 
 @end

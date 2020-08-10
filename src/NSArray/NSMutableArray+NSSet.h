@@ -1,9 +1,9 @@
 //
-//  MulleObjCFoundationContainer.h
+//  NSMutableArray+NSSet.h
 //  MulleObjCContainerFoundation
 //
-//  Copyright (c) 2016 Nat! - Mulle kybernetiK.
-//  Copyright (c) 2016 Codeon GmbH.
+//  Copyright (c) 2020 Nat! - Mulle kybernetiK.
+//  Copyright (c) 2020 Codeon GmbH.
 //  All rights reserved.
 //
 //
@@ -34,40 +34,14 @@
 //  POSSIBILITY OF SUCH DAMAGE.
 //
 
-#define MULLE_OBJC_CONTAINER_FOUNDATION_VERSION   ((0 << 20) | (17 << 8) | 2)
-
-// export everything with Mulle
-
-#import "MullePreempt.h"
-
-// export everything with NS
-#import "NSArray.h"
-#import "NSDictionary.h"
-#import "NSEnumerator.h"
 #import "NSMutableArray.h"
-#import "NSMutableDictionary.h"
-#import "NSMutableSet.h"
-#import "NSSet.h"
-
-#import "NSEnumerator+NSArray.h"
-#import "NSDictionary+NSArray.h"
-#import "NSMutableSet+NSArray.h"
-#import "NSMutableArray+NSSet.h"
-#import "NSSet+NSArray.h"
-#import "NSThread+NSMutableDictionary.h"
-
-#import "NSArray+NSCoder.h"
-#import "NSDictionary+NSCoder.h"
-#import "NSSet+NSCoder.h"
-
-// export nothing with _MulleObjC
-
-// export everything with ns_
-
-#import "ns-map-table.h"
-#import "ns-hash-table.h"
 
 
-#if MULLE_CONTAINER_VERSION < ((0 << 20) | (8 << 8) | 0)
-# error "mulle_allocator is too old"
-#endif
+@class NSArray;
+
+
+@interface NSMutableArray( NSSet)
+
+- (void) removeObjectsInArray:(NSArray *) otherArray;
+
+@end

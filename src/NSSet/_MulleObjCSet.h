@@ -51,7 +51,7 @@ typedef struct
 
 PROTOCOLCLASS_INTERFACE( _MulleObjCSet, NSFastEnumeration)
 
-- (instancetype) mulleInitWithCapacity:(NSUInteger) count;
+- (instancetype) mulleInitForCoderWithCapacity:(NSUInteger) count;
 
 PROTOCOLCLASS_END()
 

@@ -94,14 +94,14 @@
 
 @interface NSSet( _NSSetPlaceholder)
 
-- (id) mulleInitWithCapacity:(NSUInteger) count;
+- (instancetype) mulleInitForCoderWithCapacity:(NSUInteger) count;
+- (instancetype) mulleInitWithContainer:(id <NSFastEnumeration>) container;
+- (instancetype) mulleInitWithRetainedObjectStorage:(id *) objects
+                                              count:(NSUInteger) count
+                                               size:(NSUInteger) size;
 
-- (id) mulleInitWithRetainedObjectStorage:(id *) objects
-                                    count:(NSUInteger) count
-                                     size:(NSUInteger) size;
-
-- (id) mulleInitWithRetainedObjects:(id *) objects
-                              count:(NSUInteger) count;
+- (instancetype) mulleInitWithRetainedObjects:(id *) objects
+                                        count:(NSUInteger) count;
 
 @end
 

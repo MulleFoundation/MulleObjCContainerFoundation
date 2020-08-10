@@ -56,22 +56,7 @@
 
 - (instancetype) initWithArray:(NSArray *) array
 {
-   NSUInteger      count;
-   id              *buf;
-   id              space;
-   id              _buf[ 32];
-
-   count = [array count];
-   if( ! count)
-      return( [self init]);
-
-   if( count <= 32)
-      buf = _buf;
-   else
-      buf = (id *) MulleObjCCallocAutoreleased( 1, count);
-   [array getObjects:buf];
-   return( [self initWithObjects:buf
-                           count:count]);
+   return( [self  mulleInitWithContainer:array]);
 }
 
 

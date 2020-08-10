@@ -70,33 +70,6 @@ Class  _MulleObjCConcreteArrayClass;
    NSDeallocateObject( self);
 }
 
-#pragma mark - NSCoder support
-
-- (instancetype) mulleInitWithCapacity:(NSUInteger) count
-{
-   return( _MulleObjCConcreteArrayNewWithCapacity( _MulleObjCConcreteArrayClass, count));
-}
-
-
-- (void) decodeWithCoder:(NSCoder *) coder
-{
-   NSUInteger   count;
-   id           *objects;
-   id           *sentinel;
-   id           *p;
-
-   [coder decodeValueOfObjCType:@encode( NSUInteger)
-                             at:&count];
-   assert( count == _count);
-
-   p        = _objects;
-   sentinel = &p[ count];
-   while( p < sentinel)
-      [coder decodeValueOfObjCType:@encode( id)
-                                at:p++];
-}
-
-
 #pragma mark - operations
 
 static NSUInteger   findObject( _MulleObjCConcreteArray *self,
@@ -179,8 +152,8 @@ static NSUInteger   findObjectWithRange( _MulleObjCConcreteArray *self,
 - (NSUInteger) indexOfObject:(id) obj
                      inRange:(NSRange) range
 {
-   SEL     selEqual;
-   BOOL    (*impEqual)( id, SEL, id);
+   SEL    selEqual;
+   BOOL   (*impEqual)( id, SEL, id);
 
 
    selEqual = @selector( isEqual:);
@@ -207,7 +180,7 @@ static NSUInteger   findObjectWithRange( _MulleObjCConcreteArray *self,
    if( ! _count)
       return( nil);
 
-   return( _objects[_count - 1]);
+   return( _objects[ _count - 1]);
 }
 
 
@@ -279,7 +252,6 @@ static NSUInteger   findObjectWithRange( _MulleObjCConcreteArray *self,
 {
    memcpy( buf, _objects, sizeof( id) * _count);
 }
-
 
 
 //

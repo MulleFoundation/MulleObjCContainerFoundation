@@ -63,11 +63,11 @@ Class  _MulleObjCEmptyArrayClass;
    return( nil);
 }
 
-
-- (NSUInteger) count
-{
-   return( 0);
-}
+// defined in NSArray
+// - (NSUInteger) count
+// {
+//    return( 0);
+// }
 
 - (void) getObjects:(id *) buf
               range:(NSRange) range

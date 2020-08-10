@@ -61,7 +61,6 @@
 - (void) removeObjectIdenticalTo:(id) obj;
 - (void) removeObjectIdenticalTo:(id) obj
                          inRange:(NSRange) range;
-- (void) removeObjectsInArray:(NSArray *) other;
 
 - (void) removeAllObjects;
 - (void) exchangeObjectAtIndex:(NSUInteger) index1

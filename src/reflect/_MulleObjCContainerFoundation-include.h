@@ -14,7 +14,7 @@
 
 // How to tweak the following mulle-buffer #include
 //    remove:          `mulle-sourcetree mark mulle-buffer no-header`
-//    rename:          `mulle-sourcetree mark mulle-buffer set include whatever.h`
+//    rename:          `mulle-sde dependency|library set mulle-buffer include whatever.h`
 //    toggle #import:  `mulle-sourcetree mark mulle-buffer [no-]import`
 //    toggle public:   `mulle-sourcetree mark mulle-buffer [no-]public`
 //    toggle optional: `mulle-sourcetree mark mulle-buffer [no-]require`
@@ -23,7 +23,7 @@
 
 // How to tweak the following mulle-utf #include
 //    remove:          `mulle-sourcetree mark mulle-utf no-header`
-//    rename:          `mulle-sourcetree mark mulle-utf set include whatever.h`
+//    rename:          `mulle-sde dependency|library set mulle-utf include whatever.h`
 //    toggle #import:  `mulle-sourcetree mark mulle-utf [no-]import`
 //    toggle public:   `mulle-sourcetree mark mulle-utf [no-]public`
 //    toggle optional: `mulle-sourcetree mark mulle-utf [no-]require`
@@ -32,7 +32,7 @@
 
 // How to tweak the following mulle-sprintf #include
 //    remove:          `mulle-sourcetree mark mulle-sprintf no-header`
-//    rename:          `mulle-sourcetree mark mulle-sprintf set include whatever.h`
+//    rename:          `mulle-sde dependency|library set mulle-sprintf include whatever.h`
 //    toggle #import:  `mulle-sourcetree mark mulle-sprintf [no-]import`
 //    toggle public:   `mulle-sourcetree mark mulle-sprintf [no-]public`
 //    toggle optional: `mulle-sourcetree mark mulle-sprintf [no-]require`

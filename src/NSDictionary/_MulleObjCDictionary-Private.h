@@ -52,15 +52,63 @@ static inline id
    sentinel = &keys[ count];
    while( keys < sentinel)
    {
-      pair._value = *objects++;
-      pair._key   = *keys++;
-      assert( pair._value);
-      assert( pair._key);
+      pair.value = *objects++;
+      pair.key   = *keys++;
+      assert( pair.value);
+      assert( pair.key);
 
-      _mulle__map_set( &ivars->_table, &pair, NSDictionaryAssignCallback, allocator);
+      _mulle__map_set_pair( &ivars->_table, &pair, NSDictionaryAssignCallback, allocator);
    }
 
    return( self);
 }
+
+
+static inline id
+   _MulleObjCDictionaryInitWithObjectAndKeyContainers( id <_MulleObjCDictionary> self,
+                                                       id <NSFastEnumeration> objectContainer,
+                                                       id <NSFastEnumeration> keyContainer)
+{
+   _MulleObjCDictionary        *dictionary;
+   _MulleObjCDictionaryIvars   *ivars;
+   struct mulle_allocator      *allocator;
+   struct mulle_pointerpair    pair;
+   NSFastEnumerationState      keyRover;
+   NSFastEnumerationState      objectRover;
+   id                          keys[ 16];
+   id                          objects[ 16];
+   NSUInteger                  i, n, m;
+
+   assert( [objectContainer count] == [keyContainer count]);
+
+   allocator = MulleObjCInstanceGetAllocator( self);
+   ivars     = _MulleObjCDictionaryGetIvars( self);
+
+   for(;;)
+   {
+      m = [keyContainer countByEnumeratingWithState:&keyRover
+                                            objects:keys
+                                              count:16];
+      n = [objectContainer countByEnumeratingWithState:&objectRover
+                                               objects:objects
+                                                 count:16];
+      if( m < n)
+         n = m;
+      if( ! n)
+        break;
+
+      for( i = 0; i < n; i++)
+      {
+         pair.value = objects[ i];
+         pair.key   = keys[ i];
+         assert( pair.value);
+         assert( pair.key);
+
+         _mulle__map_set_pair( &ivars->_table, &pair, NSDictionaryCallback, allocator);
+      }
+   } 
+   return( self);
+}
+
 
 

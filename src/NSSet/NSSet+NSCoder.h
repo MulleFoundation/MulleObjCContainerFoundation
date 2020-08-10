@@ -7,7 +7,11 @@
 //
 
 #import "NSSet.h"
+#import "NSMutableSet.h"
 
 
 @interface NSSet( NSCoder) < NSCoding>
+@end
+
+@interface NSMutableSet( NSCoder)
 @end

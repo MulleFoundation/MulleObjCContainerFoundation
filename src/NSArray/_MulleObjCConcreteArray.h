@@ -46,7 +46,4 @@
    id       *_objects;
 }
 
-// NSCoder support
-- (instancetype) mulleInitWithCapacity:(NSUInteger) count;
-
 @end

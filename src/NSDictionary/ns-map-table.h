@@ -55,8 +55,7 @@ typedef struct
 } NSMapTable;
 
 
-# pragma mark -
-# pragma mark setup and tear down
+# pragma mark - setup and tear down
 
 NSMapTable   *_NSCreateMapTableWithAllocator( NSMapTableKeyCallBacks keyCallBacks,
                                               NSMapTableValueCallBacks valueCallBacks,
@@ -73,8 +72,7 @@ void   NSResetMapTable( NSMapTable *table);
 
 
 
-# pragma mark -
-# pragma mark petty accessors
+# pragma mark - petty accessors
 
 static inline NSUInteger   NSCountMapTable( NSMapTable *table)
 {
@@ -82,8 +80,7 @@ static inline NSUInteger   NSCountMapTable( NSMapTable *table)
 }
 
 
-# pragma mark -
-# pragma mark operations
+# pragma mark - operations
 
 static inline void   *NSMapGet( NSMapTable *table, void *key)
 {
@@ -102,14 +99,12 @@ void   NSMapInsertKnownAbsent( NSMapTable *table, void *key, void *value);
 void   *NSMapInsertIfAbsent( NSMapTable *table, void *key, void *value);
 
 
-# pragma mark -
-# pragma mark copying
+# pragma mark - copying
 
 NSMapTable   *NSCopyMapTable( NSMapTable *table);
 
 
-# pragma mark -
-# pragma mark compatibility
+# pragma mark - compatibility
 
 static inline NSMapTable   *NSCreateMapTableWithZone( NSMapTableKeyCallBacks keyCallBacks,
                                                      NSMapTableValueCallBacks valueCallBacks,
@@ -125,8 +120,7 @@ static inline NSMapTable   *NSCopyMapTableWithZone( NSMapTable *table, NSZone *z
    return( NSCopyMapTable( table));
 }
 
-# pragma mark -
-# pragma mark enumeration
+# pragma mark - enumeration
 
 static inline NSMapEnumerator   NSEnumerateMapTable( NSMapTable *table)
 {
@@ -140,14 +134,14 @@ static inline BOOL    NSNextMapEnumeratorPair( NSMapEnumerator *rover, void **ke
 {
    struct mulle_pointerpair   *pair;
 
-   pair = _mulle__mapenumerator_next( rover);
+   pair = _mulle__mapenumerator_next_pair( rover);
    if( ! pair)
       return( NO);
 
    if( key)
-      *key = pair->_key;
+      *key = pair->key;
    if( value)
-      *value = pair->_value;
+      *value = pair->value;
    return( YES);
 }
 

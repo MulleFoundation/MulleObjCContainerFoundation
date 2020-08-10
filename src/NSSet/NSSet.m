@@ -79,7 +79,7 @@
 #pragma mark - common classcluster inits
 
 
-+ (Class) __placeholderClass
++ (Class) __classClusterClass
 {
    return( [_NSSetPlaceholder class]);
 }

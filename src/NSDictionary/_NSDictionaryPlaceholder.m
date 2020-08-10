@@ -58,8 +58,7 @@
 @implementation _NSDictionaryPlaceholder
 
 
-# pragma mark -
-# pragma mark class cluster
+# pragma mark - class cluster
 
 MULLE_OBJC_DEPENDS_ON_CLASS( _MulleObjCEmptyDictionary);
 
@@ -70,14 +69,6 @@ MULLE_OBJC_DEPENDS_ON_CLASS( _MulleObjCEmptyDictionary);
    return( self);
 }
 
-
-
-- (id) mulleInitWithCapacity:(NSUInteger) count
-{
-   if( ! count)
-      return( [[_MulleObjCEmptyDictionaryClass sharedInstance] retain]);
-   return( _MulleObjCDictionaryNewWithCapacity( _MulleObjCConcreteDictionaryClass, count));
-}
 
 //
 // objects must have been allocated with MulleObjCInstanceGetAllocator( self)
@@ -119,6 +110,24 @@ MULLE_OBJC_DEPENDS_ON_CLASS( _MulleObjCEmptyDictionary);
 
    dict = _MulleObjCDictionaryNewWithCapacity( _MulleObjCConcreteDictionaryClass, count);
    dict = (id) _MulleObjCDictionaryInitWithRetainedObjectsAndCopiedKeys( dict, objects, keys, count);
+   return( dict);
+}
+
+
+- (id) mulleInitWithObjectContainer:(id <NSFastEnumeration>) objects
+                       keyContainer:(id <NSFastEnumeration>) keys
+{
+   _MulleObjCConcreteDictionary   *dict;
+   NSUInteger                     count;
+
+   count = [objects count];
+   if( ! count)
+      return( [[_MulleObjCEmptyDictionaryClass sharedInstance] retain]);
+   if( ! objects || ! keys)
+      MulleObjCThrowInvalidArgumentExceptionCString( "NULL objects or keys");
+
+   dict = _MulleObjCDictionaryNewWithCapacity( _MulleObjCConcreteDictionaryClass, count);
+   dict = (id) _MulleObjCDictionaryInitWithObjectAndKeyContainers( dict, objects, keys);
    return( dict);
 }
 

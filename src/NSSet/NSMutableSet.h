@@ -67,7 +67,7 @@
 // not instancetype here
 - (id) init;
 - (id) initWithCapacity:(NSUInteger) count;
-- (id) mulleInitWithCapacity:(NSUInteger) count;
+- (id) mulleInitForCoderWithCapacity:(NSUInteger) count;
 - (id) mulleInitWithRetainedObjectStorage:(id *) objects
                                     count:(NSUInteger) count
                                      size:(NSUInteger) size;

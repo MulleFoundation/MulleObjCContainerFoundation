@@ -9,16 +9,21 @@
 #import "NSDictionary+NSCoder.h"
 
 #import "_NSDictionaryPlaceholder.h"
-#import "NSMutableDictionary.h"
+#import "_NSMutableDictionaryPlaceholder.h"
 
 #import "_MulleObjCDictionary.h"
+#import "_MulleObjCConcreteDictionary.h"
+#import "_MulleObjCConcreteMutableDictionary.h"
+#import "_MulleObjCDictionary-Private.h"
+#import "_MulleObjCEmptyDictionary.h"
 
 #import "import-private.h"
 
 
-@implementation NSDictionary( NSCoder)
+extern Class  _MulleObjCConcreteMutableDictionaryClass;
 
-#pragma mark - NSCoding
+
+@implementation NSDictionary( NSCoder)
 
 - (Class) classForCoder
 {
@@ -32,7 +37,7 @@
 
    [coder decodeValueOfObjCType:@encode( NSUInteger)
                              at:&count];
-   self = [self mulleInitWithCapacity:count];
+   self = [self mulleInitForCoderWithCapacity:count];
    return( self);
 }
 
@@ -50,6 +55,7 @@
    for( key in self)
    {
       value = [self objectForKey:key];
+      assert( value);
       [coder encodeObject:key];
       [coder encodeObject:value];
    }
@@ -59,6 +65,42 @@
 {
    // subclasses must do it
    abort();
+}
+
+@end
+
+
+@implementation _NSDictionaryPlaceholder( NSCoder)
+
+- (id) mulleInitForCoderWithCapacity:(NSUInteger) capacity
+{
+   if( ! capacity)
+      return( [[_MulleObjCEmptyDictionaryClass sharedInstance] retain]);
+   return( _MulleObjCDictionaryNewWithCapacity( _MulleObjCConcreteDictionaryClass,
+                                                capacity));
+}
+
+@end
+
+
+@implementation _NSMutableDictionaryPlaceholder( NSCoder)
+
+- (instancetype) mulleInitForCoderWithCapacity:(NSUInteger) capacity
+{
+   assert( _MulleObjCConcreteMutableDictionaryClass);
+
+   self = _MulleObjCDictionaryNewWithCapacity( _MulleObjCConcreteMutableDictionaryClass,
+                                               capacity);
+   return( self);
+}
+
+@end
+
+
+@implementation _MulleObjCEmptyDictionary( NSCoder)
+
+- (void) decodeWithCoder:(NSCoder *) coder
+{
 }
 
 @end

@@ -66,7 +66,6 @@ Class  _MulleObjCConcreteMutableDictionaryClass;
             forKey:(id <NSCopying>) key
 {
    _MulleObjCDictionaryIvars   *ivars;
-   struct mulle_pointerpair    pair;
    struct mulle_allocator      *allocator;
 
    assert( [(NSObject *) key respondsToSelector:@selector( copy)]);
@@ -76,9 +75,7 @@ Class  _MulleObjCConcreteMutableDictionaryClass;
 
    allocator   = MulleObjCInstanceGetAllocator( self);
    ivars       = _MulleObjCDictionaryGetIvars( self);
-   pair._key   = key;
-   pair._value = obj;
-   _mulle__map_set( &ivars->_table, &pair, NSDictionaryCallback, allocator);
+   _mulle__map_set( &ivars->_table, key, obj, NSDictionaryCallback, allocator);
 }
 
 
@@ -86,7 +83,6 @@ Class  _MulleObjCConcreteMutableDictionaryClass;
                          forKey:(id <NSCopying>) key
 {
    _MulleObjCDictionaryIvars   *ivars;
-   struct mulle_pointerpair    pair;
    struct mulle_allocator      *allocator;
 
    assert( [(NSObject *) key respondsToSelector:@selector( copy)]);
@@ -96,10 +92,9 @@ Class  _MulleObjCConcreteMutableDictionaryClass;
 
    allocator   = MulleObjCInstanceGetAllocator( self);
    ivars       = _MulleObjCDictionaryGetIvars( self);
-   pair._key   = [key copy];
-   pair._value = obj;
+   key         = [key copy];
 
-   _mulle__map_set( &ivars->_table, &pair, NSDictionaryAssignCallback, allocator);
+   _mulle__map_set( &ivars->_table, key, obj, NSDictionaryAssignCallback, allocator);
 }
 
 
@@ -107,7 +102,6 @@ Class  _MulleObjCConcreteMutableDictionaryClass;
                    forCopiedKey:(id <NSCopying>) key
 {
    _MulleObjCDictionaryIvars   *ivars;
-   struct mulle_pointerpair    pair;
    struct mulle_allocator      *allocator;
 
    assert( [(NSObject *) key respondsToSelector:@selector( copy)]);
@@ -117,9 +111,7 @@ Class  _MulleObjCConcreteMutableDictionaryClass;
 
    allocator   = MulleObjCInstanceGetAllocator( self);
    ivars       = _MulleObjCDictionaryGetIvars( self);
-   pair._key   = key;
-   pair._value = obj;
-   _mulle__map_set( &ivars->_table, &pair, NSDictionaryAssignCallback, allocator);
+   _mulle__map_set( &ivars->_table, key, obj, NSDictionaryAssignCallback, allocator);
 }
 
 

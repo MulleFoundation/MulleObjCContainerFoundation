@@ -14,7 +14,7 @@
 
 // How to tweak the following MulleObjC #import
 //    remove:          `mulle-sourcetree mark MulleObjC no-header`
-//    rename:          `mulle-sourcetree mark MulleObjC set include whatever.h`
+//    rename:          `mulle-sde dependency|library set MulleObjC include whatever.h`
 //    toggle #import:  `mulle-sourcetree mark MulleObjC [no-]import`
 //    toggle public:   `mulle-sourcetree mark MulleObjC [no-]public`
 //    toggle optional: `mulle-sourcetree mark MulleObjC [no-]require`

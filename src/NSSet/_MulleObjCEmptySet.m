@@ -87,11 +87,6 @@ Class  _MulleObjCEmptySetClass;
 }
 
 
-- (void) decodeWithCoder:(NSCoder *) coder
-{
-}
-
-
 - (NSEnumerator *) objectEnumerator
 {
    return( nil);

@@ -91,13 +91,15 @@
                 inRange:(NSRange) range;
 - (void) getObjects:(id *) objects;
 
-- (id) mulleFirstObject;
 
 @end
 
 
 
 @interface NSArray( MulleAdditions)
+
+- (id) mulleFirstObject;
+- (BOOL) mulleContainsObjectIdenticalTo:(id) obj;
 
 // conveniences
 + (instancetype) mulleArrayWithArray:(NSArray *) other
@@ -166,7 +168,8 @@ id   MulleForEachObjectCallFunction( id *objects,
 
 @interface NSArray( _NSArrayPlaceholder)
 
-- (instancetype) mulleInitWithCapacity:(NSUInteger) count;
+- (instancetype) mulleInitForCoderWithCapacity:(NSUInteger) count;
+- (instancetype) mulleInitWithContainer:(id <NSFastEnumeration>) container;
 // these two are the designated initializers basically
 - (instancetype) mulleInitWithRetainedObjects:(id *) objects
                                        count:(NSUInteger) count;

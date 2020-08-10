@@ -8,7 +8,12 @@
 #import "NSSet+NSCoder.h"
 
 #import "_NSSetPlaceholder.h"
-#import "NSMutableSet.h"
+#import "_NSMutableSetPlaceholder.h"
+#import "_MulleObjCSet.h"
+#import "_MulleObjCSet-Private.h"
+#import "_MulleObjCEmptySet.h"
+#import "_MulleObjCConcreteSet.h"
+#import "_MulleObjCConcreteMutableSet.h"
 
 #import "import-private.h"
 
@@ -27,7 +32,7 @@
 
    [coder decodeValueOfObjCType:@encode( NSUInteger)
                              at:&count];
-   return( [self mulleInitWithCapacity:count]);
+   return( [self mulleInitForCoderWithCapacity:count]);
 }
 
 
@@ -53,10 +58,57 @@
 @end
 
 
+//
+// _MulleObjCSet
+//
+// - (void) decodeWithCoder:(NSCoder *) coder
+//
+// !!! declared in _MulleObjCSet
+//
 
-@implementation NSMutableSet (NSCoder)
+@implementation _NSSetPlaceholder( NSCoder)
 
-#pragma mark - NSCoding
+
+- (instancetype) mulleInitForCoderWithCapacity:(NSUInteger) capacity
+{
+   _MulleObjCConcreteSet   *set;
+
+   if( ! capacity)
+      return( (id) [[_MulleObjCEmptySetClass sharedInstance] retain]);
+
+   set = (id) _MulleObjCSetNewWithCapacity( _MulleObjCConcreteSetClass,
+                                            capacity);
+   return( (id) set);
+}
+
+@end
+
+
+@implementation _MulleObjCEmptySet( NSCoder)
+
+- (void) decodeWithCoder:(NSCoder *) coder
+{
+}
+
+@end
+
+
+
+@implementation _NSMutableSetPlaceholder( NSCoder)
+
+- (instancetype) mulleInitForCoderWithCapacity:(NSUInteger) count
+{
+   _MulleObjCConcreteMutableSet   *set;
+
+   set = (id) _MulleObjCSetNewWithCapacity( _MulleObjCConcreteMutableSetClass,
+                                            count);
+   return( (id) set);
+}
+
+@end
+
+
+@implementation NSMutableSet( NSCoder)
 
 - (Class) classForCoder
 {
