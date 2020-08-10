@@ -52,6 +52,7 @@
 #import "NSEnumerator+NSArray.h"
 #import "NSDictionary+NSArray.h"
 #import "NSMutableSet+NSArray.h"
+#import "NSMutableArray+NSSet.h"
 #import "NSSet+NSArray.h"
 #import "NSThread+NSMutableDictionary.h"
 

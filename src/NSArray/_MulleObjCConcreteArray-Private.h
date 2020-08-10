@@ -18,55 +18,63 @@ static inline id   *_MulleObjCConcreteArrayGetInlineObjects( _MulleObjCConcreteA
 
 __attribute__((ns_returns_retained))
 static inline _MulleObjCConcreteArray  *
-   _MulleObjCConcreteArrayNewWithCapacity( Class self, NSUInteger count)
+   _MulleObjCConcreteArrayAllocateWithCapacity( Class cls, NSUInteger count)
 {
-   struct { @defs( _MulleObjCConcreteArray); }  *array;
-
-   array = (void *) NSAllocateObject( self, count * sizeof( id), NULL);
-   array->_count   = count;
-   array->_objects = (id *) (&array->_objects + 1);  // inline data
-   return( (_MulleObjCConcreteArray *) array);
+   return( NSAllocateObject( cls, count * sizeof( id), NULL));
 }
 
 
-static inline _MulleObjCConcreteArray *
-   _MulleObjCConcreteArrayInitWithRetainedObjects( _MulleObjCConcreteArray *_self,
-                                                   id *objects,
-                                                   NSUInteger count)
+__attribute__((ns_returns_retained))
+static inline _MulleObjCConcreteArray  *
+   _MulleObjCConcreteArrayNewForCoderWithCapacity( Class cls, NSUInteger count)
 {
-   struct { @defs( _MulleObjCConcreteArray); }  *self = (void *) _self;
+   _MulleObjCConcreteArray                      *_self;
+   struct { @defs( _MulleObjCConcreteArray); }  *self;
 
-   id   *buffer;
+   _self =  _MulleObjCConcreteArrayAllocateWithCapacity( cls, count);
+   self  = (void *) _self;
 
-   assert( self->_count == count);
+   self->_count   = count;
+   self->_objects = _MulleObjCConcreteArrayGetInlineObjects( _self);
 
-#ifndef NDEBUG
-   {
-      id  *p;
-      id  *sentinel;
+   return( _self);
+}
 
-      p        = objects;
-      sentinel = &p[ count];
-      while( p < sentinel)
-         assert( *p++);
-   }
-#endif
 
-   buffer   = _MulleObjCConcreteArrayGetInlineObjects( _self);
-   memcpy( buffer, objects, sizeof( id) * count);
+
+static inline _MulleObjCConcreteArray *
+   _MulleObjCConcreteArrayNewWithContainer( Class cls,
+                                            id <NSFastEnumeration> container)
+{
+   _MulleObjCConcreteArray                      *_self;
+   struct { @defs( _MulleObjCConcreteArray); }  *self;
+   id                                           *p;
+   id                                           obj;
+   NSUInteger                                   count;
+
+   count = [container count];
+
+   _self = _MulleObjCConcreteArrayAllocateWithCapacity( cls, count);
+   self  = (void *) _self;
+
+   self->_count   = count;
+   self->_objects = _MulleObjCConcreteArrayGetInlineObjects( _self);
+
+   p = self->_objects;
+   for( obj in container)
+      *p++ = [obj retain];
    return( _self);
 }
 
 
 static inline _MulleObjCConcreteArray *
-   _MulleObjCConcreteArrayInitWithRetainedObjectStorage( _MulleObjCConcreteArray *_self,
-                                                         id *objects,
-                                                         NSUInteger count)
+   _MulleObjCConcreteArrayNewWithRetainedObjects( Class cls,
+                                                  id *objects,
+                                                  NSUInteger count)
 {
-   struct { @defs( _MulleObjCConcreteArray); }  *self = (void *) _self;
-   id   *buffer;
-
-   assert( self->_count == 0);
+   _MulleObjCConcreteArray                      *_self;
+   struct { @defs( _MulleObjCConcreteArray); }  *self;
+   id                                           *buffer;
 
 #ifndef NDEBUG
    {
@@ -79,6 +87,41 @@ static inline _MulleObjCConcreteArray *
          assert( *p++);
    }
 #endif
+
+   _self = _MulleObjCConcreteArrayAllocateWithCapacity( cls, count);
+   self  = (void *) _self;
+
+   self->_count   = count;
+   self->_objects = _MulleObjCConcreteArrayGetInlineObjects( _self);
+
+   memcpy( self->_objects, objects, sizeof( id) * count);
+   return( _self);
+}
+
+
+static inline _MulleObjCConcreteArray *
+   _MulleObjCConcreteArrayNewWithRetainedObjectStorage( Class cls,
+                                                        id *objects,
+                                                        NSUInteger count)
+{
+   _MulleObjCConcreteArray                      *_self;
+   struct { @defs( _MulleObjCConcreteArray); }  *self;
+   id   *buffer;
+
+#ifndef NDEBUG
+   {
+      id  *p;
+      id  *sentinel;
+
+      p        = objects;
+      sentinel = &p[ count];
+      while( p < sentinel)
+         assert( *p++);
+   }
+#endif
+
+   _self = _MulleObjCConcreteArrayAllocateWithCapacity( cls, 0);
+   self  = (void *) _self;
 
    self->_count   = count;
    self->_objects = objects;

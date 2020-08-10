@@ -1,5 +1,5 @@
 //
-//  NS+NSCoder.h
+//  NSArray+NSCoder.h
 //  MulleObjCStandardFoundation
 //
 //  Created by Nat! on 12.04.17.
@@ -7,9 +7,16 @@
 //
 
 #import "NSArray.h"
+#import "NSMutableArray.h"
 
 #import "import.h"
 
 
+// All NSCoder related methods for NSArray, NSMutableArray and
+// ClassCluster classes
+
 @interface NSArray( NSCoder) < NSCoding>
+@end
+
+@interface NSMutableArray( NSCoder)
 @end

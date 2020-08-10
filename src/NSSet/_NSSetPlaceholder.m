@@ -48,43 +48,32 @@
 // private headers in this library
 #import "_MulleObjCSet-Private.h"
 
+#include <assert.h>
 
 //
 // this is coupling the subclasses of _MulleObjCEmptyArray
 // and _MulleObjCConcreteArray into the classcluster
-// NSMutableArray should never use he _NSArrayPlaceholder
+// NSMutableSet should never use the _NSSetPlaceholder
 //
 @implementation _NSSetPlaceholder
 
 
-# pragma mark -
-# pragma mark class cluster
+# pragma mark - class cluster
 
-
-- (id) init
+- (instancetype) init
 {
    self = [[_MulleObjCEmptySetClass sharedInstance] retain];
    return( self);
 }
 
 
-- (id) mulleInitWithCapacity:(NSUInteger) count
-{
-   _MulleObjCConcreteSet   *set;
-
-   assert( count);
-
-   set = (id) _MulleObjCSetNewWithCapacity( _MulleObjCConcreteSetClass, count);
-   return( set);
-}
-
 //
 // objects must have been allocated with MulleObjCInstanceGetAllocator( self)
 // the size maybe larger but no less than count
 //
-- (id) mulleInitWithRetainedObjectStorage:(id *) objects
-                                    count:(NSUInteger) count
-                                     size:(NSUInteger) size
+- (instancetype) mulleInitWithRetainedObjectStorage:(id *) objects
+                                              count:(NSUInteger) count
+                                               size:(NSUInteger) size
 {
    _MulleObjCConcreteSet   *set;
 
@@ -94,12 +83,12 @@
 
    set = (id) _MulleObjCSetNewWithCapacity( _MulleObjCConcreteSetClass, count);
    set = (id) _MulleObjCSetInitWithRetainedObjectStorage( set, objects, count);
-   return( set);
+   return( (id) set);
 }
 
 
-- (id) mulleInitWithRetainedObjects:(id *) objects
-                              count:(NSUInteger) count
+- (instancetype) mulleInitWithRetainedObjects:(id *) objects
+                                        count:(NSUInteger) count
 {
    _MulleObjCConcreteSet   *set;
 
@@ -108,7 +97,28 @@
 
    set = (id) _MulleObjCSetNewWithCapacity( _MulleObjCConcreteSetClass, count);
    set = (id) _MulleObjCSetInitWithRetainedObjects( set, objects, count);
-   return( set);
+   return( (id) set);
+}
+
+
+
+- (instancetype) mulleInitWithContainer:(id <NSFastEnumeration>) container
+{
+   _MulleObjCConcreteSet       *set;
+   _MulleObjCSetIvars          *ivars;
+   struct mulle_allocator      *allocator;
+   id                          obj;
+   NSUInteger                  count;
+
+   count = [container count];
+   set   = (id) _MulleObjCSetNewWithCapacity( _MulleObjCConcreteSetClass, count);
+
+   allocator = MulleObjCInstanceGetAllocator( set);
+   ivars     = _MulleObjCSetGetIvars( set);
+   for( obj in container)
+      _mulle__set_set( &ivars->_table, obj, NSSetCallback, allocator);
+
+   return( (id) set);
 }
 
 @end

@@ -97,7 +97,7 @@
 
 @interface NSDictionary( _NSDictionaryPlaceholder)
 
-- (id) mulleInitWithCapacity:(NSUInteger) count;
+- (id) mulleInitForCoderWithCapacity:(NSUInteger) count;
 
 - (id) mulleInitWithRetainedObjectKeyStorage:(id *) objects
                                        count:(NSUInteger) count

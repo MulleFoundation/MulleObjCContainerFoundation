@@ -56,12 +56,11 @@
 @implementation _NSMutableSetPlaceholder
 
 
-# pragma mark -
-# pragma mark class cluster
+# pragma mark - class cluster
 
 extern Class   _MulleObjCConcreteMutableSetClass;
 
-- (id) init
+- (instancetype) init
 {
    _MulleObjCConcreteMutableSet   *set;
 
@@ -70,16 +69,7 @@ extern Class   _MulleObjCConcreteMutableSetClass;
 }
 
 
-- (id) mulleInitWithCapacity:(NSUInteger) count
-{
-   _MulleObjCConcreteMutableSet   *set;
-
-   set = (id) _MulleObjCSetNewWithCapacity( _MulleObjCConcreteMutableSetClass, count);
-   return( (id) set);
-}
-
-
-- (id) initWithCapacity:(NSUInteger) count
+- (instancetype) initWithCapacity:(NSUInteger) count
 {
    _MulleObjCConcreteMutableSet   *set;
 
@@ -92,9 +82,9 @@ extern Class   _MulleObjCConcreteMutableSetClass;
 // objects must have been allocated with MulleObjCInstanceGetAllocator( self)
 // the size maybe larger but no less than count
 //
-- (id) mulleInitWithRetainedObjectStorage:(id *) objects
-                                    count:(NSUInteger) count
-                                     size:(NSUInteger) size
+- (instancetype) mulleInitWithRetainedObjectStorage:(id *) objects
+                                              count:(NSUInteger) count
+                                               size:(NSUInteger) size
 {
    _MulleObjCConcreteMutableSet   *set;
 
@@ -109,8 +99,8 @@ extern Class   _MulleObjCConcreteMutableSetClass;
 }
 
 
-- (id) mulleInitWithRetainedObjects:(id *) objects
-                              count:(NSUInteger) count
+- (instancetype) mulleInitWithRetainedObjects:(id *) objects
+                                        count:(NSUInteger) count
 {
    _MulleObjCConcreteMutableSet   *set;
 
@@ -119,7 +109,7 @@ extern Class   _MulleObjCConcreteMutableSetClass;
 
    set = (id) _MulleObjCSetNewWithCapacity( _MulleObjCConcreteMutableSetClass, count);
    set = (id) _MulleObjCSetInitWithRetainedObjects( set, objects, count);
-   return( set);
+   return( (id) set);
 }
 
 @end

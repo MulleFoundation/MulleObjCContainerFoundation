@@ -84,7 +84,6 @@ Class  _MulleObjCConcreteMutableSetClass;
 }
 
 
-
 - (void) removeObject:(id) obj
 {
    _MulleObjCSetIvars       *ivars;

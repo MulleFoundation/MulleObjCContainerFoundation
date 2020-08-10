@@ -83,7 +83,11 @@
 
 - (id) nextObject
 {
-   return( _mulle__setenumerator_next_nil( &_rover));
+   id   obj;
+
+   if( _mulle__setenumerator_next( &_rover, (void **) &obj))
+      return( obj);
+   return( nil);
 }
 
 @end
@@ -206,8 +210,7 @@ struct _MulleObjCSetFastEnumerationState
    sentinel = &buffer[ len];
    while( buffer < sentinel)
    {
-      obj = _mulle__setenumerator_next_nil( &dstate->_rover);
-      if( ! obj)
+      if( ! _mulle__setenumerator_next( &dstate->_rover, (void **) &obj))
       {
          rover->state = -1;
          break;

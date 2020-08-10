@@ -79,7 +79,7 @@
 #pragma mark - class cluster
 
 
-+ (Class) __placeholderClass
++ (Class) __classClusterClass
 {
    return( [_NSMutableDictionaryPlaceholder class]);
 }

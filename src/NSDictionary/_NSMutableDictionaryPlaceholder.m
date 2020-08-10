@@ -56,8 +56,7 @@
 @implementation _NSMutableDictionaryPlaceholder
 
 
-# pragma mark -
-# pragma mark class cluster
+# pragma mark - class cluster
 
 MULLE_OBJC_DEPENDS_ON_CLASS( _MulleObjCConcreteMutableDictionary);
 
@@ -82,7 +81,7 @@ extern Class  _MulleObjCConcreteMutableDictionaryClass;
 }
 
 
-- (instancetype) mulleInitWithCapacity:(NSUInteger) count
+- (instancetype) mulleInitForCoderWithCapacity:(NSUInteger) count
 {
    assert( _MulleObjCConcreteMutableDictionaryClass);
 
@@ -122,6 +121,25 @@ extern Class  _MulleObjCConcreteMutableDictionaryClass;
 
    dict = _MulleObjCDictionaryNewWithCapacity( _MulleObjCConcreteMutableDictionaryClass, count);
    dict = (id) _MulleObjCDictionaryInitWithRetainedObjectsAndCopiedKeys( dict, objects, keys, count);
+   return( dict);
+}
+
+
+- (id) mulleInitWithObjectContainer:(id <NSFastEnumeration>) objects
+                       keyContainer:(id <NSFastEnumeration>) keys
+{
+   _MulleObjCConcreteMutableDictionary   *dict;
+   NSUInteger                            count;
+
+   count = [objects count];
+   dict = _MulleObjCDictionaryNewWithCapacity( _MulleObjCConcreteMutableDictionaryClass, count);
+   if( ! count)
+      return( dict);
+
+   if( ! objects || ! keys)
+      MulleObjCThrowInvalidArgumentExceptionCString( "NULL objects or keys");
+
+   dict = (id) _MulleObjCDictionaryInitWithObjectAndKeyContainers( dict, objects, keys);
    return( dict);
 }
 

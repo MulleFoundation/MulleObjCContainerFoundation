@@ -46,15 +46,10 @@
 
 void   NSMapInsert( NSMapTable *table, void *key, void *value)
 {
-   struct mulle_pointerpair   pair;
-
    if( key == table->_callback.keycallback.notakey)
       MulleObjCThrowInvalidArgumentExceptionCString( "key is not a key marker (%p)", key);
 
-   pair._key   = key;
-   pair._value = value;
-
-   _mulle__map_insert( &table->_map, &pair, &table->_callback, table->_allocator);
+   _mulle__map_insert( &table->_map, key, value, &table->_callback, table->_allocator);
 }
 
 
@@ -120,34 +115,25 @@ void   NSFreeMapTable( NSMapTable *table)
 
 void   NSMapInsertKnownAbsent( NSMapTable *table, void *key, void *value)
 {
-   struct mulle_pointerpair   pair;
-
    if( key == table->_callback.keycallback.notakey)
       MulleObjCThrowInvalidArgumentExceptionCString( "key is not a key marker (%p)", key);
 
    if(  _mulle__map_get( &table->_map, key, &table->_callback))
       MulleObjCThrowInvalidArgumentExceptionCString( "key is already present (%p)", key);
 
-   pair._key   = key;
-   pair._value = value;
-
-   _mulle__map_insert( &table->_map, &pair, &table->_callback, table->_allocator);
+   _mulle__map_insert( &table->_map, key, value, &table->_callback, table->_allocator);
 }
 
 
 void   *NSMapInsertIfAbsent( NSMapTable *table, void *key, void *value)
 {
-   struct mulle_pointerpair   pair;
-   void                       *old;
+   void   *old;
 
    old =  _mulle__map_get( &table->_map, key, &table->_callback);
    if( old)
       return( old);
 
-   pair._key   = key;
-   pair._value = value;
-
-   _mulle__map_insert( &table->_map, &pair, &table->_callback, table->_allocator);
+   _mulle__map_insert( &table->_map, key, value, &table->_callback, table->_allocator);
    return( NULL);
 }
 

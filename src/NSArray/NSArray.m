@@ -81,7 +81,7 @@ static Class   NSArrayClass;
 }
 
 
-+ (Class) __placeholderClass
++ (Class) __classClusterClass
 {
    return( [_NSArrayPlaceholder class]);
 }
@@ -93,8 +93,7 @@ static Class   NSArrayClass;
 }
 
 
-# pragma mark -
-# pragma mark class cluster
+# pragma mark - class cluster
 
 - (instancetype) initWithArray:(NSArray *) other
 {
@@ -328,6 +327,7 @@ static Class   NSArrayClass;
 }
 
 
+
 typedef struct
 {
    NSInteger   (*f)( id, id, void *);
@@ -519,8 +519,7 @@ static int   bouncyBounceSel( void *a, void *b, void *ctxt)
 }
 
 
-# pragma mark -
-# pragma mark xxx
+# pragma mark - xxx
 
 - (id) firstObjectCommonWithArray:(NSArray *) other
 {
@@ -616,6 +615,7 @@ static NSUInteger  findIndexWithRange( NSArray *self, NSRange range, id obj)
 }
 
 
+
 - (NSUInteger) indexOfObject:(id) obj
                      inRange:(NSRange) range
 {
@@ -625,6 +625,12 @@ static NSUInteger  findIndexWithRange( NSArray *self, NSRange range, id obj)
    range = MulleObjCValidateRangeAgainstLength( range, count);
 
    return( findIndexWithRangeForEquality( self, range, obj));
+}
+
+
+- (BOOL) mulleContainsObjectIdenticalTo:(id) obj
+{
+   return( NSNotFound != findIndexWithRange( self, NSMakeRange( 0, [self count]), obj));
 }
 
 
@@ -773,6 +779,11 @@ id   MulleForEachObjectCallFunction( id *objects,
 
 
 #pragma mark - accessors
+
+-(NSUInteger) count
+{
+   return( 0);   // fixes problems with debugging if defined for placeholder
+}
 
 // need @alias for this
 - (id) :(NSUInteger) i

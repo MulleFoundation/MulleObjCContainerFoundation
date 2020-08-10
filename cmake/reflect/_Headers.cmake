@@ -43,6 +43,7 @@ src/NSArray/NSArray+NSCoder.h
 src/NSArray/_NSArrayPlaceholder.h
 src/NSArray/NSArray.h
 src/NSArray/NSEnumerator+NSArray.h
+src/NSArray/NSMutableArray+NSSet.h
 src/NSArray/NSMutableArray.h
 src/NSArray/mulle-qsort-pointers.h
 src/NSDictionary/_MulleObjCConcreteDictionary.h

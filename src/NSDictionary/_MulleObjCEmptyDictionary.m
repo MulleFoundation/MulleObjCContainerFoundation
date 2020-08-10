@@ -94,11 +94,6 @@ Class  _MulleObjCEmptyDictionaryClass;
 }
 
 
-- (void) decodeWithCoder:(NSCoder *) coder
-{
-}
-
-
 - (NSUInteger) countByEnumeratingWithState:(NSFastEnumerationState *) state
                                    objects:(id *) stackbuf
                                      count:(NSUInteger) len
