@@ -13,15 +13,24 @@
 #define _MulleObjCContainerFoundation_import_h__
 
 // How to tweak the following MulleObjC #import
-//    remove:          `mulle-sourcetree mark MulleObjC no-header`
-//    rename:          `mulle-sde dependency|library set MulleObjC include whatever.h`
-//    toggle #import:  `mulle-sourcetree mark MulleObjC [no-]import`
-//    toggle public:   `mulle-sourcetree mark MulleObjC [no-]public`
-//    toggle optional: `mulle-sourcetree mark MulleObjC [no-]require`
-//    remove for os:   `mulle-sourcetree mark MulleObjC no-os-<osname>`
-# import <MulleObjC/MulleObjC.h>   // MulleObjC
+//    remove:             `mulle-sourcetree mark MulleObjC no-header`
+//    rename:             `mulle-sde dependency|library set MulleObjC include whatever.h`
+//    toggle #import:     `mulle-sourcetree mark MulleObjC [no-]import`
+//    toggle localheader: `mulle-sourcetree mark MulleObjC [no-]localheader`
+//    toggle public:      `mulle-sourcetree mark MulleObjC [no-]public`
+//    toggle optional:    `mulle-sourcetree mark MulleObjC [no-]require`
+//    remove for os:      `mulle-sourcetree mark MulleObjC no-os-<osname>`
+# if defined( __has_include) && __has_include("MulleObjC.h")
+#   import "MulleObjC.h"   // MulleObjC
+# else
+#   import <MulleObjC/MulleObjC.h>   // MulleObjC
+# endif
 
-#include "_MulleObjCContainerFoundation-include.h"
+#ifdef __has_include
+# if __has_include( "_MulleObjCContainerFoundation-include.h")
+#  include "_MulleObjCContainerFoundation-include.h"
+# endif
+#endif
 
 
 #endif

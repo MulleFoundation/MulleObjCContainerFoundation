@@ -84,6 +84,10 @@
 - (void) mulleAddRetainedObject:(id) obj;
 - (void) mulleReverseObjects;
 
+// returns nil if none present
+// otherwise will removeLastObject and return it
+- (id) mulleRemoveLastObject;
+
 @end
 
 
