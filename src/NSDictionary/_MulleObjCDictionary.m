@@ -282,8 +282,8 @@ struct _MulleObjCDictionaryFastEnumerationState
 - (NSInteger) mulleCountCollisions:(NSInteger *) perfects;
 {
    _MulleObjCDictionaryIvars   *ivars;
-   size_t                      collisions;
-   size_t                      perfs;
+   unsigned int                collisions;
+   unsigned int                perfs;
 
    ivars      = _MulleObjCDictionaryGetIvars( self);
    collisions =  _mulle__map_count_collisions( &ivars->_table,

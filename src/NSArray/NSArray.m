@@ -113,8 +113,8 @@ static Class   NSArrayClass;
    MulleObjCMakeObjectsPerformRetain( objects, count);
 
    return( [self mulleInitWithRetainedObjectStorage:objects
-                                               count:count
-                                                size:count]);
+                                              count:count
+                                               size:count]);
 }
 
 
@@ -243,8 +243,8 @@ static Class   NSArrayClass;
    MulleObjCMakeObjectsPerformRetain( objects, count);
 
    return( [self mulleInitWithRetainedObjectStorage:objects
-                                               count:count
-                                                size:count]);
+                                              count:count
+                                               size:count]);
 }
 
 
@@ -370,7 +370,7 @@ static int   bouncyBounce( void *a, void *b, void *_ctxt)
 
 static int   bouncyBounceSel( void *a, void *b, void *ctxt)
 {
-   return( (int) MulleObjCObjectPerformSelector( (id) a, (SEL) ctxt, (id) b));
+   return( (int)(intptr_t) MulleObjCObjectPerformSelector( (id) a, (SEL)(intptr_t) ctxt, (id) b));
 }
 
 

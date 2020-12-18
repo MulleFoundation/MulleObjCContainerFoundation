@@ -35,6 +35,10 @@
 //
 #include <stddef.h>
 
+#include <stdio.h>
+#include <stdlib.h>
+
+
 typedef void *  mulle_qsorttype_t;
 
 void   mulle_qsort_pointers( mulle_qsorttype_t *v,
@@ -95,11 +99,20 @@ void   mulle_qsort_pointers( mulle_qsorttype_t *v,
       for(;;)
       {
          do
+         {
+            if( ! j) // if cmp is broken, this can happen
+            {
+               fprintf( stderr, "qsort comparator is broken, producing wrong return values\n");
+               abort();
+            }
             --j;
+         }
          while( is_descending( (*cmp)( v[ j], v[ 0], userinfo)));
 
          do
+         {
             ++i;
+         }
          while( i < j && is_ascending( (*cmp)( v[ i], v[ 0], userinfo)));
 
          if( i >= j)

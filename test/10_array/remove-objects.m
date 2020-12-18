@@ -31,7 +31,7 @@
 
 - (NSUInteger) hash
 {
-   return( mulle_hash( self->_name, strlen( self->_name)));
+   return( mulle_data_hash( mulle_data_make( self->_name, strlen( self->_name))));
 }
 
 @end

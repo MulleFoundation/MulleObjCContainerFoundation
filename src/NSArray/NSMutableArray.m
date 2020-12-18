@@ -516,16 +516,39 @@ static void   removeObjectAtIndex( NSMutableArray *self,
 }
 
 
-- (void) removeLastObject
+- (id) mulleRemoveLastObject
 {
+   id   obj;
+
    if( ! _count)
-      MulleObjCThrowInvalidRangeException( NSMakeRange( 0, 0));
+      return( nil);
 
-   [_storage[ --_count] autorelease];
-
+   obj = [_storage[ --_count] autorelease];
+   // dynamic shrinking
    if( _count < (_size >> 1) && _size > 8)
    {
       _size >>= 1;
+      _storage = MulleObjCObjectReallocateNonZeroedMemory( self,
+                                                           _storage,
+                                                           sizeof( id) * _size);
+   }
+   _mutationCount++;
+   return( obj);
+}
+
+
+- (void) removeLastObject
+{
+   id   obj;
+
+   if( ! _count)
+      MulleObjCThrowInvalidRangeException( NSMakeRange( 0, 0));
+
+   obj = [_storage[ --_count] autorelease];
+   // dynamic shrinking
+   if( _count < (_size >> 1) && _size > 8)
+   {
+      _size  >>= 1;
       _storage = MulleObjCObjectReallocateNonZeroedMemory( self,
                                                            _storage,
                                                            sizeof( id) * _size);
@@ -768,7 +791,7 @@ static void   removeObjectAtIndex( NSMutableArray *self,
 
 static int   bouncyBounceSel( void *a, void *b, void *ctxt)
 {
-   return( (int) MulleObjCObjectPerformSelector( (id) a, (SEL) ctxt, b));
+   return( (int)(intptr_t) MulleObjCObjectPerformSelector( (id) a, (SEL)(intptr_t) ctxt, b));
 }
 
 
