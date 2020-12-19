@@ -1,0 +1,20 @@
+{
+   "name" : "MulleObjCContainerFoundation",
+   "version" : "0.18.0",
+   "description" : "🛍 Container classes like NSArray, NSSet, NSDictionary",
+   "homepage" : "https://github.com/MulleFoundation/MulleObjCContainerFoundation",
+   "bugs" : "https://github.com/MulleFoundation/MulleObjCContainerFoundation/issues",
+   "keywords" : [],
+   "license" : "UNLICENSED",
+   "repository" : {
+      "type" : "git",
+      "url" : "MulleFoundation/MulleObjCContainerFoundation"
+   },
+   "dependencies" : {
+      "MulleObjC" : "mulle-objc/MulleObjC",
+      "mulle-buffer" : "mulle-c/mulle-buffer",
+      "mulle-utf" : "mulle-c/mulle-utf",
+      "mulle-sprintf" : "mulle-c/mulle-sprintf",
+      "mulle-container" : "mulle-c/mulle-container"
+   }
+}
