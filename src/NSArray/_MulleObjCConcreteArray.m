@@ -66,7 +66,7 @@ Class  _MulleObjCConcreteArrayClass;
 {
    MulleObjCMakeObjectsPerformRelease( _objects, _count);
    if( _objects != _MulleObjCConcreteArrayGetInlineObjects( self))
-      MulleObjCObjectDeallocateMemory( self, _objects);
+      MulleObjCInstanceDeallocateMemory( self, _objects);
    NSDeallocateObject( self);
 }
 

@@ -80,7 +80,7 @@
 - (NSEnumerator *) objectEnumerator;
 - (NSEnumerator *) reverseObjectEnumerator;
 
-- (NSArray *) sortedArrayUsingFunction:(NSInteger (*)(id, id, void *)) comparator
+- (NSArray *) sortedArrayUsingFunction:(NSComparisonResult (*)(id, id, void *)) comparator
                                context:(void *) context;
 - (NSArray *) sortedArrayUsingSelector:(SEL) comparator;
 - (NSArray *) subarrayWithRange:(NSRange) range;

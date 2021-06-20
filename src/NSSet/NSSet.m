@@ -137,7 +137,7 @@ static id   initWithObjectStorage( id self, id *storage, NSUInteger count, BOOL 
       return( [self init]);
 
    count   = mulle_vararg_count_objects( args, obj);
-   storage = MulleObjCObjectAllocateNonZeroedMemory( self, sizeof( id) * count);
+   storage = MulleObjCInstanceAllocateNonZeroedMemory( self, sizeof( id) * count);
    objects = storage;
 
    value = obj;
@@ -180,7 +180,7 @@ static id   initWithObjectStorage( id self, id *storage, NSUInteger count, BOOL 
    if( ! count)
       return( [self init]);
 
-   storage = MulleObjCObjectAllocateNonZeroedMemory( self, sizeof( id) * count);
+   storage = MulleObjCInstanceAllocateNonZeroedMemory( self, sizeof( id) * count);
    [other getObjects:storage
                count:count];
 
@@ -375,13 +375,13 @@ static BOOL   run_member_on_set_until( NSSet *self, NSSet *other, BOOL expect)
    count = [self count];
    size  = count + 1;
 
-   storage = MulleObjCObjectAllocateNonZeroedMemory( self, sizeof( id) * size);
+   storage = MulleObjCInstanceAllocateNonZeroedMemory( self, sizeof( id) * size);
    [self getObjects:storage
                count:count];
    storage[ count] = obj;
    set = [MulleObjCObjectGetClass( self) setWithObjects:storage
                                           count:size];
-   MulleObjCObjectDeallocateMemory( self, storage);
+   MulleObjCInstanceDeallocateMemory( self, storage);
    return( set);
 }
 
@@ -401,14 +401,14 @@ static BOOL   run_member_on_set_until( NSSet *self, NSSet *other, BOOL expect)
    count = [self count];
    size  = count + otherCount;
 
-   storage = MulleObjCObjectAllocateNonZeroedMemory( self, sizeof( id) * size);
+   storage = MulleObjCInstanceAllocateNonZeroedMemory( self, sizeof( id) * size);
    [self getObjects:storage
                count:count];
    [other getObjects:&storage[ count]
                count:otherCount];
    set = [MulleObjCObjectGetClass( self) setWithObjects:storage
                                           count:size];
-   MulleObjCObjectDeallocateMemory( self, storage);
+   MulleObjCInstanceDeallocateMemory( self, storage);
    return( set);
 }
 

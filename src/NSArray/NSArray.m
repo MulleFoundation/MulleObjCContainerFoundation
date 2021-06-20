@@ -107,7 +107,7 @@ static Class   NSArrayClass;
       return( self);
    }
 
-   objects   = MulleObjCObjectAllocateNonZeroedMemory( self, sizeof( id) * count);
+   objects = MulleObjCInstanceAllocateNonZeroedMemory( self, sizeof( id) * count);
    [other getObjects:objects];
 
    MulleObjCMakeObjectsPerformRetain( objects, count);
@@ -132,7 +132,7 @@ static Class   NSArrayClass;
       return( self);
    }
 
-   objects   = MulleObjCObjectAllocateNonZeroedMemory( self, sizeof( id) * count);
+   objects   = MulleObjCInstanceAllocateNonZeroedMemory( self, sizeof( id) * count);
    [other getObjects:objects
                range:range];
 
@@ -157,7 +157,7 @@ static Class   NSArrayClass;
       return( self);
    }
 
-   objects = MulleObjCObjectAllocateNonZeroedMemory( self, sizeof( id) * count);
+   objects = MulleObjCInstanceAllocateNonZeroedMemory( self, sizeof( id) * count);
    [other getObjects:objects];
 
    if( flag)
@@ -197,7 +197,7 @@ static Class   NSArrayClass;
    }
    va_end( copy);
 
-   objects   = MulleObjCObjectAllocateNonZeroedMemory( self, sizeof( id) * count);
+   objects   = MulleObjCInstanceAllocateNonZeroedMemory( self, sizeof( id) * count);
    p         = objects;
 
    value = firstObject;
@@ -230,7 +230,7 @@ static Class   NSArrayClass;
    }
 
    count     = mulle_vararg_count_objects( args, firstObject);
-   objects   = MulleObjCObjectAllocateNonZeroedMemory( self, sizeof( id) * count);
+   objects   = MulleObjCInstanceAllocateNonZeroedMemory( self, sizeof( id) * count);
    p         = objects;
 
    value = firstObject;
@@ -290,7 +290,7 @@ static Class   NSArrayClass;
       return( self);
    }
 
-   objects = MulleObjCObjectAllocateNonZeroedMemory( self, sizeof( id) * count);
+   objects = MulleObjCInstanceAllocateNonZeroedMemory( self, sizeof( id) * count);
    [other getObjects:objects];
    if( obj)
       objects[ count - 1] = obj;
@@ -315,7 +315,7 @@ static Class   NSArrayClass;
    if( ! size)
       return( [self init]);
 
-   objects = MulleObjCObjectAllocateNonZeroedMemory( self, sizeof( id) * size);
+   objects = MulleObjCInstanceAllocateNonZeroedMemory( self, sizeof( id) * size);
    [other getObjects:objects];
    [other2 getObjects:&objects[ count]];
 
@@ -330,8 +330,8 @@ static Class   NSArrayClass;
 
 typedef struct
 {
-   NSInteger   (*f)( id, id, void *);
-   void        *ctxt;
+   NSComparisonResult   (*f)( id, id, void *);
+   void                 *ctxt;
 } bouncy;
 
 
@@ -345,7 +345,7 @@ static int   bouncyBounce( void *a, void *b, void *_ctxt)
 
 
 - (instancetype) mulleInitWithArray:(NSArray *) other
-                       sortFunction:(NSInteger (*)( id, id, void *)) f
+                       sortFunction:(NSComparisonResult (*)( id, id, void *)) f
                             context:(void *) context
 {
    NSUInteger   count;
@@ -353,7 +353,7 @@ static int   bouncyBounce( void *a, void *b, void *_ctxt)
    bouncy       bounce;
 
    count     = [other count];
-   objects   = MulleObjCObjectAllocateNonZeroedMemory( self, sizeof( id) * count);
+   objects   = MulleObjCInstanceAllocateNonZeroedMemory( self, sizeof( id) * count);
    [other getObjects:objects];
 
    bounce.f    = f;
@@ -387,7 +387,7 @@ static int   bouncyBounceSel( void *a, void *b, void *ctxt)
       return( self);
    }
 
-   objects   = MulleObjCObjectAllocateNonZeroedMemory( self, sizeof( id) * count);
+   objects   = MulleObjCInstanceAllocateNonZeroedMemory( self, sizeof( id) * count);
    [other getObjects:objects];
 
    mulle_qsort_pointers( (void **) objects, count, bouncyBounceSel, (void *) (uintptr_t) sel);
@@ -480,7 +480,7 @@ static int   bouncyBounceSel( void *a, void *b, void *ctxt)
 }
 
 
-- (NSArray *) sortedArrayUsingFunction:(NSInteger (*)(id, id, void *)) f
+- (NSArray *) sortedArrayUsingFunction:(NSComparisonResult (*)(id, id, void *)) f
                                context:(void *) context
 {
    if( ! f)

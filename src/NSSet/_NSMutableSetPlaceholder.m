@@ -41,6 +41,7 @@
 #import "_MulleObjCConcreteMutableSet.h"
 
 // other libraries of MulleObjCContainerFoundation
+#import "MulleObjCContainerObjectCallback.h"
 
 // std-c and dependencies
 
@@ -94,7 +95,7 @@ extern Class   _MulleObjCConcreteMutableSetClass;
 
    set = (id) _MulleObjCSetNewWithCapacity( _MulleObjCConcreteMutableSetClass, count);
    set = (id) _MulleObjCSetInitWithRetainedObjects( set, objects, count);
-   MulleObjCObjectDeallocateMemory( self, objects);
+   MulleObjCInstanceDeallocateMemory( self, objects);
    return( (id) set);
 }
 
