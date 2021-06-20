@@ -126,7 +126,7 @@ static id   initWithObjectsForKeys( id self, id *objects, id *keys, NSUInteger c
    if( ! count)
       return( [self init]);
 
-   storage = MulleObjCObjectAllocateNonZeroedMemory( self, sizeof( id) * 2 * count);
+   storage = MulleObjCInstanceAllocateNonZeroedMemory( self, sizeof( id) * 2 * count);
    objects = storage;
    keys    = &storage[ count];
 
@@ -166,7 +166,7 @@ static id   initWithObjectsForKeys( id self, id *objects, id *keys, NSUInteger c
    if( size & 1)
       MulleObjCThrowInvalidArgumentExceptionCString( "not even arguments");
    count   = size / 2;
-   storage = MulleObjCObjectAllocateNonZeroedMemory( self, sizeof( id) * size);
+   storage = MulleObjCInstanceAllocateNonZeroedMemory( self, sizeof( id) * size);
    values  = storage;
    keys    = &storage[ count];
 

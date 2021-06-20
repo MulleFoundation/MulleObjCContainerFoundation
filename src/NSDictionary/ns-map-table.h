@@ -107,9 +107,9 @@ NSMapTable   *NSCopyMapTable( NSMapTable *table);
 # pragma mark - compatibility
 
 static inline NSMapTable   *NSCreateMapTableWithZone( NSMapTableKeyCallBacks keyCallBacks,
-                                                     NSMapTableValueCallBacks valueCallBacks,
-                                                     NSUInteger capacity,
-                                                     NSZone *zone)
+                                                      NSMapTableValueCallBacks valueCallBacks,
+                                                      NSUInteger capacity,
+                                                      NSZone *zone)
 {
    return( NSCreateMapTable( keyCallBacks, valueCallBacks, capacity));
 }

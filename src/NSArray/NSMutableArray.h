@@ -75,7 +75,7 @@
 - (void) setArray:(NSArray *) other;
 
 - (void) sortUsingSelector:(SEL)comparator;
-- (void) sortUsingFunction:(NSInteger (*)(id, id, void *)) compare
+- (void) sortUsingFunction:(NSComparisonResult (*)(id, id, void *)) compare
                    context:(void *) context;
 
 + (instancetype) arrayWithCapacity:(NSUInteger) capacity;

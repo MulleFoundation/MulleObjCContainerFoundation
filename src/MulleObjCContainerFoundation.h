@@ -34,40 +34,19 @@
 //  POSSIBILITY OF SUCH DAMAGE.
 //
 
-#define MULLE_OBJC_CONTAINER_FOUNDATION_VERSION   ((0 << 20) | (18 << 8) | 0)
+#define MULLE_OBJC_CONTAINER_FOUNDATION_VERSION   ((0 << 20) | (19 << 8) | 0)
 
-// export everything with Mulle
+#import "import.h"
 
-#import "MullePreempt.h"
+#import "_MulleObjCContainerFoundation-export.h"
 
-// export everything with NS
-#import "NSArray.h"
-#import "NSDictionary.h"
-#import "NSEnumerator.h"
-#import "NSMutableArray.h"
-#import "NSMutableDictionary.h"
-#import "NSMutableSet.h"
-#import "NSSet.h"
-
-#import "NSEnumerator+NSArray.h"
-#import "NSDictionary+NSArray.h"
-#import "NSMutableSet+NSArray.h"
-#import "NSMutableArray+NSSet.h"
-#import "NSSet+NSArray.h"
-#import "NSThread+NSMutableDictionary.h"
-
-#import "NSArray+NSCoder.h"
-#import "NSDictionary+NSCoder.h"
-#import "NSSet+NSCoder.h"
-
-// export nothing with _MulleObjC
-
-// export everything with ns_
-
-#import "ns-map-table.h"
-#import "ns-hash-table.h"
+#import "_MulleObjCContainerFoundation-provide.h"
 
 
-#if MULLE_CONTAINER_VERSION < ((0 << 20) | (8 << 8) | 0)
-# error "mulle_allocator is too old"
+#ifdef __has_include
+# if __has_include( "_MulleObjCContainerFoundation-versioncheck.h")
+#  import "_MulleObjCContainerFoundation-versioncheck.h"
+# endif
+#else
+# warning "compiler does not have __has_include, you may want to include _MulleObjCContainerFoundation-versioncheck.h manually"
 #endif

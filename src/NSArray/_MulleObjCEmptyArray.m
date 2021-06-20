@@ -101,7 +101,7 @@ Class  _MulleObjCEmptyArrayClass;
 }
 
 
-- (NSArray *) sortedArrayUsingFunction:(NSInteger (*)(id, id, void *)) f
+- (NSArray *) sortedArrayUsingFunction:(NSComparisonResult (*)(id, id, void *)) f
                                context:(void *) context
 {
    return( self);

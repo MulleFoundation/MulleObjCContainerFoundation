@@ -41,6 +41,7 @@
 #import "_MulleObjCConcreteMutableDictionary.h"
 
 // other libraries of MulleObjCContainerFoundation
+#import "MulleObjCContainerObjectCallback.h"
 
 // std-c and dependencies
 
@@ -104,7 +105,7 @@ extern Class  _MulleObjCConcreteMutableDictionaryClass;
 
    dict = _MulleObjCDictionaryNewWithCapacity( _MulleObjCConcreteMutableDictionaryClass, count);
    dict = (id) _MulleObjCDictionaryInitWithRetainedObjectsAndCopiedKeys( dict, objects, &objects[ count], count);
-   MulleObjCObjectDeallocateMemory( self, objects);
+   MulleObjCInstanceDeallocateMemory( self, objects);
    return( (id) dict);
 }
 

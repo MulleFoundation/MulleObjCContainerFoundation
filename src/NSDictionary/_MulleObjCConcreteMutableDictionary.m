@@ -39,6 +39,7 @@
 // other files in this library
 
 // other libraries of MulleObjCContainerFoundation
+#import "MulleObjCContainerObjectCallback.h"
 
 // std-c and dependencies
 #import "_MulleObjCDictionary-Private.h"

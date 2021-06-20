@@ -74,7 +74,6 @@
    m = [otherArray count];
    n = [self count];
 
-
    //
    // overflow can't happen, because counts are max 30 bits on 32 bit
    // and 61 bit on 64 bit, meaning 30bit * 30bit  = 60bit result
@@ -123,7 +122,7 @@
       id   *sentinel;
       id   *q;
 
-      tmp      = MulleObjCObjectAllocateNonZeroedMemory( self, sizeof( id) * n);
+      tmp      = MulleObjCInstanceAllocateNonZeroedMemory( self, sizeof( id) * n);
       q        = tmp;
       p        = _storage;
       sentinel = &p[ _count];
@@ -135,7 +134,7 @@
             *q++ = *p;
          ++p;
       }
-      MulleObjCObjectDeallocateMemory( self, _storage);
+      MulleObjCInstanceDeallocateMemory( self, _storage);
 
       _storage = tmp;
       _count   = q - tmp;

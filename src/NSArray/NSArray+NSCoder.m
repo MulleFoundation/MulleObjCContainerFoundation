@@ -121,7 +121,7 @@
    if( capacity)
    {
       self->_size    = capacity;
-      self->_storage = MulleObjCObjectAllocateNonZeroedMemory( self, sizeof( id) * capacity);
+      self->_storage = MulleObjCInstanceAllocateNonZeroedMemory( self, sizeof( id) * capacity);
    }
    return( self);
 }

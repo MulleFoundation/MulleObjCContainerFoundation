@@ -71,7 +71,7 @@ static inline id
                                                NSUInteger count)
 {
    _MulleObjCSetInitWithRetainedObjects( self, objects, count);
-   MulleObjCObjectDeallocateMemory( self, objects);
+   MulleObjCInstanceDeallocateMemory( self, objects);
 
    return( self);
 }

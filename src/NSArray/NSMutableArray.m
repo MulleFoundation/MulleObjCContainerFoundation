@@ -104,7 +104,7 @@ static void   add_retained_object( NSMutableArray *self, id other);
 - (void) dealloc
 {
    MulleObjCMakeObjectsPerformRelease( _storage, _count);
-   MulleObjCObjectDeallocateMemory( self, _storage);
+   MulleObjCInstanceDeallocateMemory( self, _storage);
    [super dealloc];
 }
 
@@ -117,7 +117,7 @@ static void   add_retained_object( NSMutableArray *self, id other);
    if( capacity > self->_size)
    {
       self->_size    = capacity;
-      self->_storage = MulleObjCObjectReallocateNonZeroedMemory( self,
+      self->_storage = MulleObjCInstanceReallocateNonZeroedMemory( self,
                                                                  self->_storage,
                                                                  sizeof( id) * self->_size);
    }
@@ -171,7 +171,7 @@ static NSMutableArray  *initWithRetainedObjects( NSMutableArray *self,
    self->_count = count;
    if( count < 8)
       self->_size = 8;
-   self->_storage = MulleObjCObjectAllocateNonZeroedMemory( self, sizeof( id) * self->_size);
+   self->_storage = MulleObjCInstanceAllocateNonZeroedMemory( self, sizeof( id) * self->_size);
    self->_mutationCount++;
 
    memcpy( self->_storage, objects, count * sizeof( id));
@@ -202,7 +202,7 @@ static NSMutableArray  *initWithRetainedObjects( NSMutableArray *self,
    self->_count = count;
    if( count < 8)
       self->_size = 8;
-   self->_storage = MulleObjCObjectAllocateNonZeroedMemory( self, sizeof( id) * self->_size);
+   self->_storage = MulleObjCInstanceAllocateNonZeroedMemory( self, sizeof( id) * self->_size);
    self->_mutationCount++;
 
    p = self->_storage;
@@ -263,7 +263,7 @@ static void   reserve(  NSMutableArray *self, size_t count)
       if( count < 8)
          count += 8;
       self->_size += count;
-      self->_storage = MulleObjCObjectReallocateNonZeroedMemory( self,
+      self->_storage = MulleObjCInstanceReallocateNonZeroedMemory( self,
                                                                  self->_storage,
                                                                  sizeof( id) * self->_size);
    }
@@ -283,7 +283,7 @@ static void   add_retained_object( NSMutableArray *self, id other)
       self->_size += self->_size;
       if( self->_size < 8)
          self->_size = 8;
-      self->_storage = MulleObjCObjectReallocateNonZeroedMemory( self,
+      self->_storage = MulleObjCInstanceReallocateNonZeroedMemory( self,
                                                                  self->_storage,
                                                                  sizeof( id) * self->_size);
    }
@@ -311,14 +311,14 @@ static void   add_retained_object( NSMutableArray *self, id other)
 }
 
 
-static void  assert_index( NSMutableArray *self, NSUInteger i)
+static void  validate_index( NSMutableArray *self, NSUInteger i)
 {
    if( i >= self->_count)
       MulleObjCThrowInvalidIndexException( i);
 }
 
 
-static void  assert_index_1( NSMutableArray *self, NSUInteger i)
+static void  validate_index_1( NSMutableArray *self, NSUInteger i)
 {
    if( i >= self->_count + 1)
       MulleObjCThrowInvalidIndexException( i);
@@ -328,14 +328,14 @@ static void  assert_index_1( NSMutableArray *self, NSUInteger i)
 // need @alias for this
 - (id) :(NSUInteger) i
 {
-   assert_index( self, i);
+   validate_index( self, i);
    return( _storage[ i]);
 }
 
 
 - (id) objectAtIndex:(NSUInteger) i
 {
-   assert_index( self, i);
+   validate_index( self, i);
    return( _storage[ i]);
 }
 
@@ -430,7 +430,7 @@ static NSUInteger
 - (void) replaceObjectAtIndex:(NSUInteger) i
                    withObject:(id) object
 {
-   assert_index( self, i);
+   validate_index( self, i);
 
    [object retain];
    [_storage[ i] autorelease];
@@ -445,7 +445,7 @@ static void   removeObjectAtIndex( NSMutableArray *self,
 {
    NSUInteger   n;
 
-   assert_index( self, i);
+   validate_index( self, i);
 
    [self->_storage[ i] autorelease];
 
@@ -497,8 +497,8 @@ static void   removeObjectAtIndex( NSMutableArray *self,
    if( ! range.length)
       return;
 
-   assert_index( self, range.location);
-   assert_index( self, range.location + range.length - 1);
+   validate_index( self, range.location);
+   validate_index( self, range.location + range.length - 1);
 
    n = _count - (range.location + range.length - 1);
    if( n)
@@ -528,7 +528,7 @@ static void   removeObjectAtIndex( NSMutableArray *self,
    if( _count < (_size >> 1) && _size > 8)
    {
       _size >>= 1;
-      _storage = MulleObjCObjectReallocateNonZeroedMemory( self,
+      _storage = MulleObjCInstanceReallocateNonZeroedMemory( self,
                                                            _storage,
                                                            sizeof( id) * _size);
    }
@@ -549,7 +549,7 @@ static void   removeObjectAtIndex( NSMutableArray *self,
    if( _count < (_size >> 1) && _size > 8)
    {
       _size  >>= 1;
-      _storage = MulleObjCObjectReallocateNonZeroedMemory( self,
+      _storage = MulleObjCInstanceReallocateNonZeroedMemory( self,
                                                            _storage,
                                                            sizeof( id) * _size);
    }
@@ -745,7 +745,7 @@ static void   removeObjectAtIndex( NSMutableArray *self,
 {
    NSUInteger   n;
 
-   assert_index_1( self, i);
+   validate_index_1( self, i);
    obj = [obj retain];
    if( i == self->_count)
    {
@@ -758,7 +758,7 @@ static void   removeObjectAtIndex( NSMutableArray *self,
       self->_size += self->_size;
       if( self->_size < 8)
          self->_size = 8;
-      _storage = MulleObjCObjectReallocateNonZeroedMemory( self, _storage, sizeof( id) * _size);
+      _storage = MulleObjCInstanceReallocateNonZeroedMemory( self, _storage, sizeof( id) * _size);
    }
 
    n = self->_count - i;
@@ -778,8 +778,8 @@ static void   removeObjectAtIndex( NSMutableArray *self,
 {
    id   tmp;
 
-   assert_index( self, index1);
-   assert_index( self, index2);
+   validate_index( self, index1);
+   validate_index( self, index2);
 
    tmp             = _storage[ index1];
    _storage[ index1] = _storage[ index2];
@@ -804,8 +804,8 @@ static int   bouncyBounceSel( void *a, void *b, void *ctxt)
 
 typedef struct
 {
-   NSInteger   (*f)( id, id, void *);
-   void        *ctxt;
+   NSComparisonResult   (*f)( id, id, void *);
+   void                 *ctxt;
 } bouncy;
 
 
@@ -818,7 +818,7 @@ static int   bouncyBounce( void *a, void *b, void *_ctxt)
 }
 
 
-- (void) sortUsingFunction:(NSInteger (*)(id, id, void *)) f
+- (void) sortUsingFunction:(NSComparisonResult (*)(id, id, void *)) f
                    context:(void *) context
 {
    bouncy   bounce;
