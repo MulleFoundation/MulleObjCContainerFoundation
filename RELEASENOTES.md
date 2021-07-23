@@ -1,3 +1,8 @@
+## 0.19.0
+
+* Various small improvements
+
+
 ## 0.18.0
 
 * added `[NSMutableArray mulleRemoveLastObject]` as a convenient pop operation
