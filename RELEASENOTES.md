@@ -1,6 +1,6 @@
 ## 0.19.0
 
-* Various small improvements
+* adapt to changes in MulleObjC
 
 
 ## 0.18.0
