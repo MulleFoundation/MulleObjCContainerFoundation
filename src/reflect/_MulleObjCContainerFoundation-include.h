@@ -16,14 +16,14 @@
 
 // You can tweak the following #include with these commands.
 // (Use e88d6c2a-e488-4a44-8c32-01337a3e5916 instead of mulle-container if there are duplicate entries)
-//    remove:             `mulle-sourcetree mark mulle-container no-header`
+//    remove:             `mulle-sde dependency mark mulle-container no-header`
 //    rename:             `mulle-sde dependency|library set mulle-container include whatever.h`
-//    reorder:            `mulle-sourcetree move mulle-container <up|down>`
-//    toggle #include:    `mulle-sourcetree mark mulle-container [no-]import`
-//    toggle public:      `mulle-sourcetree mark mulle-container [no-]public`
-//    toggle optional:    `mulle-sourcetree mark mulle-container [no-]require`
-//    remove for platform:`mulle-sourcetree mark mulle-container no-platform-<uname>`
-//        (use mulle-sourcetree-to-c --unames for known values)
+//    reorder:            `mulle-sde dependency move mulle-container <up|down>`
+//    toggle #include:    `mulle-sde dependency mark mulle-container [no-]import`
+//    toggle public:      `mulle-sde dependency mark mulle-container [no-]public`
+//    toggle optional:    `mulle-sde dependency mark mulle-container [no-]require`
+//    remove for platform:`mulle-sde dependency mark mulle-container no-platform-<uname>`
+//        (use `mulle-sourcetree-to-c --unames` to list known values)
 #include <mulle-container/mulle-container.h>   // mulle-container
 
 #endif

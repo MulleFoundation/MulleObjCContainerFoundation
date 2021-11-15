@@ -276,7 +276,7 @@ static void   reserve(  NSMutableArray *self, size_t count)
 static void   add_retained_object( NSMutableArray *self, id other)
 {
    if( ! other)
-      MulleObjCThrowInvalidArgumentExceptionCString( "object is nil");
+      MulleObjCThrowInvalidArgumentExceptionUTF8String( "object is nil");
 
    if( self->_count >= self->_size)
    {
