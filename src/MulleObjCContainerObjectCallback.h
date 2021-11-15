@@ -108,7 +108,7 @@ void
                                                 struct mulle_allocator *allocator);
 
 // p_allocator is **! will be zeroed out
-void *
+char *
    mulle_container_callback_object_describe( void *callback,
                                              id obj,
                                              struct mulle_allocator **p_allocator);
@@ -122,4 +122,5 @@ void *
 // extern const struct mulle_container_valuecallback   MulleOwnedCStringMapValueCallBacks;
 
 // struct mulle_container_valuecallback   MulleCopiedCStringMapValueCallBacks;
+
 #endif

@@ -164,7 +164,7 @@ static id   initWithObjectsForKeys( id self, id *objects, id *keys, NSUInteger c
 
    size = mulle_vararg_count_objects( args, obj);
    if( size & 1)
-      MulleObjCThrowInvalidArgumentExceptionCString( "not even arguments");
+      MulleObjCThrowInvalidArgumentExceptionUTF8String( "not even arguments");
    count   = size / 2;
    storage = MulleObjCInstanceAllocateNonZeroedMemory( self, sizeof( id) * size);
    values  = storage;
@@ -206,7 +206,7 @@ static id   initWithObjectsForKeys( id self, id *objects, id *keys, NSUInteger c
    }
 
    if( ! objects || ! keys)
-      MulleObjCThrowInvalidArgumentExceptionCString( "NULL objects");
+      MulleObjCThrowInvalidArgumentExceptionUTF8String( "NULL objects");
 
    return( initWithObjectsForKeys( self, objects, keys, count, NO));
 }

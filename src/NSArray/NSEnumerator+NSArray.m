@@ -61,8 +61,8 @@
    selAdd = @selector( addObject:);
    impAdd = [array methodForSelector:selAdd];
 
-   while( obj = (*impNext)( self, selNext, NULL))
-      (*impAdd)( array, selAdd, obj);
+   while( obj = MulleObjCIMPCall0( impNext, self, selNext))
+      MulleObjCIMPCall( impAdd, array, selAdd, obj);
 
    return( array);
 }
@@ -77,7 +77,7 @@
    selNext = @selector( nextObject);
    impNext = [self methodForSelector:selNext];
 
-   while( obj = (*impNext)( self, selNext, NULL))
+   while( obj = MulleObjCIMPCall0( impNext, self, selNext))
       [obj performSelector:sel];
 }
 
@@ -92,7 +92,7 @@
    selNext = @selector( nextObject);
    impNext = [self methodForSelector:selNext];
 
-   while( obj = (*impNext)( self, selNext, NULL))
+   while( obj = MulleObjCIMPCall0( impNext, self, selNext))
       [obj performSelector:sel
                 withObject:argument];
 }
@@ -102,9 +102,14 @@
                               withObject:(id) argument
                               withObject:(id) argument2
 {
-   id   obj;
+   IMP   impNext;
+   SEL   selNext;
+   id    obj;
 
-   while( obj = [self nextObject])
+   selNext = @selector( nextObject);
+   impNext = [self methodForSelector:selNext];
+
+   while( obj = MulleObjCIMPCall0( impNext, self, selNext))
       [obj performSelector:sel
                 withObject:argument
                 withObject:argument2];

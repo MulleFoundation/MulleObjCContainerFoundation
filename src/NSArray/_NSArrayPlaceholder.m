@@ -75,7 +75,7 @@
       return( (id) [[_MulleObjCEmptyArray sharedInstance] retain]);
 
    if( ! objects)
-      MulleObjCThrowInvalidArgumentExceptionCString( "NULL objects");
+      MulleObjCThrowInvalidArgumentExceptionUTF8String( "NULL objects");
 
    array = (id) _MulleObjCConcreteArrayNewWithRetainedObjects( _MulleObjCConcreteArrayClass,
                                                                objects,
@@ -105,7 +105,7 @@
    }
 
    if( ! objects)
-      MulleObjCThrowInvalidArgumentExceptionCString( "NULL objects");
+      MulleObjCThrowInvalidArgumentExceptionUTF8String( "NULL objects");
 
    //
    // we will place out "storage" directly into array, so the co is 0

@@ -40,6 +40,8 @@
 
 //
 // NSMapTable is pretty much mulle_map, but the callbacks are a local copy
+// the main difference is the describe method! This used to return NSString
+// not char *.
 //
 typedef struct mulle_container_keycallback        NSMapTableKeyCallBacks;
 typedef struct mulle_container_valuecallback      NSMapTableValueCallBacks;
@@ -85,6 +87,31 @@ static inline NSUInteger   NSCountMapTable( NSMapTable *table)
 static inline void   *NSMapGet( NSMapTable *table, void *key)
 {
    return( _mulle__map_get( &table->_map, key, &table->_callback));
+}
+
+
+static inline int   NSMapMember( NSMapTable *table,
+                                 void *key,
+                                 void **originalKey,
+                                 void **value)
+{
+   struct mulle_pointerpair  pair;
+   struct mulle_pointerpair  *p;
+
+   p = _mulle__map_get_pair( &table->_map, key, &table->_callback, &pair);
+   if( ! p)
+   {
+      if( originalKey)
+         *originalKey = table->_callback.keycallback.notakey;
+      if( value)
+         *value = NULL;
+      return( 0);
+   }
+   if( originalKey)
+      *originalKey = p->key;
+   if( value)
+      *value = p->value;
+   return( 1);
 }
 
 
