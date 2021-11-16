@@ -57,7 +57,10 @@ static inline id
       assert( pair.value);
       assert( pair.key);
 
-      _mulle__map_set_pair( &ivars->_table, &pair, NSDictionaryAssignCallback, allocator);
+      _mulle__map_set_pair( &ivars->_table,
+                            &pair,
+                            NSDictionaryAssignCallback,
+                            allocator);
    }
 
    return( self);

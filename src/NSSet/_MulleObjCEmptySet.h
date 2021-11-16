@@ -41,4 +41,5 @@
 @end
 
 
-extern Class   _MulleObjCEmptySetClass;
+MULLE_OBJC_CONTAINER_FOUNDATION_EXTERN_GLOBAL
+Class   _MulleObjCEmptySetClass;

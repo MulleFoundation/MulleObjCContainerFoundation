@@ -44,4 +44,5 @@
 }
 @end
 
-extern Class   _MulleObjCConcreteSetClass;
+MULLE_OBJC_CONTAINER_FOUNDATION_EXTERN_GLOBAL
+Class   _MulleObjCConcreteSetClass;

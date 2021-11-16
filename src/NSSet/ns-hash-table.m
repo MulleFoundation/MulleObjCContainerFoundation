@@ -74,7 +74,7 @@ NSHashTable   *NSCopyHashTable( NSHashTable *table)
 void   NSHashInsert( NSHashTable *table, void *p)
 {
    if( p == table->_callback.notakey)
-      MulleObjCThrowInvalidArgumentExceptionCString( "key is not a key marker (%p)", p);
+      MulleObjCThrowInvalidArgumentExceptionUTF8String( "key is not a key marker (%p)", p);
    mulle_set_set( &table->_set, p);
 }
 
@@ -82,10 +82,10 @@ void   NSHashInsert( NSHashTable *table, void *p)
 void   NSHashInsertKnownAbsent( NSHashTable *table, void *p)
 {
    if( p == table->_callback.notakey)
-      MulleObjCThrowInvalidArgumentExceptionCString( "key is not a key marker (%p)", p);
+      MulleObjCThrowInvalidArgumentExceptionUTF8String( "key is not a key marker (%p)", p);
 
    if( mulle_set_get( &table->_set, p))
-      MulleObjCThrowInvalidArgumentExceptionCString( "key is already present (%p)", p);
+      MulleObjCThrowInvalidArgumentExceptionUTF8String( "key is already present (%p)", p);
 
    mulle_set_set( &table->_set, p);
 }

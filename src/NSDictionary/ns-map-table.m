@@ -47,7 +47,7 @@
 void   NSMapInsert( NSMapTable *table, void *key, void *value)
 {
    if( key == table->_callback.keycallback.notakey)
-      MulleObjCThrowInvalidArgumentExceptionCString( "key is not a key marker (%p)", key);
+      MulleObjCThrowInvalidArgumentExceptionUTF8String( "key is not a key marker (%p)", key);
 
    _mulle__map_insert( &table->_map, key, value, &table->_callback, table->_allocator);
 }
@@ -116,10 +116,10 @@ void   NSFreeMapTable( NSMapTable *table)
 void   NSMapInsertKnownAbsent( NSMapTable *table, void *key, void *value)
 {
    if( key == table->_callback.keycallback.notakey)
-      MulleObjCThrowInvalidArgumentExceptionCString( "key is not a key marker (%p)", key);
+      MulleObjCThrowInvalidArgumentExceptionUTF8String( "key is not a key marker (%p)", key);
 
-   if(  _mulle__map_get( &table->_map, key, &table->_callback))
-      MulleObjCThrowInvalidArgumentExceptionCString( "key is already present (%p)", key);
+   if( _mulle__map_get( &table->_map, key, &table->_callback))
+      MulleObjCThrowInvalidArgumentExceptionUTF8String( "key is already present (%p)", key);
 
    _mulle__map_insert( &table->_map, key, value, &table->_callback, table->_allocator);
 }

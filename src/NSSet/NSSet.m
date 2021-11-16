@@ -88,7 +88,7 @@
 static id   initWithObjects( id self, id *objects, NSUInteger count, BOOL copyItems)
 {
    if( ! objects)
-      MulleObjCThrowInvalidArgumentExceptionCString( "empty objects");
+      MulleObjCThrowInvalidArgumentExceptionUTF8String( "empty objects");
 
    // retain or copy objects
    if( copyItems)

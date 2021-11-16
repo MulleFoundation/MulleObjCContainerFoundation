@@ -6,7 +6,8 @@
 //  Copyright © 2017 Mulle kybernetiK. All rights reserved.
 //
 
-extern Class   _MulleObjCConcreteArrayClass;
+MULLE_OBJC_CONTAINER_FOUNDATION_EXTERN_GLOBAL
+Class   _MulleObjCConcreteArrayClass;
 
 
 static inline id   *_MulleObjCConcreteArrayGetInlineObjects( _MulleObjCConcreteArray *_self)

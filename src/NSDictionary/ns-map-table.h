@@ -40,6 +40,8 @@
 
 //
 // NSMapTable is pretty much mulle_map, but the callbacks are a local copy
+// the main difference is the describe method! This used to return NSString
+// not char *.
 //
 typedef struct mulle_container_keycallback        NSMapTableKeyCallBacks;
 typedef struct mulle_container_valuecallback      NSMapTableValueCallBacks;
@@ -57,17 +59,21 @@ typedef struct
 
 # pragma mark - setup and tear down
 
+MULLE_OBJC_CONTAINER_FOUNDATION_EXTERN_GLOBAL
 NSMapTable   *_NSCreateMapTableWithAllocator( NSMapTableKeyCallBacks keyCallBacks,
                                               NSMapTableValueCallBacks valueCallBacks,
                                               NSUInteger capacity,
                                               struct mulle_allocator *allocator);
 
+MULLE_OBJC_CONTAINER_FOUNDATION_EXTERN_GLOBAL
 NSMapTable   *NSCreateMapTable( NSMapTableKeyCallBacks keyCallBacks,
                                 NSMapTableValueCallBacks valueCallBacks,
                                 NSUInteger capacity);
 
+MULLE_OBJC_CONTAINER_FOUNDATION_EXTERN_GLOBAL
 void   NSFreeMapTable( NSMapTable *table);
 
+MULLE_OBJC_CONTAINER_FOUNDATION_EXTERN_GLOBAL
 void   NSResetMapTable( NSMapTable *table);
 
 
@@ -88,19 +94,50 @@ static inline void   *NSMapGet( NSMapTable *table, void *key)
 }
 
 
+static inline int   NSMapMember( NSMapTable *table,
+                                 void *key,
+                                 void **originalKey,
+                                 void **value)
+{
+   struct mulle_pointerpair  pair;
+   struct mulle_pointerpair  *p;
+
+   p = _mulle__map_get_pair( &table->_map, key, &table->_callback, &pair);
+   if( ! p)
+   {
+      if( originalKey)
+         *originalKey = table->_callback.keycallback.notakey;
+      if( value)
+         *value = NULL;
+      return( 0);
+   }
+   if( originalKey)
+      *originalKey = p->key;
+   if( value)
+      *value = p->value;
+   return( 1);
+}
+
+
 static inline void   NSMapRemove( NSMapTable *table, void *key)
 {
    _mulle__map_remove( &table->_map, key, &table->_callback, table->_allocator);
 }
 
 
+MULLE_OBJC_CONTAINER_FOUNDATION_EXTERN_GLOBAL
 void   NSMapInsert( NSMapTable *table, void *key, void *value);
+
+MULLE_OBJC_CONTAINER_FOUNDATION_EXTERN_GLOBAL
 void   NSMapInsertKnownAbsent( NSMapTable *table, void *key, void *value);
+
+MULLE_OBJC_CONTAINER_FOUNDATION_EXTERN_GLOBAL
 void   *NSMapInsertIfAbsent( NSMapTable *table, void *key, void *value);
 
 
 # pragma mark - copying
 
+MULLE_OBJC_CONTAINER_FOUNDATION_EXTERN_GLOBAL
 NSMapTable   *NSCopyMapTable( NSMapTable *table);
 
 

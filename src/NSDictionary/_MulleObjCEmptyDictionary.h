@@ -40,5 +40,5 @@
 @interface _MulleObjCEmptyDictionary : NSDictionary < MulleObjCSingleton, MulleObjCImmutable>
 @end
 
-
-extern Class  _MulleObjCEmptyDictionaryClass;
+MULLE_OBJC_CONTAINER_FOUNDATION_EXTERN_GLOBAL
+Class  _MulleObjCEmptyDictionaryClass;

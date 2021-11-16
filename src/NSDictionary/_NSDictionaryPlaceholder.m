@@ -87,7 +87,7 @@ MULLE_OBJC_DEPENDS_ON_CLASS( _MulleObjCEmptyDictionary);
    if( ! count)
       return( [[_MulleObjCEmptyDictionaryClass sharedInstance] retain]);
    if( ! objects)
-      MulleObjCThrowInvalidArgumentExceptionCString( "NULL objects");
+      MulleObjCThrowInvalidArgumentExceptionUTF8String( "NULL objects");
 
    dict = _MulleObjCDictionaryNewWithCapacity( _MulleObjCConcreteDictionaryClass, count);
    dict = (id) _MulleObjCDictionaryInitWithRetainedObjectsAndCopiedKeys( dict, objects, &objects[ count], count);
@@ -107,7 +107,7 @@ MULLE_OBJC_DEPENDS_ON_CLASS( _MulleObjCEmptyDictionary);
    if( ! count)
       return( [[_MulleObjCEmptyDictionaryClass sharedInstance] retain]);
    if( ! objects || ! keys)
-      MulleObjCThrowInvalidArgumentExceptionCString( "NULL objects or keys");
+      MulleObjCThrowInvalidArgumentExceptionUTF8String( "NULL objects or keys");
 
    dict = _MulleObjCDictionaryNewWithCapacity( _MulleObjCConcreteDictionaryClass, count);
    dict = (id) _MulleObjCDictionaryInitWithRetainedObjectsAndCopiedKeys( dict, objects, keys, count);
@@ -125,7 +125,7 @@ MULLE_OBJC_DEPENDS_ON_CLASS( _MulleObjCEmptyDictionary);
    if( ! count)
       return( [[_MulleObjCEmptyDictionaryClass sharedInstance] retain]);
    if( ! objects || ! keys)
-      MulleObjCThrowInvalidArgumentExceptionCString( "NULL objects or keys");
+      MulleObjCThrowInvalidArgumentExceptionUTF8String( "NULL objects or keys");
 
    dict = _MulleObjCDictionaryNewWithCapacity( _MulleObjCConcreteDictionaryClass, count);
    dict = (id) _MulleObjCDictionaryInitWithObjectAndKeyContainers( dict, objects, keys);

@@ -270,7 +270,7 @@ static Class   NSArrayClass;
    }
 
    if( count && ! objects)
-      MulleObjCThrowInvalidArgumentExceptionCString( "empty objects with non-null count");
+      MulleObjCThrowInvalidArgumentExceptionUTF8String( "empty objects with non-null count");
    MulleObjCMakeObjectsPerformRetain( objects, count);
    return( [self mulleInitWithRetainedObjects:objects
                                        count:count]);
@@ -484,7 +484,7 @@ static int   bouncyBounceSel( void *a, void *b, void *ctxt)
                                context:(void *) context
 {
    if( ! f)
-      MulleObjCThrowInvalidArgumentExceptionCString( "function is 0");
+      MulleObjCThrowInvalidArgumentExceptionUTF8String( "function is 0");
 
    return( [[[NSArrayClass alloc] mulleInitWithArray:self
                                         sortFunction:f
@@ -495,7 +495,7 @@ static int   bouncyBounceSel( void *a, void *b, void *ctxt)
 - (NSArray *) sortedArrayUsingSelector:(SEL) comparator
 {
    if( ! comparator)
-      MulleObjCThrowInvalidArgumentExceptionCString( "selector is 0");
+      MulleObjCThrowInvalidArgumentExceptionUTF8String( "selector is 0");
 
    return( [[[NSArrayClass alloc] mulleInitWithArray:self
                                     sortedBySelector:comparator] autorelease]);

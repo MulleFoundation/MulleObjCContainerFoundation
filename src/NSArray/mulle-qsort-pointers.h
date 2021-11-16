@@ -37,6 +37,8 @@
 #ifndef mulle_qsort_pointers_h__
 #define mulle_qsort_pointers_h__
 
+#include "include.h"
+
 #include <stddef.h>
 
 //
@@ -47,6 +49,7 @@
 // b) no element size
 // c) different order of cmp and userinfo (with regards to BSD)
 //
+MULLE_OBJC_CONTAINER_FOUNDATION_EXTERN_GLOBAL
 void   mulle_qsort_pointers( void **pointers,
                              size_t n,
                              int (*cmp)( void *a, void *b, void *userinfo),

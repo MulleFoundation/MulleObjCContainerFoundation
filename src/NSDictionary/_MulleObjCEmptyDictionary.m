@@ -77,7 +77,7 @@ Class  _MulleObjCEmptyDictionaryClass;
               count:(NSUInteger) count
 {
    if( count)
-      MulleObjCThrowInvalidArgumentExceptionCString( "out of bounds");
+      MulleObjCThrowInvalidArgumentExceptionUTF8String( "out of bounds");
 }
 
 
