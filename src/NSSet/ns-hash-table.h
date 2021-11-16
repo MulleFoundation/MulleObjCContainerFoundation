@@ -57,9 +57,11 @@ typedef struct
 typedef struct mulle_setenumerator   NSHashEnumerator;
 
 
+MULLE_OBJC_CONTAINER_FOUNDATION_EXTERN_GLOBAL
 NSHashTable *
    NSCreateHashTable( NSHashTableCallBacks callBacks, NSUInteger capacity);
 
+MULLE_OBJC_CONTAINER_FOUNDATION_EXTERN_GLOBAL
 void   NSFreeHashTable( NSHashTable *table);
 
 
@@ -114,6 +116,7 @@ static inline NSUInteger   NSCountHashTable( NSHashTable *table)
 }
 
 
+MULLE_OBJC_CONTAINER_FOUNDATION_EXTERN_GLOBAL
 NSHashTable   *NSCopyHashTable( NSHashTable *table);
 
 
@@ -148,8 +151,13 @@ static inline void   NSEndHashTableEnumeration( NSHashEnumerator *rover)
 }
 
 
+MULLE_OBJC_CONTAINER_FOUNDATION_EXTERN_GLOBAL
 void   NSHashInsert( NSHashTable *table, void *p);
+
+MULLE_OBJC_CONTAINER_FOUNDATION_EXTERN_GLOBAL
 void   NSHashInsertKnownAbsent( NSHashTable *table, void *p);
+
+MULLE_OBJC_CONTAINER_FOUNDATION_EXTERN_GLOBAL
 void   *NSHashInsertIfAbsent( NSHashTable *table, void *p);
 
 

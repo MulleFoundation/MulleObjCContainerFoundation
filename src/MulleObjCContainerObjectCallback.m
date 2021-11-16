@@ -97,15 +97,15 @@ void
 
 
 //
-// description is a bet on the future
+// UTF8String is a bet on the future
 // 
-void *
+char *
    mulle_container_callback_object_describe( void *callback,
                                              id obj,
                                              struct mulle_allocator **p_allocator)
 {
    *p_allocator = NULL;
-   return( mulle_objc_object_call( obj, @selector( description), obj));
+   return( mulle_objc_object_call( obj, @selector( UTF8String), obj));
 }
 
 

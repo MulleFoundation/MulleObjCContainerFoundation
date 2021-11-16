@@ -138,7 +138,7 @@ extern Class  _MulleObjCConcreteMutableDictionaryClass;
       return( dict);
 
    if( ! objects || ! keys)
-      MulleObjCThrowInvalidArgumentExceptionCString( "NULL objects or keys");
+      MulleObjCThrowInvalidArgumentExceptionUTF8String( "NULL objects or keys");
 
    dict = (id) _MulleObjCDictionaryInitWithObjectAndKeyContainers( dict, objects, keys);
    return( dict);

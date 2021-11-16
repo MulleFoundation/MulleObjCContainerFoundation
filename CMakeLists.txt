@@ -1,6 +1,8 @@
 cmake_minimum_required( VERSION 3.1)
 
 project( MulleObjCContainerFoundation C)
+add_definitions( -DMULLE_OBJC_CONTAINER_FOUNDATION_EXTERN_GLOBAL=extern)
+
 
 set( CMAKE_C_DEBUG_FLAGS "${CMAKE_C_DEBUG_FLAGS} -Wuninitialized")
 
@@ -18,9 +20,13 @@ include( Files)
 ### Library
 
 if( HEADERS_PHASE)
-   install( FILES ${INSTALL_PUBLIC_HEADERS}  DESTINATION "include/MulleObjCContainerFoundation")
-   install( FILES ${INSTALL_PRIVATE_HEADERS} DESTINATION "include/MulleObjCContainerFoundation/private")
-   install( FILES ${CMAKE_INCLUDES}          DESTINATION "include/MulleObjCContainerFoundation/cmake")
+   install( FILES ${INSTALL_PUBLIC_HEADERS}  DESTINATION "include/${PROJECT_NAME}")
+   install( FILES ${INSTALL_PRIVATE_HEADERS} DESTINATION "include/${PROJECT_NAME}/private")
+   install( FILES ${CMAKE_INCLUDES}          DESTINATION "include/${PROJECT_NAME}/cmake")
+   # hopefully temporary fix for Objective-C
+   if( EXISTS "src/reflect/objc-loader.inc")
+      install( FILES src/reflect/objc-loader.inc DESTINATION "include/${PROJECT_NAME}")
+   endif()
 
    # short cut out
    if( NOT COMPILE_PHASE AND NOT LINK_PHASE)

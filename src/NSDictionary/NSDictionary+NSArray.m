@@ -67,7 +67,7 @@
 
    count = [objects count];
    if( count != [keys count])
-      MulleObjCThrowInvalidArgumentExceptionCString( "mismatched keys/objects lengths");
+      MulleObjCThrowInvalidArgumentExceptionUTF8String( "mismatched keys/objects lengths");
 
    size = 2 * count;
    {
@@ -111,6 +111,7 @@
    for( key in keys)
    {
       value = [self objectForKey:key];
+      value = value ? value : anObject;
       if( value)
          [array addObject:value];
    }

@@ -45,4 +45,5 @@
 
 @end
 
-extern Class   _MulleObjCConcreteMutableSetClass;
+MULLE_OBJC_CONTAINER_FOUNDATION_EXTERN_GLOBAL
+Class   _MulleObjCConcreteMutableSetClass;

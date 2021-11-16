@@ -43,5 +43,5 @@
 }
 @end
 
-
-extern Class  _MulleObjCConcreteDictionaryClass;
+MULLE_OBJC_CONTAINER_FOUNDATION_EXTERN_GLOBAL
+Class  _MulleObjCConcreteDictionaryClass;

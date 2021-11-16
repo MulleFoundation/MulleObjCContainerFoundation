@@ -105,7 +105,7 @@ PROTOCOLCLASS_IMPLEMENTATION( _MulleObjCDictionary)
       [coder decodeValueOfObjCType:@encode( id)
                                 at:&pair.key];
       if( ! pair.key || ! pair.value)
-         MulleObjCThrowInvalidArgumentExceptionCString( "nil key or value");
+         MulleObjCThrowInvalidArgumentExceptionUTF8String( "nil key or value");
 
       _mulle__map_set_pair( &ivars->_table, &pair, NSDictionaryAssignCallback, allocator);
       --count;
@@ -300,15 +300,17 @@ PROTOCOLCLASS_END()
 
 @implementation _MulleObjCDictionaryKeyEnumerator
 
-
 + (NSEnumerator *) enumeratorWithDictionary:(_MulleObjCDictionary< NSObject> *) owner
                                       table:(struct mulle__map *) table
 {
    _MulleObjCDictionaryKeyEnumerator   *obj;
-   struct mulle_allocator              *allocator;
 
-   allocator   = MulleObjCClassGetAllocator( self);
-   _mulle__map_shrink_if_needed( table, NSDictionaryCallback, allocator);
+   assert( table);
+   assert( owner);
+
+// This is bad, we mutate something that should be immutable! This could
+// make weird problem with  threads.
+//   _mulle__map_shrink_if_needed( table, NSDictionaryCallback, allocator);
    obj         = NSAllocateObject( self, 0, NULL);
    obj->_rover = mulle__map_enumerate( table, NSDictionaryCallback);
    obj->_owner = [owner retain];

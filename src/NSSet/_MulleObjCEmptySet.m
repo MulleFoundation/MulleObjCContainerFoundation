@@ -48,7 +48,7 @@
 
 @implementation _MulleObjCEmptySet
 
-
+MULLE_C_GLOBAL
 Class  _MulleObjCEmptySetClass;
 
 + (void) load
