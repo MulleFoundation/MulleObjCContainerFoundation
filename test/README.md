@@ -1,0 +1,3 @@
+# MEMO
+
+most of the tests are still in MulleObjCStandardFoundation...
