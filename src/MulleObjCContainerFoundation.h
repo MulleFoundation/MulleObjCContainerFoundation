@@ -34,7 +34,7 @@
 //  POSSIBILITY OF SUCH DAMAGE.
 //
 
-#define MULLE_OBJC_CONTAINER_FOUNDATION_VERSION   ((0 << 20) | (19 << 8) | 0)
+#define MULLE_OBJC_CONTAINER_FOUNDATION_VERSION   ((0 << 20) | (20 << 8) | 0)
 
 #import "import.h"
 
@@ -47,6 +47,4 @@
 # if __has_include( "_MulleObjCContainerFoundation-versioncheck.h")
 #  import "_MulleObjCContainerFoundation-versioncheck.h"
 # endif
-#else
-# warning "compiler does not have __has_include, you may want to include _MulleObjCContainerFoundation-versioncheck.h manually"
 #endif
