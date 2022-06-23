@@ -143,7 +143,7 @@
 @end
 
 
-MULLE_OBJC_CONTAINER_FOUNDATION_EXTERN_GLOBAL
+MULLE_OBJC_CONTAINER_FOUNDATION_GLOBAL
 id   MulleForEachObjectCallFunction( id *objects,
                                      NSUInteger n,
                                      BOOL (*f)( id, void *),

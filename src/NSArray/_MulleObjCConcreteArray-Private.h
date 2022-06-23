@@ -6,7 +6,7 @@
 //  Copyright © 2017 Mulle kybernetiK. All rights reserved.
 //
 
-MULLE_OBJC_CONTAINER_FOUNDATION_EXTERN_GLOBAL
+MULLE_OBJC_CONTAINER_FOUNDATION_GLOBAL
 Class   _MulleObjCConcreteArrayClass;
 
 

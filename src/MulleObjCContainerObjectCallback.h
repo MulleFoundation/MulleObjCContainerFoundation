@@ -41,45 +41,45 @@
 #ifndef mulle_objc_container_callback_h__
 #define mulle_objc_container_callback_h__
 
-#include <mulle-container/mulle-container.h>
+#include "include.h"
 
 //
 // these are "const" to make them reside possibly in
 // writeprotected storage, which can be convenient for
 // catching accidental writes into them
 //
-MULLE_OBJC_CONTAINER_FOUNDATION_EXTERN_GLOBAL
+MULLE_OBJC_CONTAINER_FOUNDATION_GLOBAL
 const struct mulle_container_keyvaluecallback   _MulleObjCContainerKeyRetainValueRetainCallback;
-MULLE_OBJC_CONTAINER_FOUNDATION_EXTERN_GLOBAL
+MULLE_OBJC_CONTAINER_FOUNDATION_GLOBAL
 const struct mulle_container_keyvaluecallback   _MulleObjCContainerKeyCopyValueRetainCallback;
 
 // NSDictionary uses this for init sometimes
-MULLE_OBJC_CONTAINER_FOUNDATION_EXTERN_GLOBAL
+MULLE_OBJC_CONTAINER_FOUNDATION_GLOBAL
 const struct mulle_container_keyvaluecallback   _MulleObjCContainerKeyAssignValueAssignCallback;
 // NSDictionary usually uses this
-MULLE_OBJC_CONTAINER_FOUNDATION_EXTERN_GLOBAL
+MULLE_OBJC_CONTAINER_FOUNDATION_GLOBAL
 const struct mulle_container_keyvaluecallback   _MulleObjCContainerKeyRetainValueCopyCallback;
-MULLE_OBJC_CONTAINER_FOUNDATION_EXTERN_GLOBAL
+MULLE_OBJC_CONTAINER_FOUNDATION_GLOBAL
 const struct mulle_container_keyvaluecallback   _MulleObjCContainerKeyCopyValueCopyCallback;
 
 // i was too lazy to multiply it out, do it if needed
-MULLE_OBJC_CONTAINER_FOUNDATION_EXTERN_GLOBAL
+MULLE_OBJC_CONTAINER_FOUNDATION_GLOBAL
 const struct mulle_container_keycallback      _MulleObjCContainerKeyAssignCallback;
-MULLE_OBJC_CONTAINER_FOUNDATION_EXTERN_GLOBAL
+MULLE_OBJC_CONTAINER_FOUNDATION_GLOBAL
 const struct mulle_container_valuecallback    _MulleObjCContainerValueAssignCallback;
 
-MULLE_OBJC_CONTAINER_FOUNDATION_EXTERN_GLOBAL
+MULLE_OBJC_CONTAINER_FOUNDATION_GLOBAL
 const struct mulle_container_keycallback      _MulleObjCContainerKeyRetainPointerCompareCallback;
 
 
-MULLE_OBJC_CONTAINER_FOUNDATION_EXTERN_GLOBAL
+MULLE_OBJC_CONTAINER_FOUNDATION_GLOBAL
  struct mulle_container_keycallback     *MulleObjCContainerKeyRetainCallback;
 // NSSet usually uses this
-MULLE_OBJC_CONTAINER_FOUNDATION_EXTERN_GLOBAL
+MULLE_OBJC_CONTAINER_FOUNDATION_GLOBAL
  struct mulle_container_keycallback     *MulleObjCContainerKeyCopyCallback;
-MULLE_OBJC_CONTAINER_FOUNDATION_EXTERN_GLOBAL
+MULLE_OBJC_CONTAINER_FOUNDATION_GLOBAL
  struct mulle_container_valuecallback   *MulleObjCContainerValueRetainCallback;
-MULLE_OBJC_CONTAINER_FOUNDATION_EXTERN_GLOBAL
+MULLE_OBJC_CONTAINER_FOUNDATION_GLOBAL
  struct mulle_container_valuecallback   *MulleObjCContainerValueCopyCallback;
 
 
@@ -99,39 +99,39 @@ MULLE_OBJC_CONTAINER_FOUNDATION_EXTERN_GLOBAL
 
 
 
-MULLE_OBJC_CONTAINER_FOUNDATION_EXTERN_GLOBAL
+MULLE_OBJC_CONTAINER_FOUNDATION_GLOBAL
 uintptr_t
    mulle_container_keycallback_object_hash( struct mulle_container_keycallback *callback,
                                             void *obj);
-MULLE_OBJC_CONTAINER_FOUNDATION_EXTERN_GLOBAL
+MULLE_OBJC_CONTAINER_FOUNDATION_GLOBAL
 int
    mulle_container_keycallback_object_is_equal( struct mulle_container_keycallback *callback,
                                                 void *obj,
                                                 void *other);
 // these will be casted anyway, so the signature can be wrong :)
-MULLE_OBJC_CONTAINER_FOUNDATION_EXTERN_GLOBAL
+MULLE_OBJC_CONTAINER_FOUNDATION_GLOBAL
 void   *
    mulle_container_callback_object_assign( void *callback,
                                            id obj,
                                            struct mulle_allocator *allocator);
-MULLE_OBJC_CONTAINER_FOUNDATION_EXTERN_GLOBAL
+MULLE_OBJC_CONTAINER_FOUNDATION_GLOBAL
 void   *
    mulle_container_callback_object_retain( void *callback,
                                            id obj,
                                            struct mulle_allocator *allocator);
-MULLE_OBJC_CONTAINER_FOUNDATION_EXTERN_GLOBAL
+MULLE_OBJC_CONTAINER_FOUNDATION_GLOBAL
 void   *
    mulle_container_callback_object_copy( void *callback,
                                          id obj,
                                          struct mulle_allocator *allocator);
-MULLE_OBJC_CONTAINER_FOUNDATION_EXTERN_GLOBAL
+MULLE_OBJC_CONTAINER_FOUNDATION_GLOBAL
 void
    mulle_container_callback_object_autorelease( void *callback,
                                                 id obj,
                                                 struct mulle_allocator *allocator);
 
 // p_allocator is **! will be zeroed out
-MULLE_OBJC_CONTAINER_FOUNDATION_EXTERN_GLOBAL
+MULLE_OBJC_CONTAINER_FOUNDATION_GLOBAL
 char *
    mulle_container_callback_object_describe( void *callback,
                                              id obj,
@@ -139,19 +139,19 @@ char *
 
 
 // some mulle additions
-MULLE_OBJC_CONTAINER_FOUNDATION_EXTERN_GLOBAL
+MULLE_OBJC_CONTAINER_FOUNDATION_GLOBAL
 const struct mulle_container_keycallback   MulleNonOwnedCStringMapKeyCallBacks;
 
-MULLE_OBJC_CONTAINER_FOUNDATION_EXTERN_GLOBAL
+MULLE_OBJC_CONTAINER_FOUNDATION_GLOBAL
 const struct mulle_container_keycallback   MulleOwnedCStringMapKeyCallBacks;
 
-MULLE_OBJC_CONTAINER_FOUNDATION_EXTERN_GLOBAL
+MULLE_OBJC_CONTAINER_FOUNDATION_GLOBAL
 const struct mulle_container_keycallback   MulleCopiedCStringMapKeyCallBacks;
 
-MULLE_OBJC_CONTAINER_FOUNDATION_EXTERN_GLOBAL
+MULLE_OBJC_CONTAINER_FOUNDATION_GLOBAL
 const struct mulle_container_valuecallback   MulleNonOwnedCStringMapValueCallBacks;
 
-MULLE_OBJC_CONTAINER_FOUNDATION_EXTERN_GLOBAL
+MULLE_OBJC_CONTAINER_FOUNDATION_GLOBAL
 const struct mulle_container_valuecallback   MulleOwnedCStringMapValueCallBacks;
 
 // struct mulle_container_valuecallback   MulleCopiedCStringMapValueCallBacks;
