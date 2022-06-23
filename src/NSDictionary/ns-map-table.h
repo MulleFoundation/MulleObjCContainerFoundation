@@ -59,21 +59,21 @@ typedef struct
 
 # pragma mark - setup and tear down
 
-MULLE_OBJC_CONTAINER_FOUNDATION_EXTERN_GLOBAL
+MULLE_OBJC_CONTAINER_FOUNDATION_GLOBAL
 NSMapTable   *_NSCreateMapTableWithAllocator( NSMapTableKeyCallBacks keyCallBacks,
                                               NSMapTableValueCallBacks valueCallBacks,
                                               NSUInteger capacity,
                                               struct mulle_allocator *allocator);
 
-MULLE_OBJC_CONTAINER_FOUNDATION_EXTERN_GLOBAL
+MULLE_OBJC_CONTAINER_FOUNDATION_GLOBAL
 NSMapTable   *NSCreateMapTable( NSMapTableKeyCallBacks keyCallBacks,
                                 NSMapTableValueCallBacks valueCallBacks,
                                 NSUInteger capacity);
 
-MULLE_OBJC_CONTAINER_FOUNDATION_EXTERN_GLOBAL
+MULLE_OBJC_CONTAINER_FOUNDATION_GLOBAL
 void   NSFreeMapTable( NSMapTable *table);
 
-MULLE_OBJC_CONTAINER_FOUNDATION_EXTERN_GLOBAL
+MULLE_OBJC_CONTAINER_FOUNDATION_GLOBAL
 void   NSResetMapTable( NSMapTable *table);
 
 
@@ -125,19 +125,19 @@ static inline void   NSMapRemove( NSMapTable *table, void *key)
 }
 
 
-MULLE_OBJC_CONTAINER_FOUNDATION_EXTERN_GLOBAL
+MULLE_OBJC_CONTAINER_FOUNDATION_GLOBAL
 void   NSMapInsert( NSMapTable *table, void *key, void *value);
 
-MULLE_OBJC_CONTAINER_FOUNDATION_EXTERN_GLOBAL
+MULLE_OBJC_CONTAINER_FOUNDATION_GLOBAL
 void   NSMapInsertKnownAbsent( NSMapTable *table, void *key, void *value);
 
-MULLE_OBJC_CONTAINER_FOUNDATION_EXTERN_GLOBAL
+MULLE_OBJC_CONTAINER_FOUNDATION_GLOBAL
 void   *NSMapInsertIfAbsent( NSMapTable *table, void *key, void *value);
 
 
 # pragma mark - copying
 
-MULLE_OBJC_CONTAINER_FOUNDATION_EXTERN_GLOBAL
+MULLE_OBJC_CONTAINER_FOUNDATION_GLOBAL
 NSMapTable   *NSCopyMapTable( NSMapTable *table);
 
 

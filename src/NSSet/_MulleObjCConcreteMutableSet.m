@@ -53,7 +53,6 @@
 
 @implementation _MulleObjCConcreteMutableSet
 
-MULLE_C_GLOBAL
 Class  _MulleObjCConcreteMutableSetClass;
 
 

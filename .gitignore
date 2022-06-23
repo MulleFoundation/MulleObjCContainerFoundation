@@ -55,3 +55,5 @@ tmp.*/
 *.sublime-workspace
 *.code-workspace
 public-classes.txt
+.mulle-make-build-dir
+version.old
