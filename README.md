@@ -30,7 +30,7 @@ Class                | Description
 
 ## Install
 
-See [foundation-developer](//github.com//foundation-developer) for
+See [foundation-developer](//github.com/MulleFoundation/foundation-developer) for
 installation instructions.
 
 
