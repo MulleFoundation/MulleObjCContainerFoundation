@@ -56,10 +56,8 @@
    id           obj;
    NSUInteger   i, n;
    NSUInteger   m;
-   NSSet        *set;
    IMP          IMPGet;
    IMP          IMPRemove;
-   IMP          IMPIndex;
    IMP          IMPMember;
    SEL          SELMember;
    id           testContainer;

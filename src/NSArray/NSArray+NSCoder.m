@@ -84,7 +84,6 @@
 - (void) decodeWithCoder:(NSCoder *) coder
 {
    NSUInteger   count;
-   id           *objects;
    id           *sentinel;
    id           *p;
 

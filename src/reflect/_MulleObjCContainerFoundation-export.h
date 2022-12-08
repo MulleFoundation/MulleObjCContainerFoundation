@@ -9,7 +9,6 @@
  *
  *      mulle-sde environment set MULLE_MATCH_TO_C_RUN DISABLE
  */
-#import "MulleObjCContainerObjectCallback.h"
 #import "MulleObjCLoader+MulleObjCContainerFoundation.h"
 #import "MullePreempt.h"
 #import "NSArray+NSCoder.h"

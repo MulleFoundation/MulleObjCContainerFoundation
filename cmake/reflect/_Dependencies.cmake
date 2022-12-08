@@ -15,6 +15,7 @@ endif()
 # Generated from sourcetree: 6DA19B11-3B84-4B9C-ADB8-4688C3E624E2;MulleObjC;no-singlephase;
 # Disable with : `mulle-sourcetree mark MulleObjC no-link`
 # Disable for this platform: `mulle-sourcetree mark MulleObjC no-cmake-platform-${MULLE_UNAME}`
+# Disable for a sdk: `mulle-sourcetree mark MulleObjC no-cmake-sdk-<name>`
 #
 if( NOT MULLE_OBJC_LIBRARY)
    find_library( MULLE_OBJC_LIBRARY NAMES ${CMAKE_STATIC_LIBRARY_PREFIX}MulleObjC${CMAKE_DEBUG_POSTFIX}${CMAKE_STATIC_LIBRARY_SUFFIX} ${CMAKE_STATIC_LIBRARY_PREFIX}MulleObjC${CMAKE_STATIC_LIBRARY_SUFFIX} MulleObjC NO_CMAKE_SYSTEM_PATH NO_SYSTEM_ENVIRONMENT_PATH)
@@ -95,6 +96,7 @@ endif()
 # Generated from sourcetree: e88d6c2a-e488-4a44-8c32-01337a3e5916;mulle-container;no-all-load,no-cmake-inherit,no-cmake-searchpath,no-import,no-singlephase;
 # Disable with : `mulle-sourcetree mark mulle-container no-link`
 # Disable for this platform: `mulle-sourcetree mark mulle-container no-cmake-platform-${MULLE_UNAME}`
+# Disable for a sdk: `mulle-sourcetree mark mulle-container no-cmake-sdk-<name>`
 #
 if( NOT MULLE_CONTAINER_LIBRARY)
    find_library( MULLE_CONTAINER_LIBRARY NAMES ${CMAKE_STATIC_LIBRARY_PREFIX}mulle-container${CMAKE_DEBUG_POSTFIX}${CMAKE_STATIC_LIBRARY_SUFFIX} ${CMAKE_STATIC_LIBRARY_PREFIX}mulle-container${CMAKE_STATIC_LIBRARY_SUFFIX} mulle-container NO_CMAKE_SYSTEM_PATH NO_SYSTEM_ENVIRONMENT_PATH)

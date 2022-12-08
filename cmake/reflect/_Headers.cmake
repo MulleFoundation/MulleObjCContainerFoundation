@@ -68,7 +68,6 @@ src/generic/include.h
 #
 set( PUBLIC_HEADERS
 src/MulleObjCContainerFoundation.h
-src/MulleObjCContainerObjectCallback.h
 src/MulleObjCLoader+MulleObjCContainerFoundation.h
 src/MullePreempt.h
 src/NSArray/_MulleObjCArrayEnumerator.h

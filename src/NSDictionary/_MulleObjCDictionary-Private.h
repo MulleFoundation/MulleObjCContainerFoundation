@@ -40,7 +40,6 @@ static inline id
                                                              id *keys,
                                                              NSUInteger count)
 {
-   _MulleObjCDictionary        *dictionary;
    _MulleObjCDictionaryIvars   *ivars;
    struct mulle_allocator      *allocator;
    struct mulle_pointerpair    pair;
@@ -72,7 +71,6 @@ static inline id
                                                        id <NSFastEnumeration> objectContainer,
                                                        id <NSFastEnumeration> keyContainer)
 {
-   _MulleObjCDictionary        *dictionary;
    _MulleObjCDictionaryIvars   *ivars;
    struct mulle_allocator      *allocator;
    struct mulle_pointerpair    pair;

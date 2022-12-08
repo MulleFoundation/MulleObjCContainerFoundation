@@ -71,6 +71,9 @@
 
 - (NSInteger) mulleCountCollisions:(NSInteger *) perfects;
 
+- (void) getObjects:(id *) objects
+            andKeys:(id *) keys;
+
 @end
 
 
@@ -90,8 +93,6 @@
 - (NSUInteger) countByEnumeratingWithState:(NSFastEnumerationState *) rover
                                    objects:(id *) buffer
                                      count:(NSUInteger) len;
-
-
 @end
 
 

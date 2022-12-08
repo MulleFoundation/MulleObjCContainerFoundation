@@ -42,7 +42,6 @@
 #import "_MulleObjCConcreteSet.h"
 
 // other libraries of MulleObjCContainerFoundation
-#import "MulleObjCContainerObjectCallback.h"
 
 // std-c and dependencies
 

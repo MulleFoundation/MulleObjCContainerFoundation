@@ -41,7 +41,6 @@
 #import "NSEnumerator.h"
 
 // other libraries of MulleObjCContainerFoundation
-#import "MulleObjCContainerObjectCallback.h"
 
 // std-c and dependencies
 #import "import-private.h"
@@ -171,7 +170,10 @@ PROTOCOLCLASS_IMPLEMENTATION( _MulleObjCDictionary)
    struct mulle__mapenumerator    rover;
    struct mulle_pointerpair       *pair;
 
-   ivars    = _MulleObjCDictionaryGetIvars( self);
+   ivars = _MulleObjCDictionaryGetIvars( self);
+   if( count == (NSUInteger) -1)
+      count = mulle__map_get_count( &ivars->_table);
+
    sentinel = &objects[ count];
    rover    = mulle__map_enumerate( &ivars->_table, NSDictionaryCallback);
    while( pair = _mulle__mapenumerator_next_pair( &rover))
@@ -240,7 +242,6 @@ struct _MulleObjCDictionaryFastEnumerationState
                                      count:(NSUInteger) len
 {
    struct _MulleObjCDictionaryFastEnumerationState   *dstate;
-   struct mulle_pointerpair                          *pair;
    id                                                *sentinel;
 
    assert( sizeof( struct _MulleObjCDictionaryFastEnumerationState) <= sizeof( long) * 5);
