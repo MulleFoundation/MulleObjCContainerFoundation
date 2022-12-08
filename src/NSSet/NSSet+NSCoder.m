@@ -7,8 +7,6 @@
 //
 #import "NSSet+NSCoder.h"
 
-#import "MulleObjCContainerObjectCallback.h"
-
 #import "_NSSetPlaceholder.h"
 #import "_NSMutableSetPlaceholder.h"
 #import "_MulleObjCSet.h"

@@ -8,8 +8,6 @@
 
 #import "NSDictionary+NSCoder.h"
 
-#import "MulleObjCContainerObjectCallback.h"
-
 #import "_NSDictionaryPlaceholder.h"
 #import "_NSMutableDictionaryPlaceholder.h"
 

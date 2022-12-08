@@ -41,7 +41,6 @@
 #import "NSEnumerator.h"
 
 // other libraries of MulleObjCContainerFoundation
-#import "MulleObjCContainerObjectCallback.h"
 
 // std-c and dependencies
 
@@ -103,7 +102,6 @@ PROTOCOLCLASS_IMPLEMENTATION( _MulleObjCSet)
 - (void) decodeWithCoder:(NSCoder *) coder
 {
    NSUInteger               count;
-   id                       *objects;
    id                       obj;
    struct mulle_allocator   *allocator;
    _MulleObjCSetIvars       *ivars;

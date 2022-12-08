@@ -11,7 +11,6 @@ endif()
 # contents selected with patternfile ??-source--sources
 #
 set( SOURCES
-src/MulleObjCContainerObjectCallback.m
 src/NSArray/_MulleObjCArrayEnumerator.m
 src/NSArray/_MulleObjCConcreteArray.m
 src/NSArray/_MulleObjCEmptyArray.m

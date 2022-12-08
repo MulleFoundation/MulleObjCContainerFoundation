@@ -75,7 +75,6 @@ static inline _MulleObjCConcreteArray *
 {
    _MulleObjCConcreteArray                      *_self;
    struct { @defs( _MulleObjCConcreteArray); }  *self;
-   id                                           *buffer;
 
 #ifndef NDEBUG
    {
@@ -107,7 +106,6 @@ static inline _MulleObjCConcreteArray *
 {
    _MulleObjCConcreteArray                      *_self;
    struct { @defs( _MulleObjCConcreteArray); }  *self;
-   id   *buffer;
 
 #ifndef NDEBUG
    {

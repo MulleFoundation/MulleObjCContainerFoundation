@@ -156,7 +156,6 @@ static id   initWithObjectsForKeys( id self, id *objects, id *keys, NSUInteger c
    id           *storage;
    id           *values;
    id           *keys;
-   id           key;
    id           value;
 
    if( ! obj)
@@ -413,6 +412,15 @@ static id   initWithObjectsForKeys( id self, id *objects, id *keys, NSUInteger c
    if( ! perfects)
       *perfects = -1;
    return( -1);
+}
+
+
+- (void) getObjects:(id *) objects
+            andKeys:(id *) keys;
+{
+   [self getObjects:objects
+            andKeys:keys
+              count:(NSUInteger) -1];
 }
 
 @end

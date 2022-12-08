@@ -188,11 +188,9 @@ static NSMutableArray  *initWithRetainedObjects( NSMutableArray *self,
 
 - (instancetype) mulleInitWithContainer:(id <NSFastEnumeration>) container
 {
-   NSMutableArray            *array;
-   struct mulle_allocator    *allocator;
-   id                        *p;
-   id                        obj;
-   NSUInteger                count;
+   id           *p;
+   id           obj;
+   NSUInteger   count;
 
    assert( self->_storage == NULL);
 
@@ -539,12 +537,10 @@ static void   removeObjectAtIndex( NSMutableArray *self,
 
 - (void) removeLastObject
 {
-   id   obj;
-
    if( ! _count)
       MulleObjCThrowInvalidRangeException( NSMakeRange( 0, 0));
 
-   obj = [_storage[ --_count] autorelease];
+   [_storage[ --_count] autorelease];
    // dynamic shrinking
    if( _count < (_size >> 1) && _size > 8)
    {
