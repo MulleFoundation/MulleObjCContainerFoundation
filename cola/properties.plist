@@ -1,0 +1,39 @@
+{
+   project =
+   {
+      description="🛍 Container classes like NSArray, NSSet, NSDictionary";
+      domain="github";
+      name="MulleObjCContainerFoundation";
+      user="MulleFoundation";
+      repo="MulleObjCContainerFoundation";
+      homepage="https://github.com/MulleFoundation/MulleObjCContainerFoundation";
+      license="BSD-3-Clause"
+   };
+   dependencies =
+   (
+      {
+         description="💎 A collection of Objective-C root classes for mulle-objc";
+         domain="github";
+         name="MulleObjC";
+         repo="MulleObjC";
+         url="https://github.com/mulle-objc/MulleObjC";
+         user="mulle-objc";
+      },
+      {
+         description="🛄 Arrays, hashtables and a queue";
+         domain="github";
+         name="mulle-container";
+         repo="mulle-container";
+         url="https://github.com/mulle-c/mulle-container";
+         user="mulle-c";
+      },
+      {
+         description="📒 Lists mulle-objc runtime information contained in executables.";
+         domain="github";
+         name="mulle-objc-list";
+         repo="mulle-objc-list";
+         url="https://github.com/mulle-objc/mulle-objc-list";
+         user="mulle-objc";
+      }
+   )
+}
