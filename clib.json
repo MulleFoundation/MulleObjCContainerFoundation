@@ -1,6 +1,6 @@
 {
    "name" : "MulleObjCContainerFoundation",
-   "version" : "0.21.0",
+   "version" : "0.21.1",
    "description" : "Container classes like NSArray, NSSet, NSDictionary",
    "keywords" : [],
    "license" : "BSD-3-Clause",
@@ -90,7 +90,6 @@
       "src/NSSet/_NSMutableSetPlaceholder.m",
       "src/NSSet/_NSSetPlaceholder.h",
       "src/NSSet/_NSSetPlaceholder.m",
-      "src/reflect/objc-loader.inc",
       "src/reflect/_MulleObjCContainerFoundation-export.h",
       "src/reflect/_MulleObjCContainerFoundation-import-private.h",
       "src/reflect/_MulleObjCContainerFoundation-import.h",
