@@ -1,3 +1,7 @@
+### 0.21.1
+
+* Various small improvements
+
 ## 0.21.0
 
 * moved callbacks to MulleObjC
