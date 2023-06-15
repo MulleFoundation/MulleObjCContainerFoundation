@@ -90,6 +90,7 @@
       "src/NSSet/_NSMutableSetPlaceholder.m",
       "src/NSSet/_NSSetPlaceholder.h",
       "src/NSSet/_NSSetPlaceholder.m",
+      "src/reflect/objc-loader.inc",
       "src/reflect/_MulleObjCContainerFoundation-export.h",
       "src/reflect/_MulleObjCContainerFoundation-import-private.h",
       "src/reflect/_MulleObjCContainerFoundation-import.h",

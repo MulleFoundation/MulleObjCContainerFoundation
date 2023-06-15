@@ -171,7 +171,8 @@ static NSMutableArray  *initWithRetainedObjects( NSMutableArray *self,
    self->_count = count;
    if( count < 8)
       self->_size = 8;
-   self->_storage = MulleObjCInstanceAllocateNonZeroedMemory( self, sizeof( id) * self->_size);
+   self->_storage = MulleObjCInstanceAllocateNonZeroedMemory( self,
+                                                              sizeof( id) * self->_size);
    self->_mutationCount++;
 
    memcpy( self->_storage, objects, count * sizeof( id));
@@ -200,7 +201,8 @@ static NSMutableArray  *initWithRetainedObjects( NSMutableArray *self,
    self->_count = count;
    if( count < 8)
       self->_size = 8;
-   self->_storage = MulleObjCInstanceAllocateNonZeroedMemory( self, sizeof( id) * self->_size);
+   self->_storage = MulleObjCInstanceAllocateNonZeroedMemory( self,
+                                                              sizeof( id) * self->_size);
    self->_mutationCount++;
 
    p = self->_storage;
@@ -262,8 +264,8 @@ static void   reserve(  NSMutableArray *self, size_t count)
          count += 8;
       self->_size += count;
       self->_storage = MulleObjCInstanceReallocateNonZeroedMemory( self,
-                                                                 self->_storage,
-                                                                 sizeof( id) * self->_size);
+                                                                   self->_storage,
+                                                                   sizeof( id) * self->_size);
    }
 }
 
@@ -282,8 +284,8 @@ static void   add_retained_object( NSMutableArray *self, id other)
       if( self->_size < 8)
          self->_size = 8;
       self->_storage = MulleObjCInstanceReallocateNonZeroedMemory( self,
-                                                                 self->_storage,
-                                                                 sizeof( id) * self->_size);
+                                                                   self->_storage,
+                                                                   sizeof( id) * self->_size);
    }
 
    self->_storage[ self->_count++] = other;
@@ -449,7 +451,7 @@ static void   removeObjectAtIndex( NSMutableArray *self,
 
    n = self->_count - (i + 1);
    if( n)
-      memmove( &self->_storage[ i], &self->_storage[ i + 1], n * sizeof( id));
+      mulle_id_move( &self->_storage[ i], &self->_storage[ i + 1], n);
    --self->_count;
 }
 
@@ -505,9 +507,9 @@ static void   removeObjectAtIndex( NSMutableArray *self,
                                     range.length,
                                     MulleObjCObjectGetUniverse( self));
 
-      memmove( &_storage[ range.location],
-               &_storage[ range.location + range.length],
-               n * sizeof( id));
+      mulle_id_move( &_storage[ range.location],
+                     &_storage[ range.location + range.length],
+                     n);
    }
    _count -= range.length;
    _mutationCount++;
@@ -669,18 +671,16 @@ static void   removeObjectAtIndex( NSMutableArray *self,
 - (void) replaceObjectsInRange:(NSRange) aRange
           withObjectsFromArray:(NSArray *) otherArray
 {
-   id           *tmp;
    NSUInteger   n;
 
    n   = [otherArray count];
-   tmp = mulle_malloc( sizeof( id) * n);
-
-   [otherArray getObjects:tmp];
-   [self replaceObjectsInRange:aRange
-                   withObjects:tmp
-                         count:n];
-
-   mulle_free( tmp);
+   mulle_flexarray_do_id( tmp, 16, n)
+   {
+      [otherArray getObjects:tmp];
+      [self replaceObjectsInRange:aRange
+                      withObjects:tmp
+                            count:n];
+   }
 }
 
 
@@ -688,15 +688,14 @@ static void   removeObjectAtIndex( NSMutableArray *self,
           withObjectsFromArray:(NSArray *) otherArray
                          range:(NSRange) otherRange
 {
-   id   *tmp;
-
-   tmp = mulle_malloc( sizeof( id) * otherRange.length);
-   [otherArray getObjects:tmp
-                    range:otherRange];
-   [self replaceObjectsInRange:aRange
-                   withObjects:tmp
-                         count:otherRange.length];
-   mulle_free( tmp);
+   mulle_flexarray_do_id( tmp, 16, otherRange.length)
+   {
+      [otherArray getObjects:tmp
+                       range:otherRange];
+      [self replaceObjectsInRange:aRange
+                      withObjects:tmp
+                            count:otherRange.length];
+   }
 }
 
 
@@ -758,7 +757,7 @@ static void   removeObjectAtIndex( NSMutableArray *self,
    }
 
    n = self->_count - i;
-   memmove( &_storage[ i + 1], &_storage[ i], n * sizeof( id));
+   mulle_id_move( &_storage[ i + 1], &_storage[ i], n);
 
    _storage[ i] = obj;
    self->_count++;
@@ -777,11 +776,87 @@ static void   removeObjectAtIndex( NSMutableArray *self,
    validate_index( self, index1);
    validate_index( self, index2);
 
-   tmp             = _storage[ index1];
+   tmp               = _storage[ index1];
    _storage[ index1] = _storage[ index2];
    _storage[ index2] = tmp;
 
    _mutationCount++;
+}
+
+
+
+- (void) mulleMoveObjectsInRange:(NSRange) range
+                         toIndex:(NSUInteger) index
+{
+   NSInteger    offset;
+   NSUInteger   s_length;
+   NSUInteger   s_index;
+   NSUInteger   d_index;
+   NSUInteger   range_end;
+
+   if( ! range.length)
+      return;
+
+   range     = MulleObjCValidateRangeAgainstLength( range, _count);
+   validate_index( self, index);
+
+   range_end = NSMaxRange( range);
+   offset    = index - (intptr_t) range.location;
+
+   //  |...I....R......R........|  #1#
+   //  |...|ffff|rrrrrr|........|
+   //  |...|rrrrrr|dddd|........|
+   //
+   //  |.........R..I...R.......|  #2#
+   //  |.........|rrrrrr|ss|....|
+   //  |.........|dd|rrrrrr|....|
+   //
+   //  |...R......R....I........|  #3#
+   //  |...|rrrrrr|sssssssssss|.|
+   //  |...|ddddddddddd|rrrrrr|.|
+   //
+   //  |.........R......R.......I  #5#
+   //  |.........|rrrrrr|fffffff|
+   //  |.........|fffffff|rrrrrr|
+
+   // copy rest to tmp, keep range in array
+
+   if( offset <= 0)
+   {
+      s_index  = index;          // #1#
+      s_length = range.location - index;
+      d_index  = index + range.length;
+   }
+   else
+   {
+      if( index + range.length > _count) 
+         MulleObjCThrowInvalidIndexException( index);
+
+      s_index  = range_end;   // #2#  && #3#
+      s_length = index - range.location;
+      d_index  = range.location;
+
+      if( s_index + s_length > _count) // #4#
+         s_length = _count - s_index;
+   }
+
+   if( s_length < range.length)
+   {
+      mulle_flexarray_do_id( tmp, 16, s_length)
+      {
+         mulle_id_copy( &tmp[ 0], &_storage[ s_index], s_length);
+         mulle_id_move( &_storage[ index], &_storage[ range.location], range.length);
+         mulle_id_move( &_storage[ d_index], tmp, s_length);
+      }
+      return;
+   }
+
+   mulle_flexarray_do_id( tmp, 16, range.length)
+   {
+      mulle_id_copy( &tmp[ 0], &_storage[ range.location], range.length);
+      mulle_id_move( &_storage[ d_index], &_storage[ s_index], s_length);
+      mulle_id_move( &_storage[ index], tmp, range.length);
+   }
 }
 
 

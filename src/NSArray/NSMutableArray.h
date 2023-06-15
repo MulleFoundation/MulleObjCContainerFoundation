@@ -83,6 +83,8 @@
 // mulle additions
 - (void) mulleAddRetainedObject:(id) obj;
 - (void) mulleReverseObjects;
+- (void) mulleMoveObjectsInRange:(NSRange) range
+                         toIndex:(NSUInteger) index;
 
 // returns nil if none present
 // otherwise will removeLastObject and return it
