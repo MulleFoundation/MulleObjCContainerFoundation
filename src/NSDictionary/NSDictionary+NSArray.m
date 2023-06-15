@@ -60,8 +60,6 @@
                          forKeys:(NSArray *) keys
 {
    NSUInteger     count;
-   id             *buf;
-   id             *tofree;
    NSDictionary   *dictionary;
    size_t         size;
 
@@ -70,21 +68,14 @@
       MulleObjCThrowInvalidArgumentExceptionUTF8String( "mismatched keys/objects lengths");
 
    size = 2 * count;
+   mulle_flexarray_do_id( buf, 32, size)
    {
-      id   tmp[ 0x20];
-
-      tofree = NULL;
-      buf    = tmp;
-      if( size > 0x20)
-         tofree = buf = mulle_malloc( size * sizeof( id));
-
       [objects getObjects:buf];
       [keys getObjects:&buf[ count]];
 
       dictionary = [self initWithObjects:buf
                                  forKeys:&buf[ count]
                                     count:count];
-      mulle_free( tofree);
    }
 
    return( dictionary);
