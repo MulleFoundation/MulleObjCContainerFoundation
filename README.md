@@ -76,6 +76,8 @@ Install the requirements:
 | [mulle-container](https://github.com/mulle-c/mulle-container)             | 🛄 Arrays, hashtables and a queue
 | [mulle-objc-list](https://github.com/mulle-objc/mulle-objc-list)             | 📒 Lists mulle-objc runtime information contained in executables.
 
+Download the latest [tar](https://github.com/MulleFoundation/MulleObjCContainerFoundation/archive/refs/tags/latest.tar.gz) or [zip](https://github.com/MulleFoundation/MulleObjCContainerFoundation/archive/refs/tags/latest.zip) archive and unpack it.
+
 Install **MulleObjCContainerFoundation** into `/usr/local` with [cmake](https://cmake.org):
 
 ``` sh
