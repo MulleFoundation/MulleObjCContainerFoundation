@@ -50,8 +50,9 @@
 
 
 #pragma clang diagnostic ignored "-Wobjc-missing-super-calls"
-#pragma clang diagnostic ignored "-Wprotocol"
 #pragma clang diagnostic ignored "-Wobjc-root-class"
+#pragma clang diagnostic ignored "-Wprotocol"
+
 
 
 @interface _MulleObjCDictionaryKeyEnumerator : NSEnumerator
@@ -106,7 +107,7 @@ PROTOCOLCLASS_IMPLEMENTATION( _MulleObjCDictionary)
       if( ! pair.key || ! pair.value)
          MulleObjCThrowInvalidArgumentExceptionUTF8String( "nil key or value");
 
-      _mulle__map_set_pair( &ivars->_table, &pair, NSDictionaryAssignCallback, allocator);
+      _mulle__map_set_pair( &ivars->_table, &pair, NSDictionaryAssignRetainedKeyAssignRetainedValueCallback, allocator);
       --count;
    }
 }
@@ -192,9 +193,9 @@ PROTOCOLCLASS_IMPLEMENTATION( _MulleObjCDictionary)
                                    argument:(void *) userInfo
                                     preempt:(enum MullePreempt) preempt
 {
-   _MulleObjCDictionaryIvars      *ivars;
-   struct mulle__mapenumerator    rover;
-   struct mulle_pointerpair       *pair;
+   _MulleObjCDictionaryIvars    *ivars;
+   struct mulle__mapenumerator  rover;
+   struct mulle_pointerpair     *pair;
 
    ivars = _MulleObjCDictionaryGetIvars( self);
    rover = mulle__map_enumerate( &ivars->_table, NSDictionaryCallback);

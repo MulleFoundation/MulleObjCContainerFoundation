@@ -9,6 +9,13 @@
  *
  *      mulle-sde environment set MULLE_MATCH_TO_C_RUN DISABLE
  */
+#ifndef mulle_objc_container_foundation_provide_h__
+#define mulle_objc_container_foundation_provide_h__
+
+
 #include "mulle-qsort-pointers.h"
 #include "ns-map-table.h"
 #include "ns-hash-table.h"
+
+
+#endif
