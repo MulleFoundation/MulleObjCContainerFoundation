@@ -59,7 +59,7 @@ static inline id
    ivars     = _MulleObjCSetGetIvars( self);
    sentinel  = &objects[ count];
    while( objects < sentinel)
-      _mulle__set_set( &ivars->_table, *objects++, NSSetAssignCallback, allocator);
+      _mulle__set_set( &ivars->_table, *objects++, NSSetAssignRetainedCallback, allocator);
 
    return( self);
 }

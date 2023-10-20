@@ -58,7 +58,7 @@ static inline id
 
       _mulle__map_set_pair( &ivars->_table,
                             &pair,
-                            NSDictionaryAssignCallback,
+                            NSDictionaryAssignRetainedKeyAssignRetainedValueCallback,
                             allocator);
    }
 

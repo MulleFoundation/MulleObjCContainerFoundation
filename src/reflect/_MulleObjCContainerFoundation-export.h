@@ -9,6 +9,10 @@
  *
  *      mulle-sde environment set MULLE_MATCH_TO_C_RUN DISABLE
  */
+#ifndef mulle_objc_container_foundation_export_h__
+#define mulle_objc_container_foundation_export_h__
+
+
 #import "MulleObjCLoader+MulleObjCContainerFoundation.h"
 #import "MullePreempt.h"
 #import "NSArray+NSCoder.h"
@@ -28,3 +32,6 @@
 #import "NSSet+NSArray.h"
 #import "NSSet+NSCoder.h"
 #import "NSSet.h"
+
+
+#endif

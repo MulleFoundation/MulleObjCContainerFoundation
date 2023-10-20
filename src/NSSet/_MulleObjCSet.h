@@ -43,9 +43,9 @@ typedef struct
 } _MulleObjCSetIvars;
 
 
-#define NSSetCallback         MulleObjCContainerKeyRetainCallback
-#define NSSetCopyCallback     MulleObjCContainerKeyCopyCallback
-#define NSSetAssignCallback   ((struct mulle_container_keycallback *) &_MulleObjCContainerKeyAssignCallback)
+#define NSSetCallback         MulleObjCContainerRetainKeyCallback
+#define NSSetCopyCallback     MulleObjCContainerCopyKeyCallback
+#define NSSetAssignRetainedCallback   ((struct mulle_container_keycallback *) &_MulleObjCContainerAssignRetainedKeyCallback)
 
 
 

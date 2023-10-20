@@ -46,9 +46,11 @@ typedef struct
 } _MulleObjCDictionaryIvars;
 
 
-#define NSDictionaryCallback           ((struct mulle_container_keyvaluecallback *) &_MulleObjCContainerKeyCopyValueRetainCallback)
-#define NSDictionaryCopyValueCallback  ((struct mulle_container_keyvaluecallback *) &_MulleObjCContainerKeyCopyValueCopyCallback)
-#define NSDictionaryAssignCallback     ((struct mulle_container_keyvaluecallback *) &_MulleObjCContainerKeyAssignValueAssignCallback)
+#define NSDictionaryCallback           ((struct mulle_container_keyvaluecallback *) &_MulleObjCContainerCopyKeyRetainValueCallback)
+#define NSDictionaryCopyValueCallback  ((struct mulle_container_keyvaluecallback *) &_MulleObjCContainerCopyKeyCopyValueCallback)
+
+// MEMO: this autoreleases key and value!!   
+#define NSDictionaryAssignRetainedKeyAssignRetainedValueCallback     ((struct mulle_container_keyvaluecallback *) &_MulleObjCContainerAssignRetainedKeyAssignRetainedValueCallback)
 
 
 PROTOCOLCLASS_INTERFACE( _MulleObjCDictionary, NSFastEnumeration)
