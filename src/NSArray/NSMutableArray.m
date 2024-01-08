@@ -674,7 +674,7 @@ static void   removeObjectAtIndex( NSMutableArray *self,
    NSUInteger   n;
 
    n   = [otherArray count];
-   mulle_flexarray_do_id( tmp, 16, n)
+   mulle_id_alloca_do( tmp, n)
    {
       [otherArray getObjects:tmp];
       [self replaceObjectsInRange:aRange
@@ -688,7 +688,7 @@ static void   removeObjectAtIndex( NSMutableArray *self,
           withObjectsFromArray:(NSArray *) otherArray
                          range:(NSRange) otherRange
 {
-   mulle_flexarray_do_id( tmp, 16, otherRange.length)
+   mulle_id_alloca_do( tmp, otherRange.length)
    {
       [otherArray getObjects:tmp
                        range:otherRange];
@@ -842,7 +842,7 @@ static void   removeObjectAtIndex( NSMutableArray *self,
 
    if( s_length < range.length)
    {
-      mulle_flexarray_do_id( tmp, 16, s_length)
+      mulle_id_alloca_do( tmp, s_length)
       {
          mulle_id_copy( &tmp[ 0], &_storage[ s_index], s_length);
          mulle_id_move( &_storage[ index], &_storage[ range.location], range.length);
@@ -851,7 +851,7 @@ static void   removeObjectAtIndex( NSMutableArray *self,
       return;
    }
 
-   mulle_flexarray_do_id( tmp, 16, range.length)
+   mulle_id_alloca_do( tmp, range.length)
    {
       mulle_id_copy( &tmp[ 0], &_storage[ range.location], range.length);
       mulle_id_move( &_storage[ d_index], &_storage[ s_index], s_length);

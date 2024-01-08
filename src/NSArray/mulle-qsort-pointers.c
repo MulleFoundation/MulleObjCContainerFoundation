@@ -42,7 +42,7 @@
 typedef void *  mulle_qsorttype_t;
 
 void   mulle_qsort_pointers( mulle_qsorttype_t *v,
-                             size_t n,
+                             unsigned int n,
                              int (*cmp)( mulle_qsorttype_t a, mulle_qsorttype_t b, void *userinfo),
                              void *userinfo);
 
@@ -83,11 +83,11 @@ static inline int  is_ascending( int result)
 
 
 void   mulle_qsort_pointers( mulle_qsorttype_t *v,
-                             size_t n,
+                             unsigned int n,
                              int (*cmp)( mulle_qsorttype_t a, mulle_qsorttype_t b, void *userinfo),
                              void *userinfo)
 {
-   size_t   i, j, ln, rn;
+   unsigned int   i, j, ln, rn;
 
    while( n > 1)
    {

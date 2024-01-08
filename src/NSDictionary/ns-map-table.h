@@ -199,4 +199,24 @@ static inline void  _NSObjCMapTableSetValueRelease( NSMapTable *table,
 }
 
 
+// TODO: use these and kill code in MuleObjCStandardFoundation
+// #define NSIntMapKeyCallBacks                   mulle_container_keycallback_int
+// #define NSIntegerMapKeyCallBacks               mulle_container_keycallback_intptr
+// #define NSNonOwnedPointerMapKeyCallBacks       mulle_container_keycallback_nonowned_pointer
+// #define NSNonOwnedPointerOrNullMapKeyCallBacks mulle_container_keycallback_nonowned_pointer_or_null
+// #define NSOwnedPointerMapKeyCallBacks          mulle_container_keycallback_owned_pointer
+// 
+// #define NSIntMapValueCallBacks                 mulle_container_valuecallback_int
+// #define NSIntegerMapValueCallBacks             mulle_container_valuecallback_intptr
+// #define NSNonOwnedPointerMapValueCallBacks     mulle_container_valuecallback_nonowned_pointer
+// #define NSOwnedPointerMapValueCallBacks        mulle_container_valuecallback_owned_pointer
+
+
+#define NSNonRetainedObjectMapKeyCallBacks     (*(struct mulle_container_keycallback *)   &_MulleObjCContainerAssignKeyCallback)
+#define NSNonRetainedObjectMapValueCallBacks   (*(struct mulle_container_valuecallback *) &_MulleObjCContainerAssignValueCallback)
+
+#define NSObjectMapKeyCallBacks                MulleObjCContainerCopyKeyCallback
+#define NSObjectMapValueCallBacks              MulleObjCContainerRetainValueCallback
+
+
 #endif

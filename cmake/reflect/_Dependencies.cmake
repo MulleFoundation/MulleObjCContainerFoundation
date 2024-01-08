@@ -99,34 +99,34 @@ endif()
 # Disable for this platform: `mulle-sourcetree mark mulle-container no-cmake-platform-${MULLE_UNAME}`
 # Disable for a sdk: `mulle-sourcetree mark mulle-container no-cmake-sdk-<name>`
 #
-if( NOT MULLE_CONTAINER_LIBRARY)
-   find_library( MULLE_CONTAINER_LIBRARY NAMES
+if( NOT MULLE__CONTAINER_LIBRARY)
+   find_library( MULLE__CONTAINER_LIBRARY NAMES
       ${CMAKE_STATIC_LIBRARY_PREFIX}mulle-container${CMAKE_DEBUG_POSTFIX}${CMAKE_STATIC_LIBRARY_SUFFIX}
       ${CMAKE_STATIC_LIBRARY_PREFIX}mulle-container${CMAKE_STATIC_LIBRARY_SUFFIX}
       mulle-container
       NO_CMAKE_SYSTEM_PATH NO_SYSTEM_ENVIRONMENT_PATH
    )
-   if( NOT MULLE_CONTAINER_LIBRARY AND NOT DEPENDENCY_IGNORE_SYSTEM_LIBARIES)
-      find_library( MULLE_CONTAINER_LIBRARY NAMES
+   if( NOT MULLE__CONTAINER_LIBRARY AND NOT DEPENDENCY_IGNORE_SYSTEM_LIBARIES)
+      find_library( MULLE__CONTAINER_LIBRARY NAMES
          ${CMAKE_STATIC_LIBRARY_PREFIX}mulle-container${CMAKE_DEBUG_POSTFIX}${CMAKE_STATIC_LIBRARY_SUFFIX}
          ${CMAKE_STATIC_LIBRARY_PREFIX}mulle-container${CMAKE_STATIC_LIBRARY_SUFFIX}
          mulle-container
       )
    endif()
-   message( STATUS "MULLE_CONTAINER_LIBRARY is ${MULLE_CONTAINER_LIBRARY}")
+   message( STATUS "MULLE__CONTAINER_LIBRARY is ${MULLE__CONTAINER_LIBRARY}")
    #
    # The order looks ascending, but due to the way this file is read
    # it ends up being descending, which is what we need.
    #
-   if( MULLE_CONTAINER_LIBRARY)
+   if( MULLE__CONTAINER_LIBRARY)
       #
-      # Add MULLE_CONTAINER_LIBRARY to DEPENDENCY_LIBRARIES list.
+      # Add MULLE__CONTAINER_LIBRARY to DEPENDENCY_LIBRARIES list.
       # Disable with: `mulle-sourcetree mark mulle-container no-cmake-add`
       #
-      list( APPEND DEPENDENCY_LIBRARIES ${MULLE_CONTAINER_LIBRARY})
+      list( APPEND DEPENDENCY_LIBRARIES ${MULLE__CONTAINER_LIBRARY})
       # intentionally left blank
    else()
       # Disable with: `mulle-sourcetree mark mulle-container no-require-link`
-      message( FATAL_ERROR "MULLE_CONTAINER_LIBRARY was not found")
+      message( FATAL_ERROR "MULLE__CONTAINER_LIBRARY was not found")
    endif()
 endif()

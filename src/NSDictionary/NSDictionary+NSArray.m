@@ -68,7 +68,7 @@
       MulleObjCThrowInvalidArgumentExceptionUTF8String( "mismatched keys/objects lengths");
 
    size = 2 * count;
-   mulle_flexarray_do_id( buf, 32, size)
+   mulle_id_alloca_do( buf, size)
    {
       [objects getObjects:buf];
       [keys getObjects:&buf[ count]];

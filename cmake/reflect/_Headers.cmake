@@ -106,5 +106,6 @@ src/NSSet/NSSet+NSCoder.h
 src/NSSet/_NSSetPlaceholder.h
 src/NSSet/NSSet.h
 src/NSSet/ns-hash-table.h
+src/reflect/_MulleObjCContainerFoundation-versioncheck.h
 )
 

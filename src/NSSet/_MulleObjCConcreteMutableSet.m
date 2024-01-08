@@ -68,7 +68,7 @@ Class  _MulleObjCConcreteMutableSetClass;
 
    ivars     = _MulleObjCSetGetIvars( self);
    allocator = MulleObjCInstanceGetAllocator( self);
-   _mulle__set_set( &ivars->_table, obj, NSSetCallback, allocator);
+   _mulle__set_set( &ivars->_table, obj, &NSSetCallback, allocator);
 }
 
 
@@ -80,7 +80,7 @@ Class  _MulleObjCConcreteMutableSetClass;
 
    ivars     = _MulleObjCSetGetIvars( self);
    allocator = MulleObjCInstanceGetAllocator( self);
-   old       = _mulle__set_insert( &ivars->_table, obj, NSSetCallback, allocator);
+   old       = _mulle__set_insert( &ivars->_table, obj, &NSSetCallback, allocator);
    return( old == NULL ? obj : old);
 }
 
@@ -92,7 +92,7 @@ Class  _MulleObjCConcreteMutableSetClass;
 
    allocator = MulleObjCInstanceGetAllocator( self);
    ivars     = _MulleObjCSetGetIvars( self);
-   _mulle__set_remove( &ivars->_table, obj, NSSetCallback, allocator);
+   _mulle__set_remove( &ivars->_table, obj, &NSSetCallback, allocator);
 }
 
 
@@ -103,7 +103,7 @@ Class  _MulleObjCConcreteMutableSetClass;
 
    allocator = MulleObjCInstanceGetAllocator( self);
    ivars     = _MulleObjCSetGetIvars( self);
-   _mulle__set_reset( &ivars->_table, NSSetCallback, allocator);
+   _mulle__set_reset( &ivars->_table, &NSSetCallback, allocator);
 }
 
 @end

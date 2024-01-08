@@ -64,3 +64,7 @@ mulle-template-composer-*
 mulle-markdown-preview-*.html
 build-*
 .idea
+coverage*.html
+*.gcda
+*.gcno
+cola/wilted/
