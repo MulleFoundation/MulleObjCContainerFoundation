@@ -163,6 +163,14 @@ void   *NSHashInsertIfAbsent( NSHashTable *table, void *p);
 
 //MulleObjUTF8String *MulleObjUTF8StringFromHashTable( NSHashTable *table);
 //MulleObjCArray *MulleObjCAllHashTableObjects( NSHashTable *table);
+//MULLE_OBJC_CONTAINER_FOUNDATION_EXTERN_GLOBAL
+//NSHashTableCallBacks   MulleObjCNonRetainedObjectHashCallBacks;
+//
+//MULLE_OBJC_CONTAINER_FOUNDATION_EXTERN_GLOBAL
+//NSHashTableCallBacks   MulleObjCObjectHashCallBacks;
+//
+//MULLE_OBJC_CONTAINER_FOUNDATION_EXTERN_GLOBAL
+//NSHashTableCallBacks   MulleObjCOwnedObjectIdentityHashCallBacks;
 
 
 #define NSIntHashCallBacks                 (*(NSHashTableCallBacks *) &NSIntMapKeyCallBacks)

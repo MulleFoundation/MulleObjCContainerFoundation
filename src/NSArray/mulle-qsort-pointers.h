@@ -41,6 +41,8 @@
 
 #include <stddef.h>
 
+// MEMO: use mulle_qsort instead, as it exists now ?
+
 //
 // needed, because qsort_t is not portable
 // since it's incompatible anyway, mulle_qsort_pointers is even less compatible
@@ -51,7 +53,7 @@
 //
 MULLE_OBJC_CONTAINER_FOUNDATION_GLOBAL
 void   mulle_qsort_pointers( void **pointers,
-                             size_t n,
+                             unsigned int n,
                              int (*cmp)( void *a, void *b, void *userinfo),
                              void *userinfo);
 

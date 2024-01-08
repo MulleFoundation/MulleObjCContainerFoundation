@@ -116,7 +116,7 @@
    allocator = MulleObjCInstanceGetAllocator( set);
    ivars     = _MulleObjCSetGetIvars( set);
    for( obj in container)
-      _mulle__set_set( &ivars->_table, obj, NSSetCallback, allocator);
+      _mulle__set_set( &ivars->_table, obj, &NSSetCallback, allocator);
 
    return( (id) set);
 }

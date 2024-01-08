@@ -37,6 +37,9 @@
 #import "_MulleObjCDictionary.h"
 
 
+// MEMO: this is actually super convenient to subclass, if you are
+//       doing a NSMutableDictionary subclass (hmm)
+//
 @interface _MulleObjCConcreteDictionary : NSDictionary < _MulleObjCDictionary, MulleObjCImmutable>
 {
    _MulleObjCDictionaryIvars   _ivars;

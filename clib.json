@@ -1,7 +1,7 @@
 {
    "name" : "MulleObjCContainerFoundation",
-   "version" : "0.21.1",
-   "description" : "Container classes like NSArray, NSSet, NSDictionary",
+   "version" : "0.22.0",
+   "description" : "🛍 Container classes like NSArray, NSSet, NSDictionary",
    "keywords" : [],
    "license" : "BSD-3-Clause",
    "repo" : "MulleFoundation/MulleObjCContainerFoundation",
@@ -96,7 +96,8 @@
       "src/reflect/_MulleObjCContainerFoundation-import.h",
       "src/reflect/_MulleObjCContainerFoundation-include-private.h",
       "src/reflect/_MulleObjCContainerFoundation-include.h",
-      "src/reflect/_MulleObjCContainerFoundation-provide.h"
+      "src/reflect/_MulleObjCContainerFoundation-provide.h",
+      "src/reflect/_MulleObjCContainerFoundation-versioncheck.h"
    ],
    "dependencies" : {
       "mulle-objc/MulleObjC": "*",

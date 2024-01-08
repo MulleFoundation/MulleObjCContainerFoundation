@@ -49,6 +49,10 @@
 @end
 
 
+@interface NSSet( NSMutableSet) <NSMutableCopying>
+@end
+
+
 @interface NSMutableSet( Subclasses)
 
 - (instancetype) initWithCapacity:(NSUInteger) numItems;
