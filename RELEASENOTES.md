@@ -1,3 +1,11 @@
+## 0.22.0
+
+* changed type of n of `mulle_qsort_pointers` to unsigned int for more consistency
+* migrated off `mulle_flexarray_do` towards `mulle_alloca_do`
+* **BREAKING CHANGE** as callbacks moved to MulleObjC (mostly) made the remaining callbacks more consistent and not the struct/pointer mish mash they were previously
+* new method mulleMoveObjectsInRange:toIndex: on NSMutableArray
+
+
 ### 0.21.1
 
 * Various small improvements
