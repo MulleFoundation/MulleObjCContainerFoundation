@@ -101,7 +101,6 @@
    ],
    "dependencies" : {
       "mulle-objc/MulleObjC": "*",
-      "mulle-c/mulle-container": "*",
       "mulle-objc/mulle-objc-list": "*"
    }
 }
