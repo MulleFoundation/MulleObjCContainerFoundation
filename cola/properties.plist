@@ -20,14 +20,6 @@
          user="mulle-objc";
       },
       {
-         description="🛄 Arrays, hashtables and a queue";
-         domain="github";
-         name="mulle-container";
-         repo="mulle-container";
-         url="https://github.com/mulle-c/mulle-container";
-         user="mulle-c";
-      },
-      {
          description="📒 Lists mulle-objc runtime information contained in executables.";
          domain="github";
          name="mulle-objc-list";
