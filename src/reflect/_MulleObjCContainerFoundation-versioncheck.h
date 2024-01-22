@@ -5,21 +5,6 @@
 #ifndef mulle_objc_container_foundation_versioncheck_h__
 #define mulle_objc_container_foundation_versioncheck_h__
 
-#if defined( MULLE__CONTAINER_VERSION)
-# ifndef MULLE__CONTAINER_VERSION_MIN
-#  define MULLE__CONTAINER_VERSION_MIN  ((8UL << 20) | (0 << 8) | 0)
-# endif
-# ifndef MULLE__CONTAINER_VERSION_MAX
-#  define MULLE__CONTAINER_VERSION_MAX  ((9UL << 20) | (0 << 8) | 0)
-# endif
-# if MULLE__CONTAINER_VERSION < MULLE__CONTAINER_VERSION_MIN
-#  error "mulle-container is too old"
-# endif
-# if MULLE__CONTAINER_VERSION >= MULLE__CONTAINER_VERSION_MAX
-#  error "mulle-container is too new"
-# endif
-#endif
-
 #if defined( MULLE_OBJC_VERSION)
 # ifndef MULLE_OBJC_VERSION_MIN
 #  define MULLE_OBJC_VERSION_MIN  ((0UL << 20) | (23 << 8) | 0)
