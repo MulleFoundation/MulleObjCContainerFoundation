@@ -60,21 +60,41 @@ typedef struct
 # pragma mark - setup and tear down
 
 MULLE_OBJC_CONTAINER_FOUNDATION_GLOBAL
-NSMapTable   *_NSCreateMapTableWithAllocator( NSMapTableKeyCallBacks keyCallBacks,
+NSMapTable   *MulleObjCMapTableCreateWithAllocator( NSMapTableKeyCallBacks keyCallBacks,
                                               NSMapTableValueCallBacks valueCallBacks,
                                               NSUInteger capacity,
                                               struct mulle_allocator *allocator);
 
 MULLE_OBJC_CONTAINER_FOUNDATION_GLOBAL
-NSMapTable   *NSCreateMapTable( NSMapTableKeyCallBacks keyCallBacks,
+NSMapTable   *MulleObjCMapTableCreate( NSMapTableKeyCallBacks keyCallBacks,
                                 NSMapTableValueCallBacks valueCallBacks,
                                 NSUInteger capacity);
 
 MULLE_OBJC_CONTAINER_FOUNDATION_GLOBAL
-void   NSFreeMapTable( NSMapTable *table);
+void   MulleObjCMapTableFree( NSMapTable *table);
 
 MULLE_OBJC_CONTAINER_FOUNDATION_GLOBAL
-void   NSResetMapTable( NSMapTable *table);
+void   MulleObjCMapTableReset( NSMapTable *table);
+
+
+static inline NSMapTable   *NSCreateMapTable( NSMapTableKeyCallBacks keyCallBacks,
+                                              NSMapTableValueCallBacks valueCallBacks,
+                                              NSUInteger capacity)
+{
+   return( MulleObjCMapTableCreate( keyCallBacks, valueCallBacks, capacity));
+}
+
+
+static inline void   NSFreeMapTable( NSMapTable *table)
+{
+   MulleObjCMapTableFree( table);
+}
+
+
+static inline void   NSResetMapTable( NSMapTable *table)
+{
+   MulleObjCMapTableReset( table);
+}
 
 
 
@@ -126,20 +146,42 @@ static inline void   NSMapRemove( NSMapTable *table, void *key)
 
 
 MULLE_OBJC_CONTAINER_FOUNDATION_GLOBAL
-void   NSMapInsert( NSMapTable *table, void *key, void *value);
+void   MulleObjCMapTableInsert( NSMapTable *table, void *key, void *value);
 
 MULLE_OBJC_CONTAINER_FOUNDATION_GLOBAL
-void   NSMapInsertKnownAbsent( NSMapTable *table, void *key, void *value);
+void   MulleObjCMapTableInsertKnownAbsent( NSMapTable *table, void *key, void *value);
 
 MULLE_OBJC_CONTAINER_FOUNDATION_GLOBAL
-void   *NSMapInsertIfAbsent( NSMapTable *table, void *key, void *value);
+void   *MulleObjCMapTableInsertIfAbsent( NSMapTable *table, void *key, void *value);
+
+
+static inline void   NSMapInsert( NSMapTable *table, void *key, void *value)
+{
+   MulleObjCMapTableInsert( table, key, value);
+}
+
+
+static inline void   NSMapInsertKnownAbsent( NSMapTable *table, void *key, void *value)
+{
+   MulleObjCMapTableInsertKnownAbsent( table, key, value);
+}
+
+
+static inline void   *NSMapInsertIfAbsent( NSMapTable *table, void *key, void *value)
+{
+   return( MulleObjCMapTableInsertIfAbsent( table, key, value));
+}
 
 
 # pragma mark - copying
 
 MULLE_OBJC_CONTAINER_FOUNDATION_GLOBAL
-NSMapTable   *NSCopyMapTable( NSMapTable *table);
+NSMapTable   *MulleObjCMapTableCopy( NSMapTable *table);
 
+static inline NSMapTable   *NSCopyMapTable( NSMapTable *table)
+{
+   return( MulleObjCMapTableCopy( table));
+}
 
 # pragma mark - compatibility
 
@@ -218,5 +260,18 @@ static inline void  _NSObjCMapTableSetValueRelease( NSMapTable *table,
 #define NSObjectMapKeyCallBacks                MulleObjCContainerCopyKeyCallback
 #define NSObjectMapValueCallBacks              MulleObjCContainerRetainValueCallback
 
+
+#define NSMapTableFor( name, key, value)                                                                     \
+   assert( sizeof( key) == sizeof( void *));                                                                 \
+   assert( sizeof( value) == sizeof( void *));                                                               \
+   for( NSMapEnumerator                                                                                      \
+           rover__ ## key ## __ ## value = NSEnumerateMapTable( name),                                       \
+           *rover__  ## key ## __ ## value ## __i = (void *) 0;                                              \
+        ! rover__  ## key ## __ ## value ## __i;                                                             \
+        rover__ ## key ## __ ## value ## __i = (NSEndMapTableEnumeration( &rover__ ## key ## __ ## value),   \
+                                              (void *) 1))                                                   \
+      while( NSNextMapEnumeratorPair( &rover__ ## key ## __ ## value,                                        \
+                                      (void **) &key,                                                        \
+                                      (void **) &value))
 
 #endif

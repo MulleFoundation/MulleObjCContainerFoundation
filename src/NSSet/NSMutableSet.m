@@ -130,12 +130,12 @@
    [self unionSet:other];
 }
 
+
 - (id) copy
 {
    return( [[NSSet alloc] initWithSet:self
                             copyItems:NO]);
 }
-
 
 @end
 

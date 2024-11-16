@@ -251,10 +251,10 @@ static id   initWithObjectStorage( id self, id *storage, NSUInteger count, BOOL 
 }
 
 
-- (id) anyObject
-{
-   return( [[self objectEnumerator] nextObject]);
-}
+//- (id) anyObject
+//{
+//   return( [[self objectEnumerator] nextObject]);
+//}
 
 - (id) : (id) obj
 {
@@ -350,15 +350,19 @@ static BOOL   run_member_on_set_until( NSSet *self, NSSet *other, BOOL expect)
 - (void) getObjects:(id *) objects
               count:(NSUInteger) count
 {
-   NSEnumerator  *rover;
-   id            *sentinel;
+   id   *sentinel;
+   id   obj;
 
    sentinel = &objects[ count];
+   for( obj in self)
+   {
+      if( objects >= sentinel)
+         return;
+      *objects++ = obj;
+   }
 
-   // try fast enumeration sometime...
-   rover = [self objectEnumerator];
-   while( objects < sentinel)
-      *objects++ = [rover nextObject];  // zero fills the buf, if needed
+   while( objects < sentinel) // zero fills the buf, if needed
+      *objects++ = nil;
 }
 
 
@@ -379,8 +383,8 @@ static BOOL   run_member_on_set_until( NSSet *self, NSSet *other, BOOL expect)
    [self getObjects:storage
                count:count];
    storage[ count] = obj;
-   set = [MulleObjCObjectGetClass( self) setWithObjects:storage
-                                          count:size];
+   set             = [MulleObjCObjectGetClass( self) setWithObjects:storage
+                                                              count:size];
    MulleObjCInstanceDeallocateMemory( self, storage);
    return( set);
 }
@@ -411,6 +415,7 @@ static BOOL   run_member_on_set_until( NSSet *self, NSSet *other, BOOL expect)
    MulleObjCInstanceDeallocateMemory( self, storage);
    return( set);
 }
+
 
 - (NSSet *) setByAddingObjectsFromSet:(NSSet *) set
 {

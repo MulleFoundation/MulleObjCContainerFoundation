@@ -263,7 +263,7 @@ static NSUInteger   findObjectWithRange( _MulleObjCConcreteArray *self,
 {
    if( ! state->state)
    {
-      state->mutationsPtr = (unsigned long *)self;
+      state->mutationsPtr = (NSUInteger *) self;
       state->itemsPtr     = _objects;
       state->state        = 1;
       return( self->_count);

@@ -33,16 +33,36 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
+#ifdef __has_include
+# if __has_include( "NSObject.h")
+#  import "NSObject.h"
+# endif
+#endif
+
 #import "import.h"
 
 
+#import "NSEnumerator.h"
+
+//
+// named like the class and not like NSFastEnumeration, because we also have
+// NSArray as protocol and a class
+//
+@protocol NSEnumerator
+
+- (id) nextObject;
+- (id <NSArray>) allObjects;
+
+@end
+
+
+//
+// does not technically implement the protocol, the class just exists
+// for legacy reasons, it does nothing
+//
 @interface NSEnumerator : NSObject
 @end
 
 
-@interface NSEnumerator( Subclasses)
-
-- (id) nextObject;
-
+@interface NSEnumerator( Subclasses) <NSEnumerator>
 @end
-

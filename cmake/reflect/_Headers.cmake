@@ -68,15 +68,17 @@ src/generic/include.h
 #
 set( PUBLIC_HEADERS
 src/MulleObjCContainerFoundation.h
+src/MulleObjCContainer.h
 src/MulleObjCLoader+MulleObjCContainerFoundation.h
 src/MullePreempt.h
 src/NSArray/_MulleObjCArrayEnumerator.h
 src/NSArray/_MulleObjCConcreteArray.h
+src/NSArray/MulleObjCContainer+NSArray.h
 src/NSArray/_MulleObjCEmptyArray.h
 src/NSArray/NSArray+NSCoder.h
+src/NSArray/NSArray+NSEnumerator.h
 src/NSArray/_NSArrayPlaceholder.h
 src/NSArray/NSArray.h
-src/NSArray/NSEnumerator+NSArray.h
 src/NSArray/NSMutableArray+NSSet.h
 src/NSArray/NSMutableArray.h
 src/NSArray/mulle-qsort-pointers.h
@@ -86,6 +88,7 @@ src/NSDictionary/_MulleObjCDictionary.h
 src/NSDictionary/_MulleObjCEmptyDictionary.h
 src/NSDictionary/NSDictionary+NSArray.h
 src/NSDictionary/NSDictionary+NSCoder.h
+src/NSDictionary/NSDictionary+NSEnumerator.h
 src/NSDictionary/_NSDictionaryPlaceholder.h
 src/NSDictionary/NSDictionary.h
 src/NSDictionary/NSMutableDictionary+NSArray.h

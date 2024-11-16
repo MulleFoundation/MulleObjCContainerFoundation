@@ -37,12 +37,12 @@
 
 
 // NSMutableArray is not part of the NSArray classcluster
-@interface NSMutableArray : NSArray < NSMutableArray>
+@interface NSMutableArray : NSArray < NSMutableArray, MulleObjCMutableContainerProtocols>
 {
-   id              *_storage;
-   NSUInteger      _count;
-   NSUInteger      _size;
-   unsigned long   _mutationCount;      // for ObjC 2.0
+   id           *_storage;
+   NSUInteger   _count;
+   NSUInteger   _size;
+   NSUInteger   _mutationCount;      // for ObjC 2.0
 }
 
 - (instancetype) initWithCapacity:(NSUInteger) capacity;

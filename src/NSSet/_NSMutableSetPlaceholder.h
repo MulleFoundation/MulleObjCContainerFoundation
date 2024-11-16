@@ -36,7 +36,8 @@
 #import "NSMutableSet.h"
 
 
-@interface _NSMutableSetPlaceholder : NSMutableSet
+// the place holde is actually thread safe
+@interface _NSMutableSetPlaceholder : NSMutableSet < MulleObjCThreadSafe>
 @end
 
 

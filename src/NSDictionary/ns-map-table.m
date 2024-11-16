@@ -44,7 +44,7 @@
 
 
 
-void   NSMapInsert( NSMapTable *table, void *key, void *value)
+void   MulleObjCMapTableInsert( NSMapTable *table, void *key, void *value)
 {
    if( key == table->_callback.keycallback.notakey)
       MulleObjCThrowInvalidArgumentExceptionUTF8String( "key is not a key marker (%p)", key);
@@ -70,16 +70,16 @@ static void   _NSMapTableInitWithAllocator( NSMapTable *table,
 }
 
 
-void    NSResetMapTable( NSMapTable *table)
+void    MulleObjCMapTableReset( NSMapTable *table)
 {
    _mulle__map_done( &table->_map, &table->_callback, table->_allocator);
    _NSMapTableInitWithAllocator( table, &table->_callback.keycallback, &table->_callback.valuecallback, 0, table->_allocator);
 }
 
 
-NSMapTable   *NSCreateMapTable( NSMapTableKeyCallBacks keyCallBacks,
-                                NSMapTableValueCallBacks valueCallBacks,
-                                NSUInteger capacity)
+NSMapTable   *MulleObjCMapTableCreate( NSMapTableKeyCallBacks keyCallBacks,
+                                       NSMapTableValueCallBacks valueCallBacks,
+                                       NSUInteger capacity)
 {
    NSMapTable   *table;
 
@@ -89,7 +89,7 @@ NSMapTable   *NSCreateMapTable( NSMapTableKeyCallBacks keyCallBacks,
 }
 
 
-NSMapTable   *_NSCreateMapTableWithAllocator( NSMapTableKeyCallBacks keyCallBacks,
+NSMapTable   *MulleObjCMapTableCreateWithAllocator( NSMapTableKeyCallBacks keyCallBacks,
                                               NSMapTableValueCallBacks valueCallBacks,
                                               NSUInteger capacity,
                                               struct mulle_allocator *allocator)
@@ -102,7 +102,7 @@ NSMapTable   *_NSCreateMapTableWithAllocator( NSMapTableKeyCallBacks keyCallBack
 }
 
 
-void   NSFreeMapTable( NSMapTable *table)
+void   MulleObjCMapTableFree( NSMapTable *table)
 {
    if( table)
       _mulle__map_destroy( &table->_map, &table->_callback, table->_allocator);
@@ -113,7 +113,7 @@ void   NSFreeMapTable( NSMapTable *table)
 #pragma mark - operations
 
 
-void   NSMapInsertKnownAbsent( NSMapTable *table, void *key, void *value)
+void   MulleObjCMapTableInsertKnownAbsent( NSMapTable *table, void *key, void *value)
 {
    if( key == table->_callback.keycallback.notakey)
       MulleObjCThrowInvalidArgumentExceptionUTF8String( "key is not a key marker (%p)", key);
@@ -125,7 +125,7 @@ void   NSMapInsertKnownAbsent( NSMapTable *table, void *key, void *value)
 }
 
 
-void   *NSMapInsertIfAbsent( NSMapTable *table, void *key, void *value)
+void   *MulleObjCMapTableInsertIfAbsent( NSMapTable *table, void *key, void *value)
 {
    void   *old;
 
@@ -140,7 +140,7 @@ void   *NSMapInsertIfAbsent( NSMapTable *table, void *key, void *value)
 
 #pragma mark - copying
 
-NSMapTable   *NSCopyMapTable( NSMapTable *table)
+NSMapTable   *MulleObjCMapTableCopy( NSMapTable *table)
 {
    NSMapTable   *other;
 

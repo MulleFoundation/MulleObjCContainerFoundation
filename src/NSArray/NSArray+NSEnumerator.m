@@ -1,9 +1,8 @@
 //
-//  NSEnumerator+NSArray.m
+//  NSArray+NSEnumerator.m
 //  MulleObjCContainerFoundation
 //
-//  Copyright (c) 2011 Nat! - Mulle kybernetiK.
-//  Copyright (c) 2011 Codeon GmbH.
+//  Copyright (c) 2024 Nat! - Mulle kybernetiK.
 //  All rights reserved.
 //
 //
@@ -33,18 +32,36 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
-#pragma clang diagnostic ignored "-Wparentheses"
+#import "NSArray+NSEnumerator.h"
 
-#import "NSEnumerator+NSArray.h"
+#import "import-private.h"
 
-#import "NSArray.h"
+#import "NSEnumerator.h"
 #import "NSMutableArray.h"
+#import "_MulleObjCArrayEnumerator.h"
 
+
+@implementation NSArray( NSEnumerator)
+
+#pragma mark - enumeration
+
+- (id <NSEnumerator>) objectEnumerator
+{
+   return( [_MulleObjCArrayEnumerator enumeratorWithArray:self]);
+}
+
+
+- (id <NSEnumerator>) reverseObjectEnumerator
+{
+   return( [MulleObjCArrayReverseEnumerator enumeratorWithArray:self]);
+}
+
+@end
 
 
 @implementation NSEnumerator( NSArray)
 
-- (NSArray *) allObjects
+- (id <NSArray>) allObjects
 {
    NSMutableArray  *array;
    IMP             impNext;
@@ -53,66 +70,18 @@
    SEL             selAdd;
    id              obj;
 
-   array = [NSMutableArray array];
+   array   = [NSMutableArray array];
 
    selNext = @selector( nextObject);
    impNext = [self methodForSelector:selNext];
 
-   selAdd = @selector( addObject:);
-   impAdd = [array methodForSelector:selAdd];
+   selAdd  = @selector( addObject:);
+   impAdd  = [array methodForSelector:selAdd];
 
-   while( obj = MulleObjCIMPCall0( impNext, self, selNext))
+   while( (obj = MulleObjCIMPCall0( impNext, self, selNext)))
       MulleObjCIMPCall( impAdd, array, selAdd, obj);
 
    return( array);
-}
-
-
-- (void) makeObjectsPerformSelector:(SEL) sel
-{
-   IMP   impNext;
-   SEL   selNext;
-   id    obj;
-
-   selNext = @selector( nextObject);
-   impNext = [self methodForSelector:selNext];
-
-   while( obj = MulleObjCIMPCall0( impNext, self, selNext))
-      [obj performSelector:sel];
-}
-
-
-- (void) makeObjectsPerformSelector:(SEL) sel
-                         withObject:(id) argument
-{
-   IMP   impNext;
-   SEL   selNext;
-   id    obj;
-
-   selNext = @selector( nextObject);
-   impNext = [self methodForSelector:selNext];
-
-   while( obj = MulleObjCIMPCall0( impNext, self, selNext))
-      [obj performSelector:sel
-                withObject:argument];
-}
-
-
-- (void) mulleMakeObjectsPerformSelector:(SEL) sel
-                              withObject:(id) argument
-                              withObject:(id) argument2
-{
-   IMP   impNext;
-   SEL   selNext;
-   id    obj;
-
-   selNext = @selector( nextObject);
-   impNext = [self methodForSelector:selNext];
-
-   while( obj = MulleObjCIMPCall0( impNext, self, selNext))
-      [obj performSelector:sel
-                withObject:argument
-                withObject:argument2];
 }
 
 @end

@@ -46,7 +46,7 @@
    _MulleObjCArrayEnumerator   *rover;
 
    rover          = NSAllocateObject( self, 0, NULL);
-   rover->_range  = NSMakeRange( 0, [owner count]);
+   rover->_range  = NSRangeMake( 0, [owner count]);
    rover->_owner  = [owner retain];
 
    return( [rover autorelease]);

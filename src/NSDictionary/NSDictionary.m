@@ -273,17 +273,6 @@ static id   initWithObjectsForKeys( id self, id *objects, id *keys, NSUInteger c
 #pragma mark - generic accessors
 
 
-- (id) anyKey
-{
-   return( [[self keyEnumerator] nextObject]);
-}
-
-
-- (id) anyObject
-{
-   return( [[self objectEnumerator] nextObject]);
-}
-
 
 - (id) mulleForEachObjectAndKeyCallFunction:(BOOL (*)( id, id, void *)) f
                                    argument:(void *) userInfo

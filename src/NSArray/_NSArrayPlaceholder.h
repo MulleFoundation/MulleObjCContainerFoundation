@@ -36,7 +36,7 @@
 #import "NSArray.h"
 
 
-@interface _NSArrayPlaceholder : NSArray
+@interface _NSArrayPlaceholder : NSArray <MulleObjCThreadSafe>
 
 //
 // objects are retained already

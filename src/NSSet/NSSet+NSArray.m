@@ -39,7 +39,6 @@
 #import "NSArray.h"
 #import "NSEnumerator.h"
 #import "NSMutableArray.h"
-#import "NSEnumerator+NSArray.h"
 
 // other libraries of MulleObjCContainerFoundation
 
@@ -57,43 +56,6 @@
 - (instancetype) initWithArray:(NSArray *) array
 {
    return( [self  mulleInitWithContainer:array]);
-}
-
-
-- (NSArray *) allObjects
-{
-   NSMutableArray   *array;
-   id               obj;
-
-   array = [NSMutableArray array];
-   for( obj in self)
-      [array addObject:obj];
-
-   return( array);
-}
-
-
-- (void) makeObjectsPerformSelector:(SEL) sel
-{
-   [[self objectEnumerator] makeObjectsPerformSelector:sel];
-}
-
-
-- (void) makeObjectsPerformSelector:(SEL) sel
-                         withObject:(id) obj
-{
-   [[self objectEnumerator] makeObjectsPerformSelector:sel
-                                            withObject:obj];
-}
-
-
-- (void) mulleMakeObjectsPerformSelector:(SEL) sel
-                              withObject:(id) obj
-                              withObject:(id) obj2
-{
-   [[self objectEnumerator] mulleMakeObjectsPerformSelector:sel
-                                                  withObject:obj
-                                                 withObject:obj2];
 }
 
 

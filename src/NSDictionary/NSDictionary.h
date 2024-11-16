@@ -33,6 +33,12 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
+#ifdef __has_include
+# if __has_include( "MulleObjCContainer.h")
+#  import "MulleObjCContainer.h"
+# endif
+#endif
+
 #import "import.h"
 
 #import "MullePreempt.h"
@@ -41,7 +47,7 @@
 @class NSEnumerator;
 
 
-@interface NSDictionary : NSObject < NSDictionary, MulleObjCClassCluster, NSCopying >
+@interface NSDictionary : MulleObjCContainer < NSDictionary, MulleObjCClassCluster, NSCopying >
 
 + (instancetype) dictionary;
 + (instancetype) dictionaryWithDictionary:(NSDictionary *) dictionary;
@@ -80,19 +86,15 @@
 
 @interface NSDictionary( Subclasses) < NSFastEnumeration>
 
-- (NSUInteger) count;
+- (NSEnumerator *) keyEnumerator;
+
 - (void) getObjects:(id *) objects
             andKeys:(id *) keys
               count:(NSUInteger) count;
 
 - (id) :(id) key;  // short for objectForKey:
 - (id) objectForKey:(id) key;
-- (NSEnumerator *) keyEnumerator;
-- (NSEnumerator *) objectEnumerator;
 
-- (NSUInteger) countByEnumeratingWithState:(NSFastEnumerationState *) rover
-                                   objects:(id *) buffer
-                                     count:(NSUInteger) len;
 @end
 
 
