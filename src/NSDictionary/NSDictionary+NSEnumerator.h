@@ -1,9 +1,8 @@
 //
-//  NSEnumerator+NSArray.h
+//  NSDictionary+NSEnumerator.m
 //  MulleObjCContainerFoundation
 //
-//  Copyright (c) 2011 Nat! - Mulle kybernetiK.
-//  Copyright (c) 2011 Codeon GmbH.
+//  Copyright (c) 2024 Nat! - Mulle kybernetiK.
 //  All rights reserved.
 //
 //
@@ -33,20 +32,36 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
-#import "NSEnumerator.h"
+// prefer a local NSDictionary over one in import.h
+#ifdef __has_include
+# if __has_include( "NSDictionary.h")
+#  import "NSDictionary.h"
+# endif
+#endif
+
+// we want "import.h" always anyway
+#import "import.h"
 
 
-@class NSArray;
+@interface NSDictionary( NSEnumerator)
 
-
-@interface NSEnumerator( NSArray)
-
-- (NSArray *) allObjects;
-- (void) makeObjectsPerformSelector:(SEL) sel;
-- (void) makeObjectsPerformSelector:(SEL) sel
-                         withObject:(id) obj;
-- (void) mulleMakeObjectsPerformSelector:(SEL) sel
-                              withObject:(id) obj
-                              withObject:(id) obj2;
+- (id) anyKey;
 
 @end
+
+
+
+#ifdef __has_include
+# if __has_include( "NSEnumerator.h")
+#  import "NSEnumerator.h"
+# endif
+#endif
+
+
+@interface NSDictionary( NSEnumeratorSubclasses)
+
+- (NSEnumerator *) keyEnumerator;
+- (NSEnumerator *) objectEnumerator;
+
+@end
+

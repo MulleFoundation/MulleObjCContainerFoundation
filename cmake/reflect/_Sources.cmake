@@ -11,13 +11,15 @@ endif()
 # contents selected with patternfile ??-source--sources
 #
 set( SOURCES
+src/MulleObjCContainer.m
 src/NSArray/_MulleObjCArrayEnumerator.m
 src/NSArray/_MulleObjCConcreteArray.m
+src/NSArray/MulleObjCContainer+NSArray.m
 src/NSArray/_MulleObjCEmptyArray.m
 src/NSArray/NSArray+NSCoder.m
+src/NSArray/NSArray+NSEnumerator.m
 src/NSArray/_NSArrayPlaceholder.m
 src/NSArray/NSArray.m
-src/NSArray/NSEnumerator+NSArray.m
 src/NSArray/NSMutableArray+NSSet.m
 src/NSArray/NSMutableArray.m
 src/NSArray/mulle-qsort-pointers.c
@@ -27,6 +29,7 @@ src/NSDictionary/_MulleObjCDictionary.m
 src/NSDictionary/_MulleObjCEmptyDictionary.m
 src/NSDictionary/NSDictionary+NSArray.m
 src/NSDictionary/NSDictionary+NSCoder.m
+src/NSDictionary/NSDictionary+NSEnumerator.m
 src/NSDictionary/_NSDictionaryPlaceholder.m
 src/NSDictionary/NSDictionary.m
 src/NSDictionary/NSMutableDictionary+NSArray.m

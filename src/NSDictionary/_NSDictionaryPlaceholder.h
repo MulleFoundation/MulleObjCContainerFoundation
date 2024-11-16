@@ -36,6 +36,6 @@
 #import "NSDictionary.h"
 
 
-@interface _NSDictionaryPlaceholder : NSDictionary
+@interface _NSDictionaryPlaceholder : NSDictionary <MulleObjCThreadSafe>
 @end
 

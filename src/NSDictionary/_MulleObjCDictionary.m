@@ -55,7 +55,7 @@
 
 
 
-@interface _MulleObjCDictionaryKeyEnumerator : NSEnumerator
+@interface _MulleObjCDictionaryKeyEnumerator : NSEnumerator < NSEnumerator>
 {
    struct mulle__mapenumerator       _rover;
    _MulleObjCDictionary< NSObject>   *_owner;
@@ -285,8 +285,8 @@ struct _MulleObjCDictionaryFastEnumerationState
 - (NSInteger) mulleCountCollisions:(NSInteger *) perfects;
 {
    _MulleObjCDictionaryIvars   *ivars;
-   unsigned int                collisions;
-   unsigned int                perfs;
+   size_t                      collisions;
+   size_t                      perfs;
 
    ivars      = _MulleObjCDictionaryGetIvars( self);
    collisions =  _mulle__map_count_collisions( &ivars->_table,

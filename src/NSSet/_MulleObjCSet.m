@@ -39,6 +39,7 @@
 
 // other files in this library
 #import "NSEnumerator.h"
+#import "NSArray+NSEnumerator.h"
 
 // other libraries of MulleObjCContainerFoundation
 
@@ -48,7 +49,7 @@
 #import "_MulleObjCSet-Private.h"
 
 
-@interface _MulleObjCSetEnumerator : NSEnumerator
+@interface _MulleObjCSetEnumerator : NSEnumerator < NSEnumerator>
 {
    _MulleObjCSet< NSObject>     *_owner;
    struct mulle__setenumerator  _rover;

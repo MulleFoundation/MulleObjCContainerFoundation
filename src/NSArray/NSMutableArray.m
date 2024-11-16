@@ -269,6 +269,7 @@ static void   reserve(  NSMutableArray *self, size_t count)
    }
 }
 
+
 //
 // got no time, implement this "lamely" first
 // do something cool later...
@@ -357,7 +358,7 @@ static NSUInteger  indexOfObjectIdenticalTo( NSMutableArray *self,
 
 - (NSUInteger) indexOfObjectIdenticalTo:(id) obj
 {
-   return( indexOfObjectIdenticalTo( self, obj, NSMakeRange( 0, self->_count)));
+   return( indexOfObjectIdenticalTo( self, obj, NSRangeMake( 0, self->_count)));
 }
 
 
@@ -408,13 +409,13 @@ static NSUInteger
 
 - (BOOL) containsObject:(id) obj
 {
-   return( indexOfObject( self, obj, NSMakeRange( 0, self->_count), 0) != NSNotFound);
+   return( indexOfObject( self, obj, NSRangeMake( 0, self->_count), 0) != NSNotFound);
 }
 
 
 - (NSUInteger) indexOfObject:(id) obj
 {
-   return( indexOfObject( self, obj, NSMakeRange( 0, self->_count), 1));
+   return( indexOfObject( self, obj, NSRangeMake( 0, self->_count), 1));
 }
 
 
@@ -540,7 +541,7 @@ static void   removeObjectAtIndex( NSMutableArray *self,
 - (void) removeLastObject
 {
    if( ! _count)
-      MulleObjCThrowInvalidRangeException( NSMakeRange( 0, 0));
+      MulleObjCThrowInvalidRangeException( NSRangeMake( 0, 0));
 
    [_storage[ --_count] autorelease];
    // dynamic shrinking
@@ -574,7 +575,7 @@ static void   removeObjectAtIndex( NSMutableArray *self,
 {
    NSUInteger   i;
 
-   i = indexOfObjectIdenticalTo( self, obj, NSMakeRange( 0, self->_count));
+   i = indexOfObjectIdenticalTo( self, obj, NSRangeMake( 0, self->_count));
    if( i != NSNotFound)
       [self removeObjectAtIndex:i];
 }
@@ -800,7 +801,7 @@ static void   removeObjectAtIndex( NSMutableArray *self,
    range     = MulleObjCValidateRangeAgainstLength( range, _count);
    validate_index( self, index);
 
-   range_end = NSMaxRange( range);
+   range_end = NSRangeGetMax( range);
    offset    = index - (intptr_t) range.location;
 
    //  |...I....R......R........|  #1#

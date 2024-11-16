@@ -36,7 +36,7 @@
 #import "NSMutableDictionary.h"
 
 
-@interface _NSMutableDictionaryPlaceholder : NSMutableDictionary
+@interface _NSMutableDictionaryPlaceholder : NSMutableDictionary <MulleObjCThreadSafe>
 @end
 
 

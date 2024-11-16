@@ -121,6 +121,33 @@
    return( (id) [[NSDictionary alloc] initWithDictionary:self]);
 }
 
+
+//
+// basically the same as NSDictionary ( NSMutableDictionary)
+// but we want to keep the class, or ?
+//
+- (instancetype) mulleDictionaryByRemovingObjectForKey:(id <NSCopying>) key
+{
+   NSMutableDictionary   *copy;
+
+   if( ! [self objectForKey:key])
+      return( self);
+
+   copy = [MulleObjCObjectGetClass( self) dictionaryWithDictionary:self];
+   [copy removeObjectForKey:key];
+   return( copy);
+}
+
+
+//
+// keep the class
+//
+- (id) mutableCopy
+{
+   return( [[MulleObjCObjectGetClass( self) alloc] initWithDictionary:self]);
+}
+
+
 @end
 
 

@@ -38,7 +38,6 @@
 // other files in this library
 #import "NSArray.h"
 #import "NSEnumerator.h"
-#import "NSEnumerator+NSArray.h"
 #import "NSMutableArray.h"
 
 // other libraries of MulleObjCContainerFoundation
@@ -84,10 +83,11 @@
 
 - (NSArray *) keysSortedByValueUsingSelector:(SEL) comparator
 {
-   NSArray  *array;
+   id <NSArray> array;
 
-   array = [[self keyEnumerator] allObjects];
-   return( [array sortedArrayUsingSelector:comparator]);
+   array = [self allObjects];
+   assert( [array isKindOfClass:[NSArray class]]);
+   return( [(NSArray *) array sortedArrayUsingSelector:comparator]);
 
 }
 
@@ -110,8 +110,8 @@
 }
 
 
-// TODO: code this less lazily in subclasses!
-- (NSArray *) allKeys
+// TODO: code this less lazily in subclasses ?
+- (id <NSArray>) allKeys
 {
    return( [[self keyEnumerator] allObjects]);
 }
@@ -135,7 +135,7 @@
 }
 
 
-- (NSArray *) allValues
+- (id <NSArray>) allValues
 {
    return( [[self objectEnumerator] allObjects]);
 }

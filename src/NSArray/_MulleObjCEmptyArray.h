@@ -37,6 +37,6 @@
 #import "NSArray.h"
 
 
-@interface _MulleObjCEmptyArray : NSArray < MulleObjCSingleton, MulleObjCImmutable>
+@interface _MulleObjCEmptyArray : NSArray < MulleObjCSingleton, MulleObjCContainerProtocols>
 
 @end

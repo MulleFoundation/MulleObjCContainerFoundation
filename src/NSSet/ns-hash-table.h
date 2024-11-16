@@ -57,15 +57,20 @@ typedef struct
 typedef struct mulle_setenumerator   NSHashEnumerator;
 
 
+//
+// in order on darwin to not clobber the links symbols of foundation
+// we only use MulleObjC prefix, but the static inline gives the 
+// familiar name
+
 MULLE_OBJC_CONTAINER_FOUNDATION_GLOBAL
 NSHashTable *
-   NSCreateHashTable( NSHashTableCallBacks callBacks, NSUInteger capacity);
+   MulleObjCHashTableCreate( NSHashTableCallBacks callBacks, NSUInteger capacity);
 
 MULLE_OBJC_CONTAINER_FOUNDATION_GLOBAL
-void   NSFreeHashTable( NSHashTable *table);
+void   MulleObjCHashTableFree( NSHashTable *table);
 
 
-static inline void   NSInitHashTable( NSHashTable *table,
+static inline void   MulleObjCHashTableInit( NSHashTable *table,
                                       NSHashTableCallBacks *callBacks,
                                       NSUInteger capacity)
 {
@@ -77,18 +82,64 @@ static inline void   NSInitHashTable( NSHashTable *table,
 }
 
 
+
+static inline void   MulleObjCHashTableDone( NSHashTable *table)
+{
+   mulle_set_done( &table->_set);
+}
+
+
+MULLE_OBJC_CONTAINER_FOUNDATION_GLOBAL
+void   MulleObjCHashTableInsert( NSHashTable *table, void *p);
+
+MULLE_OBJC_CONTAINER_FOUNDATION_GLOBAL
+void   MulleObjCHashTableInsertKnownAbsent( NSHashTable *table, void *p);
+
+MULLE_OBJC_CONTAINER_FOUNDATION_GLOBAL
+void   *MulleObjCHashTableInsertIfAbsent( NSHashTable *table, void *p);
+
+
+
+
+# pragma mark - compatibility (preferred)
+
+static inline NSHashTable *
+   NSCreateHashTable( NSHashTableCallBacks callBacks, NSUInteger capacity)
+{
+   return( MulleObjCHashTableCreate( callBacks, capacity));
+}
+
+
+static inline void   NSFreeHashTable( NSHashTable *table)
+{
+   MulleObjCHashTableFree( table);
+}
+
+static inline void   NSHashInsert( NSHashTable *table, void *p)
+{
+   MulleObjCHashTableInsert( table, p);
+}
+
+
+static inline void   NSHashInsertKnownAbsent( NSHashTable *table, void *p)
+{
+   MulleObjCHashTableInsertKnownAbsent( table, p);
+}
+
+
+static inline void   *NSHashInsertIfAbsent( NSHashTable *table, void *p)
+{
+   return( MulleObjCHashTableInsertIfAbsent( table, p));
+}
+
+
+
 static inline NSHashTable   *
    NSCreateHashTableWithZone( NSHashTableCallBacks callBacks,
                               NSUInteger capacity,
                               NSZone *zone)
 {
    return( NSCreateHashTable( callBacks, capacity));
-}
-
-
-static inline void   NSDoneHashTable( NSHashTable *table)
-{
-   mulle_set_done( &table->_set);
 }
 
 
@@ -116,15 +167,21 @@ static inline NSUInteger   NSCountHashTable( NSHashTable *table)
 }
 
 
+# pragma mark - copying
+
+
 MULLE_OBJC_CONTAINER_FOUNDATION_GLOBAL
-NSHashTable   *NSCopyHashTable( NSHashTable *table);
+NSHashTable   *MulleObjCHashTableCopy( NSHashTable *table);
 
 
 static inline NSHashTable   *NSCopyHashTableWithZone( NSHashTable *table,
                                                       NSZone *zone)
 {
-   return( NSCopyHashTable( table));
+   return( MulleObjCHashTableCopy( table));
 }
+
+
+# pragma mark - enumeration
 
 
 static inline NSHashEnumerator   NSEnumerateHashTable( NSHashTable *table)
@@ -151,15 +208,6 @@ static inline void   NSEndHashTableEnumeration( NSHashEnumerator *rover)
 }
 
 
-MULLE_OBJC_CONTAINER_FOUNDATION_GLOBAL
-void   NSHashInsert( NSHashTable *table, void *p);
-
-MULLE_OBJC_CONTAINER_FOUNDATION_GLOBAL
-void   NSHashInsertKnownAbsent( NSHashTable *table, void *p);
-
-MULLE_OBJC_CONTAINER_FOUNDATION_GLOBAL
-void   *NSHashInsertIfAbsent( NSHashTable *table, void *p);
-
 
 //MulleObjUTF8String *MulleObjUTF8StringFromHashTable( NSHashTable *table);
 //MulleObjCArray *MulleObjCAllHashTableObjects( NSHashTable *table);
@@ -173,12 +221,25 @@ void   *NSHashInsertIfAbsent( NSHashTable *table, void *p);
 //NSHashTableCallBacks   MulleObjCOwnedObjectIdentityHashCallBacks;
 
 
-#define NSIntHashCallBacks                 (*(NSHashTableCallBacks *) &NSIntMapKeyCallBacks)
-#define NSIntegerHashCallBacks             (*(NSHashTableCallBacks *) &NSIntegerMapKeyCallBacks)
-#define NSNonOwnedPointerHashCallBacks     (*(NSHashTableCallBacks *) &NSNonOwnedPointerMapKeyCallBacks)
-#define NSOwnedPointerHashCallBacks        (*(NSHashTableCallBacks *) &NSOwnedPointerMapKeyCallBacks)
-#define NSNonOwnedPointerHashCallBacks     (*(NSHashTableCallBacks *) &NSNonOwnedPointerMapKeyCallBacks)
-#define NSNonRetainedObjectHashCallBacks   (*(NSHashTableCallBacks *) &NSNonRetainedObjectMapKeyCallBacks)
-#define NSObjectHashCallBacks              (*(NSHashTableCallBacks *) &NSObjectMapKeyCallBacks)
+#define NSIntHashCallBacks                 (*(NSHashTableCallBacks *) &MulleObjCIntMapKeyCallBacks)
+#define NSIntegerHashCallBacks             (*(NSHashTableCallBacks *) &MulleObjCIntegerMapKeyCallBacks)
+#define NSNonOwnedPointerHashCallBacks     (*(NSHashTableCallBacks *) &MulleObjCNonOwnedPointerMapKeyCallBacks)
+#define NSOwnedPointerHashCallBacks        (*(NSHashTableCallBacks *) &MulleObjCOwnedPointerMapKeyCallBacks)
+#define NSNonOwnedPointerHashCallBacks     (*(NSHashTableCallBacks *) &MulleObjCNonOwnedPointerMapKeyCallBacks)
+#define NSNonRetainedObjectHashCallBacks   (*(NSHashTableCallBacks *) &MulleObjCNonRetainedObjectMapKeyCallBacks)
+#define NSObjectHashCallBacks              (*(NSHashTableCallBacks *) &MulleObjCObjectMapKeyCallBacks)
+
+
+#define NSHashTableFor( name, value)                                              \
+   assert( sizeof( value) == sizeof( void *));                                    \
+   for( NSHashEnumerator                                                          \
+           rover__ ## value = NSEnumerateHashTable( name),                        \
+           *rover__  ## value ## __i = (void *) 0;                                \
+        ! rover__  ## value ## __i;                                               \
+        rover__ ## value ## __i = (NSEndHashTableEnumeration( &rover__ ## value), \
+                                              (void *) 1))                        \
+      while( NSNextMapEnumeratorPair( &rover__ ## value,                          \
+                                      (void **) &value))
+
 
 #endif

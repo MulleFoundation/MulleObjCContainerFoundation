@@ -44,14 +44,7 @@
 + (instancetype) setWithArray:(NSArray *) array;
 
 - (instancetype) initWithArray:(NSArray *) array;
-- (NSArray *) allObjects;
 
 - (NSSet *) setByAddingObjectsFromArray:(NSArray *) array;
 
-- (void) makeObjectsPerformSelector:(SEL) sel;
-- (void) makeObjectsPerformSelector:(SEL) sel
-                         withObject:(id) object;
-- (void) mulleMakeObjectsPerformSelector:(SEL) sel
-                              withObject:(id) object
-                              withObject:(id) object;
 @end

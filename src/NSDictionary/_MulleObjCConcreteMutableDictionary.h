@@ -39,7 +39,7 @@
 #import "_MulleObjCDictionary.h"
 
 
-@interface _MulleObjCConcreteMutableDictionary : NSMutableDictionary < _MulleObjCDictionary>
+@interface _MulleObjCConcreteMutableDictionary : NSMutableDictionary < _MulleObjCDictionary, MulleObjCMutableContainerProtocols>
 {
    _MulleObjCDictionaryIvars   _ivars;
 }

@@ -33,15 +33,18 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
+#ifdef __has_include
+# if __has_include( "MulleObjCContainer.h")
+#  import "MulleObjCContainer.h"
+# endif
+#endif
+
 #import "import.h"
 
 #import "MullePreempt.h"
 
 
-@class NSEnumerator;
-
-
-@interface NSArray : NSObject < NSArray, MulleObjCClassCluster, NSCopying>
+@interface NSArray : MulleObjCContainer < NSArray, MulleObjCClassCluster, NSCopying>
 
 + (instancetype) array;
 + (instancetype) arrayWithArray:(NSArray *) other;
@@ -73,12 +76,6 @@
 - (BOOL) isEqual:(id) other;
 - (BOOL) isEqualToArray:(NSArray *) other;
 - (id) lastObject;
-- (void) makeObjectsPerformSelector:(SEL) sel;
-- (void) makeObjectsPerformSelector:(SEL) sel
-                         withObject:(id) obj;
-
-- (NSEnumerator *) objectEnumerator;
-- (NSEnumerator *) reverseObjectEnumerator;
 
 - (NSArray *) sortedArrayUsingFunction:(NSComparisonResult (*)(id, id, void *)) comparator
                                context:(void *) context;
@@ -90,7 +87,6 @@
 - (BOOL) containsObject:(id) obj
                 inRange:(NSRange) range;
 - (void) getObjects:(id *) objects;
-
 
 @end
 
@@ -136,10 +132,6 @@
 - (id) mulleForEachObjectCallFunction:(BOOL (*)( id, void *)) f
                              argument:(void *) userInfo
                               preempt:(enum MullePreempt) preempt;
-- (void) mulleMakeObjectsPerformSelector:(SEL) sel
-                              withObject:(id) obj
-                              withObject:(id) obj2;
-
 @end
 
 
@@ -154,15 +146,10 @@ id   MulleForEachObjectCallFunction( id *objects,
 // minimum to implement
 @interface NSArray( Subclasses) < NSFastEnumeration>
 
-- (NSUInteger) count;
 - (id) :(NSUInteger) index; // same as objectAtIndex, just a shortcut
 - (id) objectAtIndex:(NSUInteger) index;
 - (void) getObjects:(id *) objects
               range:(NSRange) range;
-
-- (NSUInteger) countByEnumeratingWithState:(NSFastEnumerationState *) state
-                                   objects:(id *) objects
-                                     count:(NSUInteger) count;
 
 @end
 

@@ -33,13 +33,25 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
+#ifdef __has_include
+# if __has_include( "NSObject.h")
+#  import "NSObject.h"
+# endif
+#endif
+
+#ifdef __has_include
+# if __has_include( "MulleObjCContainer.h")
+#  import "MulleObjCContainer.h"
+# endif
+#endif
+
 #import "import.h"
 
 
 @class NSEnumerator;
 
 
-@interface NSSet : NSObject < NSSet, MulleObjCClassCluster, NSCopying>
+@interface NSSet : MulleObjCContainer < NSSet, MulleObjCClassCluster, NSCopying>
 
 + (instancetype) set;
 
@@ -58,7 +70,6 @@
 - (NSSet *) setByAddingObject:(id) object;
 - (NSSet *) setByAddingObjectsFromSet:(NSSet *) set;
 
-- (id) anyObject;
 - (BOOL) containsObject:(id) object;
 - (BOOL) isSubsetOfSet:(NSSet *) set;
 - (BOOL) intersectsSet:(NSSet *) set;

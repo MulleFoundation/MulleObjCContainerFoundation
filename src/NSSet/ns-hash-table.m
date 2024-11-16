@@ -43,35 +43,35 @@
 #import "import-private.h"
 
 
-NSHashTable   *NSCreateHashTable( NSHashTableCallBacks callBacks, NSUInteger capacity)
+NSHashTable   *MulleObjCHashTableCreate( NSHashTableCallBacks callBacks, NSUInteger capacity)
 {
    NSHashTable   *table;
 
    table  = mulle_malloc( sizeof( NSHashTable));
-   NSInitHashTable( table, &callBacks, capacity);
+   MulleObjCHashTableInit( table, &callBacks, capacity);
    return( table);
 }
 
 
-void   NSFreeHashTable( NSHashTable *table)
+void   MulleObjCHashTableFree( NSHashTable *table)
 {
    mulle_set_done( &table->_set);
    mulle_free( table);
 }
 
 
-NSHashTable   *NSCopyHashTable( NSHashTable *table)
+NSHashTable   *MulleObjCHashTableCopy( NSHashTable *table)
 {
    NSHashTable   *clone;
 
-   clone = NSCreateHashTable( table->_callback, mulle_set_get_count( &table->_set));
+   clone = MulleObjCHashTableCreate( table->_callback, mulle_set_get_count( &table->_set));
    mulle_set_copy_items( &clone->_set, &table->_set);
 
    return( clone);
 }
 
 
-void   NSHashInsert( NSHashTable *table, void *p)
+void   MulleObjCHashTableInsert( NSHashTable *table, void *p)
 {
    if( p == table->_callback.notakey)
       MulleObjCThrowInvalidArgumentExceptionUTF8String( "key is not a key marker (%p)", p);
@@ -79,7 +79,7 @@ void   NSHashInsert( NSHashTable *table, void *p)
 }
 
 
-void   NSHashInsertKnownAbsent( NSHashTable *table, void *p)
+void   MulleObjCHashTableInsertKnownAbsent( NSHashTable *table, void *p)
 {
    if( p == table->_callback.notakey)
       MulleObjCThrowInvalidArgumentExceptionUTF8String( "key is not a key marker (%p)", p);
@@ -91,7 +91,7 @@ void   NSHashInsertKnownAbsent( NSHashTable *table, void *p)
 }
 
 
-void   *NSHashInsertIfAbsent( NSHashTable *table, void *p)
+void   *MulleObjCHashTableInsertIfAbsent( NSHashTable *table, void *p)
 {
    void  *old;
 

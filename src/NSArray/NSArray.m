@@ -40,6 +40,7 @@
 // other files in this library
 #import "_MulleObjCArrayEnumerator.h"
 #import "_NSArrayPlaceholder.h"
+#import "_NSArrayPlaceholder.h"
 #include "mulle-qsort-pointers.h"
 
 // other libraries of MulleObjCContainerFoundation
@@ -563,7 +564,7 @@ static NSUInteger  findIndexWithRangeForEquality( NSArray *self, NSRange range, 
          break;
 
       [self getObjects:buf
-                 range:NSMakeRange( range.location, len)];
+                 range:NSRangeMake( range.location, len)];
       sentinel = &buf[ len];
 
       for( p = buf; p < sentinel; p++, range.location++)
@@ -590,7 +591,7 @@ static NSUInteger  findIndexWithRange( NSArray *self, NSRange range, id obj)
          break;
 
       [self getObjects:buf
-                 range:NSMakeRange( range.location, len)];
+                 range:NSRangeMake( range.location, len)];
       sentinel = &buf[ len];
 
       for( p = buf; p < sentinel; p++, range.location++)
@@ -605,13 +606,13 @@ static NSUInteger  findIndexWithRange( NSArray *self, NSRange range, id obj)
 
 - (NSUInteger) indexOfObject:(id) obj
 {
-   return( findIndexWithRangeForEquality( self, NSMakeRange( 0, [self count]), obj));
+   return( findIndexWithRangeForEquality( self, NSRangeMake( 0, [self count]), obj));
 }
 
 
 - (BOOL) containsObject:(id) obj
 {
-   return( NSNotFound != findIndexWithRangeForEquality( self, NSMakeRange( 0, [self count]), obj));
+   return( NSNotFound != findIndexWithRangeForEquality( self, NSRangeMake( 0, [self count]), obj));
 }
 
 
@@ -630,13 +631,13 @@ static NSUInteger  findIndexWithRange( NSArray *self, NSRange range, id obj)
 
 - (BOOL) mulleContainsObjectIdenticalTo:(id) obj
 {
-   return( NSNotFound != findIndexWithRange( self, NSMakeRange( 0, [self count]), obj));
+   return( NSNotFound != findIndexWithRange( self, NSRangeMake( 0, [self count]), obj));
 }
 
 
 - (NSUInteger) indexOfObjectIdenticalTo:(id) obj
 {
-   return( findIndexWithRange( self, NSMakeRange( 0, [self count]), obj));
+   return( findIndexWithRange( self, NSRangeMake( 0, [self count]), obj));
 }
 
 
@@ -693,9 +694,9 @@ static NSUInteger  findIndexWithRange( NSArray *self, NSRange range, id obj)
          break;
 
       [self getObjects:buf1
-                 range:NSMakeRange( range.location, len)];
+                 range:NSRangeMake( range.location, len)];
       [other getObjects:buf2
-                  range:NSMakeRange( range.location, len)];
+                  range:NSRangeMake( range.location, len)];
 
       sentinel = &buf1[ len];
       for( q = buf2, p = buf1; p < sentinel; p++, q++)
@@ -765,7 +766,7 @@ id   MulleForEachObjectCallFunction( id *objects,
    {
       n = length >= 64 ? 64 : length;
       [self getObjects:buf
-                 range:NSMakeRange( offset, n)];
+                 range:NSRangeMake( offset, n)];
 
       obj = MulleForEachObjectCallFunction( buf, n, f, argument, preempt);
       if( obj)
@@ -830,57 +831,12 @@ static void   perform( NSArray *self, NSRange range, SEL sel, id obj)
          break;
 
       [self getObjects:buf
-                 range:NSMakeRange( range.location, len)];
+                 range:NSRangeMake( range.location, len)];
 
       MulleObjCMakeObjectsPerformSelector( buf, len, sel, obj);
       range.location += len;
       range.length   -= len;
    }
-}
-
-
-static void   perform2( NSArray *self, NSRange range, SEL sel, id obj, id obj2)
-{
-   NSUInteger   len;
-   id           buf[ 64];
-
-   assert( range.location + range.length <= [self count]);
-
-   for(;;)
-   {
-      len = (range.length > 64) ? 64 : range.length;
-      if( ! len)
-         break;
-
-      [self getObjects:buf
-                 range:NSMakeRange( range.location, len)];
-
-      MulleObjCMakeObjectsPerformSelector2( buf, len, sel, obj, obj2);
-      range.location += len;
-      range.length   -= len;
-   }
-}
-
-
-
-- (void) makeObjectsPerformSelector:(SEL) sel
-{
-   perform( self, NSMakeRange( 0, [self count]), sel, nil);
-}
-
-
-- (void) makeObjectsPerformSelector:(SEL) sel
-                         withObject:(id) obj;
-{
-   perform( self, NSMakeRange( 0, [self count]), sel, obj);
-}
-
-
-- (void) mulleMakeObjectsPerformSelector:(SEL) sel
-                              withObject:(id) obj
-                              withObject:(id) obj2
-{
-   perform2( self, NSMakeRange( 0, [self count]), sel, obj, obj2);
 }
 
 
@@ -890,19 +846,6 @@ static void   perform2( NSArray *self, NSRange range, SEL sel, id obj, id obj2)
    perform( self, range, sel, nil);
 }
 
-
-#pragma mark - enumeration
-
-- (NSEnumerator *) objectEnumerator
-{
-   return( [_MulleObjCArrayEnumerator enumeratorWithArray:self]);
-}
-
-
-- (NSEnumerator *) reverseObjectEnumerator
-{
-   return( [MulleObjCArrayReverseEnumerator enumeratorWithArray:self]);
-}
 
 
 # pragma mark - misc
@@ -919,7 +862,7 @@ static void   perform2( NSArray *self, NSRange range, SEL sel, id obj, id obj2)
 - (void) getObjects:(id *) objects
 {
    [self getObjects:objects
-              range:NSMakeRange( 0, [self count])];
+              range:NSRangeMake( 0, [self count])];
 }
 
 

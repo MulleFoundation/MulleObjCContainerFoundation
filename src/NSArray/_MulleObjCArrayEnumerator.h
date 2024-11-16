@@ -43,7 +43,7 @@
 //
 // keep this simplistic, since we support fast enumeration
 //
-@interface _MulleObjCArrayEnumerator : NSEnumerator
+@interface _MulleObjCArrayEnumerator : NSEnumerator < NSEnumerator>
 {
    NSArray   *_owner;
    NSRange   _range;

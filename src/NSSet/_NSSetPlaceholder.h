@@ -36,6 +36,6 @@
 #import "NSSet.h"
 
 
-@interface _NSSetPlaceholder : NSSet
+@interface _NSSetPlaceholder : NSSet <MulleObjCThreadSafe>
 @end
 

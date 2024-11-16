@@ -40,7 +40,7 @@
 // you should not subclass _MulleObjCConcreteArray
 // because there can be extra data behind _objects
 //
-@interface _MulleObjCConcreteArray : NSArray < MulleObjCImmutable>
+@interface _MulleObjCConcreteArray : NSArray < MulleObjCContainerProtocols>
 {
    size_t   _count;
    id       *_objects;

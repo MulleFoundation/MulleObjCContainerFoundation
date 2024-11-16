@@ -37,7 +37,7 @@
 
 
 //
-// this must be the first instance variablee entry, if you're adopting
+// this must be the first instance variable entry, if you're adopting
 // the _MulleObjCDictionary protocol
 //
 typedef struct
