@@ -1,3 +1,28 @@
+## 0.23.0
+
+
+feat: improve container classes and build system
+
+* Enhance container class hierarchy
+  - Add MulleObjCContainer base class
+  - Move common container code to base class
+  - Rename NSEnumerator+NSArray to NSArray+NSEnumerator
+  - Add MulleObjCContainer+NSArray category
+
+* Improve build system and CMake support
+  - Add CMake package config files
+  - Update compiler flags and warnings
+  - Add TAO debug support via `OBJC_TAO_DEBUG_ENABLED` option
+  - Fix Windows compatibility issues
+  - Add sccache support for Linux
+
+* Refactor source organization
+  - Move shared code to MulleObjCContainer
+  - Update header includes and dependencies
+  - Fix file paths and directory structure
+  - Clean up obsolete environment settings
+
+
 ## 0.22.0
 
 * changed type of n of `mulle_qsort_pointers` to unsigned int for more consistency
