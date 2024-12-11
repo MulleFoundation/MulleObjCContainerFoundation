@@ -1,3 +1,7 @@
+### 0.23.1
+
+* fixed mulleRegisterObject: in NSMutableSet
+
 ## 0.23.0
 
 

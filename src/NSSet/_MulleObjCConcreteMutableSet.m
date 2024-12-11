@@ -80,8 +80,8 @@ Class  _MulleObjCConcreteMutableSetClass;
 
    ivars     = _MulleObjCSetGetIvars( self);
    allocator = MulleObjCInstanceGetAllocator( self);
-   old       = _mulle__set_insert( &ivars->_table, obj, &NSSetCallback, allocator);
-   return( old == NULL ? obj : old);
+   old       = _mulle__set_register( &ivars->_table, obj, &NSSetCallback, allocator);
+   return( old);
 }
 
 
