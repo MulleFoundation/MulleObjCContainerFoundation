@@ -7,10 +7,10 @@
 
 #if defined( MULLE_OBJC_VERSION)
 # ifndef MULLE_OBJC_VERSION_MIN
-#  define MULLE_OBJC_VERSION_MIN  ((0UL << 20) | (24 << 8) | 0)
+#  define MULLE_OBJC_VERSION_MIN  ((0UL << 20) | (25 << 8) | 0)
 # endif
 # ifndef MULLE_OBJC_VERSION_MAX
-#  define MULLE_OBJC_VERSION_MAX  ((0UL << 20) | (25 << 8) | 0)
+#  define MULLE_OBJC_VERSION_MAX  ((0UL << 20) | (26 << 8) | 0)
 # endif
 # if MULLE_OBJC_VERSION < MULLE_OBJC_VERSION_MIN
 #  error "MulleObjC is too old"
