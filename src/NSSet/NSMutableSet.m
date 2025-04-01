@@ -137,15 +137,10 @@
                             copyItems:NO]);
 }
 
-@end
-
-
-@implementation NSSet( NSMutableSet)
-
-- (id) mutableCopy
+- (id) immutableCopy
 {
-   return( [[NSMutableSet alloc] initWithSet:self
-                                   copyItems:NO]);
+   return( [self copy]);
 }
 
 @end
+

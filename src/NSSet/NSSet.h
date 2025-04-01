@@ -51,7 +51,7 @@
 @class NSEnumerator;
 
 
-@interface NSSet : MulleObjCContainer < NSSet, MulleObjCClassCluster, NSCopying>
+@interface NSSet : MulleObjCContainer < NSSet, MulleObjCClassCluster, MulleObjCImmutable, MulleObjCImmutableCopying>
 
 + (instancetype) set;
 

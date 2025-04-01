@@ -85,7 +85,7 @@
 static id   initWithObjectKeyStorage( id self, id *storage, NSUInteger count, BOOL copyItems)
 {
    // copy keys
-   MulleObjCMakeObjectsPerformSelector( &storage[ count], count, @selector( copy), NULL);
+   MulleObjCMakeObjectsPerformSelector( &storage[ count], count, @selector( immutableCopy), NULL);
    // retain or copy values
    if( copyItems)
       MulleObjCMakeObjectsPerformSelector( storage, count, @selector( copy), NULL);
@@ -101,7 +101,7 @@ static id   initWithObjectKeyStorage( id self, id *storage, NSUInteger count, BO
 static id   initWithObjectsForKeys( id self, id *objects, id *keys, NSUInteger count, BOOL copyItems)
 {
    // copy keys
-   MulleObjCMakeObjectsPerformSelector( keys, count, @selector( copy), NULL);
+   MulleObjCMakeObjectsPerformSelector( keys, count, @selector( immutableCopy), NULL);
    // retain or copy values
    if( copyItems)
       MulleObjCMakeObjectsPerformSelector( objects, count, @selector( copy), NULL);
@@ -262,16 +262,7 @@ static id   initWithObjectsForKeys( id self, id *objects, id *keys, NSUInteger c
 }
 
 
-#pragma mark - NSCopying
-
-- (id) copy
-{
-   return( [self retain]);
-}
-
-
 #pragma mark - generic accessors
-
 
 
 - (id) mulleForEachObjectAndKeyCallFunction:(BOOL (*)( id, id, void *)) f

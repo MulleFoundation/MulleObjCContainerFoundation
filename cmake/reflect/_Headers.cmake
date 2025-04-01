@@ -11,12 +11,12 @@ endif()
 # contents are derived from the file locations
 
 set( INCLUDE_DIRS
-src
+src/reflect
+src/generic
 src/NSArray
 src/NSDictionary
 src/NSSet
-src/generic
-src/reflect
+src
 )
 
 #

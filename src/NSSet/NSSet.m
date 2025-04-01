@@ -423,12 +423,6 @@ static BOOL   run_member_on_set_until( NSSet *self, NSSet *other, BOOL expect)
 }
 
 
-- (id) copy
-{
-   return( [self retain]);
-}
-
-
 - (NSUInteger) countByEnumeratingWithState:(NSFastEnumerationState *) rover
                                    objects:(id *) buffer
                                      count:(NSUInteger) len;

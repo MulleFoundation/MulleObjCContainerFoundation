@@ -2,7 +2,7 @@
 
 #include <unistd.h>
 
-@interface Foo : NSObject < NSCopying>
+@interface Foo : NSObject <NSObject, MulleObjCImmutable, MulleObjCImmutableCopying>
 {
    char   _name[ 32];
 }
@@ -34,7 +34,7 @@
    return( mulle_data_hash( mulle_data_make( self->_name, strlen( self->_name))));
 }
 
-- (id) copy
+- (id) immutableCopy
 {
    return( [self retain]);
 }
