@@ -4,7 +4,6 @@
       { @selector( NSArray), @selector( MulleMutableArrayAdditions) },      // 233490fe;NSArray;06c6446f;MulleMutableArrayAdditions
       { @selector( NSArray), @selector( NSCoder) },      // 233490fe;NSArray;100c54ba;NSCoder
       { @selector( NSArray), @selector( NSEnumerator) },      // 233490fe;NSArray;e631d30d;NSEnumerator
-      { @selector( NSArray), @selector( NSMutableCopying) },      // 233490fe;NSArray;4aa86031;NSMutableCopying
       { @selector( NSArray), MULLE_OBJC_NO_CATEGORYID },      // 233490fe;NSArray;;
       { @selector( NSDictionary), @selector( NSArray) },      // 8b2abcad;NSDictionary;233490fe;NSArray
       { @selector( NSDictionary), @selector( NSCoder) },      // 8b2abcad;NSDictionary;100c54ba;NSCoder
@@ -29,7 +28,6 @@
       { @selector( NSObject), @selector( _NSSet) },      // b3a66256;NSObject;2f766bf1;_NSSet
       { @selector( NSSet), @selector( NSArray) },      // 9f69e3e4;NSSet;233490fe;NSArray
       { @selector( NSSet), @selector( NSCoder) },      // 9f69e3e4;NSSet;100c54ba;NSCoder
-      { @selector( NSSet), @selector( NSMutableSet) },      // 9f69e3e4;NSSet;1fa72100;NSMutableSet
       { @selector( NSSet), MULLE_OBJC_NO_CATEGORYID },      // 9f69e3e4;NSSet;;
       { @selector( NSThread), @selector( NSDictionary) },      // c81b9c22;NSThread;8b2abcad;NSDictionary
       { @selector( _MulleObjCArrayEnumerator), MULLE_OBJC_NO_CATEGORYID },      // b826ca4d;_MulleObjCArrayEnumerator;;

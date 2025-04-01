@@ -47,12 +47,12 @@
 @class NSEnumerator;
 
 
-@interface NSDictionary : MulleObjCContainer < NSDictionary, MulleObjCClassCluster, NSCopying >
+@interface NSDictionary : MulleObjCContainer < NSDictionary, MulleObjCClassCluster, MulleObjCImmutable, MulleObjCImmutableCopying >
 
 + (instancetype) dictionary;
 + (instancetype) dictionaryWithDictionary:(NSDictionary *) dictionary;
 + (instancetype) dictionaryWithObject:(id) anObject
-                               forKey:(id<NSCopying>) aKey;
+                               forKey:(id<NSObject, MulleObjCImmutableCopying>) aKey;
 + (instancetype) dictionaryWithObjects:(id *) objects
                                forKeys:(id *) keys
                                  count:(NSUInteger) count;

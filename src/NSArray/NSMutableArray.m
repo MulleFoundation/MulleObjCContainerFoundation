@@ -931,14 +931,10 @@ static int   bouncyBounce( void *a, void *b, void *_ctxt)
    return( (id) [[NSArray alloc] initWithArray:self]);
 }
 
-@end
 
-
-@implementation NSArray( NSMutableCopying)
-
-- (id) mutableCopy
+- (id) immutableCopy
 {
-   return( [[NSMutableArray alloc] initWithArray:self]);
+   return( (id) [[NSArray alloc] initWithArray:self]);
 }
 
 @end

@@ -244,7 +244,8 @@ struct _MulleObjCDictionaryFastEnumerationState
 {
    struct _MulleObjCDictionaryFastEnumerationState   *dstate;
    id                                                *sentinel;
-
+   void                                              *unused;
+   
    assert( sizeof( struct _MulleObjCDictionaryFastEnumerationState) <= sizeof( long) * 5);
    assert( alignof( struct _MulleObjCDictionaryFastEnumerationState) <= alignof( long));
 
@@ -267,7 +268,7 @@ struct _MulleObjCDictionaryFastEnumerationState
    sentinel = &buffer[ len];
    while( buffer < sentinel)
    {
-      if( ! _mulle__maptinyenumerator_next( &dstate->_rover, (void **) buffer, NULL))
+      if( ! _mulle__maptinyenumerator_next( &dstate->_rover, (void **) buffer, &unused))
       {
          rover->state = -1;
          mulle__maptinyenumerator_done( &dstate->_rover);

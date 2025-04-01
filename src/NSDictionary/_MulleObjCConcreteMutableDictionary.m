@@ -63,12 +63,12 @@ Class  _MulleObjCConcreteMutableDictionaryClass;
 
 
 - (void) setObject:(id) obj
-            forKey:(id <NSCopying>) key
+            forKey:(id <NSObject, MulleObjCImmutableCopying>) key
 {
    _MulleObjCDictionaryIvars   *ivars;
    struct mulle_allocator      *allocator;
 
-   assert( [(NSObject *) key respondsToSelector:@selector( copy)]);
+   assert( [(NSObject *) key respondsToSelector:@selector( immutableCopy)]);
    assert( [(NSObject *) key respondsToSelector:@selector( hash)]);
    assert( [(NSObject *) key respondsToSelector:@selector( isEqual:)]);
    assert( [obj respondsToSelector:@selector( retain)]);
@@ -80,26 +80,26 @@ Class  _MulleObjCConcreteMutableDictionaryClass;
 
 
 - (void) mulleSetRetainedObject:(id) obj
-                         forKey:(id <NSCopying>) key
+                         forKey:(id <NSObject, MulleObjCImmutableCopying>) key
 {
    _MulleObjCDictionaryIvars   *ivars;
    struct mulle_allocator      *allocator;
 
-   assert( [(NSObject *) key respondsToSelector:@selector( copy)]);
+   assert( [(NSObject *) key respondsToSelector:@selector( immutableCopy)]);
    assert( [(NSObject *) key respondsToSelector:@selector( hash)]);
    assert( [(NSObject *) key respondsToSelector:@selector( isEqual:)]);
    assert( [obj respondsToSelector:@selector( retain)]);
 
    allocator = MulleObjCInstanceGetAllocator( self);
    ivars     = _MulleObjCDictionaryGetIvars( self);
-   key       = [key copy];
+   key       = [key immutableCopy];
 
    _mulle__map_set( &ivars->_table, key, obj, NSDictionaryAssignRetainedKeyAssignRetainedValueCallback, allocator);
 }
 
 
 - (void) mulleSetRetainedObject:(id) obj
-                   forCopiedKey:(id <NSCopying>) key
+                   forCopiedKey:(id <NSObject, MulleObjCImmutableCopying>) key
 {
    _MulleObjCDictionaryIvars   *ivars;
    struct mulle_allocator      *allocator;

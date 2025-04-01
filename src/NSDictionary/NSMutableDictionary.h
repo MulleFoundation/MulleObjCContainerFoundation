@@ -58,20 +58,19 @@
 - (void) removeObjectForKey:(id)aKey;
 - (void) setDictionary:(NSDictionary *) other;
 - (void) setObject:(id) anObject
-            forKey:(id <NSCopying>) aKey;
+            forKey:(id <NSObject, MulleObjCImmutableCopying>) aKey;
 
 // mulle addition:
 - (void) mulleSetRetainedObject:(id) anObject
-                         forKey:(id <NSCopying>) aKey;
+                         forKey:(id <NSObject, MulleObjCImmutableCopying>) aKey;
 - (void) mulleSetRetainedObject:(id) anObject
-                   forCopiedKey:(id <NSCopying>) aKey;
+                   forCopiedKey:(id <NSObject, MulleObjCImmutableCopying>) aKey;
 @end
 
 
-@interface NSDictionary ( NSMutableDictionary) < NSMutableCopying>
+@interface NSDictionary ( NSMutableDictionary)
 
-- (instancetype) mulleDictionaryByRemovingObjectForKey:(id <NSCopying>) key;
-- (id) mutableCopy;
+- (instancetype) mulleDictionaryByRemovingObjectForKey:(id <NSObject, MulleObjCImmutableCopying>) key;
 
 @end
 

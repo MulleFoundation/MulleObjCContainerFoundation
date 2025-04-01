@@ -514,11 +514,18 @@ static int   bouncyBounceSel( void *a, void *b, void *ctxt)
 
 
 // NSMutableArray must override
-- (id) copy
-{
-   return( [self retain]);
-}
-
+// inherited by MulleObjCImmutable
+// - (id) copy
+// {
+//    return( [self retain]);
+// }
+//
+//
+// - (id) immutableCopy
+// {
+//    return( [self retain]);
+// }
+//
 
 # pragma mark - xxx
 

@@ -44,7 +44,7 @@
 #import "MullePreempt.h"
 
 
-@interface NSArray : MulleObjCContainer < NSArray, MulleObjCClassCluster, NSCopying>
+@interface NSArray : MulleObjCContainer < NSArray, MulleObjCClassCluster, MulleObjCImmutableCopying>
 
 + (instancetype) array;
 + (instancetype) arrayWithArray:(NSArray *) other;

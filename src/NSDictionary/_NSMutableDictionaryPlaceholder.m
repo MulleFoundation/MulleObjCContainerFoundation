@@ -97,7 +97,7 @@ extern Class  _MulleObjCConcreteMutableDictionaryClass;
                                        count:(NSUInteger) count
                                         size:(NSUInteger) size
 {
-   _MulleObjCConcreteMutableDictionary   *dict;
+   id   dict;
 
    assert( size >= count);
    assert( _MulleObjCConcreteMutableDictionaryClass);
@@ -113,7 +113,7 @@ extern Class  _MulleObjCConcreteMutableDictionaryClass;
                          copiedKeys:(id *) keys
                               count:(NSUInteger) count
 {
-   _MulleObjCConcreteMutableDictionary   *dict;
+   id   dict;
 
    assert( count);
    assert( _MulleObjCConcreteMutableDictionaryClass);
@@ -128,8 +128,8 @@ extern Class  _MulleObjCConcreteMutableDictionaryClass;
 - (id) mulleInitWithObjectContainer:(id <NSFastEnumeration>) objects
                        keyContainer:(id <NSFastEnumeration>) keys
 {
-   _MulleObjCConcreteMutableDictionary   *dict;
-   NSUInteger                            count;
+   id           dict;
+   NSUInteger   count;
 
    count = [objects count];
    dict = _MulleObjCDictionaryNewWithCapacity( _MulleObjCConcreteMutableDictionaryClass, count);

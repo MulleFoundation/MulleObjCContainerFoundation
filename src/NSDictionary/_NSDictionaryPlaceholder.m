@@ -78,7 +78,7 @@ MULLE_OBJC_DEPENDS_ON_CLASS( _MulleObjCEmptyDictionary);
                                        count:(NSUInteger) count
                                         size:(NSUInteger) size
 {
-   _MulleObjCConcreteDictionary   *dict;
+   id   dict;
 
    assert( size >= count);
    assert( objects || ! count);
@@ -99,7 +99,7 @@ MULLE_OBJC_DEPENDS_ON_CLASS( _MulleObjCEmptyDictionary);
                          copiedKeys:(id *) keys
                               count:(NSUInteger) count
 {
-   _MulleObjCConcreteDictionary   *dict;
+   id   dict;
 
    assert( objects || ! count);
 
@@ -117,8 +117,8 @@ MULLE_OBJC_DEPENDS_ON_CLASS( _MulleObjCEmptyDictionary);
 - (id) mulleInitWithObjectContainer:(id <NSFastEnumeration>) objects
                        keyContainer:(id <NSFastEnumeration>) keys
 {
-   _MulleObjCConcreteDictionary   *dict;
-   NSUInteger                     count;
+   id           dict;
+   NSUInteger   count;
 
    count = [objects count];
    if( ! count)
