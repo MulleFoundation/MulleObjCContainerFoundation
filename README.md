@@ -7,9 +7,9 @@ usual containeres expected in a Foundation library.
 
 
 
-| Release Version                                       | Release Notes
-|-------------------------------------------------------|--------------
-| ![Mulle kybernetiK tag](https://img.shields.io/github/tag/MulleFoundation/MulleObjCContainerFoundation.svg) [![Build Status](https://github.com/MulleFoundation/MulleObjCContainerFoundation/workflows/CI/badge.svg)](//github.com/MulleFoundation/MulleObjCContainerFoundation/actions) | [RELEASENOTES](RELEASENOTES.md) |
+| Release Version                                       | Release Notes  | AI Documentation
+|-------------------------------------------------------|----------------|---------------
+| ![Mulle kybernetiK tag](https://img.shields.io/github/tag/MulleFoundation/MulleObjCContainerFoundation.svg) [![Build Status](https://github.com/MulleFoundation/MulleObjCContainerFoundation/workflows/CI/badge.svg)](//github.com/MulleFoundation/MulleObjCContainerFoundation/actions) | [RELEASENOTES](RELEASENOTES.md) | [DeepWiki for MulleObjCContainerFoundation](https://deepwiki.com/MulleFoundation/MulleObjCContainerFoundation)
 
 
 ## API
