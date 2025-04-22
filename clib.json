@@ -1,6 +1,6 @@
 {
    "name" : "MulleObjCContainerFoundation",
-   "version" : "0.23.1",
+   "version" : "0.23.2",
    "description" : "🛍 Container classes like NSArray, NSSet, NSDictionary",
    "keywords" : [],
    "license" : "BSD-3-Clause",
