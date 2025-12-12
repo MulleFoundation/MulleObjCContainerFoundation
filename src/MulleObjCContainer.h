@@ -46,9 +46,6 @@
 //
 @interface MulleObjCContainer : NSObject
 
-- (void) mulleGainAccess;
-- (void) mulleRelinquishAccess;
-
 - (void) makeObjectsPerformSelector:(SEL) sel;
 - (void) makeObjectsPerformSelector:(SEL) sel
                          withObject:(id) obj;
