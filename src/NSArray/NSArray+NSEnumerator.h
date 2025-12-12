@@ -44,6 +44,10 @@
 
 
 @interface NSArray( NSEnumerator)
+
+- (id <NSEnumerator>) objectEnumerator;
+- (id <NSEnumerator>) reverseObjectEnumerator;
+
 @end
 
 

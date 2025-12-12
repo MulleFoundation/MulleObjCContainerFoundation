@@ -40,23 +40,29 @@
 
 @implementation MulleObjCContainer
 
-- (void) mulleGainAccess
+- (void) mulleGainAccessWithUniquingSet:(struct mulle_pointerset *) uniquing
 {
    id  obj;
 
-   [super mulleGainAccess];
+   assert( mulle_pointerset_get( uniquing, self) == self);
+
+   [super mulleGainAccessWithUniquingSet:uniquing];
    for( obj in self)
-      [obj mulleGainAccess];
+      if( mulle_pointerset_insert( uniquing, obj))
+         [obj mulleGainAccessWithUniquingSet:uniquing];
 }
 
 
-- (void) mulleRelinquishAccess
+- (void) mulleRelinquishAccessWithUniquingSet:(struct mulle_pointerset *) uniquing
 {
    id  obj;
 
+   assert( mulle_pointerset_get( uniquing, self) == self);
+
    for( obj in self)
-      [obj mulleRelinquishAccess];
-   [super mulleRelinquishAccess];
+      if( mulle_pointerset_insert( uniquing, obj))
+         [obj mulleRelinquishAccessWithUniquingSet:uniquing];
+   [super mulleRelinquishAccessWithUniquingSet:uniquing];
 }
 
 
@@ -101,6 +107,5 @@
                 withObject:argument
                 withObject:argument2];
 }
-
 
 @end
