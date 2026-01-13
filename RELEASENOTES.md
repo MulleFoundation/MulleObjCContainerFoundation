@@ -1,3 +1,11 @@
+## 0.24.0
+
+
+
+* Container access methods now properly prevent infinite recursion when handling circular references
+* Access tracking uses ``mulle_pointerset`` for deduplication of visited objects
+
+
 ### 0.23.2
 
 
