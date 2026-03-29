@@ -281,7 +281,7 @@ static BOOL   run_member_on_set_until( NSSet *self, NSSet *other, BOOL expect)
    impMember = [other methodForSelector:selMember];
 
    for( obj in self)
-      if( (intptr_t) (*impMember)( other, selMember, obj) == expect)
+      if( ((*impMember)( other, selMember, obj) != nil) == expect)
          return( YES);
 
    return( NO);
@@ -298,7 +298,7 @@ static BOOL   run_member_on_set_until( NSSet *self, NSSet *other, BOOL expect)
       return( YES);
 
    m = [other count];
-   if( m > n)
+   if( n > m)
       return( NO);
 
    return( ! run_member_on_set_until( self, other, NO));
@@ -427,6 +427,9 @@ static BOOL   run_member_on_set_until( NSSet *self, NSSet *other, BOOL expect)
                                    objects:(id *) buffer
                                      count:(NSUInteger) len;
 {
+   MULLE_C_UNUSED( rover);
+   MULLE_C_UNUSED( buffer);
+   MULLE_C_UNUSED( len);
    abort();  // subclass must do this
 }
 

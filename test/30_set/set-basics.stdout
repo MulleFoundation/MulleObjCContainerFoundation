@@ -1,0 +1,19 @@
+count: 3
+contains alpha: yes
+contains delta: no
+member beta: yes
+member xyz: no
+allObjects count: 3
+anyObject non-nil: yes
+isEqual same: yes
+isEqual different: no
+s3 isSubset of s: yes
+s isSubset of s3: no
+intersects s4: yes
+intersects s5: no
+setWithArray dedup count: 3
+empty count: 0
+empty anyObject: nil
+copy count: 3
+copy equal: yes
+for-in count: 3

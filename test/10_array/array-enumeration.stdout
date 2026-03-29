@@ -1,0 +1,10 @@
+enum[0]: one
+enum[1]: two
+enum[2]: three
+enum total: 3
+after exhaustion: nil
+reversed[0]: three
+reversed[2]: one
+for-in count: 3
+collected count: 3
+enumerator allObjects count: 3

@@ -1,0 +1,4 @@
+threadDictionary non-nil: yes
+threadDictionary is NSMutableDictionary: yes
+stored and retrieved: yes
+same dict second call: yes
