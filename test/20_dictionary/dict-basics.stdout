@@ -1,0 +1,14 @@
+count: 3
+key1: value1
+key3: value3
+missing: nil
+allKeys count: 3
+allValues count: 3
+isEqual same: yes
+isEqual different: no
+empty count: 0
+copy count: 3
+copy equal: yes
+has key2: yes
+keyEnumerator count: 3
+objectEnumerator count: 3

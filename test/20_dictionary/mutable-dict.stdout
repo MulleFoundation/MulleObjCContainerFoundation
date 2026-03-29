@@ -1,0 +1,16 @@
+empty count: 0
+after 2 sets: 2
+greeting: hello
+after overwrite: HELLO
+count still 2: 2
+after remove count: 1
+target gone: yes
+after removeAll: 0
+after addEntries count: 2
+k1: v1
+after setDict count: 1
+one: only
+immCopy count: 3
+immCopy x: a
+large count: 50
+large key10: val10

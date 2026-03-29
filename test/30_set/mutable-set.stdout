@@ -1,0 +1,18 @@
+empty count: 0
+after 3 adds: 3
+after duplicate add: 3
+contains one: yes
+after remove two: 2
+two gone: no
+after addFromArray: 5
+after union count: 7
+contains x: yes
+after minus count: 5
+x gone: no
+after intersect count: 2
+q present: yes
+p gone: no
+after removeAll: 0
+setWithSet count: 2
+after re-add count: 2
+foo present: yes

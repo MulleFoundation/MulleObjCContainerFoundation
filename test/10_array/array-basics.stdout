@@ -1,0 +1,22 @@
+count: 3
+first: alpha
+last: gamma
+index0: alpha
+index2: gamma
+contains beta: yes
+contains delta: no
+indexOf gamma: 2
+isEqual same: yes
+isEqual different: no
+arrayWithArray count: 3
+arrayWithArray equal: yes
+empty count: 0
+empty firstObject: nil
+subarray count: 2
+subarray[0]: beta
+copy count: 3
+initWithObjects:count: 3
+initWithObjects:count:[1]: y
+arrayByAddingObject count: 4
+arrayByAddingObject last: four
+arrayByAddingFromArray count: 5

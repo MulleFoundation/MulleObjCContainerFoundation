@@ -1,0 +1,25 @@
+after add 3: 3
+after insert at 0: zero
+count: 4
+after replace[1]: ONE
+after removeAt0 count: 3
+new first: ONE
+after removeLast count: 2
+after removeObject b count: 2
+contains b: no
+after removeAll: 0
+after addFromArray: 3
+after setArray count: 2
+setArray[0]: x
+sorted[0]: apple
+sorted[1]: banana
+sorted[2]: cherry
+sortedCopy[0]: a
+original[0] unchanged: z
+after exchange[0,2][0]: third
+after exchange[0,2][2]: first
+after removeInRange(1,3) count: 2
+remaining[0]: a
+remaining[1]: e
+large count: 100
+large[99]: 99
