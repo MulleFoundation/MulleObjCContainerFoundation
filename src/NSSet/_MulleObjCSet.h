@@ -53,6 +53,10 @@ PROTOCOLCLASS_INTERFACE( _MulleObjCSet, NSFastEnumeration)
 
 - (instancetype) mulleInitForCoderWithCapacity:(NSUInteger) count;
 
+
+- (id) member:(id) key;
+- (id) :(id) key;
+
 PROTOCOLCLASS_END()
 
 

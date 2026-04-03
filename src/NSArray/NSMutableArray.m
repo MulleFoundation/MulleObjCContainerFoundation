@@ -326,19 +326,14 @@ static void  validate_index_1( NSMutableArray *self, NSUInteger i)
 }
 
 
-// need @alias for this
-- (id) :(NSUInteger) i
-{
-   validate_index( self, i);
-   return( _storage[ i]);
-}
-
-
 - (id) objectAtIndex:(NSUInteger) i
 {
    validate_index( self, i);
    return( _storage[ i]);
 }
+
+// alias ':' to 'objectAtIndex:'
+@method_implementation -: = -objectAtIndex:;
 
 
 static NSUInteger  indexOfObjectIdenticalTo( NSMutableArray *self,
@@ -616,6 +611,9 @@ static void   removeObjectAtIndex( NSMutableArray *self,
                                    objects:(id *) stackbuf
                                      count:(NSUInteger) len
 {
+   MULLE_C_UNUSED( stackbuf);
+   MULLE_C_UNUSED( len);
+
    if( state->state)
       return( 0);
 

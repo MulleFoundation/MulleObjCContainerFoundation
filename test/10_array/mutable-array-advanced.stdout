@@ -1,0 +1,13 @@
+mulleInitWithContainer count: 3
+makeObjectsPerformSelector: ok
+funcSort[0]: cherry
+funcSort[2]: apple
+reversed[0]: third
+reversed[2]: first
+arrayByRemoving count: 2
+arrayByRemoving contains b: no
+removeIdentical count: 3
+removeIdentical contains: yes
+getObjects:range:[0]: b
+getObjects:range:[1]: c
+moveRange count: 5

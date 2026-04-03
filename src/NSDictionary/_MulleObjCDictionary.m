@@ -115,15 +115,6 @@ PROTOCOLCLASS_IMPLEMENTATION( _MulleObjCDictionary)
 
 #pragma mark - operations
 
-- (id) :(id) key
-{
-   _MulleObjCDictionaryIvars   *ivars;
-
-   ivars = _MulleObjCDictionaryGetIvars( self);
-   return( _mulle__map_get( &ivars->_table, key, NSDictionaryCallback));
-}
-
-
 - (id) objectForKey:(id) key
 {
    _MulleObjCDictionaryIvars   *ivars;
@@ -131,6 +122,9 @@ PROTOCOLCLASS_IMPLEMENTATION( _MulleObjCDictionary)
    ivars = _MulleObjCDictionaryGetIvars( self);
    return( _mulle__map_get( &ivars->_table, key, NSDictionaryCallback));
 }
+
+
+@method_implementation -: = -objectForKey:;
 
 
 - (NSEnumerator *) keyEnumerator
@@ -245,9 +239,11 @@ struct _MulleObjCDictionaryFastEnumerationState
    struct _MulleObjCDictionaryFastEnumerationState   *dstate;
    id                                                *sentinel;
    void                                              *unused;
+   _MulleObjCDictionaryIvars                         *ivars;
+
    
-   assert( sizeof( struct _MulleObjCDictionaryFastEnumerationState) <= sizeof( long) * 5);
-   assert( alignof( struct _MulleObjCDictionaryFastEnumerationState) <= alignof( long));
+   assert( sizeof( struct _MulleObjCDictionaryFastEnumerationState) <= sizeof( NSUInteger) * 5);
+   assert( alignof( struct _MulleObjCDictionaryFastEnumerationState) <= alignof( NSUInteger));
 
    if( rover->state == -1)
       return( 0);
@@ -256,11 +252,10 @@ struct _MulleObjCDictionaryFastEnumerationState
    dstate = (struct _MulleObjCDictionaryFastEnumerationState *) rover->extra;
    if( ! rover->state)
    {
-      _MulleObjCDictionaryIvars   *ivars;
-
-      ivars          = _MulleObjCDictionaryGetIvars( self);
-      dstate->_rover = mulle__map_tinyenumerate_nil( &ivars->_table);
-      rover->state   = 1;
+      ivars               = _MulleObjCDictionaryGetIvars( self);
+      dstate->_rover      = mulle__map_tinyenumerate_nil( &ivars->_table);
+      rover->state        = 1;
+      rover->mutationsPtr = &ivars->_table._n_mutations;
    }
 
    rover->itemsPtr  = buffer;
@@ -276,8 +271,6 @@ struct _MulleObjCDictionaryFastEnumerationState
       }
       buffer++;
    }
-
-   rover->mutationsPtr = &rover->extra[ 4];
 
    return( len - (sentinel - buffer));
 }

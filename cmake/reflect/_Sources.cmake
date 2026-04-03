@@ -56,5 +56,5 @@ src/NSSet/ns-hash-table.m
 # contents selected with patternfile ??-source--stage2-sources
 #
 set( STAGE2_SOURCES
-src/MulleObjCLoader+MulleObjCContainerFoundation.m
+src/MulleObjCDeps+MulleObjCContainerFoundation.m
 )

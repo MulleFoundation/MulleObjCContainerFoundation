@@ -58,7 +58,9 @@
 
 # pragma mark - class cluster
 
-extern Class   _MulleObjCConcreteMutableSetClass;
+// yep: extern
+MULLE_OBJC_CONTAINER_FOUNDATION_GLOBAL
+Class   _MulleObjCConcreteMutableSetClass;
 
 - (instancetype) init
 {

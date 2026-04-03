@@ -1,0 +1,18 @@
+dictionaryWithCapacity count: 0
+addEntriesFromDictionary count: 4
+addEntriesFromDictionary k3: v3
+setDictionary count: 2
+setDictionary x: new1
+mulleImmutableInstance count: 2
+mulleImmutableInstance immutable: immutable
+copy count: 1
+copy immutable: immutable
+immutableCopy count: 1
+initWithDictionary:copyItems: count: 2
+initWithDictionary:copyItems: ka: a
+initWithDictionary:copyItems: empty: 0
+isEqualToDictionary: yes: yes
+isEqualToDictionary: no value: no
+isEqualToDictionary: no count: no
+isEqualToDictionary: self: yes
+mulleDictionaryByRemovingObjectForKey immutable missing: same

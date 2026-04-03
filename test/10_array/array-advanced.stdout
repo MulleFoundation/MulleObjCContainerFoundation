@@ -1,0 +1,23 @@
+firstCommon: (null)
+firstCommon none: nil
+indexOfIdentical: 1
+indexOfIdentical miss: notfound
+containsIdentical yes: yes
+containsIdentical no: no
+hash nonzero: yes
+isEqual same: yes
+isEqual nil: no
+isEqual str: no
+arrayByAdding count: 4
+arrayByAdding last: durian
+arrayByAddingFrom count: 5
+funcSorted[0]: cherry
+funcSorted[2]: apple
+makeObjectsPerformSelector: ok
+getObjects[0]: apple
+getObjects[2]: cherry
+empty firstObject: nil
+empty lastObject: nil
+empty containsObject: no
+empty isEqualToArray empty: yes
+empty count: 0

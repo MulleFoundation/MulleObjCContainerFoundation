@@ -305,14 +305,6 @@ static id   initWithObjectsForKeys( id self, id *objects, id *keys, NSUInteger c
 }
 
 
-// need @alias for this
-- (id) :(id) key
-{
-   return( [self objectForKey:key]);
-}
-
-
-
 #pragma mark - hash and equality
 
 //
@@ -347,7 +339,7 @@ static id   initWithObjectsForKeys( id self, id *objects, id *keys, NSUInteger c
       other_value = [other objectForKey:key];
       if( ! other_value)
       {
-//         fprintf( stderr, "#################### key mismatch\n");
+//         mulle_fprintf( stderr, "#################### key mismatch\n");
          return( NO);
       }
 
@@ -357,13 +349,13 @@ static id   initWithObjectsForKeys( id self, id *objects, id *keys, NSUInteger c
 
       if( [other_value hash] != [value hash])
       {
-//         fprintf( stderr, "#################### hashes differ\n");
+//         mulle_fprintf( stderr, "#################### hashes differ\n");
          return( NO);
       }
 
       if( ! [other_value isEqual:value])
       {
-//         fprintf( stderr, "#################### isEqual differ\n");
+//         mulle_fprintf( stderr, "#################### isEqual differ\n");
          return( NO);
       }
    }
@@ -383,6 +375,9 @@ static id   initWithObjectsForKeys( id self, id *objects, id *keys, NSUInteger c
                                    objects:(id *) buffer
                                      count:(NSUInteger) len;
 {
+   MULLE_C_UNUSED( rover);
+   MULLE_C_UNUSED( buffer);
+   MULLE_C_UNUSED( len);
    abort();  // subclass must do this
 }
 

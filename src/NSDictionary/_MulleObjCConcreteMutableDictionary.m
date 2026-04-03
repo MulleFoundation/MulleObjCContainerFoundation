@@ -53,6 +53,7 @@
 @implementation _MulleObjCConcreteMutableDictionary
 
 
+MULLE_OBJC_CONTAINER_FOUNDATION_GLOBAL_VAR
 Class  _MulleObjCConcreteMutableDictionaryClass;
 
 

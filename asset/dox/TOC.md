@@ -1,4 +1,5 @@
 # MulleObjCContainerFoundation Library Documentation for AI
+<!-- Keywords: collections, containers -->
 
 ## 1. Introduction & Purpose
 

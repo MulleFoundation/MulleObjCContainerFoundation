@@ -1,0 +1,8 @@
+objectEnumerator count: 3
+member: found: yes
+member: not found: yes
+makeObjectsPerformSelector:withObject: count: 2
+mulleMakeObjectsPerformSelector count: 2
+anyObject: yes
+set count: 2
+objectEnumerator 2nd count: 2

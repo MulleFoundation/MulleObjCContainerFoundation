@@ -221,13 +221,12 @@ static inline void   NSEndHashTableEnumeration( NSHashEnumerator *rover)
 //NSHashTableCallBacks   MulleObjCOwnedObjectIdentityHashCallBacks;
 
 
-#define NSIntHashCallBacks                 (*(NSHashTableCallBacks *) &MulleObjCIntMapKeyCallBacks)
-#define NSIntegerHashCallBacks             (*(NSHashTableCallBacks *) &MulleObjCIntegerMapKeyCallBacks)
-#define NSNonOwnedPointerHashCallBacks     (*(NSHashTableCallBacks *) &MulleObjCNonOwnedPointerMapKeyCallBacks)
-#define NSOwnedPointerHashCallBacks        (*(NSHashTableCallBacks *) &MulleObjCOwnedPointerMapKeyCallBacks)
-#define NSNonOwnedPointerHashCallBacks     (*(NSHashTableCallBacks *) &MulleObjCNonOwnedPointerMapKeyCallBacks)
-#define NSNonRetainedObjectHashCallBacks   (*(NSHashTableCallBacks *) &MulleObjCNonRetainedObjectMapKeyCallBacks)
-#define NSObjectHashCallBacks              (*(NSHashTableCallBacks *) &MulleObjCObjectMapKeyCallBacks)
+#define NSIntHashCallBacks                 (*(NSHashTableCallBacks *) &mulle_container_keycallback_int)
+#define NSIntegerHashCallBacks             (*(NSHashTableCallBacks *) &mulle_container_keycallback_intptr)
+#define NSNonOwnedPointerHashCallBacks     (*(NSHashTableCallBacks *) &mulle_container_keycallback_nonowned_pointer)
+#define NSOwnedPointerHashCallBacks        (*(NSHashTableCallBacks *) &mulle_container_keycallback_owned_pointer)
+#define NSNonRetainedObjectHashCallBacks   (*(NSHashTableCallBacks *) &_MulleObjCContainerAssignKeyCallback)
+#define NSObjectHashCallBacks              MulleObjCContainerRetainKeyCallback
 
 
 #define NSHashTableFor( name, value)                                              \

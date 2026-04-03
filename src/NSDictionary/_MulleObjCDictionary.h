@@ -66,4 +66,7 @@ PROTOCOLCLASS_INTERFACE( _MulleObjCDictionary, NSFastEnumeration)
             andKeys:(id *) keys
               count:(NSUInteger) count;
 
+- (id) objectForKey:(id) key;
+- (id) :(id) key;
+
 PROTOCOLCLASS_END()

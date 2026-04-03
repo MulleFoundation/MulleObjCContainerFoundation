@@ -69,7 +69,7 @@ src/generic/include.h
 set( PUBLIC_HEADERS
 src/MulleObjCContainerFoundation.h
 src/MulleObjCContainer.h
-src/MulleObjCLoader+MulleObjCContainerFoundation.h
+src/MulleObjCDeps+MulleObjCContainerFoundation.h
 src/MullePreempt.h
 src/NSArray/_MulleObjCArrayEnumerator.h
 src/NSArray/_MulleObjCConcreteArray.h

@@ -75,3 +75,5 @@ test*/**/*.test.*
 /*.md
 !/AGENTS.md
 !/README.md
+.roam
+.graveyard

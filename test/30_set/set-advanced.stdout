@@ -1,0 +1,16 @@
+setWithObject count: 1
+setWithObject contains: yes
+initWithObjects:count: 3
+initWithObjects:count: has y: yes
+initWithSet count: 3
+initWithSet has a: yes
+setWithSet count: 3
+setWithSet equal: yes
+hash nonzero: yes
+empty hash: 0
+isEqual non-set: no
+isEqual nil: no
+isEqual same: yes
+fast enum count: 3
+empty isSubset of src: yes
+empty count: 0

@@ -1,0 +1,20 @@
+single count: 1
+single value: theValue
+initSingle: v
+arraysInit count: 3
+arraysInit k2: v2
+initArrays k1: v1
+hash nonzero: yes
+fast enum count: 3
+getObjects:andKeys: ok
+sortedKeys count: 3
+sortedKeys[0] value: apple
+objectsForKeys count: 3
+objectsForKeys[0]: apple
+objectsForKeys[1] missing: MISSING
+allKeysForObject count: 2
+empty objectForKey: nil
+empty allKeys count: 0
+empty hash: 0
+isEqual non-dict: no
+isEqual nil: no

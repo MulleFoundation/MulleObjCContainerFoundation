@@ -242,11 +242,14 @@ static inline void  _NSObjCMapTableSetValueRelease( NSMapTable *table,
 
 
 // TODO: use these and kill code in MuleObjCStandardFoundation
-// #define NSIntMapKeyCallBacks                   mulle_container_keycallback_int
-// #define NSIntegerMapKeyCallBacks               mulle_container_keycallback_intptr
-// #define NSNonOwnedPointerMapKeyCallBacks       mulle_container_keycallback_nonowned_pointer
-// #define NSNonOwnedPointerOrNullMapKeyCallBacks mulle_container_keycallback_nonowned_pointer_or_null
-// #define NSOwnedPointerMapKeyCallBacks          mulle_container_keycallback_owned_pointer
+// These are commented out because MulleObjCStandardFoundation declares
+// actual variables with these names; defining macros here would break
+// MulleObjCStandardFoundation's own variable declarations.
+// #define NSIntMapKeyCallBacks                   (*(struct mulle_container_keycallback *) &mulle_container_keycallback_int)
+// #define NSIntegerMapKeyCallBacks               (*(struct mulle_container_keycallback *) &mulle_container_keycallback_intptr)
+// #define NSNonOwnedPointerMapKeyCallBacks       (*(struct mulle_container_keycallback *) &mulle_container_keycallback_nonowned_pointer)
+// #define NSNonOwnedPointerOrNullMapKeyCallBacks (*(struct mulle_container_keycallback *) &mulle_container_keycallback_nonowned_pointer_or_null)
+// #define NSOwnedPointerMapKeyCallBacks          (*(struct mulle_container_keycallback *) &mulle_container_keycallback_owned_pointer)
 // 
 // #define NSIntMapValueCallBacks                 mulle_container_valuecallback_int
 // #define NSIntegerMapValueCallBacks             mulle_container_valuecallback_intptr

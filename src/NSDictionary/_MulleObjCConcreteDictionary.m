@@ -49,7 +49,7 @@
 
 @implementation _MulleObjCConcreteDictionary
 
-
+MULLE_OBJC_CONTAINER_FOUNDATION_GLOBAL_VAR
 Class  _MulleObjCConcreteDictionaryClass;
 
 + (void) load
