@@ -16,7 +16,7 @@
 
 - (id) initWithMaxRand:(NSUInteger) n
 {
-   sprintf( _name, "%lu", rand() % (n - n / 10));
+   sprintf( _name, "%tu", rand() % (n - n / 10));
    return( self);
 }
 
@@ -80,14 +80,14 @@ int   main( int argc, char *argv[])
       @autoreleasepool
       {
          a = mutable_dictionary_of_foos( i);
-         fprintf( stderr, "other: %ld\n", [a count]);
+         mulle_fprintf( stderr, "other: %td\n", [a count]);
 
          for( j = 0; j < 2048; j = ! j ? 1 : j * 2)
          {
             @autoreleasepool
             {
                b = mutable_dictionary_of_foos( j);
-               fprintf( stderr, "\tself: %ld\n", [b count]);
+               mulle_fprintf( stderr, "\tself: %td\n", [b count]);
                [b removeObjectsForKeys:[a allKeys]];
             }
          }

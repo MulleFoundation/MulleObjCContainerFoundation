@@ -14,7 +14,7 @@
 
 
 #import "MulleObjCContainer.h"
-#import "MulleObjCLoader+MulleObjCContainerFoundation.h"
+#import "MulleObjCDeps+MulleObjCContainerFoundation.h"
 #import "MullePreempt.h"
 #import "MulleObjCContainer+NSArray.h"
 #import "NSArray+NSCoder.h"

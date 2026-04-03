@@ -1,0 +1,38 @@
+mulleImmutableInstance same: yes
+initWithArray empty: 0
+initWithArray count: 3
+initWithArray eq: yes
+mulleArrayWithArray:range: count: 2
+mulleArrayWithArray:range:[0]: b
+mulleArrayWithArray:range: zero len: 0
+initWithArray:copyItems: count: 2
+initWithArray:copyItems:[0]: p
+initWithArray:copyItems: empty: 0
+arrayWithObject count: 1
+arrayWithObject[0]: solo
+arrayWithObject nil: 0
+arrayWithObjects:count: count: 3
+arrayWithObjects:count:[1]: two
+sortedByFunction[0]: cherry
+sortedByFunction[2]: apple
+sortedBySelector[0]: apple
+sortedBySelector[2]: cherry
+sortedBySelector empty: 0
+arrayByAddingFromArray both-empty: 0
+arrayByAddingObject nil-on-empty: 0
+firstObjectCommon: (null)
+firstObjectCommon nil: nil
+indexOfObject:inRange: found: 3
+indexOfObject:inRange: not found: yes
+mulleContainsObjectIdenticalTo: yes: yes
+mulleContainsObjectIdenticalTo: no: no
+indexOfObjectIdenticalTo: idx: 1
+indexOfObjectIdenticalTo:inRange: found: 1
+indexOfObjectIdenticalTo:inRange: not-found: yes
+forEach preemptIfMatches: foo
+forEach preemptIfNotMatches: bar
+forEach preemptNever: nil
+containsObject:inRange: yes: yes
+containsObject:inRange: no: no
+getObjects: [0]: u
+getObjects: [2]: w

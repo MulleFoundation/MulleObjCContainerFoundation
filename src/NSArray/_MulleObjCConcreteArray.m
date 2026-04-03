@@ -53,6 +53,7 @@
 @implementation _MulleObjCConcreteArray
 
 
+MULLE_OBJC_CONTAINER_FOUNDATION_GLOBAL_VAR
 Class  _MulleObjCConcreteArrayClass;
 
 
@@ -213,16 +214,6 @@ static NSUInteger   findObjectWithRange( _MulleObjCConcreteArray *self,
 }
 
 
-// need @alias for this
-- (id) :(NSUInteger) i
-{
-   if( i >= _count)
-      MulleObjCThrowInvalidIndexException( i);
-
-   return( _objects[ i]);
-}
-
-
 - (id) objectAtIndex:(NSUInteger) i
 {
    if( i >= _count)
@@ -230,6 +221,8 @@ static NSUInteger   findObjectWithRange( _MulleObjCConcreteArray *self,
 
    return( _objects[ i]);
 }
+
+@method_implementation -: = -objectAtIndex:;
 
 
 - (NSUInteger) count
@@ -261,6 +254,9 @@ static NSUInteger   findObjectWithRange( _MulleObjCConcreteArray *self,
                                    objects:(id *) stackbuf
                                      count:(NSUInteger) len
 {
+   MULLE_C_UNUSED( stackbuf);
+   MULLE_C_UNUSED( len);
+
    if( ! state->state)
    {
       state->mutationsPtr = (NSUInteger *) self;

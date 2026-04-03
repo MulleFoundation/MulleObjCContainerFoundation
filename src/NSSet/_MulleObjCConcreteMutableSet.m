@@ -52,6 +52,7 @@
 
 @implementation _MulleObjCConcreteMutableSet
 
+MULLE_OBJC_CONTAINER_FOUNDATION_GLOBAL_VAR
 Class  _MulleObjCConcreteMutableSetClass;
 
 

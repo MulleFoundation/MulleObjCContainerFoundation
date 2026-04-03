@@ -155,14 +155,7 @@ PROTOCOLCLASS_IMPLEMENTATION( _MulleObjCSet)
 }
 
 
-
-- (id) :(id) obj
-{
-   _MulleObjCSetIvars   *ivars;
-
-   ivars = _MulleObjCSetGetIvars( self);
-   return( _mulle__set_get( &ivars->_table, obj, &NSSetCallback));
-}
+@method_implementation -: = -member:;
 
 
 - (NSUInteger) count
@@ -187,9 +180,10 @@ struct _MulleObjCSetFastEnumerationState
    struct _MulleObjCSetFastEnumerationState   *dstate;
    id                                         obj;
    id                                         *sentinel;
+   _MulleObjCSetIvars                         *ivars;
 
-   assert( sizeof( struct _MulleObjCSetFastEnumerationState) <= sizeof( long) * 5);
-   assert( alignof( struct _MulleObjCSetFastEnumerationState) <= alignof( long));
+   assert( sizeof( struct _MulleObjCSetFastEnumerationState) <= sizeof( NSUInteger) * 5);
+   assert( alignof( struct _MulleObjCSetFastEnumerationState) <= alignof( NSUInteger));
 
    if( rover->state == -1)
       return( 0);
@@ -198,11 +192,10 @@ struct _MulleObjCSetFastEnumerationState
    dstate = (struct _MulleObjCSetFastEnumerationState *) rover->extra;
    if( ! rover->state)
    {
-      _MulleObjCSetIvars   *ivars;
-
-      ivars          = _MulleObjCSetGetIvars( self);
-      dstate->_rover = _mulle__set_enumerate( &ivars->_table, &NSSetCallback);
-      rover->state   = 1;
+      ivars               = _MulleObjCSetGetIvars( self);
+      dstate->_rover      = _mulle__set_enumerate( &ivars->_table, &NSSetCallback);
+      rover->state        = 1;
+      rover->mutationsPtr = &ivars->_table._n_mutations;
    }
 
    rover->itemsPtr  = buffer;
@@ -218,7 +211,6 @@ struct _MulleObjCSetFastEnumerationState
       *buffer++ = obj;
    }
 
-   rover->mutationsPtr = &rover->extra[ 4];
 
    return( len - (sentinel - buffer));
 }

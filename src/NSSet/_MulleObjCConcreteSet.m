@@ -47,6 +47,7 @@
 
 @implementation _MulleObjCConcreteSet
 
+MULLE_OBJC_CONTAINER_FOUNDATION_GLOBAL_VAR
 Class  _MulleObjCConcreteSetClass;
 
 + (void) load

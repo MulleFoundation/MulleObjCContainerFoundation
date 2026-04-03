@@ -1,0 +1,30 @@
+new count: 0
+mulleImmutableInstance count: 2
+mulleImmutableInstance isNSArray: immutable
+copy count: 3
+copy immutable: immutable
+immutableCopy count: 3
+initWithObjects:count: count: 3
+initWithObjects:count:[1]: q
+indexOfObjectIdenticalTo: idx: 1
+indexOfObjectIdenticalTo:inRange: found: 1
+indexOfObjectIdenticalTo:inRange: not-found: yes
+indexOfObject:inRange: found: 3
+indexOfObject:inRange: not found: yes
+replaceObjectAtIndex:[1]: B
+removeObject count: 2
+removeObject b-gone: no
+removeObjectsInRange count: 2
+removeObjectsInRange[0]: a
+removeObjectsInRange[1]: d
+mulleRemoveLastObject: z
+mulleRemoveLastObject count: 2
+mulleRemoveLastObject empty: nil
+removeObjectIdenticalTo:inRange: count: 3
+replaceObjectsInRange:withObjectsFromArray:[0]: X
+replaceObjectsInRange:withObjectsFromArray:[1]: Y
+replaceObjectsInRange:withObjectsFromArray:range:[0]: 1
+replaceObjectsInRange:withObjectsFromArray:range:[1]: 2
+mulleMakeObjectsPerformSelector count: 3
+exchangeObjectAtIndex:[0]: third
+exchangeObjectAtIndex:[2]: first

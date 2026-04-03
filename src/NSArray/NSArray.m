@@ -793,12 +793,6 @@ id   MulleForEachObjectCallFunction( id *objects,
    return( 0);   // fixes problems with debugging if defined for placeholder
 }
 
-// need @alias for this
-- (id) :(NSUInteger) i
-{
-   return( [self objectAtIndex:i]);
-}
-
 
 - (id) lastObject
 {

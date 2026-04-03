@@ -16,7 +16,7 @@
 
 - (id) initWithMaxRand:(NSUInteger) n
 {
-   sprintf( _name, "%lu", rand() % (n - n / 10));
+   sprintf( _name, "%tu", rand() % (n - n / 10));
    return( self);
 }
 
@@ -72,11 +72,11 @@ int   main( int argc, char *argv[])
       @autoreleasepool
       {
          a = mutable_array_of_foos( i);
-         fprintf( stderr, "other: %ld\n", i);
+         mulle_fprintf( stderr, "other: %td\n", i);
 
          for( j = 0; j < 2048; j = ! j ? 1 : j * 2)
          {
-            fprintf( stderr, "\tself: %ld\n", j);
+            mulle_fprintf( stderr, "\tself: %td\n", j);
             @autoreleasepool
             {
                b = mutable_array_of_foos( j);

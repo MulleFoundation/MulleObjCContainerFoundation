@@ -46,6 +46,7 @@
 
 @implementation _MulleObjCEmptyDictionary
 
+MULLE_OBJC_CONTAINER_FOUNDATION_GLOBAL_VAR
 Class  _MulleObjCEmptyDictionaryClass;
 
 + (void) load
@@ -76,6 +77,8 @@ Class  _MulleObjCEmptyDictionaryClass;
             andKeys:(id *) keys
               count:(NSUInteger) count
 {
+   MULLE_C_UNUSED( buf);
+   MULLE_C_UNUSED( keys);
    if( count)
       MulleObjCThrowInvalidArgumentExceptionUTF8String( "out of bounds");
 }
@@ -86,18 +89,16 @@ Class  _MulleObjCEmptyDictionaryClass;
    return( nil);
 }
 
-
-// need @alias for this
-- (id) :(id) key
-{
-   return( nil);
-}
+@method_implementation -: = -objectForKey:;
 
 
 - (NSUInteger) countByEnumeratingWithState:(NSFastEnumerationState *) state
                                    objects:(id *) stackbuf
                                      count:(NSUInteger) len
 {
+   MULLE_C_UNUSED( state);
+   MULLE_C_UNUSED( stackbuf);
+   MULLE_C_UNUSED( len);
    return( 0);
 }
 

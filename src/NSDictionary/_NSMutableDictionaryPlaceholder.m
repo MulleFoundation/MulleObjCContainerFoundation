@@ -60,7 +60,9 @@
 
 MULLE_OBJC_DEPENDS_ON_CLASS( _MulleObjCConcreteMutableDictionary);
 
-extern Class  _MulleObjCConcreteMutableDictionaryClass;
+// yep extern..
+MULLE_OBJC_CONTAINER_FOUNDATION_GLOBAL
+Class  _MulleObjCConcreteMutableDictionaryClass;
 
 
 - (instancetype) init

@@ -1,0 +1,6 @@
+dict fast enum count: 3
+keyEnumerator count: 3
+objectEnumerator count: 3
+anyKey non-nil: yes
+empty fast enum count: 0
+empty anyKey: nil

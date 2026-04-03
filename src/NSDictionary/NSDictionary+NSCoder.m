@@ -19,8 +19,9 @@
 
 #import "import-private.h"
 
-
-extern Class  _MulleObjCConcreteMutableDictionaryClass;
+// yep extern
+MULLE_OBJC_CONTAINER_FOUNDATION_GLOBAL
+Class  _MulleObjCConcreteMutableDictionaryClass;
 
 
 @implementation NSDictionary( NSCoder)

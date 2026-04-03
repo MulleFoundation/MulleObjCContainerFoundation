@@ -1,0 +1,12 @@
+mulleImmutableInstance same: yes
+setWithObjects:count: count: 3
+setWithObjects:count: has y: yes
+initWithSet:copyItems: count: 3
+initWithSet:copyItems: has b: yes
+initWithSet:copyItems: empty: 0
+getObjects:count: got items: yes
+getObjects:count: overflow nil: yes
+intersectsSet: yes: yes
+intersectsSet: no: no
+intersectsSet: nil: no
+isSubsetOfSet: yes: yes

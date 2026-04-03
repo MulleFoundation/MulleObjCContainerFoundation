@@ -1,0 +1,14 @@
+created: yes
+count: 0
+count after 3 inserts: 3
+get k2: found
+get missing: nil
+insertIfAbsent existing: returned old
+insertIfAbsent new: inserted
+count after insertIfAbsent: 4
+count after insertKnownAbsent: 5
+count after remove: 4
+enumerated 4 entries
+copy count: 4
+count after reset: 0
+done

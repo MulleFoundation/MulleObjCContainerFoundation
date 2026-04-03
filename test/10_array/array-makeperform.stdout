@@ -1,0 +1,6 @@
+makeObjectsPerformSelector: ok
+mutable makeObjectsPerformSelector: ok
+makeObjectsPerformSelector:withObject: ok
+set makeObjectsPerformSelector: ok
+anyObject non-nil: yes
+done

@@ -33,18 +33,13 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
-#include <stddef.h>
+#include "mulle-qsort-pointers.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 
 
 typedef void *  mulle_qsorttype_t;
-
-void   mulle_qsort_pointers( mulle_qsorttype_t *v,
-                             unsigned int n,
-                             int (*cmp)( mulle_qsorttype_t a, mulle_qsorttype_t b, void *userinfo),
-                             void *userinfo);
 
 
 /*
@@ -102,7 +97,7 @@ void   mulle_qsort_pointers( mulle_qsorttype_t *v,
          {
             if( ! j) // if cmp is broken, this can happen
             {
-               fprintf( stderr, "qsort comparator is broken, producing wrong return values\n");
+               mulle_fprintf( stderr, "qsort comparator is broken, producing wrong return values\n");
                abort();
             }
             --j;
