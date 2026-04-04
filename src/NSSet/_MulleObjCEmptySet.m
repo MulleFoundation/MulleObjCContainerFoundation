@@ -71,12 +71,14 @@ Class  _MulleObjCEmptySetClass;
 
 - (BOOL) containsObject:(id) obj
 {
+   MULLE_C_UNUSED( obj);
    return( NO);
 }
 
 
 - (id) member:(id) obj
 {
+   MULLE_C_UNUSED( obj);
    return( nil);
 }
 

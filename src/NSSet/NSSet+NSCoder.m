@@ -52,6 +52,7 @@
 
 - (void) decodeWithCoder:(NSCoder *) coder
 {
+   MULLE_C_UNUSED( coder);
    abort();
 }
 
@@ -88,6 +89,7 @@
 
 - (void) decodeWithCoder:(NSCoder *) coder
 {
+   MULLE_C_UNUSED( coder);
 }
 
 @end

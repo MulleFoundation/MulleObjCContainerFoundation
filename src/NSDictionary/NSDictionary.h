@@ -84,7 +84,7 @@
 
 
 
-@interface NSDictionary( Subclasses) < NSFastEnumeration>
+@interface NSDictionary( SubclassesFuture) < NSFastEnumeration>
 
 - (NSEnumerator *) keyEnumerator;
 

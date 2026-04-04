@@ -326,6 +326,7 @@ PROTOCOLCLASS_END()
 
 - (struct mulle_pointerpair *) _nextKeyValuePair:(id) owner
 {
+   MULLE_C_UNUSED( owner);
    return( _mulle__mapenumerator_next_pair( &_rover));
 }
 

@@ -49,7 +49,7 @@
 @end
 
 
-@interface NSMutableSet( Subclasses)
+@interface NSMutableSet( SubclassesFuture)
 
 - (instancetype) initWithCapacity:(NSUInteger) numItems;
 - (void) addObject:(id) object;
@@ -62,7 +62,7 @@
 
 @end
 
-@interface NSMutableSet( _NSMutableSetPlaceholder)
+@interface NSMutableSet( _NSMutableSetPlaceholderFuture)
 
 // not instancetype here
 - (id) init;
