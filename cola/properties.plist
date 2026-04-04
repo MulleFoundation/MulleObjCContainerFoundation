@@ -8,7 +8,7 @@
       repo="MulleObjCContainerFoundation";
       homepage="https://github.com/MulleFoundation/MulleObjCContainerFoundation";
       license="BSD-3-Clause";
-      version="1.0.0";
+      version="0.25.0";
    };
    dependencies =
    (
