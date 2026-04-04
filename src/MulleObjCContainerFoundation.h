@@ -34,7 +34,7 @@
 //  POSSIBILITY OF SUCH DAMAGE.
 //
 
-#define MULLE_OBJC_CONTAINER_FOUNDATION_VERSION   ((0UL << 20) | (24 << 8) | 0)
+#define MULLE_OBJC_CONTAINER_FOUNDATION_VERSION   ((0UL << 20) | (25 << 8) | 0)
 
 #import "import.h"
 
