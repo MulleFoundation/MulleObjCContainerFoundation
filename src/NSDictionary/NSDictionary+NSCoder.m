@@ -64,6 +64,7 @@ Class  _MulleObjCConcreteMutableDictionaryClass;
 
 - (void) decodeWithCoder:(NSCoder *) coder
 {
+   MULLE_C_UNUSED( coder);
    // subclasses must do it
    abort();
 }
@@ -102,10 +103,10 @@ Class  _MulleObjCConcreteMutableDictionaryClass;
 
 - (void) decodeWithCoder:(NSCoder *) coder
 {
+   MULLE_C_UNUSED( coder);
 }
 
 @end
-
 
 @implementation NSMutableDictionary( NSCoder)
 

@@ -1,279 +1,172 @@
 # MulleObjCContainerFoundation Library Documentation for AI
-<!-- Keywords: collections, containers -->
-
+<!-- Keywords: ObjectiveC, containers, NSArray, NSDictionary, NSSet, immutable, mutable -->
 ## 1. Introduction & Purpose
 
-MulleObjCContainerFoundation provides essential Objective-C collection classes including NSArray (ordered sequences), NSDictionary (key-value mapping), NSSet (unique values), and NSEnumerator (collection iteration). These are the primary containers for storing and organizing objects in mulle-objc applications.
+- MulleObjCContainerFoundation provides Objective-C container classes (NSArray, NSMutableArray, NSDictionary, NSMutableDictionary, NSSet, NSMutableSet, NSEnumerator) built for the mulle-objc ecosystem.
+- Solves: lightweight, portable Objective‑C collection types for projects that use MulleObjC and mulle-container.
+- Key features: class clusters, immutable/mutable variants, ObjC-compatible enumeration and convenience helpers (e.g., mulleFirstObject), and "mulle" additions for efficient retained/vararg operations.
+- Relationship: depends on MulleObjC and mulle-container; usually included as a component of MulleFoundation.
 
 ## 2. Key Concepts & Design Philosophy
 
-- **Class Clusters**: Uses class cluster pattern for efficient implementations
-- **Immutable by Default**: NSArray, NSDictionary, NSSet are immutable
-- **Mutable Variants**: NSMutableArray, NSMutableDictionary, NSMutableSet for changes
-- **Ownership**: Collections retain stored objects (reference counted)
-- **Iteration**: NSEnumerator provides iteration without modifying collections
-- **Type Agnostic**: Store any object type; use nil as sentinel
+- Class cluster design: many public factories return private concrete subclasses; users interact with immutable interfaces for NSArray/NSDictionary/NSSet and mutable subclasses for mutation.
+- Immutable vs mutable separation: immutable classes are copy-on-write compatible; mutable variants provide in-place mutation APIs.
+- "Mulle" additions: performance and convenience methods (mulleFirstObject, mulle* retained variants) that expose low-level helpers for efficiency.
+- API aims for small footprint and compatibility with ObjC idioms (NSFastEnumeration, selectors, selectors with function pointers for custom sorts).
 
 ## 3. Core API & Data Structures
 
-### NSArray - Ordered Collection
+Organized by prominent public headers found in src/
 
-#### Creation
+### 3.1. [MulleObjCContainer.h]
 
-- `+ arrayWithObjects:(id)obj, ...` → `instancetype`: Create with variadic args (nil-terminated)
-- `+ arrayWithObject:(id)obj` → `instancetype`: Single-element array
-- `- initWithObjects:(id)obj, ...` → `instancetype`
+struct/class: MulleObjCContainer (subclass of NSObject)
+- Purpose: common base for container classes; supplies a small set of operations.
+- Core operations:
+  - makeObjectsPerformSelector: / withObject: / mulleMakeObjectsPerformSelector:withObject:withObject:
+  - anyObject: return an arbitrary element
+  - objectEnumerator / allObjects (via category)
+- Implements NSFastEnumeration in subclasses.
 
-#### Accessors
+### 3.2. [NSEnumerator.h]
 
-- `- count` → `NSUInteger`: Number of elements
-- `- objectAtIndex:(NSUInteger)index` → `id`: Get element at index
-- `- firstObject` → `id`: First element or nil
-- `- lastObject` → `id`: Last element or nil
+protocol/class: NSEnumerator
+- Purpose: iteration protocol and base class.
+- Methods: -nextObject; -allObjects; subclasses may implement NSFastEnumeration helpers.
 
-#### Search
+### 3.3. [NSArray/NSMutableArray]
 
-- `- indexOfObject:(id)obj` → `NSUInteger`: Find first index of object (or NSNotFound)
-- `- containsObject:(id)obj` → `BOOL`: Check if contains object
+Class: NSArray
+- Purpose: immutable ordered collection.
+- Creation:
+  - +array, +arrayWithArray:, +arrayWithObject:, +arrayWithObjects:..., +arrayWithObjects:count:
+  - -initWithArray:, -initWithObjects:..., -initWithObjects:count:
+- Core accessors:
+  - -count (inherited), -objectAtIndex:, -lastObject, -firstObject (mulleFirstObject), -containsObject:, -indexOfObject:, -indexOfObjectIdenticalTo:
+  - -subarrayWithRange:, -arrayByAddingObject:, -arrayByAddingObjectsFromArray:
+  - -sortedArrayUsingSelector:/function:
+- Mulle additions:
+  - -mulleFirstObject, mulleArrayWithObjects/count, mulleForEachObjectCallFunction:argument:preempt:
 
-#### Manipulation (Immutable)
+Class: NSMutableArray
+- Purpose: mutable ordered collection.
+- Creation:
+  - +arrayWithCapacity:, -initWithCapacity:
+- Mutation operations:
+  - -addObject:, -addObjectsFromArray:, -insertObject:atIndex:, -replaceObjectAtIndex:withObject:
+  - -removeLastObject, -removeObject:, -removeObjectAtIndex:, -removeObjectsInRange:, -removeAllObjects
+  - -exchangeObjectAtIndex:withObjectAtIndex:, -replaceObjectsInRange:withObjects:count:
+  - -sortUsingSelector:/function:
+- Mulle additions: mulleAddRetainedObject:, mulleReverseObjects, mulleMoveObjectsInRange:toIndex:, mulleRemoveLastObject
 
-- `- arrayByAddingObject:(id)obj` → `NSArray *`: Create new array with object appended
-- `- subarrayWithRange:(NSRange)range` → `NSArray *`: Create subarray
+Lifecycle functions: use +factory methods or alloc/initWith... and pair with -copy or -autorelease according to MulleObjC conventions.
 
-#### Iteration
+### 3.4. [NSDictionary/NSMutableDictionary]
 
-- `- enumerator` → `NSEnumerator *`: Get enumerator
-- `- reverseEnumerator` → `NSEnumerator *`: Get reverse enumerator
+Class: NSDictionary
+- Purpose: immutable key-value map.
+- Creation:
+  - +dictionary, +dictionaryWithDictionary:, +dictionaryWithObject:forKey:, +dictionaryWithObjects:forKeys:count:, +dictionaryWithObjectsAndKeys:
+  - -initWithDictionary: / initWithObjects:forKeys:count:
+- Core accessors:
+  - -objectForKey: (also shorthand -: ), -keyEnumerator, -getObjects:andKeys:, -isEqualToDictionary:
+- Extra: mulleForEachObjectAndKeyCallFunction:argument:preempt: for efficient iteration
 
-### NSMutableArray - Mutable Array
+Class: NSMutableDictionary
+- Purpose: mutable key-value map (class cluster)
+- Creation:
+  - +dictionaryWithCapacity:, -initWithCapacity:
+- Mutation operations:
+  - -setObject:forKey:, -removeObjectForKey:, -removeAllObjects, -addEntriesFromDictionary:, -setDictionary:
+- Mulle additions: mulleSetRetainedObject:forKey:, mulleSetRetainedObject:forCopiedKey:
 
-#### Modification
+### 3.5. [NSSet/NSMutableSet]
 
-- `- addObject:(id)obj` → `void`: Add object at end
-- `- insertObject:(id)obj atIndex:(NSUInteger)index` → `void`
-- `- removeObjectAtIndex:(NSUInteger)index` → `void`
-- `- removeObject:(id)obj` → `void`: Remove all occurrences
-- `- removeAllObjects` → `void`: Clear array
-- `- replaceObjectAtIndex:(NSUInteger)index withObject:(id)obj` → `void`
+Class: NSSet
+- Purpose: immutable unordered collection with hashing semantics.
+- Creation: +set, +setWithArray:, initWithObjects:/count, etc.
+- Core ops: containsObject:, anyObject, count, allObjects, keyEnumerator-like methods for iteration.
 
-### NSDictionary - Key-Value Mapping
+Class: NSMutableSet
+- Purpose: mutable set with addObject:, removeObject:, removeAllObjects, addObjectsFromArray:, etc.
 
-#### Creation
+### 3.6. Other headers & helpers
 
-- `+ dictionaryWithObjectsAndKeys:(id)obj, (id)key, ...` → `instancetype`: Create with pairs (nil-terminated)
-- `+ dictionaryWithObject:(id)obj forKey:(id)key` → `instancetype`: Single entry
-- `- initWithObjectsAndKeys:(id)obj, (id)key, ...` → `instancetype`
-
-#### Accessors
-
-- `- count` → `NSUInteger`: Number of entries
-- `- objectForKey:(id)key` → `id`: Lookup value (nil if not found)
-- `- allKeys` → `NSArray *`: Get all keys
-- `- allValues` → `NSArray *`: Get all values
-
-#### Iteration
-
-- `- keyEnumerator` → `NSEnumerator *`: Enumerate keys
-- `- objectEnumerator` → `NSEnumerator *`: Enumerate values
-
-### NSMutableDictionary - Mutable Dictionary
-
-#### Modification
-
-- `- setObject:(id)obj forKey:(id)key` → `void`: Add or update entry
-- `- removeObjectForKey:(id)key` → `void`
-- `- removeAllObjects` → `void`
-
-### NSSet - Unique Value Collection
-
-#### Creation
-
-- `+ setWithObjects:(id)obj, ...` → `instancetype`
-- `- initWithObjects:(id)obj, ...` → `instancetype`
-
-#### Accessors
-
-- `- count` → `NSUInteger`
-- `- containsObject:(id)obj` → `BOOL`
-- `- anyObject` → `id`: Arbitrary element
-
-#### Operations
-
-- `- setByAddingObject:(id)obj` → `NSSet *`: New set with object
-- `- setByRemovingObject:(id)obj` → `NSSet *`: New set without object
-
-### NSMutableSet - Mutable Set
-
-#### Modification
-
-- `- addObject:(id)obj` → `void`
-- `- removeObject:(id)obj` → `void`
-- `- removeAllObjects` → `void`
-
-### NSEnumerator - Iterator
-
-#### Iteration
-
-- `- nextObject` → `id`: Get next element (nil when exhausted)
-- `- allObjects` → `NSArray *`: Get remaining elements as array
+- MullePreempt.h and mulle- additions support preemptable iteration and performance-tuned callbacks.
+- Several _*Private.h headers define class-cluster internals (concrete implementations) — not for direct use.
 
 ## 4. Performance Characteristics
 
-- **Array Access**: O(1) random access by index
-- **Array Search**: O(n) linear search
-- **Dictionary Lookup**: O(1) average hash lookup
-- **Dictionary Insert**: O(1) average
-- **Set Operations**: O(1) average contains/add/remove
-- **Iteration**: O(n) for all elements
-- **Memory**: Collections retain all objects (strong references)
+- NSArray (immutable): O(1) index access, O(n) search unless using indexOf... which is linear. Sorting is O(n log n).
+- NSMutableArray: amortized O(1) append (resizing), O(n) insert/remove at arbitrary index.
+- NSDictionary/NSSet: hash-table based - average O(1) insertion/lookup/removal, worst-case O(n) in pathological collision scenarios. Headers expose mulleCountCollisions: to inspect collision statistics.
+- Thread-safety: Not thread-safe; external synchronization required for concurrent mutation.
+- Tradeoffs: class clusters keep API small while allowing specialized concrete implementations tuned for size/speed.
 
 ## 5. AI Usage Recommendations & Patterns
 
-### Best Practices
-
-- **Use Immutable**: NSArray/NSDictionary/NSSet unless modifications needed
-- **Nil Termination**: Always end variadic creation with nil
-- **Safe Lookup**: Check for nil from dictionary/array access
-- **NSNotFound**: Always check for NSNotFound from indexOfObject:
-- **Iteration**: Use enumerators or fast enumeration where available
-
-### Common Pitfalls
-
-- **Missing nil Terminator**: Variadic args without nil cause undefined behavior
-- **Index Out of Bounds**: Access outside valid indices causes crash
-- **NSNotFound Check**: Forgetting NSNotFound check when search fails
-- **Nil Keys/Values**: Using nil as key/value may cause issues (use NSNull instead)
-- **Mutation During Iteration**: Don't modify collection while iterating
+- Best practices:
+  - Use provided factory and lifecycle methods (e.g., +arrayWithObjects: or -initWithObjects:count:). Respect retain/autorelease patterns of MulleObjC.
+  - Prefer immutable APIs when concurrent reads are expected; use mutable variants for in-place mutations.
+  - Use mulleForEach... and mulle* retained helpers for performance-critical loops and to avoid extra copies.
+- Common pitfalls:
+  - Do not rely on concrete private headers (_MulleObjC*). These are class-cluster internals and may change.
+  - Many convenience methods return borrowed pointers; do not free them. Follow ObjC memory rules used in project tests.
+  - Vararg factory methods require nil termination.
+- Idiomatic usage: use NSFastEnumeration where possible, use mulleFirstObject for fast-first-element checks, and use mulleSetRetainedObject: when transferring ownership efficiently.
 
 ## 6. Integration Examples
 
-### Example 1: Basic NSArray
+### Example 1: Creating and inspecting an NSArray (from test/10_array/array-basics.m)
 
-```objc
+```c
 #import <MulleObjCContainerFoundation/MulleObjCContainerFoundation.h>
 
-int main() {
-    NSArray *array = [NSArray arrayWithObjects:@"one", @"two", @"three", nil];
-    
-    NSLog(@"Count: %lu", [array count]);
-    NSLog(@"First: %@", [array firstObject]);
-    NSLog(@"At index 1: %@", [array objectAtIndex:1]);
-    
-    if ([array containsObject:@"two"]) {
-        NSLog(@"Contains two");
-    }
-    
-    return 0;
+int main(void)
+{
+   @autoreleasepool
+   {
+      NSArray *a;
+
+      a = [NSArray arrayWithObjects:[Str str:"alpha"], [Str str:"beta"], [Str str:"gamma"], nil];
+      mulle_printf("count: %lu\n", (unsigned long)[a count]);
+      mulle_printf("first: %s\n", [[a mulleFirstObject] UTF8String]);
+      mulle_printf("last: %s\n", [[a lastObject] UTF8String]);
+      mulle_printf("index0: %s\n", [[a objectAtIndex:0] UTF8String]);
+   }
+   return(0);
 }
 ```
 
-### Example 2: Mutable Array Operations
+### Example 2: Mutable array mutation and removal
 
-```objc
-#import <MulleObjCContainerFoundation/MulleObjCContainerFoundation.h>
-
-int main() {
-    NSMutableArray *array = [NSMutableArray array];
-    
-    [array addObject:@"first"];
-    [array addObject:@"second"];
-    [array insertObject:@"middle" atIndex:1];
-    
-    NSLog(@"Array: %@", array);
-    
-    [array removeObjectAtIndex:1];
-    NSLog(@"After removal: %@", array);
-    
-    return 0;
-}
+```c
+NSMutableArray *m = [NSMutableArray arrayWithCapacity:4];
+[m addObject:obj1];
+[m addObject:obj2];
+[m insertObject:obj0 atIndex:0];
+[m removeObjectAtIndex:2];
+[m replaceObjectAtIndex:1 withObject:newObj];
 ```
 
-### Example 3: NSDictionary Lookup
+### Example 3: Dictionary creation and lookup
 
-```objc
-#import <MulleObjCContainerFoundation/MulleObjCContainerFoundation.h>
-
-int main() {
-    NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
-        @"value1", @"key1",
-        @"value2", @"key2",
-        nil];
-    
-    NSLog(@"Count: %lu", [dict count]);
-    NSLog(@"key1: %@", [dict objectForKey:@"key1"]);
-    
-    NSArray *keys = [dict allKeys];
-    NSArray *values = [dict allValues];
-    NSLog(@"Keys: %@", keys);
-    
-    return 0;
-}
+```c
+NSDictionary *d = [NSDictionary dictionaryWithObjects:objs forKeys:keys count:count];
+id v = [d objectForKey:key];
+NSMutableDictionary *md = [NSMutableDictionary dictionaryWithCapacity:16];
+[md setObject:value forKey:key];
+[md removeObjectForKey:key];
 ```
 
-### Example 4: NSSet Operations
-
-```objc
-#import <MulleObjCContainerFoundation/MulleObjCContainerFoundation.h>
-
-int main() {
-    NSSet *set = [NSSet setWithObjects:@"apple", @"banana", @"cherry", nil];
-    
-    NSLog(@"Count: %lu", [set count]);
-    
-    if ([set containsObject:@"apple"]) {
-        NSLog(@"Set contains apple");
-    }
-    
-    NSSet *newSet = [set setByAddingObject:@"date"];
-    NSLog(@"New set size: %lu", [newSet count]);
-    
-    return 0;
-}
-```
-
-### Example 5: Enumerator Usage
-
-```objc
-#import <MulleObjCContainerFoundation/MulleObjCContainerFoundation.h>
-
-int main() {
-    NSArray *array = [NSArray arrayWithObjects:@"a", @"b", @"c", nil];
-    NSEnumerator *enumerator = [array enumerator];
-    
-    id obj;
-    while ((obj = [enumerator nextObject]) != nil) {
-        NSLog(@"Object: %@", obj);
-    }
-    
-    return 0;
-}
-```
-
-### Example 6: Dictionary Enumeration
-
-```objc
-#import <MulleObjCContainerFoundation/MulleObjCContainerFoundation.h>
-
-int main() {
-    NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
-        @"Alice", @"name",
-        @"Engineer", @"title",
-        nil];
-    
-    NSEnumerator *keyEnum = [dict keyEnumerator];
-    id key;
-    while ((key = [keyEnum nextObject]) != nil) {
-        id value = [dict objectForKey:key];
-        NSLog(@"%@: %@", key, value);
-    }
-    
-    return 0;
-}
-```
+Notes: See test/ directory (10_array, 20_dictionary, 30_set) for comprehensive, compilable examples and expected stdout.
 
 ## 7. Dependencies
 
-- MulleObjC
-- MulleObjCValueFoundation
-- MulleFoundationBase
+- MulleObjC (objective-c runtime roots)
+- mulle-container (underlying C container primitives used by some implementations)
+- mulle-objc-list (used in testing / integration in broader MulleFoundation)
+
+
+-- End of TOC --
+

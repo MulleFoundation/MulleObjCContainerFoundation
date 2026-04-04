@@ -64,5 +64,5 @@
 @end
 
 
-@interface NSEnumerator( Subclasses) <NSEnumerator>
+@interface NSEnumerator( SubclassesFuture) <NSEnumerator>
 @end

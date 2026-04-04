@@ -48,7 +48,7 @@
 @end
 
 
-@interface NSMutableDictionary( _Subclasses)
+@interface NSMutableDictionary( SubclassesFuture)
 
 - (instancetype) initWithCapacity:(NSUInteger) capacity;
 

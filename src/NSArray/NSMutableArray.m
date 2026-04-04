@@ -91,6 +91,7 @@ static void   add_retained_object( NSMutableArray *self, id other);
 
 + (instancetype) allocWithZone:(NSZone *) zone
 {
+   MULLE_C_UNUSED( zone);
    return( NSAllocateObject( self, 0, NULL));
 }
 

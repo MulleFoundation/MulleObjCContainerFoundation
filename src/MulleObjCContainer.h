@@ -58,7 +58,7 @@
 @end
 
 
-@interface MulleObjCContainer( Subclasses) < NSFastEnumeration>
+@interface MulleObjCContainer( SubclassesFuture) < NSFastEnumeration>
 
 - (id <NSEnumerator>) objectEnumerator;
 - (id <NSArray>) allObjects;

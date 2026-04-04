@@ -58,7 +58,7 @@
 #endif
 
 
-@interface NSDictionary( NSEnumeratorSubclasses)
+@interface NSDictionary( NSEnumeratorSubclassesFuture)
 
 - (NSEnumerator *) keyEnumerator;
 - (NSEnumerator *) objectEnumerator;
