@@ -662,6 +662,7 @@ static NSUInteger  findIndexWithRange( NSArray *self, NSRange range, id obj)
 
 #pragma mark - hash and equality
 
+// MEMO: this is OK as isEqual: compares member equality as well
 - (NSUInteger) hash
 {
    return( [[self mulleFirstObject] hash]);

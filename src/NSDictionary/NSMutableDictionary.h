@@ -48,7 +48,7 @@
 @end
 
 
-@interface NSMutableDictionary( SubclassesFuture)
+@interface NSMutableDictionary( SubclassesFuture) < MulleObjCFuture>
 
 - (instancetype) initWithCapacity:(NSUInteger) capacity;
 

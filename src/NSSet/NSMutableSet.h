@@ -49,7 +49,7 @@
 @end
 
 
-@interface NSMutableSet( SubclassesFuture)
+@interface NSMutableSet( SubclassesFuture) < MulleObjCFuture>
 
 - (instancetype) initWithCapacity:(NSUInteger) numItems;
 - (void) addObject:(id) object;
@@ -62,7 +62,7 @@
 
 @end
 
-@interface NSMutableSet( _NSMutableSetPlaceholderFuture)
+@interface NSMutableSet( _NSMutableSetPlaceholderFuture) < MulleObjCFuture>
 
 // not instancetype here
 - (id) init;

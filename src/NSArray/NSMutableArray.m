@@ -927,14 +927,11 @@ static int   bouncyBounce( void *a, void *b, void *_ctxt)
 
 - (id) copy
 {
-   return( (id) [[NSArray alloc] initWithArray:self]);
+   return( [[NSArray alloc] initWithArray:self]);
 }
 
 
-- (id) immutableCopy
-{
-   return( (id) [[NSArray alloc] initWithArray:self]);
-}
+@method_implementation -immutableCopy = -copy;
 
 @end
 

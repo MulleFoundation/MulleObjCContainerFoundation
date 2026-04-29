@@ -137,10 +137,7 @@
                             copyItems:NO]);
 }
 
-- (id) immutableCopy
-{
-   return( [self copy]);
-}
+@method_implementation -immutableCopy = -copy;
 
 @end
 

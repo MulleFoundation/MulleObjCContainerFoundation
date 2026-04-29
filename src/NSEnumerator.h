@@ -64,5 +64,5 @@
 @end
 
 
-@interface NSEnumerator( SubclassesFuture) <NSEnumerator>
+@interface NSEnumerator( SubclassesFuture) <NSEnumerator, MulleObjCFuture>
 @end
