@@ -97,7 +97,7 @@
 #pragma clang diagnostic ignored "-Wprotocol"
 
 
-PROTOCOLCLASS_IMPLEMENTATION( _MulleObjCSet)
+@implementation  _MulleObjCSet
 
 
 - (void) decodeWithCoder:(NSCoder *) coder
@@ -215,4 +215,4 @@ struct _MulleObjCSetFastEnumerationState
    return( len - (sentinel - buffer));
 }
 
-PROTOCOLCLASS_END()
+@end

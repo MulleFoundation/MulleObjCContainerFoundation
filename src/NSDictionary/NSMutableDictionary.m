@@ -122,10 +122,8 @@
 }
 
 
-- (id) immutableCopy
-{
-   return( (id) [[NSDictionary alloc] initWithDictionary:self]);
-}
+@method_implementation -immutableCopy = -copy;
+
 
 
 //

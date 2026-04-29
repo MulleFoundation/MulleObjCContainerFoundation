@@ -58,7 +58,8 @@
 
 # pragma mark - class cluster
 
-MULLE_OBJC_DEPENDS_ON_CLASS( _MulleObjCConcreteMutableDictionary);
+@dependency _MulleObjCConcreteMutableDictionary;
+
 
 // yep extern..
 MULLE_OBJC_CONTAINER_FOUNDATION_GLOBAL

@@ -49,7 +49,7 @@ typedef struct
 
 
 
-PROTOCOLCLASS_INTERFACE( _MulleObjCSet, NSFastEnumeration)
+@mixin  _MulleObjCSet < NSFastEnumeration>
 
 - (instancetype) mulleInitForCoderWithCapacity:(NSUInteger) count;
 
@@ -57,6 +57,6 @@ PROTOCOLCLASS_INTERFACE( _MulleObjCSet, NSFastEnumeration)
 - (id) member:(id) key;
 - (id) :(id) key;
 
-PROTOCOLCLASS_END()
+@end
 
 

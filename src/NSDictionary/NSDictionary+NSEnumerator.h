@@ -58,7 +58,7 @@
 #endif
 
 
-@interface NSDictionary( NSEnumeratorSubclassesFuture)
+@interface NSDictionary( NSEnumeratorSubclassesFuture) < MulleObjCFuture>
 
 - (NSEnumerator *) keyEnumerator;
 - (NSEnumerator *) objectEnumerator;

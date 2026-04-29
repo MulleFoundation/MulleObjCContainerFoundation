@@ -144,7 +144,7 @@ id   MulleForEachObjectCallFunction( id *objects,
 
 
 // minimum to implement
-@interface NSArray( SubclassesFuture) < NSFastEnumeration>
+@interface NSArray( SubclassesFuture) < NSFastEnumeration, MulleObjCFuture>
 
 - (id) :(NSUInteger) index; // same as objectAtIndex, just a shortcut
 - (id) objectAtIndex:(NSUInteger) index;

@@ -60,7 +60,7 @@
 
 # pragma mark - class cluster
 
-MULLE_OBJC_DEPENDS_ON_CLASS( _MulleObjCEmptyDictionary);
+@dependency _MulleObjCEmptyDictionary;
 
 
 - (id) init

@@ -82,8 +82,7 @@
 @end
 
 
-@interface NSSet( Subclasses) < NSFastEnumeration>
-
+@interface NSSet( SubclassesFuture) < NSFastEnumeration, MulleObjCFuture>
 // designated initializer
 - (instancetype) initWithObjects:(id *) objects
                            count:(NSUInteger) count

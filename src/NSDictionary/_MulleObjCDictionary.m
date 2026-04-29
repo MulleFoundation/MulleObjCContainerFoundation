@@ -71,7 +71,7 @@
 @end
 
 
-PROTOCOLCLASS_IMPLEMENTATION( _MulleObjCDictionary)
+@implementation  _MulleObjCDictionary
 
 - (void) dealloc
 {
@@ -291,7 +291,7 @@ struct _MulleObjCDictionaryFastEnumerationState
    return( collisions);
 }
 
-PROTOCOLCLASS_END()
+@end
 
 
 @implementation _MulleObjCDictionaryKeyEnumerator

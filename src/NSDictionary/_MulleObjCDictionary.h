@@ -53,7 +53,7 @@ typedef struct
 #define NSDictionaryAssignRetainedKeyAssignRetainedValueCallback     ((struct mulle_container_keyvaluecallback *) &_MulleObjCContainerAssignRetainedKeyAssignRetainedValueCallback)
 
 
-PROTOCOLCLASS_INTERFACE( _MulleObjCDictionary, NSFastEnumeration)
+@mixin  _MulleObjCDictionary <NSFastEnumeration>
 
 - (instancetype) mulleInitForCoderWithCapacity:(NSUInteger) count;
 
@@ -69,4 +69,4 @@ PROTOCOLCLASS_INTERFACE( _MulleObjCDictionary, NSFastEnumeration)
 - (id) objectForKey:(id) key;
 - (id) :(id) key;
 
-PROTOCOLCLASS_END()
+@end
