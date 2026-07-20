@@ -1,0 +1,22 @@
+from empty immutable: 0
+from immutable count: 3
+from immutable has a: yes
+from immutable has c: yes
+from immutable equal: yes
+from empty mutable: 0
+from mutable count: 2
+from mutable has x: yes
+from mutable equal: yes
+mut from immutable count: 3
+mut from immutable has b: yes
+mut from immutable equal: yes
+mut from mutable count: 2
+mut from mutable has y: yes
+mut from empty: 0
+mut from empty after add: 1
+from large count: 100
+from large has e50: yes
+mut from large count: 100
+mut from large has e99: yes
+from single count: 1
+from single has only: yes
