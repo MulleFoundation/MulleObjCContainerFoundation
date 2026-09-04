@@ -1,5 +1,5 @@
 //
-//  NSDictionary+NSEnumerator.m
+//  NSDictionary+NSEnumerator.h
 //  MulleObjCContainerFoundation
 //
 //  Copyright (c) 2024 Nat! - Mulle kybernetiK.

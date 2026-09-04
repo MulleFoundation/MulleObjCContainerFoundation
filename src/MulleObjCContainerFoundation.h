@@ -1,8 +1,8 @@
 //
-//  MulleObjCFoundationContainer.h
+//  MulleObjCContainerFoundation.h
 //  MulleObjCContainerFoundation
 //
-//  Copyright (c) 2016 Nat! - Mulle kybernetiK.
+//  Copyright (c) 2020 Nat! - Mulle kybernetiK.
 //  Copyright (c) 2016 Codeon GmbH.
 //  All rights reserved.
 //
@@ -33,8 +33,7 @@
 //  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 //  POSSIBILITY OF SUCH DAMAGE.
 //
-
-#define MULLE_OBJC_CONTAINER_FOUNDATION_VERSION   ((0UL << 20) | (25 << 8) | 1)
+#define MULLE_OBJC_CONTAINER_FOUNDATION_VERSION   ((0UL << 20) | (25 << 8) | 2)
 
 #import "import.h"
 

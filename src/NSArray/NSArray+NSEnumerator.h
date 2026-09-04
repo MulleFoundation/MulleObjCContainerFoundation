@@ -1,5 +1,5 @@
 //
-//  NSArray+NSEnumerator.m
+//  NSArray+NSEnumerator.h
 //  MulleObjCContainerFoundation
 //
 //  Copyright (c) 2024 Nat! - Mulle kybernetiK.

@@ -1,8 +1,8 @@
 //
-//  mulle_qsort_pointers.c
+//  mulle-qsort-pointers.c
 //  MulleObjCContainerFoundation
 //
-//  Copyright (c) 2016 Nat! - Mulle kybernetiK.
+//  Copyright (c) 2020 Nat! - Mulle kybernetiK.
 //  Copyright (c) 2016 Codeon GmbH.
 //  All rights reserved.
 //

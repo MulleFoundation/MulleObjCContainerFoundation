@@ -34,6 +34,11 @@ usual containeres expected in a Foundation library.
 
 
 
+## Documentation & Guides
+
+* [API Summary](asset/dox/api/toc)
+
+
 
 
 ## Requirements

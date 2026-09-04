@@ -2,7 +2,7 @@
 //  NSDictionary+NSArray.h
 //  MulleObjCContainerFoundation
 //
-//  Copyright (c) 2011 Nat! - Mulle kybernetiK.
+//  Copyright (c) 2020 Nat! - Mulle kybernetiK.
 //  Copyright (c) 2011 Codeon GmbH.
 //  All rights reserved.
 //

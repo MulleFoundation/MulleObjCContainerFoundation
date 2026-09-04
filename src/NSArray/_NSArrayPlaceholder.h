@@ -2,7 +2,7 @@
 //  _NSArrayPlaceholder.h
 //  MulleObjCContainerFoundation
 //
-//  Copyright (c) 2019 Nat! - Mulle kybernetiK.
+//  Copyright (c) 2020 Nat! - Mulle kybernetiK.
 //  Copyright (c) 2019 Codeon GmbH.
 //  All rights reserved.
 //

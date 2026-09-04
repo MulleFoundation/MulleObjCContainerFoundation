@@ -1,5 +1,5 @@
 //
-//  MulleObjCContainer+NSArray.m
+//  MulleObjCContainer+NSArray.h
 //  MulleObjCContainerFoundation
 //
 //  Copyright (c) 2024 Nat! - Mulle kybernetiK.
