@@ -2,7 +2,7 @@
 //  NSMutableArray.m
 //  MulleObjCContainerFoundation
 //
-//  Copyright (c) 2011 Nat! - Mulle kybernetiK.
+//  Copyright (c) 2020 Nat! - Mulle kybernetiK.
 //  Copyright (c) 2011 Codeon GmbH.
 //  All rights reserved.
 //
@@ -497,13 +497,13 @@ static void   removeObjectAtIndex( NSMutableArray *self,
    validate_index( self, range.location);
    validate_index( self, range.location + range.length - 1);
 
-   n = _count - (range.location + range.length - 1);
+   n = _count - (range.location + range.length);
+
+   _MulleObjCAutoreleaseObjects( &_storage[ range.location],
+                                 range.length,
+                                 MulleObjCObjectGetUniverse( self));
    if( n)
    {
-      _MulleObjCAutoreleaseObjects( &_storage[ range.location],
-                                    range.length,
-                                    MulleObjCObjectGetUniverse( self));
-
       mulle_id_move( &_storage[ range.location],
                      &_storage[ range.location + range.length],
                      n);

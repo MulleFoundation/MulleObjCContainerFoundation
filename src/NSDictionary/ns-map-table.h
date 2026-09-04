@@ -2,7 +2,7 @@
 //  ns-map-table.h
 //  MulleObjCContainerFoundation
 //
-//  Copyright (c) 2011 Nat! - Mulle kybernetiK.
+//  Copyright (c) 2020 Nat! - Mulle kybernetiK.
 //  Copyright (c) 2011 Codeon GmbH.
 //  All rights reserved.
 //
@@ -235,9 +235,9 @@ static inline void    NSEndMapTableEnumeration( NSMapEnumerator *rover)
 // since the callbacks are copied into NSMapTable, we can
 // do this:
 static inline void  _NSObjCMapTableSetValueRelease( NSMapTable *table,
-                                                    void   (*release)( struct mulle_container_valuecallback *callback, void *p, struct mulle_allocator *allocator))
+                                                    void   (*release)( const struct mulle_container_valuecallback *callback, void *p, struct mulle_allocator *allocator))
 {
-   table->_callback.valuecallback.release = release;
+   table->_callback.valuecallback.release = (mulle_container_valuecallback_release_t *) release;
 }
 
 
