@@ -1,7 +1,5 @@
 ### 0.25.2
 
-* fix off-by-one and unconditional release in NSMutableArray range removal
 
-### 0.25.1
 
-* NSDictionary SubclassesFuture category now conforms to MulleObjCFuture protocol
+* removing a range of objects now autoreleases all removed elements even when removing to the end of the array
