@@ -83,3 +83,8 @@ test*/**/*.test.*
 TODO.md
 REVIEW.md
 .freebuff/project-id
+*.orig
+.touch
+*.workspace
+*.*-workspace
+research/
