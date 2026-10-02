@@ -404,10 +404,7 @@ static int   bouncyBounceSel( void *a, void *b, void *ctxt)
 # pragma mark - construction conveniences
 
 
-+ (instancetype) array
-{
-   return( [[[self alloc] init] autorelease]);
-}
+@method_implementation +array = +instance;
 
 
 + (instancetype) arrayWithArray:(NSArray *) other

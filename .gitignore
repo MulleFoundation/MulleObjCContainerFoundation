@@ -82,3 +82,4 @@ test*/**/*.test.*
 .kiro/
 TODO.md
 REVIEW.md
+.freebuff/project-id

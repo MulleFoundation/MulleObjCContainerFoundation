@@ -7,7 +7,7 @@
 
 #if defined( MULLE_OBJC_VERSION)
 # ifndef MULLE_OBJC_VERSION_MIN
-#  define MULLE_OBJC_VERSION_MIN  ((0UL << 20) | (30 << 8) | 0)
+#  define MULLE_OBJC_VERSION_MIN  ((0UL << 20) | (30 << 8) | 2)
 # endif
 # ifndef MULLE_OBJC_VERSION_MAX
 #  define MULLE_OBJC_VERSION_MAX  ((0UL << 20) | (31 << 8) | 0)

@@ -26,7 +26,7 @@
 
 + (instancetype) str:(const char *) s
 {
-   Str *o = [[[Str alloc] init] autorelease];
+   Str *o = [Str instance];
    strncpy( o->_name, s, sizeof( o->_name) - 1);
    return( o);
 }

@@ -18,16 +18,16 @@ int   main( void)
    id  k1, k2, k3, k4, k5;
    id  v1, v2, v3, v4, v5;
 
-   k1 = [[[Token alloc] init] autorelease];
-   k2 = [[[Token alloc] init] autorelease];
-   k3 = [[[Token alloc] init] autorelease];
-   k4 = [[[Token alloc] init] autorelease];
-   k5 = [[[Token alloc] init] autorelease];
-   v1 = [[[Token alloc] init] autorelease];
-   v2 = [[[Token alloc] init] autorelease];
-   v3 = [[[Token alloc] init] autorelease];
-   v4 = [[[Token alloc] init] autorelease];
-   v5 = [[[Token alloc] init] autorelease];
+   k1 = [Token instance];
+   k2 = [Token instance];
+   k3 = [Token instance];
+   k4 = [Token instance];
+   k5 = [Token instance];
+   v1 = [Token instance];
+   v2 = [Token instance];
+   v3 = [Token instance];
+   v4 = [Token instance];
+   v5 = [Token instance];
 
    table = MulleObjCMapTableCreate( NSNonRetainedObjectMapKeyCallBacks,
                                     NSNonRetainedObjectMapValueCallBacks,

@@ -39,7 +39,12 @@
 
 
 //
-// NSMutableDictionary starts its own classcluster
+// NSMutableDictionary starts its own classcluster.
+//
+// Enumeration order is unspecified and must not be relied on. Generated output
+// that depends on order - node numbering, "first writer wins" - needs an
+// explicit order: keep the keys in an NSMutableArray beside the dictionary, or
+// use an ordered map.
 //
 @interface NSMutableDictionary : NSDictionary < NSMutableDictionary, MulleObjCClassCluster>
 

@@ -38,6 +38,14 @@ src/NSDictionary/NSMutableDictionary.m
 src/NSDictionary/NSThread+NSMutableDictionary.m
 src/NSDictionary/ns-map-table.m
 src/NSEnumerator.m
+src/NSOrderedSet/_MulleObjCConcreteMutableOrderedSet.m
+src/NSOrderedSet/_MulleObjCConcreteOrderedSet.m
+src/NSOrderedSet/_MulleObjCEmptyOrderedSet.m
+src/NSOrderedSet/_MulleObjCOrderedSet.m
+src/NSOrderedSet/_NSMutableOrderedSetPlaceholder.m
+src/NSOrderedSet/NSMutableOrderedSet.m
+src/NSOrderedSet/_NSOrderedSetPlaceholder.m
+src/NSOrderedSet/NSOrderedSet.m
 src/NSSet/_MulleObjCConcreteMutableSet.m
 src/NSSet/_MulleObjCConcreteSet.m
 src/NSSet/_MulleObjCEmptySet.m

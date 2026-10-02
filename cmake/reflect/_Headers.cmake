@@ -15,6 +15,7 @@ src/reflect
 src/generic
 src/NSArray
 src/NSDictionary
+src/NSOrderedSet
 src/NSSet
 src
 )
@@ -42,6 +43,7 @@ set( PRIVATE_HEADERS
 src/NSArray/_MulleObjCConcreteArray-Private.h
 src/NSArray/NSArray-Private.h
 src/NSDictionary/_MulleObjCDictionary-Private.h
+src/NSOrderedSet/_MulleObjCOrderedSet-Private.h
 src/NSSet/_MulleObjCSet-Private.h
 )
 
@@ -97,6 +99,14 @@ src/NSDictionary/NSMutableDictionary.h
 src/NSDictionary/NSThread+NSMutableDictionary.h
 src/NSDictionary/ns-map-table.h
 src/NSEnumerator.h
+src/NSOrderedSet/_MulleObjCConcreteMutableOrderedSet.h
+src/NSOrderedSet/_MulleObjCConcreteOrderedSet.h
+src/NSOrderedSet/_MulleObjCEmptyOrderedSet.h
+src/NSOrderedSet/_MulleObjCOrderedSet.h
+src/NSOrderedSet/_NSMutableOrderedSetPlaceholder.h
+src/NSOrderedSet/NSMutableOrderedSet.h
+src/NSOrderedSet/_NSOrderedSetPlaceholder.h
+src/NSOrderedSet/NSOrderedSet.h
 src/NSSet/_MulleObjCConcreteMutableSet.h
 src/NSSet/_MulleObjCConcreteSet.h
 src/NSSet/_MulleObjCEmptySet.h

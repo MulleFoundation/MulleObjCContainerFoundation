@@ -16,11 +16,11 @@ int   main( void)
    NSUInteger       count;
    id  p1, p2, p3, p4, p5;
 
-   p1 = [[[HashToken alloc] init] autorelease];
-   p2 = [[[HashToken alloc] init] autorelease];
-   p3 = [[[HashToken alloc] init] autorelease];
-   p4 = [[[HashToken alloc] init] autorelease];
-   p5 = [[[HashToken alloc] init] autorelease];
+   p1 = [HashToken instance];
+   p2 = [HashToken instance];
+   p3 = [HashToken instance];
+   p4 = [HashToken instance];
+   p5 = [HashToken instance];
 
    // NSNonRetainedObjectHashCallBacks: ObjC -hash/-isEqual:, no retain/release
    table = MulleObjCHashTableCreate( NSNonRetainedObjectHashCallBacks, 4);

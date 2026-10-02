@@ -208,11 +208,7 @@ static id   initWithObjectStorage( id self, id *storage, NSUInteger count, BOOL 
 //           can  be shared
 
 
-+ (instancetype) set
-{
-   return( [[[self alloc] initWithObjects:NULL
-                                    count:0] autorelease]);
-}
+@method_implementation +set = +instance;
 
 
 + (instancetype) setWithSet:(NSSet *) other

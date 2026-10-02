@@ -1,0 +1,28 @@
+immutable:alpha,beta,gamma
+count: 3
+contains beta: yes
+contains delta: no
+member beta: yes
+index of gamma: 2
+index of delta: notfound
+first: alpha
+last: gamma
+objectAtIndex 1: beta
+array count: 3
+set count: 3
+equal same: yes
+equal reversed: no
+mutable:one,two,three
+after dup add:one,two,three
+after insert half@1:one,half,two,three
+after replace one->uno:uno,half,two,three
+after remove three:uno,half,two
+after remove at 0:half,two
+after addObjectsFromArray:half,two,x,y
+mutable count: 4
+immutable from mutable:half,two,x,y
+immutable isEqual: yes
+after remove y:half,two,x
+empty mutable count: 0
+empty first: nil
+empty contains: no

@@ -1,0 +1,14 @@
+boundary append:first,second,third
+getObjects full: first,second,third
+base:alpha,beta,gamma
+after dup addObject:alpha,beta,gamma
+member is canonical: yes
+after insert existing beta@0:alpha,beta,gamma
+after replace alpha->gamma:alpha,beta,gamma
+after replace alpha->alpha:alpha,beta,gamma
+after replace beta->delta:alpha,delta,gamma
+contains beta: no
+contains delta: yes
+count: 3
+after insertObjects:x,alpha,delta,gamma
+churn survived: yes

@@ -255,7 +255,7 @@ struct _MulleObjCDictionaryFastEnumerationState
       ivars               = _MulleObjCDictionaryGetIvars( self);
       dstate->_rover      = mulle__map_tinyenumerate_nil( &ivars->_table);
       rover->state        = 1;
-      rover->mutationsPtr = &ivars->_table._n_mutations;
+      rover->mutationsPtr = &ivars->_table.base._n_mutations;
    }
 
    rover->itemsPtr  = buffer;

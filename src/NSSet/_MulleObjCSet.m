@@ -195,7 +195,7 @@ struct _MulleObjCSetFastEnumerationState
       ivars               = _MulleObjCSetGetIvars( self);
       dstate->_rover      = _mulle__set_enumerate( &ivars->_table, &NSSetCallback);
       rover->state        = 1;
-      rover->mutationsPtr = &ivars->_table._n_mutations;
+      rover->mutationsPtr = &ivars->_table.base._n_mutations;
    }
 
    rover->itemsPtr  = buffer;

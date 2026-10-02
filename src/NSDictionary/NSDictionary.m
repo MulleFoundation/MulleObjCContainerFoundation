@@ -213,10 +213,7 @@ static id   initWithObjectsForKeys( id self, id *objects, id *keys, NSUInteger c
 
 #pragma mark - creation conveniences
 
-+ (instancetype) dictionary
-{
-   return( [[[self alloc] init] autorelease]);
-}
+@method_implementation +dictionary = +instance;
 
 
 + (instancetype) dictionaryWithDictionary:(NSDictionary *) other

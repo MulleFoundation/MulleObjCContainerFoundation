@@ -1,6 +1,6 @@
 {
    "name" : "MulleObjCContainerFoundation",
-   "version" : "0.25.2",
+   "version" : "0.26.0",
    "description" : "🛍 Container classes like NSArray, NSSet, NSDictionary",
    "keywords" : [],
    "license" : "BSD-3-Clause",
@@ -72,6 +72,23 @@
       "src/NSDictionary/_NSMutableDictionaryPlaceholder.m",
       "src/NSEnumerator.h",
       "src/NSEnumerator.m",
+      "src/NSOrderedSet/NSMutableOrderedSet.h",
+      "src/NSOrderedSet/NSMutableOrderedSet.m",
+      "src/NSOrderedSet/NSOrderedSet.h",
+      "src/NSOrderedSet/NSOrderedSet.m",
+      "src/NSOrderedSet/_MulleObjCConcreteMutableOrderedSet.h",
+      "src/NSOrderedSet/_MulleObjCConcreteMutableOrderedSet.m",
+      "src/NSOrderedSet/_MulleObjCConcreteOrderedSet.h",
+      "src/NSOrderedSet/_MulleObjCConcreteOrderedSet.m",
+      "src/NSOrderedSet/_MulleObjCEmptyOrderedSet.h",
+      "src/NSOrderedSet/_MulleObjCEmptyOrderedSet.m",
+      "src/NSOrderedSet/_MulleObjCOrderedSet-Private.h",
+      "src/NSOrderedSet/_MulleObjCOrderedSet.h",
+      "src/NSOrderedSet/_MulleObjCOrderedSet.m",
+      "src/NSOrderedSet/_NSMutableOrderedSetPlaceholder.h",
+      "src/NSOrderedSet/_NSMutableOrderedSetPlaceholder.m",
+      "src/NSOrderedSet/_NSOrderedSetPlaceholder.h",
+      "src/NSOrderedSet/_NSOrderedSetPlaceholder.m",
       "src/NSSet/ns-hash-table.h",
       "src/NSSet/ns-hash-table.m",
       "src/NSSet/NSMutableSet+NSArray.h",
@@ -108,6 +125,6 @@
    ],
    "dependencies" : {
       "mulle-objc/MulleObjC": "*",
-      "mulle-objc/mulle-objc-list": "*"
+      "mulle-objc/mulle-objc-tools": "*"
    }
 }
