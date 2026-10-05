@@ -1,15 +1,15 @@
 # MulleObjCContainerFoundation Library Documentation for AI
-<!-- Keywords: ObjectiveC, containers, NSArray, NSDictionary, NSSet, immutable, mutable -->
+<!-- Keywords: ObjectiveC, containers, NSArray, NSDictionary, NSSet, NSOrderedSet, immutable, mutable -->
 ## 1. Introduction & Purpose
 
-- MulleObjCContainerFoundation provides Objective-C container classes (NSArray, NSMutableArray, NSDictionary, NSMutableDictionary, NSSet, NSMutableSet, NSEnumerator) built for the mulle-objc ecosystem.
+- MulleObjCContainerFoundation provides Objective-C container classes (NSArray, NSMutableArray, NSDictionary, NSMutableDictionary, NSSet, NSMutableSet, NSOrderedSet, NSMutableOrderedSet, NSEnumerator) built for the mulle-objc ecosystem.
 - Solves: lightweight, portable Objective‑C collection types for projects that use MulleObjC and mulle-container.
 - Key features: class clusters, immutable/mutable variants, ObjC-compatible enumeration and convenience helpers (e.g., mulleFirstObject), and "mulle" additions for efficient retained/vararg operations.
 - Relationship: depends on MulleObjC and mulle-container; usually included as a component of MulleFoundation.
 
 ## 2. Key Concepts & Design Philosophy
 
-- Class cluster design: many public factories return private concrete subclasses; users interact with immutable interfaces for NSArray/NSDictionary/NSSet and mutable subclasses for mutation.
+- Class cluster design: many public factories return private concrete subclasses; users interact with immutable interfaces for NSArray/NSDictionary/NSSet/NSOrderedSet and mutable subclasses for mutation.
 - Immutable vs mutable separation: immutable classes are copy-on-write compatible; mutable variants provide in-place mutation APIs.
 - "Mulle" additions: performance and convenience methods (mulleFirstObject, mulle* retained variants) that expose low-level helpers for efficiency.
 - API aims for small footprint and compatibility with ObjC idioms (NSFastEnumeration, selectors, selectors with function pointers for custom sorts).
@@ -79,6 +79,7 @@ Class: NSMutableDictionary
 - Mutation operations:
   - -setObject:forKey:, -removeObjectForKey:, -removeAllObjects, -addEntriesFromDictionary:, -setDictionary:
 - Mulle additions: mulleSetRetainedObject:forKey:, mulleSetRetainedObject:forCopiedKey:
+- Enumeration order is unspecified and must not be relied on. Generated output that depends on order needs an explicit order: keep the keys in an NSMutableArray beside the dictionary, or use an ordered map.
 
 ### 3.5. [NSSet/NSMutableSet]
 
@@ -90,7 +91,28 @@ Class: NSSet
 Class: NSMutableSet
 - Purpose: mutable set with addObject:, removeObject:, removeAllObjects, addObjectsFromArray:, etc.
 
-### 3.6. Other headers & helpers
+### 3.6. [NSOrderedSet/NSMutableOrderedSet]
+
+Class: NSOrderedSet (subclass of MulleObjCContainer)
+- Purpose: insertion-ordered set; combines the NSSet access protocol (count and member:) with array-like ordering. The map is the main storage (object -> object, O(1) membership and uniqueness); a pointerarray holds the same objects in insertion order and is what gets enumerated.
+- Creation:
+  - +orderedSet, +orderedSetWithObject:, +orderedSetWithObjects:..., +orderedSetWithObjects:count:, +orderedSetWithArray:, +orderedSetWithSet:, +orderedSetWithOrderedSet:
+  - -initWithObject:, -initWithObjects:..., -initWithObjects:count:, -initWithObject:mulleVarargList:, -initWithArray:, -initWithSet:, -initWithOrderedSet:
+- Core accessors:
+  - -firstObject, -lastObject, -containsObject:, -indexOfObject:
+  - -array (NSArray), -set (NSSet), -isEqualToOrderedSet:
+- Subclass responsibilities (SubclassesFuture): -count, -member:, -objectAtIndex:, -getObjects:range:, -objectEnumerator, -countByEnumeratingWithState:objects:count:.
+
+Class: NSMutableOrderedSet (class cluster)
+- Purpose: mutable insertion-ordered set.
+- Creation: +orderedSetWithCapacity:, -initWithCapacity:
+- Mutation operations:
+  - -addObject:, -addObjectsFromArray:, -insertObject:atIndex:, -replaceObjectAtIndex:withObject:
+  - -removeObject:, -removeObjectAtIndex:, -removeAllObjects
+  - -addObjects:count:, -insertObjects:count:atIndex:
+- Category NSOrderedSet(NSMutableOrderedSet): -mulleOrderedSetByRemovingObject:
+
+### 3.7. Other headers & helpers
 
 - MullePreempt.h and mulle- additions support preemptable iteration and performance-tuned callbacks.
 - Several _*Private.h headers define class-cluster internals (concrete implementations) — not for direct use.
@@ -100,6 +122,7 @@ Class: NSMutableSet
 - NSArray (immutable): O(1) index access, O(n) search unless using indexOf... which is linear. Sorting is O(n log n).
 - NSMutableArray: amortized O(1) append (resizing), O(n) insert/remove at arbitrary index.
 - NSDictionary/NSSet: hash-table based - average O(1) insertion/lookup/removal, worst-case O(n) in pathological collision scenarios. Headers expose mulleCountCollisions: to inspect collision statistics.
+- NSOrderedSet/NSMutableOrderedSet: hash-map based O(1) membership/uniqueness plus an ordered pointerarray for index access and insertion-order enumeration.
 - Thread-safety: Not thread-safe; external synchronization required for concurrent mutation.
 - Tradeoffs: class clusters keep API small while allowing specialized concrete implementations tuned for size/speed.
 
