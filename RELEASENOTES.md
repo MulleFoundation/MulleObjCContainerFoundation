@@ -1,6 +1,7 @@
 ## 0.26.0
 
 
+
 * Add API documentation for NSOrderedSet and NSMutableOrderedSet, covering creation, accessors, mutation, and subclass responsibilities
 * Note that NSDictionary enumeration order is unspecified and recommend explicit ordering when output depends on it
 * Document performance characteristics of ordered sets and add NSOrderedSet to keywords and class cluster descriptions
